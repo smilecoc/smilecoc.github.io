@@ -438,7 +438,25 @@
 
 <p>再将 *_config.yml *中 model.use检查 一遍确保与你安装的名称一致</p>
 <p>到此处看板娘进驻成功</p>
+<p>进阶版看板娘</p>
+<p>第一步<br>下载大神项目，解压到本地博客目录的themes/next/source下，修改autoload.js文件，将其中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const live2d_path = &quot;https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget/&quot;;</span><br></pre></td></tr></table></figure>
 
+<p>改为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const live2d_path = &quot;/live2d/&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>autoload.js中的注释的绝对地址指的是，将资源打包放到hexo/theme/next/source中后，以hexo/theme/next/source为根目录（/）的绝对路径，一般我们下载下来的是master分支，那么修改路径就是/live2d-widget-master/xxx.js，autoload.js的最后一个函数initWidget(“/live2d-widget-master/“, “<a href="https://api.fghrsh.net/live2d”);中的第二个参数不要变，是一个后台api。我选择将文件夹重命名为“live2d”，因此按照如上方式修改。" target="_blank" rel="noopener">https://api.fghrsh.net/live2d”);中的第二个参数不要变，是一个后台api。我选择将文件夹重命名为“live2d”，因此按照如上方式修改。</a></p>
+<p>第二步<br>在/themes/next/layout/_layout.swing中,<body>标签中新增如下内容，########为你自己的github账号：<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":300,"height":450},"mobile":{"show":true},"react":{"opacity":0.7},"log":false});</script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":300,"height":450},"mobile":{"show":true},"react":{"opacity":0.7},"log":false});</script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":300,"height":450},"mobile":{"show":true},"react":{"opacity":0.7},"log":false});</script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":300,"height":450},"mobile":{"show":true},"react":{"opacity":0.7},"log":false});</script></body></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=&quot;https://########.github.io/live2d/autoload.js&quot;&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<head><meta name="generator" content="Hexo 3.9.0">标签中新增如下内容：一定一定要加上依赖！！！！！
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=&quot;https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css&quot;/&gt;</span><br></pre></td></tr></table></figure>
+
+<p>第三步<br>在主题配置文件_config.yml 中,新增如下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">live2d:</span><br><span class="line">  enable: true</span><br></pre></td></tr></table></figure>
+
+<p>想修改看板娘大小、位置、格式、文本内容等，可查看并修改 waifu-tips.js 、 waifu-tips.json 和 waifu.css。</p>
+</head>
         </div>
         <!-- .entry-content -->
         <div class="single-reward">
