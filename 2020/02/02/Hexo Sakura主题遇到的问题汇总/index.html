@@ -420,12 +420,15 @@
         
         <div class="entry-content">
           <p>##代码高亮##</p>
-<p>刚用的时候代码框十分诡异而且压根就没有高亮。找了几种方法并不可行。<br>错误可能为<br>1.markdown(md)语法问题，将代码块改为如下格式：</p>
-<pre><code class="+语言名（比如java）">//代码内容</code></pre>
+<p>刚用的时候代码框十分诡异而且压根就没有高亮。找了几种方法并不可行，整理了一下几种可能错误的原因。<br>错误可能为<br>1.markdown(md)语法问题，将代码块改为如下格式：</p>
+<p>```+语言名（比如java）<br>代码内容<br>```</p>
 <p>2.与hexo自带的高亮冲突了，只要把站点配置文件中：</p>
 <pre><code class="TEXT">highlight:
   enable: true</code></pre>
 <p>true改为false就可以了。注意是站点配置文件而不是主题配置文件</p>
+<p>##搜索##<br>搜索一直不能用的原因就是少了个插件。</p>
+<p>git bash中执行：</p>
+<pre><code class="text">npm install hexo-generator-json-content --save</code></pre>
 
         </div>
         <!-- .entry-content -->
