@@ -530,7 +530,7 @@ $(document).ready(function () {
     $('#banner_wave_2').addClass('banner_wave_hide_fit_skin')
     closeSkinMenu()
   })
-  setCookie('bgImgSetting','https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/starry_sky.png',30)
+
 
   function closeSkinMenu () {
     $('.skin-menu').removeClass('show')
