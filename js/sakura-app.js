@@ -463,9 +463,9 @@ function no_right_click () {
   })
 }
 if (mashiro_global.variables.isNight) {
-  $('.changeSkin-gear, .toc').css('background', 'rgba(255,255,255,0.8)')
+  $('.toc').css('background', 'rgba(255,255,255,0.8)')
 } else {
-  $('.changeSkin-gear, .toc').css('background', 'none')
+  $(.toc').css('background', 'none')
 }
 $(document).ready(function () {
   function changeBG (tagid, url) {
@@ -530,6 +530,7 @@ $(document).ready(function () {
     $('#banner_wave_2').addClass('banner_wave_hide_fit_skin')
     closeSkinMenu()
   })
+  setCookie('bgImgSetting','https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/starry_sky.png',30)
 
   function closeSkinMenu () {
     $('.skin-menu').removeClass('show')
@@ -537,9 +538,9 @@ $(document).ready(function () {
       $('.changeSkin-gear').css('visibility', 'visible')
     }, 300)
     if (mashiro_global.variables.isNight) {
-      $('.changeSkin-gear, .toc').css('background', 'rgba(255,255,255,0.8)')
+      $('.toc').css('background', 'rgba(255,255,255,0.8)')
     } else {
-      $('.changeSkin-gear, .toc').css('background', 'none')
+      $('.toc').css('background', 'none')
     }
   }
   $('.changeSkin-gear').click(function () {
