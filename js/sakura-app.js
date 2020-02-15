@@ -463,9 +463,9 @@ function no_right_click () {
   })
 }
 if (mashiro_global.variables.isNight) {
-  $('.changeSkin-gear, .toc').css('background', 'rgba(255,255,255,0.8)')
+  $('.toc').css('background', 'rgba(255,255,255,0.8)')
 } else {
-  $(.toc').css('background', 'none')
+  $('.toc').css('background', 'none')
 }
 $(document).ready(function () {
   function changeBG (tagid, url) {
@@ -538,9 +538,9 @@ $(document).ready(function () {
       $('.changeSkin-gear').css('visibility', 'visible')
     }, 300)
     if (mashiro_global.variables.isNight) {
-      $('.changeSkin-gear, .toc').css('background', 'rgba(255,255,255,0.8)')
+      $('.toc').css('background', 'rgba(255,255,255,0.8)')
     } else {
-      $('.changeSkin-gear, .toc').css('background', 'none')
+      $('.toc').css('background', 'none')
     }
   }
   $('.changeSkin-gear').click(function () {
