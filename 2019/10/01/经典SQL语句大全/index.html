@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">theme-sakura | Smilecoc&#39;s Blog</title>
+  <title itemprop="name">经典SQL语句大全 | Smilecoc&#39;s Blog</title>
   
     <link rel="shortcut icon" href="/images/favicon.ico">
   
@@ -369,51 +369,517 @@
   </div>
 </header>
 
-        <div class="pattern-center-blank"></div>
-  
-    <div class="pattern-center ">
-      <div class="pattern-attachment-img">
-        <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://static.2heng.xin/wp-content/uploads//2018/05/sakura2.jpeg" class="lazyload" onerror="imgError(this,3)" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
-      </div>
-      <header class="pattern-header ">
-        <h1 class="entry-title">
-        Hexo 主题 Sakura 🌸</h1>
-      </header>
-    </div>
-  
-  <div id="content" class="site-content">
-    <article class="post-item post-301 page type-page status-publish has-post-thumbnail hentry">
-      <p>Hexo主题Sakura修改自WordPress主题<a href="https://github.com/mashirozx/Sakura/" target="_blank" rel="noopener">Sakura</a>，感谢原作者<a href="https://2heng.xin/" target="_blank" rel="noopener">Mashiro</a></p>
+      <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<div class="pattern-center-blank"></div>
 
-      <!-- .entry-content -->
-      
-      <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
-      <footer class="post-footer">
-        <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
-        <div class="post-tags">
+  <div class="pattern-center single-center">
+    <!-- 有配图默认渲染第一张 -->
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://yremp.live/wp-content/uploads/2019/09/index-1-1024x634.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://yremp.live/wp-content/uploads/2019/09/index-1-1024x634.jpg">
+    </div>
+    <header class="pattern-header single-header">
+      <h1 class="entry-title">
+      经典SQL语句大全</h1>
+      <p class="entry-census">
+        <span>
+          <a href="http://smilecoc.vip/">
+            <img src="">
+          </a>
+        </span>
+        <span>
+          <a href="http://smilecoc.vip/">smilecoc</a>
+        </span>
+        <span class="bull">
+        ·</span>
+        2019-10-1<span class="bull">
+        ·</span>
+      <span id="busuanzi_value_page_pv"></span>次阅读</p>
+    </header>
+  </div>
+
+<div id="content" class="site-content">
+  <div id="primary" class="content-area">
+    <main id="main" class="site-main" role="main">
+      <article id="post-1" class="post-1 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+        <div class="toc"></div>
+        <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
+        
+        <div class="entry-content">
+          <p>一、基础部分</p>
+<p>1、创建数据库</p>
+<pre><code class="sql">CREATE DATABASE dbname</code></pre>
+<p>2、删除数据库</p>
+<pre><code class="sql">DROP DATABASE dbname</code></pre>
+<p>3、创建新表</p>
+<pre><code class="sql">CREATE TABLE tabname(
+col1 type1 [not null] [primary key],
+col2 type2 [not null],..
+)</code></pre>
+<p>根据已有的表创建新表/使用旧表创建新表:</p>
+<pre><code class="sql">create table tab_new
+as 
+select 
+col1,
+col2…
+from tab_old</code></pre>
+<p>4、删除新表</p>
+<pre><code class="sql">DROP TABLE tablename</code></pre>
+<p>5、增加一个列</p>
+<pre><code class="sql">Alter table tabname add column col type</code></pre>
+<p>6、添加主键：</p>
+<pre><code class="sql">Alter table tabname add primary key(col)</code></pre>
+<p>删除主键：</p>
+<pre><code class="sql">Alter table tabname drop primary key(col)</code></pre>
+<p>7、创建索引：</p>
+<pre><code class="sql">create [unique] index idxname on tabname(col….)</code></pre>
+<p>删除索引：</p>
+<pre><code class="sql">drop index idxname</code></pre>
+<p>注：索引是不可更改的，想更改必须删除重新建。</p>
+<p>8、创建视图：</p>
+<pre><code class="sql">create view viewname as select statement</code></pre>
+<p>删除视图：</p>
+<pre><code class="sql">drop view viewname</code></pre>
+<p>9、几个简单的sql语句<br>–选择：</p>
+<pre><code class="sql">select * from table1 where 范围</code></pre>
+<p>–插入：</p>
+<pre><code class="sql">insert into table1(field1,field2) values(value1,value2)</code></pre>
+<p>–删除：</p>
+<pre><code class="sql">delete from table1 where 范围</code></pre>
+<p>–更新：</p>
+<pre><code class="sql">update table1 set field1=value1 where 范围</code></pre>
+<p>–查找：</p>
+<pre><code class="sql">select * from table1 where field1 like ’%value1%’</code></pre>
+<p>–排序：</p>
+<pre><code class="sql">select * from table1 order by field1,field2 [desc]</code></pre>
+<p>–总数：</p>
+<pre><code class="sql">select count as totalcount from table1</code></pre>
+<p>–求和：</p>
+<pre><code class="sql">select sum(field1) as sumvalue from table1</code></pre>
+<p>–平均：</p>
+<pre><code class="sql">select avg(field1) as avgvalue from table1</code></pre>
+<p>–最大：</p>
+<pre><code class="sql">select max(field1) as maxvalue from table1</code></pre>
+<p>–最小：</p>
+<pre><code class="sql">select min(field1) as minvalue from table1</code></pre>
+<p>10、几个高级查询运算词</p>
+<p>A：UNION 运算符<br>UNION 运算符通过组合其他两个结果表，并消去表中任何重复行而派生出一个结果表。当 ALL 随 UNION 一起使用时（即 UNION ALL），不消除重复行。两种情况下，派生表的每一行不是来自 TABLE1 就是来自 TABLE2。 </p>
+<p>B：EXCEPT 运算符<br>EXCEPT运算符通过包括所有在 TABLE1 中但不在 TABLE2 中的行并消除所有重复行而派生出一个结果表。当 ALL 随 EXCEPT 一起使用时 (EXCEPT ALL)，不消除重复行。</p>
+<p>C：INTERSECT 运算符</p>
+<p>INTERSECT运算符通过只包括 TABLE1 和 TABLE2 中都有的行并消除所有重复行而派生出一个结果表。当 ALL随 INTERSECT 一起使用时 (INTERSECT ALL)，不消除重复行。<br>注：使用运算词的几个查询结果行必须是一致的。 </p>
+<p>11、使用外连接<br>A、left （outer） join：<br>左外连接（左连接）：结果集几包括连接表的匹配行，也包括左连接表的所有行。 </p>
+<pre><code class="sql">select 
+a.a,
+a.b,
+a.c,
+b.c,
+b.d,
+b.f
+from a
+LEFT OUT JOIN 
+b ON a.a = b.c</code></pre>
+<p>B：right （outer） join</p>
+<p>右外连接(右连接)：结果集既包括连接表的匹配连接行，也包括右连接表的所有行。 </p>
+<p>C：full/cross （outer） join：<br>全外连接：不仅包括符号连接表的匹配行，还包括两个连接表中的所有记录。</p>
+<p>12、Group by</p>
+<p>对列进行分组，常与聚合函数(count,sum,max,min,avg )一起使用</p>
+<p>注意：</p>
+<p>在分组时：不能以text,ntext,image类型的字段作为分组依据</p>
+<p>在select统计函数中的字段，不能和普通的字段放在一起；</p>
+<p>二、进阶部分</p>
+<p>1、复制表(只复制表结构,源表名：a 新表名：b)<br>–方法一 仅用于SQL Server：</p>
+<pre><code class="sql">select * into b from a where 1&lt;&gt;1</code></pre>
+<p>–方法二：</p>
+<pre><code class="sql">select top 0 * into b from a</code></pre>
+<p>2、拷贝表(拷贝数据,源表名：a 目标表名：b) </p>
+<pre><code class="sql">insert into b(a, b, c)
+select d,e,f from b;</code></pre>
+<p>3、子查询(表名1：a 表名2：b)</p>
+<pre><code class="sql">select a,b,c from a where a IN (select d from b )</code></pre>
+<p>或者:</p>
+<pre><code class="sql">select a,b,c from a where a IN (1,2,3)</code></pre>
+<p>4、显示文章、提交人和最后回复时间</p>
+<pre><code class="sql">select 
+a.title,
+a.username,
+b.adddate
+from table a,
+(select max(adddate) adddate
+from table 
+where table.title=a.title) b</code></pre>
+<p>5、外连接查询(表名1：a 表名2：b)</p>
+<pre><code class="sql">select 
+a.a,
+a.b,
+a.c,
+b.c,
+b.d,
+b.f
+from a
+LEFT OUT JOIN b ON a.a = b.c</code></pre>
+<p>6、在线视图查询(表名1：a )</p>
+<pre><code class="sql">select * from (
+SELECT a,b,c FROM a
+) T
+where t.a &gt; 1;</code></pre>
+<p>7、between的用法,between限制查询数据范围时包括了边界值,not between不包括</p>
+<pre><code class="sql">select * from table1
+where time between time1 and time2
+
+select a,b,c, from table1
+where a not between 数值1 and 数值2</code></pre>
+<p>8、in 的使用方法</p>
+<pre><code class="sql">select * from table1
+where a [not] in (‘值1’,’值2’,’值4’,’值6’)</code></pre>
+<p>9、两张关联表，删除主表中已经在副表中没有的信息 </p>
+<pre><code class="sql">delete from table1
+where not exists (
+select * from table2
+where table1.field1=table2.field1
+)</code></pre>
+<p>10、四表联查问题：</p>
+<pre><code class="sql">select * from a
+left inner join b on a.a=b.b
+right inner join c on a.a=c.c
+inner join d on a.a=d.d
+where ...</code></pre>
+<p>11、日程安排提前五分钟提醒 </p>
+<pre><code class="sql">select * from 日程安排
+where datediff(&#39;minute&#39;,f开始时间,getdate())&gt;5</code></pre>
+<p>12、一条sql 语句搞定数据库分页</p>
+<pre><code class="sql">select top 10 b.*
+from (
+select top 20 主键字段,排序字段
+from 表名 order by 排序字段 desc
+) a,
+表名 b
+where b.主键字段 = a.主键字段
+order by a.排序字段具体</code></pre>
+<p>实现：关于数据库分页：</p>
+<pre><code class="sql">declare @start int,@end int
+@sql  nvarchar(600)
+set @sql=’select top’+str(@end-@start+1)+’+from T
+where rid not in(
+select top’+str(@str-1)+’Rid from T where Rid&gt;-1)’
+exec sp_executesql @sql</code></pre>
+<p>13、前10条记录</p>
+<pre><code class="sql">select top 10 *
+form table1
+where 范围</code></pre>
+<p>14、包括所有在 TableA中但不在 TableB和TableC中的行并消除所有重复行而派生出一个结果表</p>
+<pre><code class="sql">(select a from tableA )
+except 
+(select a from tableB)
+except 
+(select a from tableC)</code></pre>
+<p>15、随机取出10条数据</p>
+<pre><code class="sql">select top 10 *
+from tablename
+order by newid()</code></pre>
+<p>16、说明：删除重复记录</p>
+<pre><code class="sql">--方法一
+delete from tablename where id not in (select max(id) from tablename group by col1,col2,...)
+--方法二
+select distinct * into temp from tablename
+delete from tablename
+insert into tablename select * from temp</code></pre>
+<p>评价：这种操作牵连大量的数据的移动，这种做法不适合大容量但数据操作3),例如：在一个外部表中导入数据，由于某些原因第一次只导入了一部分，但很难判断具体位置，这样只有在下一次全部导入，这样也就产生好多重复的字段，怎样删除重复字段</p>
+<pre><code class="sql">alter table tablename
+--添加一个自增列
+add  column_b int identity(1,1)
+delete from tablename
+where column_b not in(
+select max(column_b)
+from tablename
+group by column1,column2,...
+)
+alter table tablename drop column column_b</code></pre>
+<p>17、列出数据库里所有的表名</p>
+<pre><code class="sql">use master
+go
+select name from sysobjects
+where type=&#39;U&#39; // U代表用户</code></pre>
+<p>18、列出表里的所有的列名</p>
+<pre><code class="sql">use master
+go
+select name 
+from syscolumns
+where id=object_id(&#39;TableName&#39;)</code></pre>
+<p>19、初始化表table1</p>
+<pre><code class="sql">TRUNCATE TABLE table1</code></pre>
+<p>20、选择从10到15的记录</p>
+<pre><code class="sql">select top 5 *
+from (
+select top 15 *
+from table 
+order by id asc
+) table_别名
+order by id desc</code></pre>
+<p>三、开发技巧</p>
+<p>1、where 1=1是表示选择全部，where 1=2全部不选</p>
+<pre><code class="sql">if @strWhere !=&#39;&#39; 
+begin
+set @strSQL = &#39;select count(*) as Total from [&#39; 
++ @tblName + &#39;] where &#39; + @strWhere
+end
+else 
+begin
+set @strSQL = &#39;select count(*) as Total from [&#39; + @tblName + &#39;]&#39; 
+end</code></pre>
+<p>我们可以直接写成</p>
+<pre><code class="sql">set @strSQL = &#39;select count(*) as Total from [&#39; 
++ @tblName + &#39;] where 1=1 &#39;+ @strWhere</code></pre>
+<p>2、收缩数据库</p>
+<pre><code class="sql">--重建索引
+DBCC REINDEX
+DBCC INDEXDEFRAG
+--收缩数据和日志
+DBCC SHRINKDB
+DBCC SHRINKFILE</code></pre>
+<p>3、压缩数据库</p>
+<pre><code class="sql">dbcc shrinkdatabase(dbname)</code></pre>
+<p>4、转移数据库给新用户以已存在用户权限</p>
+<pre><code class="sql">exec sp_change_users_login &#39;update_one&#39;,&#39;newname&#39;,&#39;oldname&#39;
+go</code></pre>
+<p>5、检查备份集</p>
+<pre><code class="sql">RESTORE VERIFYONLY from disk=&#39;E:\dvbbs.bak&#39;</code></pre>
+<p>6、修复数据库</p>
+<pre><code class="sql">ALTER DATABASE [dvbbs] SET SINGLE_USER
+GO
+DBCC CHECKDB(&#39;dvbbs&#39;,repair_allow_data_loss) WITH TABLOCK
+GO
+ALTER DATABASE [dvbbs] SET MULTI_USER
+GO</code></pre>
+<p>7、日志清除</p>
+<pre><code class="sql">SET NOCOUNT ON
+DECLARE @LogicalFileName sysname,
+@MaxMinutes INT,
+@NewSize INT
+
+
+
+USE tablename -- 要操作的数据库名
+SELECT  @LogicalFileName = &#39;tablename_log&#39;, -- 日志文件名
+@MaxMinutes = 10, -- Limit on time allowed to wrap log.
+@NewSize = 1  -- 你想设定的日志文件的大小(M)
+
+Setup / initialize
+DECLARE @OriginalSize int
+SELECT @OriginalSize = size 
+FROM sysfiles
+WHERE name = @LogicalFileName
+SELECT &#39;Original Size of &#39; + db_name() + &#39; LOG is &#39; +
+ CONVERT(VARCHAR(30),@OriginalSize) + &#39; 8K pages or &#39; +
+ CONVERT(VARCHAR(30),(@OriginalSize*8/1024)) + &#39;MB&#39;
+ FROM sysfiles
+ WHERE name = @LogicalFileName
+CREATE TABLE DummyTrans
+(DummyColumn char (8000) not null)
+
+
+
+DECLARE @Counter INT,
+@StartTime DATETIME,
+@TruncLog VARCHAR(255)
+SELECT @StartTime = GETDATE(),
+@TruncLog = &#39;BACKUP LOG &#39; + db_name() + &#39; WITH TRUNCATE_ONLY&#39;
+
+DBCC SHRINKFILE (@LogicalFileName, @NewSize)
+EXEC (@TruncLog)
+-- Wrap the log if necessary.
+WHILE @MaxMinutes &gt; DATEDIFF (mi, @StartTime, GETDATE()) -- time has not expired
+ AND @OriginalSize = (SELECT size FROM sysfiles WHERE name = @LogicalFileName)
+ AND (@OriginalSize * 8 /1024) &gt; @NewSize
+ BEGIN -- Outer loop.
+SELECT @Counter = 0
+ WHILE   ((@Counter &lt; @OriginalSize / 16) AND (@Counter &lt; 50000))
+ BEGIN -- update
+ INSERT DummyTrans VALUES (&#39;Fill Log&#39;) DELETE DummyTrans
+ SELECT @Counter = @Counter + 1
+ END
+ EXEC (@TruncLog)
+ END
+SELECT &#39;Final Size of &#39; + db_name() + &#39; LOG is &#39; +
+ CONVERT(VARCHAR(30),size) + &#39; 8K pages or &#39; +
+ CONVERT(VARCHAR(30),(size*8/1024)) + &#39;MB&#39;
+ FROM sysfiles
+ WHERE name = @LogicalFileName
+DROP TABLE DummyTrans
+SET NOCOUNT OFF</code></pre>
+<p>8、更改某个表</p>
+<pre><code class="sql">exec sp_changeobjectowner &#39;tablename&#39;,&#39;dbo&#39;</code></pre>
+<p>9、存储更改全部表</p>
+<pre><code class="sql">CREATE PROCEDURE dbo.User_ChangeObjectOwnerBatch
+@OldOwner as NVARCHAR(128),
+@NewOwner as NVARCHAR(128)
+AS
+
+DECLARE @Name    as NVARCHAR(128)
+DECLARE @Owner as NVARCHAR(128)
+DECLARE @OwnerName as NVARCHAR(128)
+
+DECLARE curObject CURSOR FOR 
+select &#39;Name&#39;    = name,
+   &#39;Owner&#39;    = user_name(uid)
+from sysobjects
+where user_name(uid)=@OldOwner
+order by name
+
+OPEN   curObject
+FETCH NEXT FROM curObject INTO @Name, @Owner
+WHILE(@@FETCH_STATUS=0)
+BEGIN     
+if @Owner=@OldOwner
+begin
+   set @OwnerName = @OldOwner + &#39;.&#39; + rtrim(@Name)
+   exec sp_changeobjectowner @OwnerName, @NewOwner
+end
+-- select @name,@NewOwner,@OldOwner
+
+FETCH NEXT FROM curObject INTO @Name, @Owner
+END
+
+close curObject
+deallocate curObject
+GO</code></pre>
+<p>10、SQL SERVER中直接循环写入数据</p>
+<pre><code class="sql">declare @i int
+set @i=1
+while @i&lt;30
+begin
+    insert into test (userid) values(@i)
+    set @i=@i+1
+end</code></pre>
+<p>案例：有如下表，要求就裱中所有沒有及格的成績，在每次增長0.1的基礎上，使他們剛好及格:</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>score</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Zhangshan</td>
+<td>80</td>
+</tr>
+<tr>
+<td>Lishi</td>
+<td>59</td>
+</tr>
+<tr>
+<td>Wangwu</td>
+<td>50</td>
+</tr>
+<tr>
+<td>Songquan</td>
+<td>69</td>
+</tr>
+</tbody></table>
+<pre><code class="sql">while((select min(score) from tb_table)&lt;60)
+begin
+update tb_table set score =score*1.01
+where score&lt;60
+if  (select min(score) from tb_table)&gt;60
+  break
+ else
+    continue
+end</code></pre>
+
         </div>
-        <div class="post-share">
-          <div class="social-share sharehidden share-component"></div>
-          <i class="iconfont show-share icon-forward"></i>
+        <!-- .entry-content -->
+        <div class="single-reward">
+          <div class="reward-open">赏<div class="reward-main">
+              <ul class="reward-row">
+                <li class="alipay-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/donate/AliPayQR.jpg"></li>
+                <li class="wechat-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/donate/wechatpayQR.jpg"></li>
+              </ul>
+            </div>
+          </div>
         </div>
-      </footer><!-- .entry-footer -->
-    </article>
+        <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
+        <footer class="post-footer">
+          <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
+          <div class="post-tags">
+          </div>
+          <div class="post-share">
+            <div class="social-share sharehidden share-component"></div>
+            <i class="iconfont show-share icon-forward"></i>
+          </div>
+        </footer><!-- .entry-footer -->
+      </article>
       <!-- #post-## -->
+      <div class="toc" style="background: none;"></div>
+      <section class="post-squares nextprev">
+        
+          
+            <div class="post-nepre half previous">
+          
+            <a href="/2019/10/01/简单实用的SQL脚本汇总/" rel="prev">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://yremp.live/wp-content/uploads/2019/09/index-1-1024x634.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://yremp.live/wp-content/uploads/2019/09/index-1-1024x634.jpg">
+              </div>
+              <span class="label">
+              Previous Post</span>
+              <div class="info">
+                <h3>
+                简单实用的SQL脚本汇总</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+        
+          
+            <div class="post-nepre half next">
+          
+            <a href="/2019/08/06/2019年/" rel="next">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://yremp.live/wp-content/uploads/2019/09/index-1-1024x634.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://yremp.live/wp-content/uploads/2019/09/index-1-1024x634.jpg">
+              </div>
+              <span class="label">
+              Next Post</span>
+              <div class="info">
+                <h3>
+                2019，开始</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+      </section>
+      
+<div id="vcomments"></div>
+<script>
+  window.onload = function(){
+      var valine = new Valine();
+      valine.init({
+        el: '#vcomments',
+        appId: "Hm83GoGeDX3sGPDh3Q50lSMz-gzGzoHsz",
+        appKey: "mXIVaYaFj1DNyH6yBicfUS0w",
+        path: window.location.pathname,
+        placeholder: "你是我一生只会遇见一次的惊喜 ..."
+      })
+  }
+</script>
+
       <section class="author-profile">
         <div class="info" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-          <a href="/about/" class="profile gravatar"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico" itemprop="image" alt="Smilecoc" height="70" width="70"></a>
+          <a href="http://smilecoc.vip/" class="profile gravatar"><img src="" itemprop="image" alt="smilecoc" height="70" width="70"></a>
           <div class="meta">
             <span class="title">Author</span>
             <h3 itemprop="name">
-            <a href="https://smilecoc.github.io/" itemprop="url" rel="author">Smilecoc</a>
+            <a href="http://smilecoc.vip/" itemprop="url" rel="author">smilecoc</a>
             </h3>
           </div>
         </div>
         <hr>
-        <p><i class="iconfont icon-write"></i>今でもあなたはわたしの光  时至今日，你仍是我的光</p>
+        <p><i class="iconfont icon-write"></i></p>
       </section>
+    </main><!-- #main -->
   </div><!-- #primary -->
 </div>
+
+
+
     </div>    
     <div class="ins-search">
     <div class="ins-search-mask"></div>
