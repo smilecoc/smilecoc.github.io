@@ -400,13 +400,13 @@
         
         <div class="entry-content">
           <p>本博客利用hexo+github搭建，在此详细记录下我是如何利用hexo+github搭建静态博客以及一些配置相关问题，以免过后遗忘，且当备份之用，并希望可以为其他有需要的人提供前车之鉴，少走弯路。</p>
-<h2 id="开始搭建"><a href="#开始搭建" class="headerlink" title="开始搭建"></a><strong>开始搭建</strong></h2><h4 id="安装node-js"><a href="#安装node-js" class="headerlink" title="安装node.js"></a><strong>安装node.js</strong></h4><p>下载node.js并安装（官网下载安装），默认会安装npm。打开cmd命令行，成功的标志如下：<br><img src="/upload_image/blog190820/1.png" alt="node.js"></p>
-<h4 id="安装git"><a href="#安装git" class="headerlink" title="安装git"></a><strong>安装git</strong></h4><p>下载安装git（官网下载安装）,安装成功的象征就是在电脑上任何位置鼠标右键能够出现Git GUI Here和Git Bash here如下两个选择<br><img src="/upload_image/blog190820/2.png" alt="git"><br>注意：一般出于安全考虑，只有在Git Bash Here中才能进行Git的相关操作。如果需要在cmd命令行里调用Git，那么就要配置电脑的环境变量Path，或者在安装的时候选择use Git from the Windows Command Prompt。这个可有可无，影响不大</p>
-<h4 id="github设置"><a href="#github设置" class="headerlink" title="github设置"></a><strong>github设置</strong></h4><p>Github账户注册和新建项目（new repository），项目必须要遵守格式：账户名.github.io，并且需要勾选Initialize this repository with a README。<br><img src="/upload_image/blog190820/3.png" alt="github"><br>在建好的项目右侧有个settings按钮，点击它，向下拉到GitHub Pages，你会看到那边有个网址，访问它，你将会惊奇的发现该项目已经被部署到网络上，能够通过外网来访问它。<br><img src="/upload_image/blog190820/4.png" alt="setting"></p>
-<h4 id="安装Hexo"><a href="#安装Hexo" class="headerlink" title="安装Hexo"></a><strong>安装Hexo</strong></h4><p>下载安装Hexo，在自己认为合适的地方建了一个blog文件夹。然后通过命令行进入到该文件夹里面<br><img src="/upload_image/blog190820/5.png" alt="blog文件夹"><br>为什么要新创建blog文件呢？因为hexo 初始化需要文件夹为null的，所以确保路径简单且路径中不要有中文<br>输入<strong>npm install hexo -g</strong>，开始安装Hexo<br>输入** hexo -v <strong>查看是否安装成功，如果成功安装会显示出安装的版本信息<br><img src="/upload_image/blog190820/6.png" alt="hexo"><br>输入</strong>hexo init<strong>，初始化该文件夹（有点漫长的等待。。。）<br>个人在这一步一直出现报错，先出现 <a href="https://stackoverflow.com/questions/4492979/git-is-not-recognized-as-an-internal-or-external-command" target="_blank" rel="noopener">‘git’ is not recognized as an internal or external command</a>错误，后来又出现Permission denied错误，耽误了好几个小时，后来发现使用hexo init <floder>都可以解决<br>看到 Start blogging with Hexo！ 则表明安装成功。<br><img src="/upload_image/blog190820/7.png" alt="hexo安装成功"><br>在cmd中输入</floder></strong>npm install<strong>，安装所需要的组件<br>输入</strong>hexo g<strong>，首次体验Hexo<br>输入</strong>hexo s**，开启服务器，访问该网址（即提示中的<a href="http://localhost:4000/），正式体验Hexo" target="_blank" rel="noopener">http://localhost:4000/），正式体验Hexo</a><br><img src="/upload_image/blog190820/8.png" alt="hexo s"><br>如果页面一直无法跳转，那么可能端口被占用了。此时我们ctrl+c停止服务器，接着输入“hexo server -p 端口号”来改变端口号</p>
-<h4 id="连接自己的Hexo与Github"><a href="#连接自己的Hexo与Github" class="headerlink" title="连接自己的Hexo与Github"></a><strong>连接自己的Hexo与Github</strong></h4><p>将Hexo与Github page联系起来，设置Git的user name和email（如果是第一次的话）<br>首先在新建的blog文件夹里面鼠标右键，点击Git Bash Here。输入图中代码，这里“06866”可以替换成自己的用户名，邮箱可以替换成自己的邮箱<br><img src="/upload_image/blog190820/9.png" alt="git bash"><br>输入<strong>cd ~/.ssh</strong>，检查是否由.ssh的文件夹 ls 查看<br><img src="/upload_image/blog190820/10.png" alt="添加ssh"><br>ssh 密钥生成<br><img src="/upload_image/blog190820/11.png" alt="添加ssh"><br>连续三个回车，生成密钥，最后得到了两个文件：id_rsa和id_rsa.pub<br><img src="/upload_image/blog190820/12.png" alt="添加ssh"><br>接着输入<strong>eval “$(ssh-agent -s)”</strong>，回车，添加密钥到ssh-agent<br>再输入<strong>ssh-add ~/.ssh/id_rsa</strong>，回车，添加生成的SSH key到ssh-agent<br>接着登录Github，点击头像下的settings，点击new ssh key<br><img src="/upload_image/blog190820/13.png" alt="添加ssh"><br>输入<strong>cat id_rsa.pub</strong>，生成一个new ssh key，将生成后的内容复制到上一步的github中的new ssh key中<br><img src="/upload_image/blog190820/14.png" alt="添加ssh"><br><img src="/upload_image/blog190820/15.png" alt="添加ssh"><br>输入<strong>ssh -T <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a></strong>，测试添加ssh是否成功。如果看到Hi后面是你的用户名，就说明成功了</p>
-<p>如果ssh-key配置失败，那么只要以下步骤就能完全解决<br>首先，清除所有的key-pair输入<strong>ssh-add -D</strong>  <strong>rm -r ~/.ssh</strong>删除你在github中的public-key<br>重新生成ssh密钥对<strong>ssh-keygen -t rsa -C “<a href="mailto:xxx@xxx.com" target="_blank" rel="noopener">xxx@xxx.com</a>“</strong><br>接下来正常操作在github上添加公钥public-key:<br>1、首先在你的终端运行 <strong>xclip -sel c ~/.ssh/id_rsa.pub</strong>将公钥内容复制到剪切板<br>2、在github上添加公钥时，直接复制即可<br>3、保存测试：在终端 <strong>ssh -T <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a></strong></p>
-<h4 id="修改Deployment值"><a href="#修改Deployment值" class="headerlink" title="修改Deployment值"></a><strong>修改Deployment值</strong></h4><p>在之前新建的blog文件夹中，找到<strong>_config.yml</strong>文件，修改Deployment值（在末尾）,将</p>
+<h2 id="开始搭建"><a href="#开始搭建" class="headerlink" title="开始搭建"></a><strong>开始搭建</strong></h2><h4 id="安装node-js"><a href="#安装node-js" class="headerlink" title="安装node.js"></a><strong>安装node.js</strong></h4><p>下载node.js并安装（官网下载安装），默认会安装npm。打开cmd命令行，成功的标志如下：<br><img src="(https://upload-images.jianshu.io/upload_images/16636256-b508430279bc89d7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="node.js"></p>
+<p>2.下载安装git（官网下载安装）,安装成功的象征就是在电脑上任何位置鼠标右键能够出现Git GUI Here和Git Bash here如下两个选择<br><img src="https://upload-images.jianshu.io/upload_images/16636256-a49684d0d6cc2b12.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git"><br>注意：一般出于安全考虑，只有在Git Bash Here中才能进行Git的相关操作。如果需要在cmd命令行里调用Git，那么就要配置电脑的环境变量Path，或者在安装的时候选择use Git from the Windows Command Prompt。这个可有可无，影响不大</p>
+<p>3.Github账户注册和新建项目（new repository），项目必须要遵守格式：账户名.github.io，并且需要勾选Initialize this repository with a README。<br><img src="https://upload-images.jianshu.io/upload_images/16636256-f8fd6469fec6e869.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="github"><br>在建好的项目右侧有个settings按钮，点击它，向下拉到GitHub Pages，你会看到那边有个网址，访问它，你将会惊奇的发现该项目已经被部署到网络上，能够通过外网来访问它。<br><img src="https://upload-images.jianshu.io/upload_images/16636256-24bb249cf01544d5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="setting"></p>
+<p>4、安装Hexo，在自己认为合适的地方建了一个blog文件夹。然后通过命令行进入到该文件夹里面<br><img src="https://upload-images.jianshu.io/upload_images/16636256-7274a84626c811af.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="blog文件夹"><br>为什么要新创建blog文件呢？因为hexo 初始化需要文件夹为null的，所以确保路径简单且路径中不要有中文<br>输入<strong>npm install hexo -g</strong>，开始安装Hexo<br>输入** hexo -v <strong>查看是否安装成功，如果成功安装会显示出安装的版本信息<br><img src="https://upload-images.jianshu.io/upload_images/16636256-eba1d7b6aa981adf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="hexo"><br>输入</strong>hexo init<strong>，初始化该文件夹（有点漫长的等待。。。）<br>个人在这一步一直出现报错，先出现# <a href="https://stackoverflow.com/questions/4492979/git-is-not-recognized-as-an-internal-or-external-command" target="_blank" rel="noopener">‘git’ is not recognized as an internal or external command</a>错误，后来又出现Permission denied错误，耽误了好几个小时，后来发现使用hexo init <floder>都可以解决<br>看到 Start blogging with Hexo！ 则表明安装成功。<br><img src="https://upload-images.jianshu.io/upload_images/16636256-2baedc6d8daa0223.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="hexo安装成功"><br>在cmd中输入</floder></strong>npm install<strong>，安装所需要的组件<br>输入</strong>hexo g<strong>，首次体验Hexo<br>输入</strong>hexo s**，开启服务器，访问该网址（即提示中的<a href="http://localhost:4000/），正式体验Hexo" target="_blank" rel="noopener">http://localhost:4000/），正式体验Hexo</a><br><img src="https://upload-images.jianshu.io/upload_images/16636256-f5e8a148cfafc2d2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="hexo s"><br>如果页面一直无法跳转，那么可能端口被占用了。此时我们ctrl+c停止服务器，接着输入“hexo server -p 端口号”来改变端口号</p>
+<p>5.将Hexo与Github page联系起来，设置Git的user name和email（如果是第一次的话）<br>首先在新建的blog文件夹里面鼠标右键，点击Git Bash Here。这里“06866”可以替换成自己的用户名，邮箱可以替换成自己的邮箱<br><img src="https://upload-images.jianshu.io/upload_images/16636256-5700e14b358d0d0e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git bash"><br>输入cd ~/.ssh，检查是否由.ssh的文件夹 ls 查看<br><img src="https://upload-images.jianshu.io/upload_images/16636256-709d2def8c110397.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="添加ssh"><br>ssh 密钥生成<br><img src="https://upload-images.jianshu.io/upload_images/16636256-ee4319005f7c20cb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="添加ssh"><br>连续三个回车，生成密钥，最后得到了两个文件：id_rsa和id_rsa.pub<br><img src="https://upload-images.jianshu.io/upload_images/16636256-56e5b83d10c5ea56.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="添加ssh"><br>接着输入eval “$(ssh-agent -s)”，回车，添加密钥到ssh-agent<br>再输入ssh-add ~/.ssh/id_rsa，回车，添加生成的SSH key到ssh-agent<br>接着登录Github，点击头像下的settings，点击new ssh key<br><img src="https://upload-images.jianshu.io/upload_images/16636256-927b3e63092959fe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="添加ssh"><br>输入cat id_rsa.pub一个new ssh key，将生成后的内容复制到上一步的github中的new ssh key中<br><img src="https://upload-images.jianshu.io/upload_images/16636256-4e14a29cf40abc7d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="添加ssh"><br><img src="https://upload-images.jianshu.io/upload_images/16636256-46681c61889680d3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="添加ssh"><br>输入ssh -T <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a>，测试添加ssh是否成功。如果看到Hi后面是你的用户名，就说明成功了</p>
+<p>如果ssh-key配置失败，那么只要以下步骤就能完全解决首先，清除所有的key-pairssh-add -Drm -r ~/.ssh删除你在github中的public-key重新生成ssh密钥对ssh-keygen -t rsa -C “<a href="mailto:xxx@xxx.com" target="_blank" rel="noopener">xxx@xxx.com</a>“接下来正常操作在github上添加公钥public-key:1、首先在你的终端运行 xclip -sel c ~/.ssh/id_rsa.pub将公钥内容复制到剪切板2、在github上添加公钥时，直接复制即可3、保存测试：在终端 ssh -T <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a></p>
+<p>6、在之前新建的blog文件夹中，找到<strong>_config.yml</strong>文件，修改Deployment值（在末尾）,将</p>
 <pre><code class="text">deploy:
   type:</code></pre>
 <p>更改为：</p>
@@ -414,19 +414,18 @@
   type: git
   repository: git@github.com:xxxx/xxxx.github.io.git
   branch: master</code></pre>
-<p>repository值是你在github项目里的ssh（右下角）<br><img src="/upload_image/blog190820/16.png" alt="repository"></p>
+<p>repository值是你在github项目里的ssh（右下角）<br><img src="https://upload-images.jianshu.io/upload_images/16636256-ab0423a8da7f5370.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="repository"></p>
 <p>7、新建一篇博客，在cmd执行命令：hexo new post “博客名”，就可以在blog/_posts/中找到已创建的文件。<br>在生成以及部署文章之前，需要安装一个扩展，在cmd中输入<strong>npm install hexo-deployer-git –save</strong>，并将刚刚生成的文件编辑好后cmd中输入命令hexo d -g即可生成部署文章</p>
 <p>至此，一个具备基础功能的博客就完成了</p>
-<h2 id="绑定自己的域名"><a href="#绑定自己的域名" class="headerlink" title="绑定自己的域名"></a><strong>绑定自己的域名</strong></h2><h4 id="购买域名"><a href="#购买域名" class="headerlink" title="购买域名"></a><strong>购买域名</strong></h4><p>国内的域名服务商有新网，腾讯云，还有阿里云的万网等。下面以阿里云的万网为例：<br>在万网购买了自己心仪的域名后，进入阿里云的管理控制台-域名与网站-域名就可以看到购买的域名此时的域名状态是未实名认证的，然后就是实名认证（一般需要2小时左右）。</p>
-<h4 id="域名解析"><a href="#域名解析" class="headerlink" title="域名解析"></a><strong>域名解析</strong></h4><p>首先获取自己 github 的二级域名的 IP地址，windows 下直接在 cmd 里 Ping 一下自己的博客就会得到 IP 地址：<br>ping username.github.io,其中username为自己的github用户名</p>
-<p>下面通过 DNS域名解析将购买的域名指向 github 的二级域名：username.github.io，进入阿里云的管理控制台-域名与网站-云解析 DNS，进入域名的解析设置，点击新手指导，将得到的 IP 地址填到记录值一栏，点击确定就 OK 了。填完以后的解析列表会出现：<br><img src="/upload_image/blog190820/17.png" alt="域名解析"></p>
+<h4 id="绑定自己的域名"><a href="#绑定自己的域名" class="headerlink" title="绑定自己的域名"></a><strong>绑定自己的域名</strong></h4><p>1、购买域名<br>国内的域名服务商有新网，腾讯云，还有阿里云的万网等。下面以阿里云的万网为例：<br>在万网购买了自己心仪的域名后，进入阿里云的管理控制台-域名与网站-域名就可以看到购买的域名此时的域名状态是未实名认证的，然后就是实名认证（一般需要2小时左右）。</p>
+<p>2、域名解析<br>首先获取自己 github 的二级域名的 IP地址，windows 下直接在 cmd 里 Ping 一下自己的博客就会得到 IP 地址：<br>ping username.github.io,其中username为自己的github用户名</p>
+<p>下面通过 DNS域名解析将购买的域名指向 github 的二级域名：username.github.io，进入阿里云的管理控制台-域名与网站-云解析 DNS，进入域名的解析设置，点击新手指导，将得到的 IP 地址填到记录值一栏，点击确定就 OK 了。填完以后的解析列表会出现：<br><img src="https://upload-images.jianshu.io/upload_images/16636256-9ee50f141a9761d2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="域名解析"></p>
 <p>记录值就是自己 github 的二级域名的 IP地址。</p>
-<h4 id="设置CNAME"><a href="#设置CNAME" class="headerlink" title="设置CNAME"></a><strong>设置CNAME</strong></h4><p>在 本地hexo 项目下，source 文件夹下面创建 CNAME 文件（没有后缀名的），在里面写上购买的域名。比如：<br><img src="/upload_image/blog190820/18.png" alt="设置CNAME"></p>
-<p>在 github 上面，打开 username.github.io 项目的（Settings）设置，然后在 GitHub Pages的 Custom domain设置里填上购买的域名。比如：<br><img src="/upload_image/blog190820/19.png" alt="填写域名"><br>这样新域名配置完成，可以使用新的网名访问自己的博客了</p>
-<h2 id="更换主题"><a href="#更换主题" class="headerlink" title="更换主题"></a><strong>更换主题</strong></h2><p>Hexo有许多的个性化主题可供选择，有兴趣的可以直接搜索hexo主题进入hexo的官网查看，我使用的是hexo sakura主题，github 地址为<a href="https://github.com/honjun/hexo-theme-sakura" target="_blank" rel="noopener">https://github.com/honjun/hexo-theme-sakura</a>，在这里也能找到主题的大部分使用方法，这一部分主要是作者的教程+一些自己摸索出来的教程+其他搜索问题时的教程</p>
-<h4 id="主题下载安装"><a href="#主题下载安装" class="headerlink" title="主题下载安装"></a><strong>主题下载安装</strong></h4><p>hexo-theme-sakura建议下载压缩包格式，因为除了主题内容还有些source的配置对新手来说比较太麻烦，直接下载解压就省去这些麻烦咯。<br>下载好后解压到博客根目录（不是主题目录哦，重复的选择替换）。接着在命令行（cmd、bash）运行npm i安装依赖。</p>
-<h4 id="主题配置"><a href="#主题配置" class="headerlink" title="主题配置"></a><strong>主题配置</strong></h4><p>找到 /themes/sakura/config.yml 这个配置文件中修改，跟着作者的注释修改即可。注意一下所有的文件带有注释，所以最好找到自己的电脑中的文件对照改，以免出错。</p>
-<p>#####站点</p>
+<p>3、设置CNAME<br>在 本地hexo 项目下，source 文件夹下面创建 CNAME 文件（没有后缀名的），在里面写上购买的域名。比如：<br><img src="https://upload-images.jianshu.io/upload_images/16636256-e614431f92f47318.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="设置CNAME"></p>
+<p>在 github 上面，打开 username.github.io 项目的（Settings）设置，然后在 GitHub Pages的 Custom domain设置里填上购买的域名。比如：<br><img src="https://upload-images.jianshu.io/upload_images/16636256-5a2ef3096b36cf27.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="设置CNAME"><br>这样新域名配置完成，可以使用新的网名访问自己的博客了</p>
+<h4 id="更换主题"><a href="#更换主题" class="headerlink" title="更换主题"></a><strong>更换主题</strong></h4><p>Hexo有许多的个性化主题可供选择，有兴趣的可以直接搜索hexo主题进入hexo的官网查看，我使用的是hexo sakura主题，github 地址为<img src="https://github.com/honjun/hexo-theme-sakura" alt="https://github.com/honjun/hexo-theme-sakura">，在这里也能找到主题的大部分使用方法，这一部分主要是作者的教程+一些自己摸索出来的教程+其他搜索问题时的教程</p>
+<p>1、主题下载安装<br>hexo-theme-sakura建议下载压缩包格式，因为除了主题内容还有些source的配置对新手来说比较太麻烦，直接下载解压就省去这些麻烦咯。<br>下载好后解压到博客根目录（不是主题目录哦，重复的选择替换）。接着在命令行（cmd、bash）运行npm i安装依赖。</p>
+<p>2、主题配置<br>找到 /themes/sakura/config.yml 这个配置文件中修改，跟着作者的注释修改即可。注意一下所有的文件带有注释，所以最好找到自己的电脑中的文件对照改，以免出错。<br>站点</p>
 <pre><code class="YML"># Site
 title: 你的站点名
 subtitle:
@@ -435,14 +434,14 @@ keywords:
 author: 作者名
 language: zh-cn
 timezone:</code></pre>
-<p>#####部署</p>
+<p>部署</p>
 <pre><code class="YML">deploy:
   type: git
   repo: 
     github: 你的github仓库地址
     # coding: 你的coding仓库地址
   branch: master</code></pre>
-<p>#####备份 （使用hexo b发布备份到远程仓库）</p>
+<p>备份 （使用hexo b发布备份到远程仓库）</p>
 <pre><code class="YML">backup:
   type: git
   message: backup my blog of https://honjun.github.io/
@@ -450,7 +449,7 @@ timezone:</code></pre>
     # 你的github仓库地址,备份分支名  （建议新建backup分支）
     github: https://github.com/honjun/honjun.github.io.git,backup
     # coding: https://git.coding.net/hojun/hojun.git,backup</code></pre>
-<p>#####主题目录下的_config配置<br>其中标明【改】的是需要修改部门，标明【选】是可改可不改，标明【非】是不用改的部分</p>
+<p>主题目录下的_config配置<br>其中标明【改】的是需要修改部门，标明【选】是可改可不改，标明【非】是不用改的部分</p>
 <pre><code class="YML"># site name
 # 站点名，即网站的左上角的名称 【改】
 prefixName: さくら荘その
@@ -572,37 +571,30 @@ aplayer:
 valine: true
 v_appId: GyC3NzMvd0hT9Yyd2hYIC0MN-gzGzoHsz
 v_appKey: mgOpfzbkHYqU92CV4IDlAUHQ</code></pre>
-<h2 id="CDN搭建"><a href="#CDN搭建" class="headerlink" title="CDN搭建"></a><strong>CDN搭建</strong></h2><p>这其中涉及到搭建cdn,可以直接去<img src="https://www.bilibili.com/video/av41155462/" alt="视频地址">看，直接看文字版如下：</p>
-<p>国内加载github的资源比较慢，需要使用CDN加速来优化网站打开速度，于是使用jsDeliver+github搭建免费的cdn。jsDelivr 是一个免费开源的 CDN 解决方案，用于帮助开发者和站长。包含 JavaScript 库、jQuery 插件、CSS 框架、字体等等 Web 上常用的静态资源</p>
-<p>####什么是CDN<br>CDN的全称是Content Delivery Network，即内容分发网络。CDN是构建在网络之上的内容分发网络，依靠部署在各地的边缘服务器，通过中心平台的负载均衡、内容分发、调度等功能模块，使用户就近获取所需内容，降低网络拥塞，提高用户访问响应速度和命中率。CDN的关键技术主要有内容存储和分发技术。</p>
+<h4 id="CDN搭建"><a href="#CDN搭建" class="headerlink" title="CDN搭建"></a><strong>CDN搭建</strong></h4><p>这其中涉及到搭建cdn,可以直接去<img src="https://www.bilibili.com/video/av41155462/" alt="视屏地址">看，直接看文字版如下：</p>
+<p>国内加载github的资源比较慢，需要使用CDN加速来优化网站打开速度，于是使用jsDeliver+github搭建免费的cdn。jsDelivr 是一个免费开源的 CDN 解决方案，用于帮助开发者和站长。包含 JavaScript 库、jQuery 插件、CSS 框架、字体等等 Web 上常用的静态资源<br>什么是CDN<br>CDN的全称是Content Delivery Network，即内容分发网络。CDN是构建在网络之上的内容分发网络，依靠部署在各地的边缘服务器，通过中心平台的负载均衡、内容分发、调度等功能模块，使用户就近获取所需内容，降低网络拥塞，提高用户访问响应速度和命中率。CDN的关键技术主要有内容存储和分发技术。</p>
 <p>国内加载github的资源比较慢，需要使用CDN加速来优化网站打开速度，于是使用jsDeliver+github搭建免费的CDN，非常适合博客网站使用。</p>
 <p>jsDelivr 是一个免费开源的 CDN 解决方案，用于帮助开发者和站长。包含 JavaScript 库、jQuery 插件、CSS 框架、字体等等 Web 上常用的静态资源。</p>
 <p>NPM是JavaScript的包管理器，也是世界上最大的软件注册中心。发现可重用代码的包——并以强大的新方式组装它们。每星期大约有 30 亿次的下载量，包含超过 600000 个 包（package） （即，代码模块）。来自各大洲的开源软件开发者使用 npm 互相分享和借鉴。包的结构使您能够轻松跟踪依赖项和版本。</p>
 <p>所以jsDeliver+npm就是把npm上的包当做cdn的存储。jsDeliver不支持加载超过20M的资源，所以一些视频最好压缩到20M以下</p>
-<p>####第一步：新建github仓库</p>
-<p><img src="upload_image/blog190820/20.png" alt="image"></p>
-<p>####第二步：克隆Github仓库到本地</p>
-<p><img src="upload_image/blog190820/21.png" alt="image"></p>
+<h2 id="第一步：新建github仓库"><a href="#第一步：新建github仓库" class="headerlink" title="第一步：新建github仓库"></a>第一步：新建github仓库</h2><p><img src="https://upload-images.jianshu.io/upload_images/16636256-db30aeb2c02ec0d1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<h2 id="第二步：克隆Github仓库到本地"><a href="#第二步：克隆Github仓库到本地" class="headerlink" title="第二步：克隆Github仓库到本地"></a>第二步：克隆Github仓库到本地</h2><p><img src="https://upload-images.jianshu.io/upload_images/16636256-3c7c1b5402358edc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
 <p>$ git clone 你的仓库链接 # 本地克隆github仓库</p>
-<p>####第三步：上传需要的资源</p>
-<p>在本地目录右键 Git Bash Here</p>
+<h2 id="第三步：上传需要的资源"><a href="#第三步：上传需要的资源" class="headerlink" title="第三步：上传需要的资源"></a>第三步：上传需要的资源</h2><p>在本地目录右键 Git Bash Here</p>
 <p>复制需要的静态资源到本地git仓库中，提交到github仓库上。<br>命令如下：</p>
-<pre><code class="Text">// 查看状态
+<pre><code>// 查看状态
 git status
 // 添加到库中
 git add .
 // 提交更新（引号内 为自定义信息说明）
 git commit -m &#39;第一次提交&#39;
 // 推送至远程仓库 
-git push</code></pre>
-<p>####第四步：发布仓库</p>
-<p>点击release发布</p>
-<p><img src="/upload_image/blog190820/22.png" alt="image"></p>
+git push</code></pre><h2 id="第四步：发布仓库"><a href="#第四步：发布仓库" class="headerlink" title="第四步：发布仓库"></a>第四步：发布仓库</h2><p>点击release发布</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/16636256-5d50ef04ce491347.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
 <p>发布版本号为1.0（自定义）</p>
-<p><img src="/upload_image/blog190820/23.png" alt="image"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/16636256-9856a7366f69bc24.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
 <p>同时也可以直接在建立的仓库中直接上传文件，这一部分是github的操作，不多赘述</p>
-<p>####第五步：通过jsDeliver引用资源</p>
-<p>使用方法：<br><a href="https://cdn.jsdelivr.net/gh/你的用户名/你的仓库名@发布的版本号/文件路径" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/你的用户名/你的仓库名@发布的版本号/文件路径</a><br>比如：<br>//加载图片<br><a href="https://cdn.jsdelivr.net/gh/Zevs6/CDN/img/avatar.jpg" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/Zevs6/CDN/img/avatar.jpg</a></p>
+<h2 id="第五步：通过jsDeliver引用资源"><a href="#第五步：通过jsDeliver引用资源" class="headerlink" title="第五步：通过jsDeliver引用资源"></a>第五步：通过jsDeliver引用资源</h2><p>使用方法：<br><a href="https://cdn.jsdelivr.net/gh/你的用户名/你的仓库名@发布的版本号/文件路径" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/你的用户名/你的仓库名@发布的版本号/文件路径</a><br>比如：<br>//加载图片<br><a href="https://cdn.jsdelivr.net/gh/Zevs6/CDN/img/avatar.jpg" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/Zevs6/CDN/img/avatar.jpg</a></p>
 <p>注意：版本号不是必需的，是为了区分新旧资源，如果不使用版本号，将会直接引用最新资源，除此之外还可以使用某个范围内的版本，查看所有资源等，具体使用方法如下：</p>
 <ul>
 <li>// 加载任何Github发布、提交或分支<br><a href="https://cdn.jsdelivr.net/gh/user/repo@version/file" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/user/repo@version/file</a></li>
@@ -612,10 +604,10 @@ git push</code></pre>
 <li>// 将“.min”添加到任何JS/CSS文件中以获取缩小版本，如果不存在，将为会自动生成<br><a href="https://cdn.jsdelivr.net/gh/jquery/jquery@3.2.1/src/core.min.js" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/jquery/jquery@3.2.1/src/core.min.js</a></li>
 <li>// 在末尾添加 / 以获取资源目录列表<br><a href="https://cdn.jsdelivr.net/gh/jquery/jquery/" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/jquery/jquery/</a></li>
 </ul>
-<h2 id="子页面与其他细节修改："><a href="#子页面与其他细节修改：" class="headerlink" title="子页面与其他细节修改："></a><strong>子页面与其他细节修改</strong>：</h2><p>####顶部网站名修改<br>如果想去掉prefixName，可在 /themes/sakura/source/css/style.css下修改了样式表去掉prefixName即可。大家如果想修改其相关的样式也可以去这个css文件中自定义,这个文件是主要的css文件，大部分的样式都是由这个文件定义的。</p>
-<p>####网页顶部导航栏<br>网页顶部导航栏可以在/themes/sakura/config.yml中的meuns:下修改，如果有需要，可以修改名称，也可以直接删除，生成的网页会随之变动<br><img src="/upload_image/blog190820/24.png" alt="导航"><br>前面的path是网页路径，这个不建议修改，但可以修改。后面的如: fa: fas fa-home fa-1x 这个就是对应的图标设置,关于这个图标大家可以去<a href="http://fontawesome.dashgame.com/" target="_blank" rel="noopener">fontawesome</a>看教程以及选择自己喜欢的图标，导航栏下拉下拉菜单的图标修改和导航栏相同。</p>
-<p>####社交栏的样式<br>社交栏的样式在 /themes/sakura/source/css/style.css中可以修改， Ctrl+f 搜索 header-info即可，建议没有必要就不修改了</p>
-<p>####模块更改名称<br>startdash模块更改名称：在 /themes/sakura/layout/_partial/startdash.ejs中有：</p>
+<h4 id="子页面与其他细节修改："><a href="#子页面与其他细节修改：" class="headerlink" title="子页面与其他细节修改："></a><strong>子页面与其他细节修改</strong>：</h4><p>（1）如果想去掉prefixName，可在 /themes/sakura/source/css/style.css下修改了样式表去掉prefixName即可。大家如果想修改其相关的样式也可以去这个css文件中自定义,这个文件是主要的css文件，大部分的样式都是由这个文件定义的。</p>
+<p>（2）网页顶部导航栏可以在/themes/sakura/config.yml中的meuns:下修改，如果有需要，可以修改名称，也可以直接删除，生成的网页会随之变动<br><img src="https://upload-images.jianshu.io/upload_images/16636256-713ff78ccc1099bd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="导航"><br>前面的path是网页路径，这个不建议修改，但可以修改。后面的如: fa: fas fa-home fa-1x 这个就是对应的图标设置,关于这个图标大家可以去<a href="http://fontawesome.dashgame.com/" target="_blank" rel="noopener">fontawesome</a>看教程以及选择自己喜欢的图标，导航栏下拉下拉菜单的图标修改和导航栏相同。</p>
+<p>（3）社交栏的样式在 /themes/sakura/source/css/style.css中可以修改， Ctrl+f 搜索 header-info即可，建议没有必要就不修改了</p>
+<p>（4）startdash模块更改名称：在 /themes/sakura/layout/_partial/startdash.ejs中有：</p>
 <pre><code class="text">&lt;div class=&quot;top-feature-row&quot;&gt;
   &lt;h1 class=&quot;fes-title&quot; style=&quot;font-family: &#39;Ubuntu&#39;, sans-serif;&quot;&gt;
   &lt;i class=&quot;fa fa-anchor&quot; aria-hidden=&quot;true&quot;&gt;
@@ -630,7 +622,7 @@ git push</code></pre>
       &lt;%- partial(&#39;_partial/archive&#39;, {pagination: 2, index: true}) %&gt;
       &lt;!-- 首页默认取最最新文章集 --&gt;</code></pre>
 <p>修改discovery即可</p>
-<p>####文章的封面，归档设置：<br>在你写博客时的md文件中可以自由设置，下面是示例：</p>
+<p>（5）文章的封面，归档设置：<br>在你写博客时的md文件中可以自由设置，下面是示例：</p>
 <pre><code class="text">title: Sakura美化教程#文章的标题
 author: hojun#作者名称
 avatar: https://wx1.sinaimg.cn/large/006bYVyvgy1ftand2qurdj303c03cdfv.jpg#文章标题下作者的图标，如果不加会导致图片缺失，比较丑
@@ -646,7 +638,9 @@ keywords: Sakura主题自定义美化教程
 description:  Sakura美化教程
 photos: https://static.2heng.xin/wp-content/uploads//2019/02/wallhaven-672007-1-1024x576.png#封面的图片链接
 ---</code></pre>
-<p>####归档子页面封面设置<br>归档子页面下的图片/封面设置在 /themes/sakura/language/zh-cn.yml，找到如下代码：</p>
+<p>（6）网页顶部导航栏归档如果某一个分类下没有添加文件，则会出现not foung页面，所以对应的上一步中的categories需要与_config文件中的对应</p>
+<p>（7）注意所有的md文件中的：后都有一个空格（不知道改如何叫，键值对？）</p>
+<p>（8）归档子页面下的图片/封面设置在 /themes/sakura/language/zh-cn.yml，找到如下代码：</p>
 <pre><code class="text">#category
 技术:
     zh: 野生技术协会
@@ -658,7 +652,7 @@ photos: https://static.2heng.xin/wp-content/uploads//2019/02/wallhaven-672007-1-
     img: https://cdn.jsdelivr.net/gh/yremp/cdn@2.1.5/img/cover/(2).jpg.webp
 ......</code></pre>
 <p>这一个子页面同样是和之前设置的相关的，自己有几个归档分类就自己添加即可</p>
-<p>####悦读和图集<br>在 /themes/sakura/language/zh-cn.yml修改：</p>
+<p>（9）悦读和图集<br>在 /themes/sakura/language/zh-cn.yml修改：</p>
 <pre><code class="text">#tag
 悦读:
     img: https://cdn.jsdelivr.net/gh/yremp/cdn@2.1.5/img/cover/(6).jpg.webp
@@ -667,7 +661,7 @@ photos: https://static.2heng.xin/wp-content/uploads//2019/02/wallhaven-672007-1-
 web:
     img:  https://cdn.jsdelivr.net/gh/yremp/resource@1.0/img/pic.jpg
 </code></pre>
-<p>####番组<br>注意：这个souce文件夹需要放在blog一级的文件夹下，如果没有的话在下载的sakura文件中复制粘贴<br>这个页面对应的配置是在 /source/bangumi/index.md中修改，其中代码如下,对照网页修改即可</p>
+<p>(10)番组<br>注意：这个souce文件夹需要放在blog一级的文件夹下，如果没有的话在下载的sakura文件中复制粘贴<br>这个页面对应的配置是在 /source/bangumi/index.md中修改，其中代码如下,对照网页修改即可</p>
 <pre><code class="text">---
 layout: bangumi
 title: bangumi
@@ -692,7 +686,7 @@ bangumis:
     desc: 中生侦探工藤新一……
 ---
 </code></pre>
-<p>####歌单<br>整个页面配置在 /source/music/index.md中：</p>
+<p>（11）歌单<br>整个页面配置在 /source/music/index.md中：</p>
 <pre><code class="text">---
 title: music
 date: 2018-12-20 23:14:28
@@ -704,84 +698,8 @@ photos: http://pic.netbian.com/uploads/allimg/170911/233802-15051442827782.jpg
 &lt;iframe frameborder=&quot;no&quot; border=&quot;0&quot; marginwidth=&quot;0&quot; marginheight=&quot;0&quot; width=100% height=450 src=&quot;//music.163.com/outchain/player?type=0&amp;id=762797776&amp;auto=1&amp;height=430&quot;&gt;&lt;/iframe&gt;
 </code></pre>
 <p>photos就是这个页面的顶部图片，id就是网易云音乐歌单id，登录网页版网易云音乐，打开歌单就可以在网址中找到</p>
-<p>####友链配置<br>友情链接内容配置具体在 /source/link/index.md中，界面背景及布局主要在/themes/sakura/layout/links.ejs</p>
-<p>####其他事项</p>
-<ul>
-<li><p>网页顶部导航栏归档如果某一个分类下没有添加文件，则会出现not foung页面，所以对应的上一步中的categories需要与_config文件中的对应</p>
-</li>
-<li><p>注意所有的md文件中的：后都有一个空格（不知道改如何叫，键值对？）</p>
-</li>
-<li><p>其他的问题，bug等归纳整理到<a href="http://smilecoc.vip/2020/02/02/Hexo%20Sakura%E4%B8%BB%E9%A2%98%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/" target="_blank" rel="noopener">Hexo Sakura主题遇到的问题汇总</a></p>
-</li>
-</ul>
-<h2 id="添加一个看板娘"><a href="#添加一个看板娘" class="headerlink" title="添加一个看板娘"></a><strong>添加一个看板娘</strong></h2><p><a href="https://github.com/EYHN/hexo-helper-live2d" target="_blank" rel="noopener">项目地址</a></p>
-<p><a href="https://github.com/xiazeyu/live2d-widget-models" target="_blank" rel="noopener">live2d模型</a></p>
-<p><a href="https://blog.csdn.net/wang_123_zy/article/details/87181892" target="_blank" rel="noopener">部分模型预览</a></p>
-<p>首先进入Hexo博客根目录安装live2d插件</p>
-<pre><code class="text">$ npm install --save hexo-helper-live2d</code></pre>
-<p>接着，修改根目录下的 *_config.yml *文件</p>
-<p>添加自定义配置(下面提供我的配置做参考)：</p>
-<pre><code class="text">## live2d
-live2d:
-   enable: true
-   scriptFrom: local
-   pluginRootPath: live2dw/
-   pluginJsPath: lib/
-   pluginModelPath: assets/
-   tagMode: false
-   debug: false
-   model:
-       use: live2d-widget-model-z16
-       scale: 1
-       hHeadPos: 0.5
-       vHeadPos: 0.618
-   display:
-       superSample: 2
-       width: 150
-       height: 300
-       position: right
-       hOffset: 0
-       vOffset: -20
-   mobile:
-       show: true
-       scale: 0.5
-  react:
-      opacityDefault: 0.7
-      opacityOnHover: 0.2
-</code></pre>
-<p>细心一点肯定能发现　model.use 后的字符串就是看板娘模型的名字</p>
-<p>现在你就可以进入<a href="https://blog.csdn.net/wang_123_zy/article/details/87181892" target="_blank" rel="noopener">模型预览</a> 挑选自己喜欢的看板娘啦</p>
-<p>现在假设你所挑选的看板娘也是<em>z16</em></p>
-<p>你有几种方式让看板娘进驻你的Hexo博客，这里只提供最方便的一种(命令安装)。</p>
-<p>进入博客根目录输入以下命令：</p>
-<pre><code class="text">$ npm install live2d-widget-model-z16</code></pre>
-<p>再将 *_config.yml *中 model.use检查 一遍确保与你安装的名称一致</p>
-<p>到此处看板娘进驻成功</p>
-<p>进阶版看板娘</p>
-<p>如何安装看板娘<br>傻瓜式安装只需在网页中引入这三行代码即可</p>
-<pre><code class="js">&lt;script src=&quot;https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js&quot;&gt;&lt;/script&gt;
-&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css&quot;/&gt;
-&lt;script src=&quot;https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget/autoload.js&quot;&gt;&lt;/script&gt;</code></pre>
-<p>在 主题配置文件 中,新增如下内容：</p>
-<pre><code class="text">live2d:
-  enable: true</code></pre>
-<p>如果你想折腾一翻，请看下面<br>本插件需要jQuery和font-awesome支持，请确保它们已在页面中加载，例如在<head><meta name="generator" content="Hexo 3.9.0">中加入：<link rel="alternate" href="/atom.xml" title="Smilecoc's Blog" type="application/atom+xml">
-</head></p>
-<pre><code class="js">&lt;script src=&quot;https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js&quot;&gt;&lt;/script&gt;
-&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css&quot;&gt;</code></pre>
-<p>否则无法正常显示。（如果你的网页已经加载了jQuery，就不要重复加载了）</p>
-<p>你可以直接这样使用：</p>
-<pre><code class="js">&lt;script src=&quot;https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget/autoload.js&quot;&gt;&lt;/script&gt;</code></pre>
-<p>将这一行代码加入<head><meta name="generator" content="Hexo 3.9.0">或</head><body>，即可看到效果。如果你的网站启用了PJAX，由于看板娘不必每页刷新，因此需要注意将相关脚本放到PJAX刷新区域之外。<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":300,"height":450},"log":false});</script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":300,"height":450},"log":false});</script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":300,"height":450},"log":false});</script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":300,"height":450},"log":false});</script></body></p>
-<p>换句话说，如果你是小白，或者只需要最基础的功能，就只需要：</p>
-<p>把这一行代码，连同前面的两行代码，一起放到html的<head><meta name="generator" content="Hexo 3.9.0">中即可；<br>如果页面是用各种模版引擎、php、asp生成的，也要自行修改，方法类似，只是可能略为麻烦。<br>但是！我们强烈推荐自己进行配置，否则很多功能是不完整的，并且可能产生问题！<br>如果你还有兴趣自己折腾的话，请看下面的详细说明。算了不搞你们了，如果搞不到，请使用傻瓜式安装</head></p>
-<p>如果要自定义有关内容，可以把这个仓库Fork一份，然后进行修改。这时，使用方法对应地变为</p>
-<pre><code class="js">&lt;script src=&quot;https://cdn.jsdelivr.net/gh/username/live2d-widget/autoload.js&quot;&gt;&lt;/script&gt;</code></pre>
-<p>将username替换为你的GitHub用户名即可。</p>
-<p>定制看板娘的语录<br>1.从github中下载项目: <a href="https://github.com/stevenjoezhang/live2d-widget" target="_blank" rel="noopener">https://github.com/stevenjoezhang/live2d-widget</a><br>2.更改waifu-tip.json里面的内容详情<br>3.更改autoload.js的引入位置<br>将下载的文件解压到本地博客目录的themes/主题文件夹/source下，修改autoload.js文件，如下：</p>
-<p>将<script src="https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget/autoload.js"></script> 改成const live2d_path = “/live2d-widget/“;</p>
-<p>想修改看板娘大小、位置、格式、文本内容等，可查看并修改 waifu-tips.js 、 waifu-tips.json 和 waifu.css。</p>
-<p>推荐一个 Live2D 模型资源收集站：<a href="https://mx-model.ga/" target="_blank" rel="noopener">https://mx-model.ga/</a></p>
+<p>（12）友情链接内容配置具体在 /source/link/index.md中，界面背景及布局主要在/themes/sakura/layout/links.ejs</p>
+<p>（13）其他的问题，bug等归纳整理到<a href="http://smilecoc.vip/2020/02/02/Hexo%20Sakura%E4%B8%BB%E9%A2%98%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/" target="_blank" rel="noopener">Hexo Sakura主题遇到的问题汇总</a></p>
 
         </div>
         <!-- .entry-content -->
