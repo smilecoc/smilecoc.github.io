@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">Tag: 随想 | Smilecoc&#39;s Blog</title>
+  <title itemprop="name">SQL实现筛选出连续3天登录用户 | Smilecoc&#39;s Blog</title>
   
     <link rel="shortcut icon" href="/images/favicon.ico">
   
@@ -363,64 +363,170 @@
   </div>
 </header>
 
-      
+      <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
 <div class="pattern-center-blank"></div>
-<div class="pattern-center ">
-  <div class="pattern-attachment-img">
-    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="随想.img" class="lazyload" onerror="imgError(this,3)" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+
+  <div class="pattern-center single-center">
+    <!-- 有配图默认渲染第一张 -->
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://yremp.live/wp-content/uploads/2019/09/index-1-1024x634.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://yremp.live/wp-content/uploads/2019/09/index-1-1024x634.jpg">
+    </div>
+    <header class="pattern-header single-header">
+      <h1 class="entry-title">
+      SQL实现筛选出连续3天登录用户</h1>
+      <p class="entry-census">
+        <span>
+          <a href="http://smilecoc.vip/">
+            <img src="">
+          </a>
+        </span>
+        <span>
+          <a href="http://smilecoc.vip/">smilecoc</a>
+        </span>
+        <span class="bull">
+        ·</span>
+        2019-12-25<span class="bull">
+        ·</span>
+      <span id="busuanzi_value_page_pv"></span>次阅读</p>
+    </header>
   </div>
-  <header class="pattern-header ">
-    <h1 class="cat-title">随想</h1>
-  </header>
-</div>
+
 <div id="content" class="site-content">
   <div id="primary" class="content-area">
     <main id="main" class="site-main" role="main">
-      
-  <!-- 首页默认取最最新文章集 -->
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2019/08/06/2019年/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
+      <article id="post-1" class="post-1 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+        <div class="toc"></div>
+        <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
+        
+        <div class="entry-content">
+          <p>这个问题虽然说难不难，但说易也不简单，而且，偏受大小厂喜欢。其实，不管是数仓/ETL/BI/数据分析/大数据等方向，都会经常被面试/笔试考察到。</p>
+<h4 id="1-还原场景-建表"><a href="#1-还原场景-建表" class="headerlink" title="1.还原场景 - 建表"></a><strong>1.还原场景 - 建表</strong></h4><pre><code>select * from tmp.tmp_last_3_day;</code></pre><h4 id><a href="#" class="headerlink" title></a><img src="/upload_image/blog191225/1.jfif" alt="原始数据表"></h4><h4 id="2-解决问题关键-分析"><a href="#2-解决问题关键-分析" class="headerlink" title="2.解决问题关键-分析"></a><strong>2.解决问题关键-分析</strong></h4><p>解决问题的关键是：如何判断连续</p>
+<p>可通过对user_id分组排序后（rn），用登录日期减去序号m,如果连续的话，则得到的这个日期（flag_date）会相同<br>即： flag_date=login_date-rn<br>对应SQL：date_sub(login_date,rn)<br><img src="/upload_image/blog191225/2.png" alt="过程"></p>
+<h4 id="3-SQL实现"><a href="#3-SQL实现" class="headerlink" title="3.SQL实现"></a><strong>3.SQL实现</strong></h4><p>连续3天登录的用户id ­­ sql如下：</p>
+<pre><code class="sql">select user_id,count(1） cnt
+    --date_sub(login_date,t.rn) flag_date
+from (
+  select user_id,login_date,
+    row_number() over(partition by user_id order by login_date) as
+rn
+  from tmp.tmp_last_3_day
+) t
+group by user_id,date_sub(login_date,t.rn)
+having count(1)&gt;=3;</code></pre>
+<p>我们再来看下结果：</p>
+<p><img src="/upload_image/blog191225/3.png" alt="结果"></p>
+<hr>
+<p>其实，方法有很多，上面只是选了一种技巧性比较强的一种。下面也是一种不错的方法。</p>
+<pre><code class="sql">select
+    count(distinct b.id) as c1
+from
+(
+    select
+    id,date,lead(date,2,-1) over(partition by user_id order by date desc) as date1
+    from
+    tb_use a
+    group by
+    id.date
+) as b
+where
+    date_sub(cast(b.date as date),2)=cast(b.date1 as date);</code></pre>
+
         </div>
-        <img width="150" height="150" src="https://yremp.live/wp-content/uploads/2019/09/index-1-1024x634.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2019/08/06/2019年/">
-    2019年，小破站建立撒花~</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2019-8-6</div>
-    <p>
-    小破站建立撒花~</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2019/08/06/2019年/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
+        <!-- .entry-content -->
+        <div class="single-reward">
+          <div class="reward-open">赏<div class="reward-main">
+              <ul class="reward-row">
+                <li class="alipay-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/donate/AliPayQR.jpg"></li>
+                <li class="wechat-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/donate/wechatpayQR.jpg"></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
+        <footer class="post-footer">
+          <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
+          <div class="post-tags">
+          </div>
+          <div class="post-share">
+            <div class="social-share sharehidden share-component"></div>
+            <i class="iconfont show-share icon-forward"></i>
+          </div>
+        </footer><!-- .entry-footer -->
+      </article>
+      <!-- #post-## -->
+      <div class="toc" style="background: none;"></div>
+      <section class="post-squares nextprev">
+        
+          
+            <div class="post-nepre half previous">
+          
+            <a href="/2020/01/01/定制系统资源/" rel="prev">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://yremp.live/wp-content/uploads/2019/09/index-1-1024x634.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://yremp.live/wp-content/uploads/2019/09/index-1-1024x634.jpg">
+              </div>
+              <span class="label">
+              Previous Post</span>
+              <div class="info">
+                <h3>
+                定制系统与使用方式资源</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+        
+          
+            <div class="post-nepre half next">
+          
+            <a href="/2019/10/01/简单实用的SQL脚本汇总/" rel="next">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://yremp.live/wp-content/uploads/2019/09/index-1-1024x634.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://yremp.live/wp-content/uploads/2019/09/index-1-1024x634.jpg">
+              </div>
+              <span class="label">
+              Next Post</span>
+              <div class="info">
+                <h3>
+                简单实用的SQL脚本汇总</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+      </section>
+      
+<div id="vcomments"></div>
+<script>
+  window.onload = function(){
+      var valine = new Valine();
+      valine.init({
+        el: '#vcomments',
+        appId: "Hm83GoGeDX3sGPDh3Q50lSMz-gzGzoHsz",
+        appKey: "mXIVaYaFj1DNyH6yBicfUS0w",
+        path: window.location.pathname,
+        placeholder: "你是我一生只会遇见一次的惊喜 ..."
+      })
+  }
+</script>
 
-
-      <div class="clearer">
-      </div>
-    </main>
-    <!--  -->
-    
-  </div>
+      <section class="author-profile">
+        <div class="info" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <a href="http://smilecoc.vip/" class="profile gravatar"><img src="" itemprop="image" alt="smilecoc" height="70" width="70"></a>
+          <div class="meta">
+            <span class="title">Author</span>
+            <h3 itemprop="name">
+            <a href="http://smilecoc.vip/" itemprop="url" rel="author">smilecoc</a>
+            </h3>
+          </div>
+        </div>
+        <hr>
+        <p><i class="iconfont icon-write"></i></p>
+      </section>
+    </main><!-- #main -->
+  </div><!-- #primary -->
 </div>
+
+
+
     </div>    
     <div class="ins-search">
     <div class="ins-search-mask"></div>
