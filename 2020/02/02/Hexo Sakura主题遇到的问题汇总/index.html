@@ -412,6 +412,13 @@
 <pre><code class="TEXT">![](/upload_image/1.jpg)</code></pre>
 <p>然后进入themes-主题名-source-upload_image目录下(自己创建)，将图片放到这个目录下，就可以了。</p>
 <p>说明：当执行hexo g命令时，会自动把图片复制到 public文件的upload_image目录下。</p>
+<h4 id="赞赏页面的作者名称修改"><a href="#赞赏页面的作者名称修改" class="headerlink" title="赞赏页面的作者名称修改"></a><strong>赞赏页面的作者名称修改</strong></h4><p>赞赏页面的页脚作者永远是原作者的名称，可能是没有链接到变量的bug吧</p>
+<p>修改方法为将”\blog\themes\Sakura\themes\Sakura\layout\donate.ejs”中的</p>
+<pre><code class="js">&lt;h3 itemprop=&quot;name&quot;&gt;
+&lt;a href=&quot;&lt;%- theme.url%&gt;&quot; itemprop=&quot;url&quot; rel=&quot;author&quot;&gt;houjun&lt;/a&gt;
+&lt;/h3&gt;</code></pre>
+<p>“houjun”换为自己的名字就可以了</p>
+<h4 id="对主题进行魔改"><a href="#对主题进行魔改" class="headerlink" title="对主题进行魔改"></a><strong>对主题进行魔改</strong></h4><p>生成网页的代码都在\blog\themes\Sakura\themes\Sakura\layout文件夹中，通过名称可以找到整个网页的代码，对照生成的网页源码找到对应的额文件进行修改即可。不清楚相对路径是否形同，可以多多进行尝试</p>
 
         </div>
         <!-- .entry-content -->
