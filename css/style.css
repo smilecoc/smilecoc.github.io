@@ -1648,6 +1648,7 @@ a:hover,a:active {
     border-radius:50%;
     padding:2px;
     border:1px solid #dadada;
+    object-fit: cover;
     position:relative
 }
 .feature :hover .overlay i {

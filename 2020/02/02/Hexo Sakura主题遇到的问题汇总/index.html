@@ -470,6 +470,109 @@
 &lt;/h3&gt;</code></pre>
 <p>“houjun”换为自己的名字就可以了</p>
 <p>另外有一写其他的相似问题比如友链页面的</p>
+<h4 id="主题工具"><a href="#主题工具" class="headerlink" title="主题工具"></a><strong>主题工具</strong></h4><p>在themes\sakura\layout\layout.ejs中：</p>
+<pre><code class="js">  &lt;div class=&quot;scrollbar&quot; id=&quot;bar&quot;&gt;
+  &lt;/div&gt;</code></pre>
+<p>前面添加：</p>
+<pre><code class="js"> &lt;%- partial(&#39;_partial/setdisplay&#39;) %&gt; 
+ &lt;%- partial(&#39;_partial/set&#39;, null, {cache: !config.relative_link}) %&gt;</code></pre>
+<p>原版是在&lt;%- partial(‘_partial/mheader’, null, {cache: !config.relative_link}) %&gt;前添加的，但要这样字体切换会出bug。</p>
+<p>在\themes\sakura\layout_partial中新建set.ejs，内容：</p>
+<pre><code class="js">&lt;div class=&quot;changeSkin-gear no-select&quot;&gt; 
+    &lt;div class=&quot;keys&quot; id=&quot;setbtn&quot;&gt; 
+        &lt;span id=&quot;open-skinMenu&quot;&gt; 
+            SCHEME TOOL | 主题工具 &amp;nbsp;
+            &lt;i class=&quot;iconfont icon-gear inline-block rotating&quot;&gt;
+            &lt;/i&gt; 
+        &lt;/span&gt;
+    &lt;/div&gt; 
+&lt;/div&gt;</code></pre>
+<p>新建setdisplay.ejs，内容：</p>
+<pre><code class="js">&lt;div class=&quot;skin-menu no-select&quot; id=&quot;mainskin&quot; style=&quot;position: fixed&quot;&gt; 
+    &lt;div class=&quot;theme-controls row-container&quot;&gt;
+          &lt;p style=&quot;text-align:center;font-family:&#39;Monaco&#39;;font-weight:bold;color:#444&quot;&gt;&lt;i style=&quot;color:grey&quot; class=&quot;fa fa-chevron-left&quot;&gt;&lt;/i&gt; background &lt;i style=&quot;color:grey&quot; class=&quot;fa fa-chevron-right&quot;&gt;&lt;/i&gt;&lt;/p&gt;
+        &lt;ul class=&quot;menu-list&quot;&gt; &lt;li id=&quot;white-bg&quot;&gt; 
+            &lt;i class=&quot;fa fa-television&quot; aria-hidden=&quot;true&quot;&gt;
+            &lt;/i&gt;
+            &lt;/li&gt; 
+            &lt;li id=&quot;sakura-bg&quot;&gt; 
+                &lt;i class=&quot;iconfont icon-sakura&quot;&gt;
+                &lt;/i&gt;
+            &lt;/li&gt;
+            &lt;li id=&quot;gribs-bg&quot;&gt;
+                &lt;i class=&quot;fa fa-slack&quot; aria-hidden=&quot;true&quot;&gt;
+                &lt;/i&gt;
+            &lt;/li&gt;
+            &lt;li id=&quot;KAdots-bg&quot;&gt;
+                &lt;i class=&quot;iconfont icon-dots&quot;&gt;
+                &lt;/i&gt;
+            &lt;/li&gt;
+            &lt;li id=&quot;totem-bg&quot;&gt;
+                &lt;i class=&quot;fa fa-optin-monster&quot; aria-hidden=&quot;true&quot;&gt;
+                &lt;/i&gt;
+            &lt;/li&gt;
+            &lt;li id=&quot;pixiv-bg&quot;&gt;
+                &lt;i class=&quot;iconfont icon-pixiv&quot;&gt;
+                &lt;/i&gt;
+            &lt;/li&gt;
+            &lt;li id=&quot;bing-bg&quot;&gt;
+                &lt;i class=&quot;iconfont icon-bing&quot;&gt;
+                &lt;/i&gt;
+            &lt;/li&gt;
+            &lt;li id=&quot;dark-bg&quot;&gt;
+                &lt;i class=&quot;fa fa-moon-o&quot; aria-hidden=&quot;true&quot;&gt;
+                &lt;/i&gt;
+            &lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+    &lt;canvas id=&quot;night-mode-cover&quot;&gt;
+    &lt;/canvas&gt;
+&lt;/div&gt;</code></pre>
+<p>还要修点bug：</p>
+<p>在\themes\sakura\source\js\sakura-app.js中，找到函数$(‘.skin-menu #dark-bg’).click(function ()，函数最底下添加：</p>
+<pre><code>setCookie(&#39;bgImgSetting&#39;,&#39;https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/starry_sky.png&#39;,30)</code></pre><p>把所有形如：</p>
+<pre><code class="text">$(&#39;.changeSkin-gear, .toc&#39;).css(&#39;background&#39;, &#39;none&#39;)
+或
+$(&#39;.changeSkin-gear, .toc&#39;).css(&#39;background&#39;, &#39;rgba(255,255,255,0.8)&#39;)</code></pre>
+<p>里的.changeSkin-gear,删掉。</p>
+<p>这只是初始版，后面还有更高级的。</p>
+<p>更换bing图片<br>bing主题是从bing随机图片api获取一张图片做背景，可以更换。</p>
+<p>在\themes\sakura\source\js\sakura-app.js中，下面两句：</p>
+<pre><code class="text">changeBGnoTrans(&#39;#bing-bg&#39;, &#39;https://api.shino.cc/bing/&#39;)</code></pre>
+<pre><code class="text">else if (bgurl == &#39;https://api.shino.cc/bing/&#39;)</code></pre>
+<p>其中的网址换成其他url。</p>
+<p>位置和外观<br>在set.ejs里直接用css美化，可能还要修正setdisplay.ejs。</p>
+<p>参考配置：</p>
+<p>set.ejs：</p>
+<pre><code class="js">&lt;div class=&quot;changeSkin-gear no-select&quot; style=&quot;background: rgba(0, 0, 0, 0) none repeat scroll 0% 0%; visibility: visible; bottom: 0px;&quot;&gt; 
+  &lt;div class=&quot;keys&quot; id=&quot;setbtn&quot;&gt; 
+    &lt;button id=&quot;open-skinMenu&quot;&gt;
+        &lt;style&gt;
+        button#open-skinMenu{
+            transition: all 0.2s linear 0s;
+            outline:none;
+            position:fixed;
+            bottom:13px;
+            left:15px;
+            font-size:16px;
+            background-color: rgba(255,255,255,.95);
+            border-radius: 20px;
+            box-shadow: 0 3px 8px 0 rgba(0,0,0,0.1), 0 3px 8px 0 rgba(0,0,0,0.1);
+        }
+        button#open-skinMenu:hover{
+            transition: all 0.2s linear 0s;
+            background-color: rgb(255, 165, 0);
+            color: rgba(255,255,255);
+        }
+        &lt;/style&gt;
+        &lt;i class=&quot;iconfont icon-gear inline-block rotating&quot;&gt;
+      &lt;/i&gt; 
+        SCHEME TOOL | 主题工具 
+    &lt;/button&gt;
+  &lt;/div&gt; 
+&lt;/div&gt;</code></pre>
+<h4 id="文章列表图片拉伸问题"><a href="#文章列表图片拉伸问题" class="headerlink" title="文章列表图片拉伸问题"></a><strong>文章列表图片拉伸问题</strong></h4><p>浏览某个分类或标签下的文章下时，配图是被压缩成正方形的,导致原来的图片产生变形<br>解决办法为：<br>在\themes\sakura\source\css\style.css中，找到.feature img，内部添加：</p>
+<pre><code class="css"> object-fit: cover;</code></pre>
 <h4 id="对主题进行魔改"><a href="#对主题进行魔改" class="headerlink" title="对主题进行魔改"></a><strong>对主题进行魔改</strong></h4><p>生成网页的代码都在\blog\themes\Sakura\themes\Sakura\layout文件夹中，通过名称可以找到整个网页的代码，对照生成的网页源码找到对应的额文件进行修改即可。不清楚相对路径是否形同，可以多多进行尝试</p>
 <h4 id="参考文章-网站："><a href="#参考文章-网站：" class="headerlink" title="参考文章/网站："></a><strong>参考文章/网站：</strong></h4><p><a href="https://ctz45562.github.io/2019/06/04/blog%E3%81%AE%E6%90%AD%E5%BB%BA%E4%B9%8Bsakura/#%E4%B8%BB%E9%A2%98%E5%B7%A5%E5%85%B7" target="_blank" rel="noopener">ctz’s blog</a><br><a href="https://yremp.live/hexo-sakura/" target="_blank" rel="noopener">yremp’s blog</a></p>
 
@@ -634,7 +737,7 @@
 <script type="text/javascript" src="/js/zoom.min.js"></script>
 <script type="text/javascript" src="/js/sakura-app.js"></script>
 <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-<script src='//unpkg.com/valine@1.3.4/dist/Valine.min.js'></script>
+<script src="https://cdn.jsdelivr.net/gh/ctz45562/cdn@2.0.2/js/volantis.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
 <script src="https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget/autoload.js"></script>
