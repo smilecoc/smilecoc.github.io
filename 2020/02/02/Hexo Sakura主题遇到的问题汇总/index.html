@@ -469,7 +469,7 @@
 &lt;a href=&quot;&lt;%- theme.url%&gt;&quot; itemprop=&quot;url&quot; rel=&quot;author&quot;&gt;houjun&lt;/a&gt;
 &lt;/h3&gt;</code></pre>
 <p>“houjun”换为自己的名字就可以了</p>
-<p>另外有一写其他的相似问题比如友链页面的</p>
+<p>另外其他的相似问题比如友链页面的描述需要改动的话也是一样的方法</p>
 <h4 id="主题工具"><a href="#主题工具" class="headerlink" title="主题工具"></a><strong>主题工具</strong></h4><p>在themes\sakura\layout\layout.ejs中：</p>
 <pre><code class="js">  &lt;div class=&quot;scrollbar&quot; id=&quot;bar&quot;&gt;
   &lt;/div&gt;</code></pre>
@@ -575,22 +575,65 @@ $(&#39;.changeSkin-gear, .toc&#39;).css(&#39;background&#39;, &#39;rgba(255,255,
 <pre><code class="css"> object-fit: cover;</code></pre>
 <h4 id="对主题进行魔改"><a href="#对主题进行魔改" class="headerlink" title="对主题进行魔改"></a><strong>对主题进行魔改</strong></h4><p>生成网页的代码都在\blog\themes\Sakura\themes\Sakura\layout文件夹中，通过名称可以找到整个网页的代码，对照生成的网页源码找到对应的额文件进行修改即可。不清楚相对路径是否形同，可以多多进行尝试</p>
 <h4 id="后续cdn的添加和修改"><a href="#后续cdn的添加和修改" class="headerlink" title="后续cdn的添加和修改"></a><strong>后续cdn的添加和修改</strong></h4><p>如果需要对cdn里的文件进行修改，例如删除和更名，改变文件结构等：</p>
-<p>#####克隆Github仓库到本地<br>点击 Clone or download，一键复制仓库地址<br>![](/upload_image/blog 2002/1.jfif)<br>在本地目录右键 Git Bash Here，执行以下命令：</p>
+<h5 id="克隆Github仓库到本地"><a href="#克隆Github仓库到本地" class="headerlink" title="克隆Github仓库到本地"></a>克隆Github仓库到本地</h5><p>点击 Clone or download，一键复制仓库地址<br>![](/upload_image/blog 2002/1.jfif)<br>在本地目录右键 Git Bash Here，执行以下命令：</p>
 <pre><code class="text">git clone 一键复制的仓库地址</code></pre>
-<p>3、上传资源<br>复制需要上传的资源到本地git仓库（注：jsDelivr不支持加载超过20M的资源），在本地git仓库目录下右键 Git Bash Here，执行以下命令：</p>
+<h5 id="上传资源"><a href="#上传资源" class="headerlink" title="上传资源"></a>上传资源</h5><p>复制需要上传的资源到本地git仓库（注：jsDelivr不支持加载超过20M的资源），在本地git仓库目录下右键 Git Bash Here，执行以下命令：</p>
 <pre><code class="text">git status                    //查看状态
 git add .                     //添加所有文件到暂存区
 git commit -m &#39;第一次提交&#39;      //把文件提交到仓库
 git push                      //推送至远程仓库</code></pre>
-<p>4、发布仓库<br>点击release发布<br>![](/upload_image/blog 2002/2.jfif)<br>自定义发布版本号<br>![](/upload_image/blog 2002/3.jfif)</p>
-<p>5、通过jsDelivr引用资源<br>使用方法：<a href="https://cdn.jsdelivr.net/gh/你的用户名/你的仓库名@发布的版本号/文件路径" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/你的用户名/你的仓库名@发布的版本号/文件路径</a><br>例如：</p>
-<p><a href="https://cdn.jsdelivr.net/gh/TRHX/CDN-for-itrhx.com@1.0/images/trhx.png" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/TRHX/CDN-for-itrhx.com@1.0/images/trhx.png</a><br><a href="https://cdn.jsdelivr.net/gh/TRHX/CDN-for-itrhx.com@2.0.1/css/style.css" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/TRHX/CDN-for-itrhx.com@2.0.1/css/style.css</a><br><a href="https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.3//The%20Pet%20Girl%20of%20Sakurasou.mp4" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.3//The%20Pet%20Girl%20of%20Sakurasou.mp4</a><br>注意：版本号不是必需的，是为了区分新旧资源，如果不使用版本号，将会直接引用最新资源，除此之外还可以使用某个范围内的版本，查看所有资源等，具体使用方法如下：</p>
-<p>// 加载任何Github发布、提交或分支<br><a href="https://cdn.jsdelivr.net/gh/user/repo@version/file" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/user/repo@version/file</a></p>
-<p>// 加载 jQuery v3.2.1<br><a href="https://cdn.jsdelivr.net/gh/jquery/jquery@3.2.1/dist/jquery.min.js" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/jquery/jquery@3.2.1/dist/jquery.min.js</a></p>
-<p>// 使用版本范围而不是特定版本<br><a href="https://cdn.jsdelivr.net/gh/jquery/jquery@3.2/dist/jquery.min.js" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/jquery/jquery@3.2/dist/jquery.min.js</a><br><a href="https://cdn.jsdelivr.net/gh/jquery/jquery@3/dist/jquery.min.js" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/jquery/jquery@3/dist/jquery.min.js</a></p>
-<p>// 完全省略该版本以获取最新版本<br><a href="https://cdn.jsdelivr.net/gh/jquery/jquery/dist/jquery.min.js" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/jquery/jquery/dist/jquery.min.js</a></p>
-<p>// 将“.min”添加到任何JS/CSS文件中以获取缩小版本，如果不存在，将为会自动生成<br><a href="https://cdn.jsdelivr.net/gh/jquery/jquery@3.2.1/src/core.min.js" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/jquery/jquery@3.2.1/src/core.min.js</a></p>
-<p>// 在末尾添加 / 以获取资源目录列表<br><a href="https://cdn.jsdelivr.net/gh/jquery/jquery/" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/jquery/jquery/</a></p>
+<h5 id="发布仓库"><a href="#发布仓库" class="headerlink" title="发布仓库"></a>发布仓库</h5><p>点击release发布<br>![](/upload_image/blog 2002/2.jfif)<br>自定义发布版本号<br>![](/upload_image/blog 2002/3.jfif)</p>
+<h5 id="通过jsDelivr引用资源"><a href="#通过jsDelivr引用资源" class="headerlink" title="通过jsDelivr引用资源"></a>通过jsDelivr引用资源</h5><p>使用方法：<a href="https://cdn.jsdelivr.net/gh/你的用户名/你的仓库名@发布的版本号/文件路径" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/你的用户名/你的仓库名@发布的版本号/文件路径</a><br>例如：<br><a href="https://cdn.jsdelivr.net/gh/TRHX/CDN-for-itrhx.com@1.0/images/trhx.png" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/TRHX/CDN-for-itrhx.com@1.0/images/trhx.png</a><br><a href="https://cdn.jsdelivr.net/gh/TRHX/CDN-for-itrhx.com@2.0.1/css/style.css" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/TRHX/CDN-for-itrhx.com@2.0.1/css/style.css</a><br><a href="https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.3//The%20Pet%20Girl%20of%20Sakurasou.mp4" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.3//The%20Pet%20Girl%20of%20Sakurasou.mp4</a><br>注意：版本号不是必需的，是为了区分新旧资源，如果不使用版本号，将会直接引用最新资源，除此之外还可以使用某个范围内的版本，查看所有资源等，具体使用方法如下：</p>
+<ul>
+<li><p>// 加载任何Github发布、提交或分支</p>
+</li>
+<li><p><a href="https://cdn.jsdelivr.net/gh/user/repo@version/file" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/user/repo@version/file</a></p>
+</li>
+<li><p>// 加载 jQuery v3.2.1</p>
+</li>
+<li><p><a href="https://cdn.jsdelivr.net/gh/jquery/jquery@3.2.1/dist/jquery.min.js" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/jquery/jquery@3.2.1/dist/jquery.min.js</a></p>
+</li>
+<li><p>// 使用版本范围而不是特定版本</p>
+</li>
+<li><p><a href="https://cdn.jsdelivr.net/gh/jquery/jquery@3.2/dist/jquery.min.js" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/jquery/jquery@3.2/dist/jquery.min.js</a></p>
+</li>
+<li><p><a href="https://cdn.jsdelivr.net/gh/jquery/jquery@3/dist/jquery.min.js" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/jquery/jquery@3/dist/jquery.min.js</a></p>
+</li>
+<li><p>// 完全省略该版本以获取最新版本</p>
+</li>
+<li><p><a href="https://cdn.jsdelivr.net/gh/jquery/jquery/dist/jquery.min.js" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/jquery/jquery/dist/jquery.min.js</a></p>
+</li>
+<li><p>// 将“.min”添加到任何JS/CSS文件中以获取缩小版本，如果不存在，将为会自动生成</p>
+</li>
+<li><p><a href="https://cdn.jsdelivr.net/gh/jquery/jquery@3.2.1/src/core.min.js" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/jquery/jquery@3.2.1/src/core.min.js</a></p>
+</li>
+<li><p>// 在末尾添加 / 以获取资源目录列表</p>
+</li>
+<li><p><a href="https://cdn.jsdelivr.net/gh/jquery/jquery/" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/jquery/jquery/</a></p>
+</li>
+</ul>
+<h4 id="Rss页面修改"><a href="#Rss页面修改" class="headerlink" title="Rss页面修改"></a><strong>Rss页面修改</strong></h4><p>RSS配置后是404的页面，解决步骤如下：<br>安装插件</p>
+<pre><code class="text">npm install hexo-generator-feed</code></pre>
+<p>主配置_config.yml文末添加</p>
+<pre><code class="text"># Extensions
+## Plugins: http://hexo.io/plugins/
+#RSS订阅
+plugin:
+ hexo-generator-feed
+#Feed Atom
+feed:
+  type: atom #RSS的类型(atom/rss2)
+  path: atom.xml #文件路径,默认是atom.xml/rss2.xml
+  limit: 20 #展示文章的数量,使用0或则false代表展示全部
+  hub:
+  content: #在RSS文件中是否包含内容 ,有3个值 true/false默认不填为false
+  content_limit: 140 #指定内容的长度作为摘要,仅仅在上面content设置为false和没有自定义的描述出现
+  content_limit_delim: &#39; &#39; #上面截取描述的分隔符,截取内容是以指定的这个分隔符作为截取结束的标志.在达到规定的内容长度之前最后出现的这个分隔符之前的内容,，防止从中间截断.
+  order_by: -date
+  icon: #icon.png</code></pre>
+<p>主题配置themes\sakura_config.yml文末添加(sakura主题中应该已有这一句，如果已有的话可以直接跳过)</p>
+<pre><code class="text"># 简易信息聚合,站点共享
+rss: /atom.xml</code></pre>
 <h4 id="参考文章-网站："><a href="#参考文章-网站：" class="headerlink" title="参考文章/网站："></a><strong>参考文章/网站：</strong></h4><p><a href="https://ctz45562.github.io/2019/06/04/blog%E3%81%AE%E6%90%AD%E5%BB%BA%E4%B9%8Bsakura/#%E4%B8%BB%E9%A2%98%E5%B7%A5%E5%85%B7" target="_blank" rel="noopener">ctz’s blog</a><br><a href="https://yremp.live/hexo-sakura/" target="_blank" rel="noopener">yremp’s blog</a></p>
 
         </div>
