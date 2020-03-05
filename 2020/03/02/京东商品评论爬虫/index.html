@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">Category: 随想 | Smilecoc&#39;s Blog</title>
+  <title itemprop="name">京东商品评论爬虫 | Smilecoc&#39;s Blog</title>
   
     <link rel="shortcut icon" href="/images/favicon.ico">
   
@@ -415,105 +415,248 @@
   </div>
 </header>
 
-      
+      <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
 <div class="pattern-center-blank"></div>
-<div class="pattern-center ">
-  <div class="pattern-attachment-img">
-    <img data-src="随想.img" class="lazyload" onerror="imgError(this,3)" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+
+  <div class="pattern-center single-center">
+    <!-- 有配图默认渲染第一张 -->
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5/images/article/jdcommentspider20200302.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5/images/article/jdcommentspider20200302.jpg">
+    </div>
+    <header class="pattern-header single-header">
+      <h1 class="entry-title">
+      京东商品评论爬虫</h1>
+      <p class="entry-census">
+        <span>
+          <a href="http://smilecoc.vip/">
+            <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico">
+          </a>
+        </span>
+        <span>
+          <a href="http://smilecoc.vip/">smilecoc</a>
+        </span>
+        <span class="bull">
+        ·</span>
+        2020-3-2<span class="bull">
+        ·</span>
+      <span id="busuanzi_value_page_pv"></span>次阅读</p>
+    </header>
   </div>
-  <header class="pattern-header ">
-    <h1 class="cat-title">随想.zh</h1>
-    <span class="cat-des">
-      <p>随想.en</p>
-    </span>
-  </header>
-</div>
+
 <div id="content" class="site-content">
   <div id="primary" class="content-area">
     <main id="main" class="site-main" role="main">
-      
-  <!-- 首页默认取最最新文章集 -->
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2019/08/06/2019年随想/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
+      <article id="post-1" class="post-1 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+        <div class="toc"></div>
+        <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
+        
+        <div class="entry-content">
+          <p>首先打开京东的任意几个商品页面，并观URL，可以发现都是<a href="https://item.jd.com/+数字+.htm的格式，而且数字也随着商品的改变而改变，基本上可以确定这串数字是商品ID" target="_blank" rel="noopener">https://item.jd.com/+数字+.htm的格式，而且数字也随着商品的改变而改变，基本上可以确定这串数字是商品ID</a><br><img src="/upload_image/%EF%BD%82%EF%BD%8C%EF%BD%8F%EF%BD%87%EF%BC%92%EF%BC%90%EF%BC%90%EF%BC%93/1.png" alt></p>
+<p>之后我们找到网页的源码并随便复制一句评论，在网页源码中查找，发现并没有找到评论内容，说明jd的评论页面并非静态网页</p>
+<p>AJAX：<br>AJAX的全称是Asynchronous JavaScript and XML（异步的 JavaScript 和 XML）。<br>ajax不是新的编程语言，而是一种使用现有标准的新方法。ajax是与服务器交换数据并更新部分网页的艺术，在不重新加载整个页面的情况下。<br>ajax是一种在无需重新加载整个网页的情况下，能够更新部分网页的技术。<br>ajax是一种用于创建快速动态网页的技术。通过在后台与服务器进行少量数据交换。ajax可以使网页实现异步更新。这意味着可以在不重新加载整个网页的情况下，对网页的某部分进行更新。而传统的网页（不使用ajax）如果需要更新内容，必须重载整个网页面。</p>
+<p>既然确定是AJAX的方式加载，我们可以直接打开chrome的调试工具，在network中的XHR和JS中寻找保存有评论的文件。注意这里必须先下拉到评论页面使数据文件加载下来，否则会找不到加载的数据文件</p>
+<p>我们可以通过两种方式来查找包含评论的文件：<br>１.可以在ｊｓ和ＸＨＲ中寻找ｃｏｍｍｅｎｔ关键字，查看是否有文件符合要求，并对符合要求的结果筛选<br>２.评论在页面的最下方，根据文件的加载顺序可以大致了解到会在后面，从后面开始找即可</p>
+<p>最终确定ｊｓ文件，如下图所示<br><img src="/upload_image/%EF%BD%82%EF%BD%8C%EF%BD%8F%EF%BD%87%EF%BC%92%EF%BC%90%EF%BC%90%EF%BC%93/2.png" alt><br>这样我们就可以确定评论的请求地址并开始抓取</p>
+<pre><code class="python">import requests
+import json
+
+url=&#39;https://item.jd.com/52297931949.html&#39;
+jsonurl=&#39;https://club.jd.com/comment/productPageComments.action?productId=52297931949&amp;score=0&amp;sortType=5&amp;page=0&amp;pageSize=10&amp;isShadowSku=0&amp;fold=1&#39;
+
+html=requests.get(jsonurl).text
+#print(html)
+josntext=json.loads(html)
+comments= josntext[&#39;comments&#39;]
+for comment in comments:
+    content = comment[&#39;content&#39;]
+    print(content)</code></pre>
+<p>这里需要注意一下原始的jsonurl得到的文件并不是标准的json文件格式，我们可以将得到的文本内容复制到<a href="https://www.json.cn/" target="_blank" rel="noopener">https://www.json.cn</a>发现这并不是一个标准的josn文件，所以直接loads()会直接报错：json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)，只要返<br>回的对象不是josn对象就会出现此错误<br>解决的方法有两个，一是将URL中的?callback=fetchJSON_comment98去除，另外一种方法是将返回的文本对象中的fetchJSON_comment98替换为空</p>
+<p>得到所需要的json文件后就可以将数据存到sqllite中了<br>sqllite是python内置的关系型数据库，具有以下优点：</p>
+<ul>
+<li><p>不需要一个单独的服务器进程或操作的系统（无服务器的）。</p>
+</li>
+<li><p>SQLite不需要配置，这意味着不需要安装或管理。</p>
+</li>
+<li><p>一个完整的SQLite数据库是存储在一个单一的跨平台的磁盘文件。</p>
+</li>
+<li><p>SQLite是非常小的，是轻量级的，完全配置时小于 400KiB，省略可选功能配置时小于250KiB。</p>
+</li>
+<li><p>SQLite是自给自足的，这意味着不需要任何外部的依赖。</p>
+</li>
+<li><p>SQLite事务是完全兼容 ACID 的，允许从多个进程或线程安全访问。</p>
+</li>
+<li><p>SQLite支持 SQL92（SQL2）标准的大多数查询语言的功能。</p>
+</li>
+<li><p>SQLite使用 ANSI-C 编写的，并提供了简单和易于使用的 API。</p>
+</li>
+<li><p>SQLite 在 UNIX（Linux, Mac OS-X, Android,iOS）和 Windows（Win32, WinCE,WinRT）中运行。</p>
+</li>
+</ul>
+<p>python操作SQLite流程与连接其他的数据库相同，大概分为以下五步</p>
+<ul>
+<li><p>通过sqlite3.open()创建与数据库文件的连接对象connection；</p>
+</li>
+<li><p>通过connection.cursor()创建光标对象cursor；</p>
+</li>
+<li><p>通过cursor.execute()执行SQL语句；</p>
+</li>
+<li><p>通过connection.commit()提交当前的事务，或者通过cursor.fetchall()获得查询结果；</p>
+</li>
+<li><p>通过connection.close()关闭与数据库文件的连接</p>
+</li>
+</ul>
+<p>这一部分代码如下所示</p>
+<pre><code class="python">conn=sqlite3.connect(&quot;comments.db&quot;)#建立连接，数据库存在时，直接连接；不存在时，创建相应数据库
+#新建一张表
+conn.execute(&#39;&#39;&#39;CREATE TABLE Comments_jd
+
+      (ID text PRIMARY KEY     NOT NULL,
+      comment text     );&#39;&#39;&#39;)
+
+#注意sql语句中使用了格式化输出的占位符%s和%d来表示将要插入的变量，其中%s需要加引号&#39;&#39;
+for comment in comments:
+    sql = &quot;insert into Comments_jd(ID,comment) values(&#39;%s&#39;,&#39;%s&#39;)&quot; % (comment[&#39;id&#39;],comment[&#39;content&#39;])
+    conn.execute(sql)conn.commit()
+
+# 关闭数据库连接
+conn.close()</code></pre>
+<p>之后检查以下数据是否有问题：</p>
+<pre><code class="python">conn=sqlite3.connect(&quot;comments.db&quot;)
+cursor = conn.execute(&quot;select *  from Comments_jd&quot;)
+for row in cursor:
+    print(&#39;ID = &#39;, row[0], &#39;  Comment = &#39;, row[1])
+conn.close()</code></pre>
+<p>得到的结果如下图所示<br><img src="/upload_image/%EF%BD%82%EF%BD%8C%EF%BD%8F%EF%BD%87%EF%BC%92%EF%BC%90%EF%BC%90%EF%BC%93/3.png" alt></p>
+<p>这样整个流程就搞定了</p>
+<p>最终的代码如下：</p>
+<pre><code class="python">import requests
+import json
+import sqlite3
+
+def get_comments(good_id):
+    #good_url_template = &#39;https://item.jd.com/{}.html&#39;.format(good_id)
+    jsonurl=&#39;https://club.jd.com/comment/productPageComments.action?productId={}&amp;score=0&amp;sortType=5&amp;page=0&amp;pageSize=10&amp;isShadowSku=0&amp;fold=1&#39;.format(good_id)
+    html=requests.get(jsonurl).text
+    return html
+
+def data_stored(html):
+    conn = sqlite3.connect(&quot;comments.db&quot;)  # 建立连接，数据库存在时，直接连接；不存在时，创建相应数据库
+    # 新建一张表
+    conn.execute(&#39;&#39;&#39;CREATE TABLE Comments_jd
+
+          (ID text PRIMARY KEY     NOT NULL,
+          comment text     );&#39;&#39;&#39;)
+    josntext=json.loads(html)
+    comments= josntext[&#39;comments&#39;]
+    #注意sql语句中使用了格式化输出的占位符%s和%d来表示将要插入的变量，其中%s需要加引号&#39;&#39;
+    for comment in comments:
+        sql = &quot;insert into Comments_jd(ID,comment) values(&#39;%s&#39;,&#39;%s&#39;)&quot; % (comment[&#39;id&#39;],comment[&#39;content&#39;])
+        conn.execute(sql)
+        conn.commit()
+
+    # 关闭数据库连接
+    conn.close()
+
+if __name__ == &#39;__main__&#39;:
+    html=get_comments(str(52297931949))
+    data_stored(html)</code></pre>
+
         </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/article/blogstart20190806.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2019/08/06/2019年随想/">
-    2019年，小破站建立撒花~</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2019-8-6</div>
-    <p>
-    小破站建立撒花~</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2019/08/06/2019年随想/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
+        <!-- .entry-content -->
+        <div class="single-reward">
+          <div class="reward-open">赏<div class="reward-main">
+              <ul class="reward-row">
+                <li class="alipay-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/AliPayQR.jpg"></li>
+                <li class="wechat-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/wechatpayQR.jpg"></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
+        <footer class="post-footer">
+          <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
+          <div class="post-tags">
+          </div>
+          <div class="post-share">
+            <div class="social-share sharehidden share-component"></div>
+            <i class="iconfont show-share icon-forward"></i>
+          </div>
+        </footer><!-- .entry-footer -->
+      </article>
+      <!-- #post-## -->
+      <div class="toc" style="background: none;"></div>
+      <section class="post-squares nextprev">
+        
+          
+            <div class="post-nepre half previous">
+          
+            <a href="/2020/03/03/VBA中使用SQL/" rel="prev">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5/images/article/vbasql20200303.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5/images/article/vbasql20200303.jpg">
+              </div>
+              <span class="label">
+              Previous Post</span>
+              <div class="info">
+                <h3>
+                在VBA中使用SQL</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+        
+          
+            <div class="post-nepre half next">
+          
+            <a href="/2020/02/24/Chrome插件资源/" rel="next">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5/images/article/chromecj20200224.png" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5/images/article/chromecj20200224.png">
+              </div>
+              <span class="label">
+              Next Post</span>
+              <div class="info">
+                <h3>
+                Chrome插件资源</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+      </section>
+      
+<div id="vcomments"></div>
+<script>
+  window.onload = function(){
+      var valine = new Valine();
+      valine.init({
+        el: '#vcomments',
+        appId: "Hm83GoGeDX3sGPDh3Q50lSMz-gzGzoHsz",
+        appKey: "mXIVaYaFj1DNyH6yBicfUS0w",
+        path: window.location.pathname,
+        placeholder: "你是我一生只会遇见一次的惊喜 ..."
+      })
+  }
+</script>
 
-
-      <div class="clearer">
-      </div>
-    </main>
-    <!--  -->
-    
-  </div>
+      <section class="author-profile">
+        <div class="info" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <a href="http://smilecoc.vip/" class="profile gravatar"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico" itemprop="image" alt="smilecoc" height="70" width="70"></a>
+          <div class="meta">
+            <span class="title">Author</span>
+            <h3 itemprop="name">
+            <a href="http://smilecoc.vip/" itemprop="url" rel="author">smilecoc</a>
+            </h3>
+          </div>
+        </div>
+        <hr>
+        <p><i class="iconfont icon-write"></i></p>
+      </section>
+    </main><!-- #main -->
+  </div><!-- #primary -->
 </div>
 
-<!-- 
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2019/08/06/2019年随想/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/article/blogstart20190806.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2019/08/06/2019年随想/">
-    2019年，小破站建立撒花~</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2019-8-6</div>
-    <p>
-    小破站建立撒花~</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2019/08/06/2019年随想/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
 
- -->
+
     </div>    
     <div class="ins-search">
     <div class="ins-search-mask"></div>
