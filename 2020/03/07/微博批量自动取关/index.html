@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">Tag: VBA | Smilecoc&#39;s Blog</title>
+  <title itemprop="name">微博批量自动取关 | Smilecoc&#39;s Blog</title>
   
     <link rel="shortcut icon" href="/images/favicon.ico">
   
@@ -415,64 +415,176 @@
   </div>
 </header>
 
-      
+      <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
 <div class="pattern-center-blank"></div>
-<div class="pattern-center ">
-  <div class="pattern-attachment-img">
-    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="VBA.img" class="lazyload" onerror="imgError(this,3)" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+
+  <div class="pattern-center single-center">
+    <!-- 有配图默认渲染第一张 -->
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.1/images/article/weibo_selenium20200120.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.1/images/article/weibo_selenium20200120.jpg">
+    </div>
+    <header class="pattern-header single-header">
+      <h1 class="entry-title">
+      微博批量自动取关</h1>
+      <p class="entry-census">
+        <span>
+          <a href="http://smilecoc.vip/">
+            <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico">
+          </a>
+        </span>
+        <span>
+          <a href="http://smilecoc.vip/">smilecoc</a>
+        </span>
+        <span class="bull">
+        ·</span>
+        2020-3-7<span class="bull">
+        ·</span>
+      <span id="busuanzi_value_page_pv"></span>次阅读</p>
+    </header>
   </div>
-  <header class="pattern-header ">
-    <h1 class="cat-title">VBA</h1>
-  </header>
-</div>
+
 <div id="content" class="site-content">
   <div id="primary" class="content-area">
     <main id="main" class="site-main" role="main">
-      
-  <!-- 首页默认取最最新文章集 -->
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/03/03/VBA中使用SQL/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
+      <article id="post-1" class="post-1 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+        <div class="toc"></div>
+        <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
+        
+        <div class="entry-content">
+          <p>之前偶然登陆微博发现微博里有60多个关注的对象，然而都不是自己关注的人(万恶的微博 🤔)，然后又没有发现全选 取关的按钮，于是做了个自动帮助我们取关的脚本，顺便练习一下selenium库的使用~<br>废话不多说，上代码~</p>
+<pre><code class="python">
+from selenium import webdriver
+import time
+from selenium.webdriver import ActionChains
+
+browser = webdriver.Chrome()
+#登陆
+browser.get(&#39;http://weibo.com/login.php&#39;)
+#//*[@style]   查找所有包含style的所有元素，所有的属性要加@
+browser.find_element_by_xpath(&#39;//*[@id=&quot;loginname&quot;]&#39;).clear()
+#输入登录账号
+browser.find_element_by_xpath(&#39;//*[@id=&quot;loginname&quot;]&#39;).send_keys(&#39;Your ID&#39;)
+browser.find_element_by_xpath(&#39;//*[@id=&quot;pl_login_form&quot;]/div/div[3]/div[2]/div/input&#39;).clear()
+time.sleep(1)
+#输入登陆密码
+browser.find_element_by_xpath(&#39;//*[@id=&quot;pl_login_form&quot;]/div/div[3]/div[2]/div/input&#39;).send_keys(&#39;your password&#39;)
+time.sleep(1)
+browser.find_element_by_xpath(&#39;//*[@id=&quot;pl_login_form&quot;]/div/div[3]/div[6]/a&#39;).click()
+time.sleep(1)
+browser.find_element_by_xpath(&#39;//*[@id=&quot;v6_pl_rightmod_myinfo&quot;]/div/div/div[2]/ul/li[1]/a/strong&#39;).click()
+time.sleep(1)
+#browser.find_element_by_link_text(&quot;设置&quot;)    通过文本定位元素
+
+#取关数量
+for cou in range(1,10):
+     #定位悬停时的元素
+    ActionChains(browser).move_to_element(browser.find_element_by_xpath(&#39;//*[@id=&quot;Pl_Official_RelationMyfollow__95&quot;]/div/div/div/div[3]/ul/li[1]/div[1]/div[2]/div[5]/p/a[3]/em&#39;)).perform()
+    time.sleep(2)
+    browser.find_element_by_link_text(&quot;取消关注&quot;).click()
+    time.sleep(1)
+    #browser.find_element_by_xpath(&#39;//*[@id=&quot;layer_15660574768511&quot;]/div[2]/div[4]/a[1]&#39;).click()
+    browser.find_element_by_link_text(&quot;确定&quot;).click()
+browser.quit()</code></pre>
+<p>整个流程中的问题主要有两个：</p>
+<p>1.有一个鼠标悬停时才显示的取消关注界面，使用ActionChains(browser).move_to_element().perform()方法解决</p>
+<p>2.最后还有一个确定窗口跳出来，之前以为是弹窗，但是后来发现其实并不是，直接定位元素就可以了</p>
+
         </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.1/images/article/vbasql20200303.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/03/03/VBA中使用SQL/">
-    在VBA中使用SQL</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-3-3</div>
-    <p>
-    在vba中调用sql处理数据</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/03/03/VBA中使用SQL/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
+        <!-- .entry-content -->
+        <div class="single-reward">
+          <div class="reward-open">赏<div class="reward-main">
+              <ul class="reward-row">
+                <li class="alipay-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/AliPayQR.jpg"></li>
+                <li class="wechat-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/wechatpayQR.jpg"></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
+        <footer class="post-footer">
+          <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
+          <div class="post-tags">
+          </div>
+          <div class="post-share">
+            <div class="social-share sharehidden share-component"></div>
+            <i class="iconfont show-share icon-forward"></i>
+          </div>
+        </footer><!-- .entry-footer -->
+      </article>
+      <!-- #post-## -->
+      <div class="toc" style="background: none;"></div>
+      <section class="post-squares nextprev">
+        
+          
+            <div class="post-nepre half previous">
+          
+            <a href="/2020/03/07/数据库设计范式/" rel="prev">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.1/images/article/databasefs20200307.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.1/images/article/databasefs20200307.jpg">
+              </div>
+              <span class="label">
+              Previous Post</span>
+              <div class="info">
+                <h3>
+                数据库设计范式</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+        
+          
+            <div class="post-nepre half next">
+          
+            <a href="/2020/03/07/使用Python调用百度地图Api获取两地距离/" rel="next">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.1/images/article/baidumap20200306.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.1/images/article/baidumap20200306.jpg">
+              </div>
+              <span class="label">
+              Next Post</span>
+              <div class="info">
+                <h3>
+                使用Python调用百度地图Api获取两地距离</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+      </section>
+      
+<div id="vcomments"></div>
+<script>
+  window.onload = function(){
+      var valine = new Valine();
+      valine.init({
+        el: '#vcomments',
+        appId: "Hm83GoGeDX3sGPDh3Q50lSMz-gzGzoHsz",
+        appKey: "mXIVaYaFj1DNyH6yBicfUS0w",
+        path: window.location.pathname,
+        placeholder: "你是我一生只会遇见一次的惊喜 ..."
+      })
+  }
+</script>
 
-
-      <div class="clearer">
-      </div>
-    </main>
-    <!--  -->
-    
-  </div>
+      <section class="author-profile">
+        <div class="info" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <a href="http://smilecoc.vip/" class="profile gravatar"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico" itemprop="image" alt="smilecoc" height="70" width="70"></a>
+          <div class="meta">
+            <span class="title">Author</span>
+            <h3 itemprop="name">
+            <a href="http://smilecoc.vip/" itemprop="url" rel="author">smilecoc</a>
+            </h3>
+          </div>
+        </div>
+        <hr>
+        <p><i class="iconfont icon-write"></i></p>
+      </section>
+    </main><!-- #main -->
+  </div><!-- #primary -->
 </div>
+
+
+
     </div>    
     <div class="ins-search">
     <div class="ins-search-mask"></div>

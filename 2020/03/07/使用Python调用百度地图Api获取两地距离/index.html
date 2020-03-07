@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">Tag: VBA | Smilecoc&#39;s Blog</title>
+  <title itemprop="name">使用Python调用百度地图Api获取两地距离 | Smilecoc&#39;s Blog</title>
   
     <link rel="shortcut icon" href="/images/favicon.ico">
   
@@ -415,64 +415,209 @@
   </div>
 </header>
 
-      
+      <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
 <div class="pattern-center-blank"></div>
-<div class="pattern-center ">
-  <div class="pattern-attachment-img">
-    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="VBA.img" class="lazyload" onerror="imgError(this,3)" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+
+  <div class="pattern-center single-center">
+    <!-- 有配图默认渲染第一张 -->
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.1/images/article/baidumap20200306.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.1/images/article/baidumap20200306.jpg">
+    </div>
+    <header class="pattern-header single-header">
+      <h1 class="entry-title">
+      使用Python调用百度地图Api获取两地距离</h1>
+      <p class="entry-census">
+        <span>
+          <a href="http://smilecoc.vip/">
+            <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico">
+          </a>
+        </span>
+        <span>
+          <a href="http://smilecoc.vip/">smilecoc</a>
+        </span>
+        <span class="bull">
+        ·</span>
+        2020-3-7<span class="bull">
+        ·</span>
+      <span id="busuanzi_value_page_pv"></span>次阅读</p>
+    </header>
   </div>
-  <header class="pattern-header ">
-    <h1 class="cat-title">VBA</h1>
-  </header>
-</div>
+
 <div id="content" class="site-content">
   <div id="primary" class="content-area">
     <main id="main" class="site-main" role="main">
-      
-  <!-- 首页默认取最最新文章集 -->
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/03/03/VBA中使用SQL/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
+      <article id="post-1" class="post-1 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+        <div class="toc"></div>
+        <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
+        
+        <div class="entry-content">
+          <p>最近新接了一个需求需要获取两个地址间的步行距离，可以通过调用高德地图，百度地图的api接口实现这些功能，特此记录。</p>
+<h2 id="1-获取百度api接口"><a href="#1-获取百度api接口" class="headerlink" title="1.获取百度api接口"></a>1.获取百度api接口</h2><p>首先需要在百度的公众平台<a href="http://lbsyun.baidu.com/" target="_blank" rel="noopener">http://lbsyun.baidu.com/</a>上点击控制台，如果是新用户的话需要进行注册和验证。注册和验证完毕后可以点击创建应用，填写应用名称等相关信息，应用类型根据需要进行设置，有浏览器端和服务器端两种。在这里特别说明的是，在IP白名单框里最好设置为：0.0.0.0/0，因为有时候把自己己的IP地址输进去可能也不行。<br>创建应用完成后我们就可以得到刚刚创建的应用的密钥（AK）</p>
+<h2 id="2-获取起始地点的地理编码"><a href="#2-获取起始地点的地理编码" class="headerlink" title="2.获取起始地点的地理编码"></a>2.获取起始地点的地理编码</h2><p>首先是找到获取步行距离的官方文档<a href="http://lbsyun.baidu.com/index.php?title=webapi/directionlite-v1" target="_blank" rel="noopener">http://lbsyun.baidu.com/index.php?title=webapi/directionlite-v1</a>，但是发现对应的api接口里需要起始地点的地理编码，所以首先需要获取对应起始位置的地理编码<a href="http://lbsyun.baidu.com/index.php?title=webapi/guide/webservice-geocoding" target="_blank" rel="noopener">http://lbsyun.baidu.com/index.php?title=webapi/guide/webservice-geocoding</a>。如果有其他的需求，例如找路线规划等等都可以通过说明文档进行修改</p>
+<pre><code class="python">def getapiurl(myaddress):
+    url=r&quot;http://api.map.baidu.com/geocoding/v3/?address={}&amp;output=json&amp;ak={}&quot;.format(myaddress,myAK)#说明文档里给出的api接口
+    print(url)
+    return url
+
+def getPosition(url):
+    &#39;&#39;&#39;返回经纬度信息&#39;&#39;&#39;
+    res = requests.get(url)
+    json_data = json.loads(res.text)
+
+    if json_data[&#39;status&#39;] == 0:
+        lat = json_data[&#39;result&#39;][&#39;location&#39;][&#39;lat&#39;]  # 纬度
+        lng = json_data[&#39;result&#39;][&#39;location&#39;][&#39;lng&#39;]  # 经度
+    else:
+        print(&quot;Error output!&quot;)
+        return json_data[&#39;status&#39;]
+    return lat, lng</code></pre>
+<h2 id="3-获取起始地点的步行距离"><a href="#3-获取起始地点的步行距离" class="headerlink" title="3.获取起始地点的步行距离"></a>3.获取起始地点的步行距离</h2><pre><code class="python">def getdistance(startlat,startlng,endlat,endlng):
+    #{: .6f}保留小数点后六位
+    distanceurl=r&quot;http://api.map.baidu.com/directionlite/v1/walking?origin={:.6f},{:.6f}&amp;destination={:.6f},{:.6f}&amp;ak={}&quot;.format(startlat,startlng,endlat,endlng,myAK)
+    res = requests.get(distanceurl)
+    dis_json_data = json.loads(res.text)
+    if dis_json_data[&#39;status&#39;] == 0:
+        distance=dis_json_data[&#39;result&#39;][&#39;routes&#39;][0][&#39;distance&#39;]
+        print(distance)</code></pre>
+<p>这里通过api获取的json文件中的结构与说明文档中的结构有一些出入，所以还是要按照实际的情况灵活修改呀。</p>
+<p>全部代码如下：</p>
+<pre><code class="python"># -*- coding: utf-8 -*-
+# @Time    : 2020/3/6 16:12
+# @FileName: baidu_map_distance.py
+# @Software: PyCharm
+import requests
+import json
+
+def getapiurl(myaddress):
+    url=r&quot;http://api.map.baidu.com/geocoding/v3/?address={}&amp;output=json&amp;ak={}&quot;.format(myaddress,myAK)#说明文档里给出的api接口
+    return url
+
+def getPosition(url):
+    &#39;&#39;&#39;返回经纬度信息&#39;&#39;&#39;
+    res = requests.get(url)
+    json_data = json.loads(res.text)
+
+    if json_data[&#39;status&#39;] == 0:
+        lat = json_data[&#39;result&#39;][&#39;location&#39;][&#39;lat&#39;]  # 纬度
+        lng = json_data[&#39;result&#39;][&#39;location&#39;][&#39;lng&#39;]  # 经度
+    else:
+        print(&quot;Error output!&quot;)
+        return json_data[&#39;status&#39;]
+    return lat, lng
+
+def getdistance(startlat,startlng,endlat,endlng):
+    #{: .6f}保留小数点后六位
+    distanceurl=r&quot;http://api.map.baidu.com/directionlite/v1/walking?origin={:.6f},{:.6f}&amp;destination={:.6f},{:.6f}&amp;ak={}&quot;.format(startlat,startlng,endlat,endlng,myAK)
+    res = requests.get(distanceurl)
+    dis_json_data = json.loads(res.text)
+    if dis_json_data[&#39;status&#39;] == 0:
+        distance=dis_json_data[&#39;result&#39;][&#39;routes&#39;][0][&#39;distance&#39;]
+        print(distance)
+
+if __name__==&#39;__main__&#39;:
+    myAK = &#39;**个人的百度私钥**&#39;
+    starturl=getapiurl(str(&#39;上海市杨浦区长阳路860号&#39;))
+    startlat,startlng=getPosition(starturl)
+    endurl=getapiurl(str(&#39;上海市普陀区梅川路1558号&#39;))
+    endlat, endlng = getPosition(endurl)
+    getdistance(startlat, startlng, endlat, endlng)</code></pre>
+
         </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.1/images/article/vbasql20200303.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/03/03/VBA中使用SQL/">
-    在VBA中使用SQL</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-3-3</div>
-    <p>
-    在vba中调用sql处理数据</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/03/03/VBA中使用SQL/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
+        <!-- .entry-content -->
+        <div class="single-reward">
+          <div class="reward-open">赏<div class="reward-main">
+              <ul class="reward-row">
+                <li class="alipay-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/AliPayQR.jpg"></li>
+                <li class="wechat-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/wechatpayQR.jpg"></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
+        <footer class="post-footer">
+          <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
+          <div class="post-tags">
+          </div>
+          <div class="post-share">
+            <div class="social-share sharehidden share-component"></div>
+            <i class="iconfont show-share icon-forward"></i>
+          </div>
+        </footer><!-- .entry-footer -->
+      </article>
+      <!-- #post-## -->
+      <div class="toc" style="background: none;"></div>
+      <section class="post-squares nextprev">
+        
+          
+            <div class="post-nepre half previous">
+          
+            <a href="/2020/03/07/微博批量自动取关/" rel="prev">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.1/images/article/weibo_selenium20200120.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.1/images/article/weibo_selenium20200120.jpg">
+              </div>
+              <span class="label">
+              Previous Post</span>
+              <div class="info">
+                <h3>
+                微博批量自动取关</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+        
+          
+            <div class="post-nepre half next">
+          
+            <a href="/2020/03/03/VBA中使用SQL/" rel="next">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.1/images/article/vbasql20200303.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.1/images/article/vbasql20200303.jpg">
+              </div>
+              <span class="label">
+              Next Post</span>
+              <div class="info">
+                <h3>
+                在VBA中使用SQL</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+      </section>
+      
+<div id="vcomments"></div>
+<script>
+  window.onload = function(){
+      var valine = new Valine();
+      valine.init({
+        el: '#vcomments',
+        appId: "Hm83GoGeDX3sGPDh3Q50lSMz-gzGzoHsz",
+        appKey: "mXIVaYaFj1DNyH6yBicfUS0w",
+        path: window.location.pathname,
+        placeholder: "你是我一生只会遇见一次的惊喜 ..."
+      })
+  }
+</script>
 
-
-      <div class="clearer">
-      </div>
-    </main>
-    <!--  -->
-    
-  </div>
+      <section class="author-profile">
+        <div class="info" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <a href="http://smilecoc.vip/" class="profile gravatar"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico" itemprop="image" alt="smilecoc" height="70" width="70"></a>
+          <div class="meta">
+            <span class="title">Author</span>
+            <h3 itemprop="name">
+            <a href="http://smilecoc.vip/" itemprop="url" rel="author">smilecoc</a>
+            </h3>
+          </div>
+        </div>
+        <hr>
+        <p><i class="iconfont icon-write"></i></p>
+      </section>
+    </main><!-- #main -->
+  </div><!-- #primary -->
 </div>
+
+
+
     </div>    
     <div class="ins-search">
     <div class="ins-search-mask"></div>
