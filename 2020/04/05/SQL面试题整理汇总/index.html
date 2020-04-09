@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">Tag: python其他 | Smilecoc&#39;s Blog</title>
+  <title itemprop="name">数据分析面试题整理汇总 | Smilecoc&#39;s Blog</title>
   
     <link rel="shortcut icon" href="/images/favicon.ico">
   
@@ -415,97 +415,206 @@
   </div>
 </header>
 
-      
+      <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
 <div class="pattern-center-blank"></div>
-<div class="pattern-center ">
-  <div class="pattern-attachment-img">
-    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="python其他.img" class="lazyload" onerror="imgError(this,3)" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+
+  <div class="pattern-center single-center">
+    <!-- 有配图默认渲染第一张 -->
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.3/images/article/dams20200405.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.3/images/article/dams20200405.jpg">
+    </div>
+    <header class="pattern-header single-header">
+      <h1 class="entry-title">
+      数据分析面试题整理汇总</h1>
+      <p class="entry-census">
+        <span>
+          <a href="http://smilecoc.vip/">
+            <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico">
+          </a>
+        </span>
+        <span>
+          <a href="http://smilecoc.vip/">smilecoc</a>
+        </span>
+        <span class="bull">
+        ·</span>
+        2020-4-5<span class="bull">
+        ·</span>
+      <span id="busuanzi_value_page_pv"></span>次阅读</p>
+    </header>
   </div>
-  <header class="pattern-header ">
-    <h1 class="cat-title">python其他</h1>
-  </header>
-</div>
+
 <div id="content" class="site-content">
   <div id="primary" class="content-area">
     <main id="main" class="site-main" role="main">
+      <article id="post-1" class="post-1 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+        <div class="toc"></div>
+        <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
+        
+        <div class="entry-content">
+          <h2 id="第一题：活动运营数据分析"><a href="#第一题：活动运营数据分析" class="headerlink" title="第一题：活动运营数据分析"></a>第一题：活动运营数据分析</h2><p>表1——订单表orders，要用到的字段有（user_id‘用户编号’, order_pay‘订单金额’ , order_time‘下单时间’）。<br>表2——活动报名表act_apply，要用到的字段有（act_id‘活动编号’, user_id‘报名用户’,act_time‘报名时间’）<br>注意这里的表1和表2都还有其他的字段</p>
+<p>需求：</p>
+<ol>
+<li><p>统计每个活动对应所有用户在报名后产生的总订单金额，总订单数。（每个用户限报一个活动,题干默认用户报名后产生的订单均为参加活动的订单）。</p>
+</li>
+<li><p>统计每个活动从开始后到今天平均每天产生的订单数，活动开始时间定义为最早有用户报名的时间。（涉及到时间的数据类型均为：datetime）。</p>
+</li>
+</ol>
+<p>答案：<br>1.</p>
+<pre><code class="sql">select t2.act_id,sum(order_pay) as total_cost,count(order_time) as order_num
+from 
+(select user_id，order_pay，order_time from orders) as t1
+inner join
+(select act_id,user_id,act_time) as t2
+on t1.user_id=t2.user_id
+where t1.order_time&gt;=t2.act_time
+group by t2.act_id</code></pre>
+<p>2.</p>
+<pre><code class="sql">select t1.act_id,count(order_time)/dateiff(now(),t1.begin_time) as avg_ordercount
+from
+(select act_id,user_id,act_time,min(act_time) over (partition by act_id) as begin_time from act_apply) as t1
+inner join
+(select user_id,order_time from orders) as t2
+on t1.user_id=t2.user_id
+where t1.act_time between t1.begin_time and now()
+and t2.order_time &gt;= t1.act_time
+group by t1.act_id</code></pre>
+<ul>
+<li>第二题涉及到over函数的使用</li>
+</ul>
+<h2 id="第二题：用户行为分析"><a href="#第二题：用户行为分析" class="headerlink" title="第二题：用户行为分析"></a>第二题：用户行为分析</h2><p>表1——用户行为表tracking_log，大概字段有（user_id‘用户编号’,opr_id‘操作编号’,log_time‘操作时间’）</p>
+<p>需求：</p>
+<p>1、计算每天的访客数和他们的平均操作次数。</p>
+<p>2、统计每天符合以下条件的用户数：A操作之后是B操作，AB操作必须相邻。</p>
+<p>答案：<br>1.</p>
+<pre><code class="sql">select date(log_time),count(distinct user_id) as user_num,avg(num_ci) as avg_operqationcount
+from
+(select date(log_time),user_id,count(opr_id) as num_ci from tracking_log group by date(log_time),user_id)
+group by date(log_time)</code></pre>
+<p>2.</p>
+<pre><code class="sql">select date(log_time),count(distinct user_id) as user_num
+from
+(select user_id,date(log_time),opr_id,lead(opr_id,1) over(partition by user_id order by lod_time) as opr_id_2 from tracking_log)
+where opr_id=&#39;A&#39; and opr_id_2=&#39;B&#39;
+group by date(log_time)</code></pre>
+<ul>
+<li>使用lead()  over()实现</li>
+</ul>
+<h2 id="第三题：用户新增留存分析"><a href="#第三题：用户新增留存分析" class="headerlink" title="第三题：用户新增留存分析"></a>第三题：用户新增留存分析</h2><p>表1——用户登陆表user_log，大概字段有（user_id‘用户编号’，log_time‘登陆时间’）</p>
+<p>要求：</p>
+<p>每天新增用户数，以及他们第2天、30天的回访比例</p>
+<p>如何定义新增用户：用户登陆表中最早的登陆时间所在的用户数为当天新增用户数；</p>
+<p>第2天回访用户数：第一天登陆的用户中，第二天依旧登陆的用户；–次日留存率</p>
+<p>第30天的回访用户数：第一天登陆用户中，第30天依旧登陆的用户；</p>
+<pre><code class="sql">select date(t1.user_begin),count(distinct t1.user_id) as new_user,count(distinct t2.user_id) as twodays_retained_users,count(distinct t3.user_id) as thrityday_retained_users
+from
+(select user_id,min(log_time) as user_begin from user_log group by user_id) t1
+left join
+(select user_id,log_time from user_log) t2
+on t1.user_id=t2.user_id
+and date(t2.log_time)=date(t1.user_begin)+1
+left join
+(select user_id,log_time from user_log) t3
+on t1.user_id=t3.user_id
+and date(t3.log_time)=date(t1.user_begin)+29
+group by date(t1.user_begin)</code></pre>
+<h2 id="第四题：数学计算题"><a href="#第四题：数学计算题" class="headerlink" title="第四题：数学计算题"></a>第四题：数学计算题</h2><p>已知A,B厂生产的产品的次品率分别是1%和2%，现在由A,B产品分别占60%、40%的样品中随机抽一件，若取到的是次品，求此次品是B厂生产的概率。</p>
+<p>已知：P(A)=0.6,P(B)=0.4,P(次/A)=0.01,P(次/B)=0.02</p>
+<p>求：P(B/次)</p>
+<p>答案：P(B/次)=P(次/B)P(B)/(P(次/B)P(B)+P(次/A)P(A))</p>
+<ul>
+<li>贝叶斯公式的应用</li>
+</ul>
+<h2 id="第五题：AB-test"><a href="#第五题：AB-test" class="headerlink" title="第五题：AB  test"></a>第五题：AB  test</h2><p>某网站优化了商品详情页，现在新旧两个版本同时运行，新版页面覆盖了10%的用户，旧版覆盖90%的用户。现在需要了解，新版页面是否能够提高商品详情页到支付页的转化率，并决定是否要覆盖旧版，你能为决策提供哪些信息，需要收集哪些指标，给出统计方法及过程。</p>
+<p>解答：</p>
+<p>使用A/B测试模型，分析两个版本在一段时间期限内，详情页面到支付页面的转化率变化，并计算转化率变化后引起的的GMV变化。</p>
+<p>可选择的决策：①确定发布新版本；②调整分流比例继续测试；③优化迭代方案重新开发。</p>
+<p>要统计的指标：期限内新、旧版本商品详情页到支付页转化率 ，支付金额。</p>
+<p>要衡量的指标：转化率变化 t 在是可接受的置信区间内是否显著，同时参考收益提升率。</p>
+<p>指标计算方法：转化率=从某详情页到支付页用户数/浏览该商品详情页用户数（取日平均和标准差）</p>
+<p>支付金额=从某详情页到支付页到支付成功路径用户的本次支付金额（取日平均）</p>
+<p>采用决策①的情况：本次页面改进在显著性水平内，证明了‘转化率提升的假设’。并且收益提升率达到预期水平。</p>
+<p>采用决策②的情况：本次页面改进在显著性水平内，无法证明‘转化率提升的假设’。分析原因可能是新版本样本空间不足。</p>
+<p>采用决策③的情况：本次页面改进在显著性水平内，证明了‘转化率提升的假设’。但是收益提升率没有达到预期水平。s</p>
+
+        </div>
+        <!-- .entry-content -->
+        <div class="single-reward">
+          <div class="reward-open">赏<div class="reward-main">
+              <ul class="reward-row">
+                <li class="alipay-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/AliPayQR.jpg"></li>
+                <li class="wechat-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/wechatpayQR.jpg"></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
+        <footer class="post-footer">
+          <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
+          <div class="post-tags">
+          </div>
+          <div class="post-share">
+            <div class="social-share sharehidden share-component"></div>
+            <i class="iconfont show-share icon-forward"></i>
+          </div>
+        </footer><!-- .entry-footer -->
+      </article>
+      <!-- #post-## -->
+      <div class="toc" style="background: none;"></div>
+      <section class="post-squares nextprev">
+        
+        
+          
+            <div class="post-nepre full next">
+          
+            <a href="/2020/04/04/SQL面试44题/" rel="next">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.3/images/article/sqlms4420200404.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.3/images/article/sqlms4420200404.jpg">
+              </div>
+              <span class="label">
+              Next Post</span>
+              <div class="info">
+                <h3>
+                SQL面试44题</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+      </section>
       
-  <!-- 首页默认取最最新文章集 -->
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/03/07/微博批量自动取关/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.1/images/article/weibo_selenium20200120.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/03/07/微博批量自动取关/">
-    微博批量自动取关</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-3-7</div>
-    <p>
-    使用Python的selenium库实现网页自动化</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/03/07/微博批量自动取关/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/03/07/使用Python调用百度地图Api获取两地距离/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.1/images/article/baidumap20200306.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/03/07/使用Python调用百度地图Api获取两地距离/">
-    使用Python调用百度地图Api获取两地距离并打包为可执行程序</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-3-7</div>
-    <p>
-    使用Python调用百度地图Api获取两地距离，并打包为可直接运行的exe可执行程序</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/03/07/使用Python调用百度地图Api获取两地距离/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
+<div id="vcomments"></div>
+<script>
+  window.onload = function(){
+      var valine = new Valine();
+      valine.init({
+        el: '#vcomments',
+        appId: "Hm83GoGeDX3sGPDh3Q50lSMz-gzGzoHsz",
+        appKey: "mXIVaYaFj1DNyH6yBicfUS0w",
+        path: window.location.pathname,
+        placeholder: "你是我一生只会遇见一次的惊喜 ..."
+      })
+  }
+</script>
 
-
-      <div class="clearer">
-      </div>
-    </main>
-    <!--  -->
-    
-  </div>
+      <section class="author-profile">
+        <div class="info" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <a href="http://smilecoc.vip/" class="profile gravatar"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico" itemprop="image" alt="smilecoc" height="70" width="70"></a>
+          <div class="meta">
+            <span class="title">Author</span>
+            <h3 itemprop="name">
+            <a href="http://smilecoc.vip/" itemprop="url" rel="author">smilecoc</a>
+            </h3>
+          </div>
+        </div>
+        <hr>
+        <p><i class="iconfont icon-write"></i></p>
+      </section>
+    </main><!-- #main -->
+  </div><!-- #primary -->
 </div>
+
+
+
     </div>    
     <div class="ins-search">
     <div class="ins-search-mask"></div>

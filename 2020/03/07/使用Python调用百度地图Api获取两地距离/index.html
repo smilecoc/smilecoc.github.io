@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">使用Python调用百度地图Api获取两地距离 | Smilecoc&#39;s Blog</title>
+  <title itemprop="name">使用Python调用百度地图Api获取两地距离并打包为可执行程序 | Smilecoc&#39;s Blog</title>
   
     <link rel="shortcut icon" href="/images/favicon.ico">
   
@@ -425,7 +425,7 @@
     </div>
     <header class="pattern-header single-header">
       <h1 class="entry-title">
-      使用Python调用百度地图Api获取两地距离</h1>
+      使用Python调用百度地图Api获取两地距离并打包为可执行程序</h1>
       <p class="entry-census">
         <span>
           <a href="http://smilecoc.vip/">
@@ -480,47 +480,48 @@ def getPosition(url):
         distance=dis_json_data[&#39;result&#39;][&#39;routes&#39;][0][&#39;distance&#39;]
         print(distance)</code></pre>
 <p>这里通过api获取的json文件中的结构与说明文档中的结构有一些出入，所以还是要按照实际的情况灵活修改呀。</p>
-<p>全部代码如下：</p>
-<pre><code class="python"># -*- coding: utf-8 -*-
-# @Time    : 2020/3/6 16:12
-# @FileName: baidu_map_distance.py
-# @Software: PyCharm
-import requests
-import json
-
-def getapiurl(myaddress):
-    url=r&quot;http://api.map.baidu.com/geocoding/v3/?address={}&amp;output=json&amp;ak={}&quot;.format(myaddress,myAK)#说明文档里给出的api接口
-    return url
-
-def getPosition(url):
-    &#39;&#39;&#39;返回经纬度信息&#39;&#39;&#39;
-    res = requests.get(url)
-    json_data = json.loads(res.text)
-
-    if json_data[&#39;status&#39;] == 0:
-        lat = json_data[&#39;result&#39;][&#39;location&#39;][&#39;lat&#39;]  # 纬度
-        lng = json_data[&#39;result&#39;][&#39;location&#39;][&#39;lng&#39;]  # 经度
-    else:
-        print(&quot;Error output!&quot;)
-        return json_data[&#39;status&#39;]
-    return lat, lng
-
-def getdistance(startlat,startlng,endlat,endlng):
-    #{: .6f}保留小数点后六位
-    distanceurl=r&quot;http://api.map.baidu.com/directionlite/v1/walking?origin={:.6f},{:.6f}&amp;destination={:.6f},{:.6f}&amp;ak={}&quot;.format(startlat,startlng,endlat,endlng,myAK)
-    res = requests.get(distanceurl)
-    dis_json_data = json.loads(res.text)
-    if dis_json_data[&#39;status&#39;] == 0:
-        distance=dis_json_data[&#39;result&#39;][&#39;routes&#39;][0][&#39;distance&#39;]
-        print(distance)
-
-if __name__==&#39;__main__&#39;:
-    myAK = &#39;**个人的百度私钥**&#39;
-    starturl=getapiurl(str(&#39;上海市杨浦区长阳路860号&#39;))
-    startlat,startlng=getPosition(starturl)
-    endurl=getapiurl(str(&#39;上海市普陀区梅川路1558号&#39;))
-    endlat, endlng = getPosition(endurl)
-    getdistance(startlat, startlng, endlat, endlng)</code></pre>
+<p>这样主体程序就完成了，接着加上读取数据和用户交互窗口</p>
+<h2 id="4-利用pandas读取并处理数据"><a href="#4-利用pandas读取并处理数据" class="headerlink" title="4.利用pandas读取并处理数据"></a>4.利用pandas读取并处理数据</h2><pre><code class="python">def get_address(file_path):
+    data=pd.read_excel(file_path)
+    startaddress=data[&#39;地区&#39;]+data[&#39;出发行政区域&#39;]+data[&#39;出发地址&#39;]
+    endaddress=data[&#39;地区&#39;]+data[&#39;到达行政区域&#39;]+data[&#39;到达地址&#39;]
+    distance=[]
+    #遍历series输入需要查询的起始地点
+    for i in range(1,len(startaddress)+1):
+        startlat, startlng = getPosition(startaddress[i-1])
+        endlat, endlng = getPosition(endaddress[i-1])
+        #将输出结果拼接为list
+        distance.append(getdistance(startlat, startlng, endlat, endlng))
+    dfdistance=pd.DataFrame(distance)
+    #使用concat拼接两个dataframe，其中axis=1表示横向拼接，如果不加此参数或者为0表示纵向拼接
+    result=pd.concat([data,dfdistance],axis=1)
+    #更改列名称
+    result.rename(columns={0: &#39;distance&#39;}, inplace=True)
+    result.to_excel(parent_path + &#39;/结果文件.xlsx&#39;,index=None)</code></pre>
+<p>这里因为api接口只能一个一个距离导入，所以首先将结果拼接成list再与之前的数组利用concat拼接。在使用pandas时很重要的一点是pandas的最小使用维度在一列数据中，所以只有比较好的数据结构时使用pandas才会比较方便</p>
+<h2 id="4-用户交互窗口"><a href="#4-用户交互窗口" class="headerlink" title="4.用户交互窗口"></a>4.用户交互窗口</h2><p>最后是利用tkinter实现用户交互窗口，实现一个窗口可以让用户选取文件并将生成的结果文件保存到同一文件夹下</p>
+<pre><code>#获取文件路径
+def get_filename():
+    root = tk.Tk()
+    root.withdraw()
+    #file_path为文件的路径，parent_path为文件所在的文件夹路径
+    file_path = filedialog.askopenfilename()
+    parent_path = os.path.dirname(file_path)
+    return file_path, parent_path</code></pre><p>实现的效果如下：<br>![](/upload_image/blog 2004/1.png)<br>这样整个程序就 完工了!</p>
+<p>接下来是将生成的数据打包为直接可执行的文件，因为一般用户不会自己装python和配置。<br>1.首先按下win+R键，输入cmd打开命令运行窗口，输入cd+文件路径进入指定的文件夹<br>![](/upload_image/blog 2004/2.png)<br>2.安装pyinstaller库：</p>
+<pre><code>pip install pyinstaller</code></pre><p>这里我之前已经安装过pyinstaller库，所以直接跳过这一步<br>如果已经安装过pyinstaller库，那么在上一步时就要进到pyinstaller库安装的那一个文件夹运行。</p>
+<p>3.打包：</p>
+<pre><code>python pyinstaller.py -F baidu_map_distance.py</code></pre><p>这里要注意：<br>一是baidu_map_distance.py为要打包的程序名称。<br>第二是因为现在我的程序是放在安装 pyinstaller的文件夹下的，所以填的是相对路径，如果是要打包其他文件夹中的程序，需要使用绝对路径<br>三是F的含义为将原文件打包为exe文件，还有其他几个可选参数</p>
+<ul>
+<li>-F的含义为将原文件打包为exe文件</li>
+<li>-D：创建一个目录，包含exe文件，但会依赖很多文件，这是默认选项</li>
+<li>-c：使用控制台，这也是默认选项</li>
+<li>-w：使用窗口，无控制台</li>
+</ul>
+<p>使用-F的好处是会将所有的依赖文件打包到exe里，使用起来比较方便，只要给最终的exe文件就可以了。但是相应的坏处就是文件会比较大，比较慢。<br>而-D的话生成之后需要依赖文件夹里的其他文件，需要传输所有的文件给别人才能使用，只有一个exe文件的话就会无法运行。</p>
+<p>程序运行完成后的文件夹会多出三个文件夹<br>![](/upload_image/blog 2004/3.png)<br>在dist文件夹里就可以找到打包完的程序了<br>![](/upload_image/blog 2004/4.png)<br>其他两个文件夹为过程文件，可以不用管它了</p>
+<p>这样我们就大功告成了！</p>
+<p>最新文章更新在我的博客：<a href="http://smilecoc.vip/2020/03/07/%E4%BD%BF%E7%94%A8Python%E8%B0%83%E7%94%A8%E7%99%BE%E5%BA%A6%E5%9C%B0%E5%9B%BEApi%E8%8E%B7%E5%8F%96%E4%B8%A4%E5%9C%B0%E8%B7%9D%E7%A6%BB/" target="_blank" rel="noopener">http://smilecoc.vip/2020/03/07/%E4%BD%BF%E7%94%A8Python%E8%B0%83%E7%94%A8%E7%99%BE%E5%BA%A6%E5%9C%B0%E5%9B%BEApi%E8%8E%B7%E5%8F%96%E4%B8%A4%E5%9C%B0%E8%B7%9D%E7%A6%BB/</a><br>源码及使用的数据文件地址：<br><a href="https://github.com/smilecoc/baidumapapi_getdistance" target="_blank" rel="noopener">https://github.com/smilecoc/baidumapapi_getdistance</a></p>
 
         </div>
         <!-- .entry-content -->

@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">在VBA中使用SQL | Smilecoc&#39;s Blog</title>
+  <title itemprop="name">SQL面试44题 | Smilecoc&#39;s Blog</title>
   
     <link rel="shortcut icon" href="/images/favicon.ico">
   
@@ -421,11 +421,11 @@
 
   <div class="pattern-center single-center">
     <!-- 有配图默认渲染第一张 -->
-    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.1/images/article/vbasql20200303.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.1/images/article/vbasql20200303.jpg">
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.3/images/article/sqlms4420200404.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.3/images/article/sqlms4420200404.jpg">
     </div>
     <header class="pattern-header single-header">
       <h1 class="entry-title">
-      在VBA中使用SQL</h1>
+      SQL面试44题</h1>
       <p class="entry-census">
         <span>
           <a href="http://smilecoc.vip/">
@@ -437,7 +437,7 @@
         </span>
         <span class="bull">
         ·</span>
-        2020-3-3<span class="bull">
+        2020-4-4<span class="bull">
         ·</span>
       <span id="busuanzi_value_page_pv"></span>次阅读</p>
     </header>
@@ -451,115 +451,409 @@
         <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
         
         <div class="entry-content">
-          <p>VBA在处理大量的数据/计算时如果使用常规方法会比较慢，因此需要对其进行性能优化以提高运行速度，一般的方法是数组计算或者sql计算。SQL计算的速度最快，限制也是最多的，数组速度其次，灵活性也更高</p>
-<p>如果要在vba中调用sql处理数据基本可以遵循一个套路，只要修改其中的SQL语句即可</p>
-<p>调用sql处理数据VBA代码如下，其中’#####    #####中的地方是每次运行时要根据情况修改的：</p>
-<pre><code class="VBScript">Sub Sql_Query()
-
- Dim Conn As Object, Rst As Object
- Dim strConn As String, strSQL As String
- Dim i As Integer, PathStr As String
- Set Conn = CreateObject(&quot;ADODB.Connection&quot;)
- Set Rst = CreateObject(&quot;ADODB.Recordset&quot;)
- PathStr = ThisWorkbook.FullName &#39;设置工作簿的完整路径和名称
- Select Case Application.Version * 1 &#39;设置连接字符串,根据版本创建连接(不同版本的excel连接是不同的)
- Case Is &lt;= 11
-    strConn = &quot;Provider=Microsoft.Jet.Oledb.4.0;Extended Properties=excel 8.0;Data source=&quot; &amp; PathStr
- Case Is &gt;= 12
-    strConn = &quot;Provider=Microsoft.ACE.OLEDB.12.0;Data Source=&quot; &amp; PathStr &amp; &quot;;Extended Properties=&quot;&quot;Excel 12.0;HDR=YES&quot;&quot;;&quot;&quot;&quot;
- End Select
-
- strSQL = &quot;Select * FROM [rawdata$]&quot;   &#39;####在这里改SQL查询语句####
-
-
- Conn.Open strConn &#39;打开数据库链接
- Set Rst = Conn.Execute(strSQL)     &#39;执行查询，并将结果输出到记录集对象
- With ThisWorkbook.Sheets(&quot;sql data&quot;)     &#39;#####在这里更改输出的位置对应的表名####
-      .Cells.Clear
-      For i = 0 To Rst.Fields.Count - 1    &#39;填写标题
-        .Cells(1, i + 1) = Rst.Fields(i).Name    &#39;在第一行输出字段名
-      Next i
-      .Range(&quot;A2&quot;).CopyFromRecordset Rst     &#39;从A2单元格开始输出
-      .Cells.EntireColumn.AutoFit &#39;自动调整列宽
- End With
- Rst.Close  &#39;关闭数据库连接
- Conn.Close
- Set Conn = Nothing
- Set Rst = Nothing
-
-End Sub</code></pre>
-<p>接下来，开始学习SQL语句语法</p>
-<h2 id="1-基于一张工作表的查询语法"><a href="#1-基于一张工作表的查询语法" class="headerlink" title="1.基于一张工作表的查询语法"></a><strong>1.基于一张工作表的查询语法</strong></h2><p>格式：  select [DISTINCT] [TOP&lt;数值&gt; [PERCENT] &lt;列标题&gt; [[as]] &lt;别名列标题&gt;] from &lt;表或查询1&gt;[AS]&lt;别名1&gt;],&lt;表或查询2&gt;[AS]&lt;别名2&gt;],[where&lt;筛选条件&gt;][order by&lt;排序项&gt;[asc ▏ desc]]                                </p>
-<p>说明：</p>
-<ul>
-<li>1、&lt;&gt;表示必选项，”[]”表示可选项，”▏”表示多选一。                                </li>
-<li>2、DISTINCT:消除取重复的行                        </li>
-<li>3、TOP 数值：显示前几条记录                        </li>
-<li>4、TOP 数值 percent：显示前面分之多少条记录                        </li>
-<li>5、&lt;列标题&gt;[[as]]&lt;别名列标题&gt;:给标题列重新命一个新名称                        </li>
-<li>6、where&lt;筛选条件&gt;：条件语句                        </li>
-<li>7、排序，如果要按两个或两个以上字段，那么字段与字段之间用豆号隔开，asc升序，为默认值，desc降序。  <h5 id="select关键字"><a href="#select关键字" class="headerlink" title="select关键字"></a>select关键字</h5>如果要显示显示所有字段的记录的语法结构如下：<pre><code>SELECT 列字段名1,列字段名2,列字段名3 FROM [工作表名称$]</code></pre>```SQL<br>select * from [sheet1$]</li>
-</ul>
-<p>–或者<br>select ID,name,address,score from [sheet1$]</p>
-<pre><code>语句1中的*号是代表全部列，语句 2中，是写上全部列字段的名称,如果工作表没有列标题，用F1,F2,F3,F4.....这样代替
-
-##### As关键字
-使用别名
-```sql
-SELECT 姓名 AS Name FROM [Sheet1$]</code></pre><p><strong>注意事项：</strong><br><strong>1.在SQL语句中SQL语句英文不区分大小写，但标点符号必须是英文半角状态下输入，字段名也必须跟原来的一样。</strong><br><strong>2.使用SQL语句的时候，必须避免列字段中使用下面的特殊字符：<br>空格、双引号（”）、撇（’）、数字标记（#）、百分号(%)、大于号（&gt;）、小于号(&lt;)、叹号(!)、句号(.)、方括号（[或]）、星号（*）、美元符号($)、分号（;）、脱字号（^）、圆括号（（或））、加号（+）、反斜杠（\或/）。<br>如果在源数据表的列字段使用了这些特殊字符，那么在使用SQL语句列出各字段的数据时，就会发生错误。为了规范使用SQL语句，在对数据源字段命名时，尽量避免使用这些特殊字符。</strong></p>
-<h5 id="distinct关键字"><a href="#distinct关键字" class="headerlink" title="distinct关键字"></a>distinct关键字</h5><p>功能是去重复值只保留一条记录。语法结构为：</p>
-<pre><code>SELECT DISTINCT 要去重复值的字段1,要去重复值的字段2 FROM [工作表名$]</code></pre><pre><code class="sql">Select Distinct name,ID From [sheet1$]</code></pre>
-<h5 id="where关键字"><a href="#where关键字" class="headerlink" title="where关键字"></a>where关键字</h5><p>本帖最后由 335081548 于 2013-10-10 20:53 编辑</p>
-<p>按条件筛选 使用SQL关键词 WHERE查询中的条件指定要满足什么标准信息，去掉不满足条件的数据（删除用户不要的数据）。<br>WHERE语句中可以有多个条件，条件之间可以用操作符AND 或者OR进行连接。<br>WHERE语句的语法结构如下：</p>
-<pre><code>SELECT 列字段名称 FROM [表名称$] WHERE 列字段名 运算符 值</code></pre><p>运算符包含大于、小于、等于、不等于、大于或等于、小于或等于、IN、 BETWEEN、AND等。</p>
-<pre><code class="sql">SELECT * FROM [Sheet1$] where 消费金额=100
---提取消费金额等于100的数据</code></pre>
-<h5 id="order-by关键字"><a href="#order-by关键字" class="headerlink" title="order by关键字"></a>order by关键字</h5><p>ORDER BY的语句使用对于ORDER BY 语句而言，默认值是升序排列，通常是不指定它。但升序的关键词为ASC,降序为DESC。语法结构如下：</p>
-<pre><code>SELECT 列字段名 FROM [工作表名称$] ORDER BY 指定列字段名 升序(降序)</code></pre><p>按成绩进行升序排序的SQL语句如下：</p>
-<pre><code class="sql">Select * FROM [Sheet1$] ORDER BY 成绩 ASC</code></pre>
-<h5 id="Top关键字"><a href="#Top关键字" class="headerlink" title="Top关键字"></a>Top关键字</h5><p>TOP按顺序提取前n行的记录,语法结构如下：</p>
-<pre><code>SELECT TOP 3 * FROM [工作表名$]</code></pre><p>如提取成绩前三名的记录</p>
-<pre><code class="sql">Select top 3 * FROM [Sheet1$A1:C17]  ORDER BY score</code></pre>
-<p>其中 [Sheet1$A1:C17]这个表示工作表名Sheet1的工作表A1：C17的这个单元格区域，加上了指定的单元格区域为数据。可以根据自己的实际情况，来改变.<br>不在同一张表上显示结果，而且数据源规范，就可以直接用[工作表名$]。或者书写的时候写上列名不用星号（”*”）<br>这两个也是和标准sql之间差别较大的地方</p>
-<p>TOP 与 PERCENT 组合在SQL语句中的使用可以按照百分比提取数据,例如按成绩降序排列提取前30%</p>
-<pre><code class="sql">Select TOP 30 PERCENT * FROM [Sheet1$A1:C17]  ORDER BY 成绩 DESC</code></pre>
-<h5 id="聚合函数"><a href="#聚合函数" class="headerlink" title="聚合函数"></a>聚合函数</h5><p>SQL聚合函数包括sum,count,avg,max,min等，与excel的公式有同样的效果，但是在大数据量的情况下速度会提升很多，而且在多条件求和时会比使用sumifs简单，直观的多<br>多条件求和的语法结构为：</p>
-<pre><code>SELECT 分类字段1, 分类字段2 , SUM(统计字段) as 产品总数 From [Sheet1$] GROUP BY 分类字段1, 分类字段2</code></pre><p>例如按照日期和姓名汇总产品数：</p>
-<pre><code class="sql">SELECT 日期, 姓名, SUM(产品数) as 产品总数 From [Sheet1$] GROUP BY 日期, 姓名</code></pre>
-<h5 id="日期数据在SQL表达式中的应用"><a href="#日期数据在SQL表达式中的应用" class="headerlink" title="日期数据在SQL表达式中的应用"></a>日期数据在SQL表达式中的应用</h5><p>在SQL表达式运算符条件中，要查询日期和时间类型的数据，需要在数据值两端加上井字符号（#）以表示日期类型。<br>日期可以有多种表示方式，最符合中国人的习惯是“年-月-日”或“年/月/日”的表示方式。也就是说年月日之间的分隔符可以用“-”或“/”。<br>例如表示2013年10月1日<br>可以采用以下表达式：<br>年月日</p>
-<p>#2013-10-1#<br>年日月</p>
-<p>#2013-1-10#<br>年月日</p>
-<p>#2013/10/1#<br>日月年</p>
-<p>#1/10/2013/#<br>月日年</p>
-<p>#10/1/2013#<br>以表达式在系统无错识别最高的应该是<br>月/日/年</p>
-<p>#10/1/2013#</p>
-<h5 id="如何查询二个日期间的数据"><a href="#如何查询二个日期间的数据" class="headerlink" title="如何查询二个日期间的数据"></a>如何查询二个日期间的数据</h5><p>Where …. AND…语句，例如查找大于等于2013年10月1日，小于等于2013年10月7日的数据，的SQL表达式为：</p>
-<pre><code class="sql">SELECT * From [Sheet1$A:C] where 日期&gt;=#10/1/2013# And 日期&lt;=#10/7/2013#</code></pre>
-<p>还可以以单元为动态引用查询两个日期内的数据,如下图所示</p>
-<pre><code class="sql"> strSQL = &quot;SELECT * From [Sheet1$A:C] where 日期&gt;=#&quot; &amp; Range(&quot;J1&quot;) &amp; &quot;# And 日期&lt;=#&quot; &amp; Range(&quot;K1&quot;) &amp; &quot;#&quot;</code></pre>
-<p><img src="/upload_image/%EF%BD%82%EF%BD%8C%EF%BD%8F%EF%BD%87%EF%BC%92%EF%BC%90%EF%BC%90%EF%BC%93/4.png" alt></p>
-<h5 id="like关键字"><a href="#like关键字" class="headerlink" title="like关键字"></a>like关键字</h5><p>Like 操作符用于在 WHERE 子句中搜索列中的模糊匹配</p>
-<pre><code>Select 列字段名 From [工作表名$] Where 列字段 Like &#39;关键字&#39;</code></pre><p>可以加上通配符% （相当于函数公式中的通配符*）</p>
-<pre><code>strSQL = &quot;Select * from [Sheet1$] Where 姓名 like &#39;[AB]%&#39;&quot;</code></pre><p>这一语句表示匹配姓名以A开头或B开头的数据<br>同样的可以反向查询姓名不以A开头或B开头的数据</p>
-<pre><code>strSQL = &quot;Select * from [Sheet1$] Where 姓名 like &#39;[!AB]%&#39;&quot;
---or
-strSQL = &quot;Select * from [Sheet1$] Where not 姓名 like &#39;[AB]%&#39;&quot;</code></pre><h5 id="in关键字"><a href="#in关键字" class="headerlink" title="in关键字"></a>in关键字</h5><p>In运算符允许 在 WHERE 子句中规定多个值,语法如下：</p>
-<pre><code>Select 字段 From [表名$] Where 字段 In(条件1, 条件2,条件3, ....)</code></pre><p>如果在In的条件中不是数值类型，一定要加上引号。<br>eg:</p>
-<pre><code>Select *  FROM [Sheet1$A:D] where 省份 in(&#39;广东&#39;,&#39;广西&#39;)</code></pre><h2 id="2-两表的上下拼接"><a href="#2-两表的上下拼接" class="headerlink" title="2.两表的上下拼接"></a><strong>2.两表的上下拼接</strong></h2><p>将两表连接起来的语句一般是UNION和UNION ALL<br>UNION ALL是查询所有记录（直接连接，可以重复），UNION只查询不重复（指整条记录不重复，取唯一）的记录，两种语句如果有重复记录，则查询结果就不一样。<br>在数据库中，UNION和UNION ALL关键字都是将两个结果集合并为一个，但这两者从使用和效率上来说都有所不同。<br>UNION在运行时先取出几个表的结果，再用排序空间进行排序删除重复的记录，最后返回结果集，如果表数据量大的话可能会导致用磁盘进行排序。<br>而UNION ALL只是简单的将两个结果合并后就返回。这样，如果返回的两个结果集中有重复的数据，那么返回的结从效率上说，UNION ALL 要比UNION快很多，所以，如果可以确认合并的两个结果集中不包含重复的数据的话，那么就使用UNION ALL。<br>例如将sheet1与sheet2中的数据连接起来：</p>
-<pre><code class="sql">SELECT 日期,姓名,产品数 From [Sheet1$] UNION SELECT 日期,姓名,产品数 From [Sheet2$]</code></pre>
-<p>这个是在两张表的格式一样的情况下直接连接，但是有些情况下两表的格式并不一样，这个时候可以使用下列语句：<br>例如sheet1中有日期，姓名两个字段，而sheet2中有姓名，产品数两个字段，需要上下连接两个表格：</p>
-<pre><code class="sql">SELECT 日期,姓名,null as 产品数 From [Sheet1$] UNION SELECT null as 日期,姓名,产品数 From [Sheet2$]</code></pre>
-<p>即使用null加列拼成格式相同的两个表格再连接</p>
-<h2 id="3-两表的左右拼接"><a href="#3-两表的左右拼接" class="headerlink" title="3.两表的左右拼接"></a><strong>3.两表的左右拼接</strong></h2><p>两表的左右拼接即是join关键字<br>SQL代替Vlookup 精确查找（左连接 “Left Outer JOIN” 用法），语法结构为：</p>
-<pre><code>Select 表名 .字段1,表名 .字段2,表名 .字段3,表名 .字段4 FROM 查询表 AS 别名1  Left Outer JOIN 被查询表 AS 别名2 ON  别名1.字段名=别名2.字段名</code></pre><p>例如：</p>
-<pre><code class="sql">SELECT A.姓名,B.性别,B.部门 FROM [Sheet2$] AS A Left Outer JOIN [Sheet1$] AS B ON A.姓名=B.姓名
---简写为
-SELECT A.姓名,性别,部门 FROM [Sheet2$]A Left JOIN [Sheet1$]B ON A.姓名=B.姓名</code></pre>
-<p>join除了left join外还有right join，inner join,outer join等，之间的区别与sql语句都是一致的</p>
-<h2 id="3-数据透视表"><a href="#3-数据透视表" class="headerlink" title="3.数据透视表"></a><strong>3.数据透视表</strong></h2><p>TRANSFORM语句可以实现像透视表一样的显示结果，语法结构为：</p>
-<pre><code>TRANSFORM 汇总方式  SELECT 行标签 from 表名 group by 行字段 PIVOT 列标签</code></pre><p>这一语句是非常常用的方法，要注意TRANSFORM后的汇总方式为一个聚合函数(一般为sum),同时后续的SELECT语句中不要加入a字段/b字段或者having语句，否则会导致语句错误无法运行<br>eg:</p>
-<pre><code>TRANSFORM Sum(数量) Select 产品名称 from [Sheet1$] group by 产品名称 PIVOT 款号</code></pre><p>TRANSFORM语句话还可以加入一些自定义的设置：</p>
-<pre><code>TRANSFORM 汇总方式  SELECT 行标签 from 表名 group by 行字段 PIVOT 列标签 in [列标签值1，列标签值2，列标签值3.....]</code></pre><p>使用in可以限制列标签的内容，同时可以规定列字段值的展示顺序</p>
+          <h2 id="01-建表语句"><a href="#01-建表语句" class="headerlink" title="01 建表语句"></a>01 建表语句</h2><pre><code class="sql">create table Student(sid varchar(10),sname varchar(10),sage datetime,ssex nvarchar(10));
+insert into Student values(&#39;01&#39; , &#39;赵雷&#39; , &#39;1990-01-01&#39; , &#39;男&#39;);
+insert into Student values(&#39;02&#39; , &#39;钱电&#39; , &#39;1990-12-21&#39; , &#39;男&#39;);
+insert into Student values(&#39;03&#39; , &#39;孙风&#39; , &#39;1990-05-20&#39; , &#39;男&#39;);
+insert into Student values(&#39;04&#39; , &#39;李云&#39; , &#39;1990-08-06&#39; , &#39;男&#39;);
+insert into Student values(&#39;05&#39; , &#39;周梅&#39; , &#39;1991-12-01&#39; , &#39;女&#39;);
+insert into Student values(&#39;06&#39; , &#39;吴兰&#39; , &#39;1992-03-01&#39; , &#39;女&#39;);
+insert into Student values(&#39;07&#39; , &#39;郑竹&#39; , &#39;1989-07-01&#39; , &#39;女&#39;);
+insert into Student values(&#39;08&#39; , &#39;王菊&#39; , &#39;1990-01-20&#39; , &#39;女&#39;);
+create table Course(cid varchar(10),cname varchar(10),tid varchar(10));
+insert into Course values(&#39;01&#39; , &#39;语文&#39; , &#39;02&#39;);
+insert into Course values(&#39;02&#39; , &#39;数学&#39; , &#39;01&#39;);
+insert into Course values(&#39;03&#39; , &#39;英语&#39; , &#39;03&#39;);
+create table Teacher(tid varchar(10),tname varchar(10));
+insert into Teacher values(&#39;01&#39; , &#39;张三&#39;);
+insert into Teacher values(&#39;02&#39; , &#39;李四&#39;);
+insert into Teacher values(&#39;03&#39; , &#39;王五&#39;);
+create table SC(sid varchar(10),cid varchar(10),score decimal(18,1));
+insert into SC values(&#39;01&#39; , &#39;01&#39; , 80);
+insert into SC values(&#39;01&#39; , &#39;02&#39; , 90);
+insert into SC values(&#39;01&#39; , &#39;03&#39; , 99);
+insert into SC values(&#39;02&#39; , &#39;01&#39; , 70);
+insert into SC values(&#39;02&#39; , &#39;02&#39; , 60);
+insert into SC values(&#39;02&#39; , &#39;03&#39; , 80);
+insert into SC values(&#39;03&#39; , &#39;01&#39; , 80);
+insert into SC values(&#39;03&#39; , &#39;02&#39; , 80);
+insert into SC values(&#39;03&#39; , &#39;03&#39; , 80);
+insert into SC values(&#39;04&#39; , &#39;01&#39; , 50);
+insert into SC values(&#39;04&#39; , &#39;02&#39; , 30);
+insert into SC values(&#39;04&#39; , &#39;03&#39; , 20);
+insert into SC values(&#39;05&#39; , &#39;01&#39; , 76);
+insert into SC values(&#39;05&#39; , &#39;02&#39; , 87);
+insert into SC values(&#39;06&#39; , &#39;01&#39; , 31);
+insert into SC values(&#39;06&#39; , &#39;03&#39; , 34);
+insert into SC values(&#39;07&#39; , &#39;02&#39; , 89);
+insert into SC values(&#39;07&#39; , &#39;03&#39; , 98);</code></pre>
+<h2 id="02-表结构预览"><a href="#02-表结构预览" class="headerlink" title="02 表结构预览"></a>02 表结构预览</h2><pre><code class="sql">--学生表
+Student(SId,Sname,Sage,Ssex)
+--SId 学生编号,Sname 学生姓名,Sage 出生年月,Ssex 学生性别
+--课程表
+Course(CId,Cname,TId)
+--CId 课程编号,Cname 课程名称,TId 教师编号
+--教师表
+Teacher(TId,Tname)
+--TId 教师编号,Tname 教师姓名
+--成绩表
+SC(SId,CId,score)
+--SId 学生编号,CId 课程编号,score 分数</code></pre>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><h3 id="1-查询“01”课程比“02”课程成绩高的所有学生的学号；"><a href="#1-查询“01”课程比“02”课程成绩高的所有学生的学号；" class="headerlink" title="1. 查询“01”课程比“02”课程成绩高的所有学生的学号；"></a>1. 查询“01”课程比“02”课程成绩高的所有学生的学号；</h3><pre><code class="sql">select distinct t1.sid as sidfrom 
+    (select * from sc where cid=&#39;01&#39;)t1
+left join 
+    (select * from sc where cid=&#39;02&#39;)t2
+on t1.sid=t2.sid
+where t1.score&gt;t2.score</code></pre>
+<h3 id="2-查询平均成绩大于60分的同学的学号和平均成绩；"><a href="#2-查询平均成绩大于60分的同学的学号和平均成绩；" class="headerlink" title="2. 查询平均成绩大于60分的同学的学号和平均成绩；"></a>2. 查询平均成绩大于60分的同学的学号和平均成绩；</h3><pre><code class="sql">select 
+    sid
+    ,avg(score)
+from sc
+group by sid
+having avg(score)&gt;60</code></pre>
+<h3 id="3-查询所有同学的学号、姓名、选课数、总成绩"><a href="#3-查询所有同学的学号、姓名、选课数、总成绩" class="headerlink" title="3. 查询所有同学的学号、姓名、选课数、总成绩"></a>3. 查询所有同学的学号、姓名、选课数、总成绩</h3><pre><code class="sql">select
+    student.sid as sid
+    ,sname
+    ,count(distinct cid) course_cnt
+    ,sum(score) as total_score
+from student
+left join sc
+on student.sid=sc.sid
+group by sid,sname</code></pre>
+<h3 id="4-查询姓“李”的老师的个数；"><a href="#4-查询姓“李”的老师的个数；" class="headerlink" title="4. 查询姓“李”的老师的个数；"></a>4. 查询姓“李”的老师的个数；</h3><pre><code class="sql">select
+    count(distinct tid) as teacher_cnt
+from teacher
+where tname like &#39;李%&#39;</code></pre>
+<h3 id="5-查询没学过“张三”老师课的同学的学号、姓名；"><a href="#5-查询没学过“张三”老师课的同学的学号、姓名；" class="headerlink" title="5. 查询没学过“张三”老师课的同学的学号、姓名；"></a>5. 查询没学过“张三”老师课的同学的学号、姓名；</h3><pre><code class="sql">select
+    sid,sname
+from student
+where sid not in 
+    (
+        select
+            sc.sid
+        from teacher
+        left join course
+            on teacher.tid=course.tid
+        left join sc
+            on course.cid=sc.cid
+        where teacher.tname=&#39;张三&#39;
+    )</code></pre>
+<h3 id="6-查询学过“01”并且也学过编号“02”课程的同学的学号、姓名；"><a href="#6-查询学过“01”并且也学过编号“02”课程的同学的学号、姓名；" class="headerlink" title="6. 查询学过“01”并且也学过编号“02”课程的同学的学号、姓名；"></a>6. 查询学过“01”并且也学过编号“02”课程的同学的学号、姓名；</h3><pre><code class="sql">select
+    t.sid as sid
+    ,sname
+from 
+    (
+        select
+            sid
+            ,count(if(cid=&#39;01&#39;,score,null)) as count1
+            ,count(if(cid=&#39;02&#39;,score,null)) as count2
+        from sc
+        group by sid
+        having count(if(cid=&#39;01&#39;,score,null))&gt;0 and count(if(cid=&#39;02&#39;,score,null))&gt;0
+    )t
+left join student
+    on t.sid=student.sid</code></pre>
+<h3 id="7-查询学过“张三”老师所教的课的同学的学号、姓名；"><a href="#7-查询学过“张三”老师所教的课的同学的学号、姓名；" class="headerlink" title="7. 查询学过“张三”老师所教的课的同学的学号、姓名；"></a>7. 查询学过“张三”老师所教的课的同学的学号、姓名；</h3><pre><code class="sql">select
+    student.sid
+    ,sname
+from 
+    (
+        select
+            distinct cid 
+        from course
+        left join teacher 
+        on course.tid=teacher.tid
+        where teacher.tname=&#39;张三&#39;
+    )course
+left join sc 
+    on course.cid=sc.cid
+left join student
+    on sc.sid=student.sid
+group by student.sid,sname</code></pre>
+<h3 id="8-查询课程编号“01”的成绩比课程编号“02”课程低的所有同学的学号、姓名；"><a href="#8-查询课程编号“01”的成绩比课程编号“02”课程低的所有同学的学号、姓名；" class="headerlink" title="8. 查询课程编号“01”的成绩比课程编号“02”课程低的所有同学的学号、姓名；"></a>8. 查询课程编号“01”的成绩比课程编号“02”课程低的所有同学的学号、姓名；</h3><pre><code class="sql">select
+    t1.sid,sname
+from 
+    (
+        select distinct t1.sid as sid
+        from 
+            (select * from sc where cid=&#39;01&#39;)t1
+        left join 
+            (select * from sc where cid=&#39;02&#39;)t2
+        on t1.sid=t2.sid
+        where t1.score&gt;t2.score
+    )t1
+left join student
+    on t1.sid=student.sid</code></pre>
+<h3 id="9-查询所有课程成绩小于60分的同学的学号、姓名；"><a href="#9-查询所有课程成绩小于60分的同学的学号、姓名；" class="headerlink" title="9. 查询所有课程成绩小于60分的同学的学号、姓名；"></a>9. 查询所有课程成绩小于60分的同学的学号、姓名；</h3><pre><code class="sql">select
+    t1.sid,sname
+from 
+    (
+        select
+            sid,max(score)
+        from sc
+        group by sid
+        having max(score&lt;60)
+    )t1
+left join student
+    on t1.sid=student.sid</code></pre>
+<h3 id="10-查询没有学全所有课的同学的学号、姓名；"><a href="#10-查询没有学全所有课的同学的学号、姓名；" class="headerlink" title="10. 查询没有学全所有课的同学的学号、姓名；"></a>10. 查询没有学全所有课的同学的学号、姓名；</h3><pre><code class="sql">select
+    t1.sid,sname
+from 
+    (
+        select
+            count(cid),sid
+        from sc
+        group by sid
+        having count(cid) &lt; (select count(distinct cid) from course)
+    )t1
+left join student
+    on t1.sid=student.sid</code></pre>
+<h3 id="11-查询至少有一门课与学号为“01”的同学所学相同的同学的学号和姓名；"><a href="#11-查询至少有一门课与学号为“01”的同学所学相同的同学的学号和姓名；" class="headerlink" title="11. 查询至少有一门课与学号为“01”的同学所学相同的同学的学号和姓名；"></a>11. 查询至少有一门课与学号为“01”的同学所学相同的同学的学号和姓名；</h3><pre><code class="sql">select
+    distinct sc.sid
+from 
+    (
+        select
+            cid
+        from sc
+        where sid=&#39;01&#39;
+    )t1
+left join sc
+    on t1.cid=sc.cid</code></pre>
+<h3 id="12-查询和”01”号的同学学习的课程完全相同的其他同学的学号和姓名"><a href="#12-查询和”01”号的同学学习的课程完全相同的其他同学的学号和姓名" class="headerlink" title="12. 查询和”01”号的同学学习的课程完全相同的其他同学的学号和姓名"></a>12. 查询和”01”号的同学学习的课程完全相同的其他同学的学号和姓名</h3><pre><code class="sql">#注意是和&#39;01&#39;号同学课程完全相同但非学习课程数相同的,这里我用左连接解决这个问题select
+    t1.sid,sname
+from
+    (
+        select
+            sc.sid
+            ,count(distinct sc.cid)
+        from 
+            (
+                select
+                    cid
+                from sc
+                where sid=&#39;01&#39;
+            )t1 #选出01的同学所学的课程
+        left join sc
+            on t1.cid=sc.cid
+        group by sc.sid
+        having count(distinct sc.cid)= (select count(distinct cid) from sc where sid = &#39;01&#39;)
+    )t1
+left join student
+    on t1.sid=student.sid
+where t1.sid!=&#39;01&#39;</code></pre>
+<h3 id="13-把“SC”表中“张三”老师教的课的成绩都更改为此课程的平均成绩；"><a href="#13-把“SC”表中“张三”老师教的课的成绩都更改为此课程的平均成绩；" class="headerlink" title="13. 把“SC”表中“张三”老师教的课的成绩都更改为此课程的平均成绩；"></a>13. 把“SC”表中“张三”老师教的课的成绩都更改为此课程的平均成绩；</h3><p>#暂跳过update题目</p>
+<h3 id="14-查询没学过”张三”老师讲授的任一门课程的学生姓名"><a href="#14-查询没学过”张三”老师讲授的任一门课程的学生姓名" class="headerlink" title="14. 查询没学过”张三”老师讲授的任一门课程的学生姓名"></a>14. 查询没学过”张三”老师讲授的任一门课程的学生姓名</h3><pre><code class="sql">select 
+    sname
+from student
+where sid not in
+    (
+        select
+            distinct sid
+        from sc
+        left join course
+            on sc.cid=course.cid
+        left join teacher
+            on course.tid=teacher.tid 
+        where tname=&#39;张三&#39;
+    )</code></pre>
+<h3 id="15-查询两门及其以上不及格课程的同学的学号，姓名及其平均成绩"><a href="#15-查询两门及其以上不及格课程的同学的学号，姓名及其平均成绩" class="headerlink" title="15. 查询两门及其以上不及格课程的同学的学号，姓名及其平均成绩"></a>15. 查询两门及其以上不及格课程的同学的学号，姓名及其平均成绩</h3><pre><code class="sql">select
+    t1.sid,sname,avg_score
+from 
+    (
+        select
+            sid,count(if(score&lt;60,cid,null)),avg(score) as avg_score
+        from sc
+        group by sid
+        having count(if(score&lt;60,cid,null)) &gt;=2
+    )t1
+left join student
+    on t1.sid=student.sid</code></pre>
+<h3 id="16-检索”01”课程分数小于60，按分数降序排列的学生信息"><a href="#16-检索”01”课程分数小于60，按分数降序排列的学生信息" class="headerlink" title="16. 检索”01”课程分数小于60，按分数降序排列的学生信息"></a>16. 检索”01”课程分数小于60，按分数降序排列的学生信息</h3><pre><code class="sql">select 
+    sid,if(cid=&#39;01&#39;,score,100)from sc
+where if(cid=&#39;01&#39;,score,100)&lt;60
+order by if(cid=&#39;01&#39;,score,100) desc</code></pre>
+<h3 id="17-按平均成绩从高到低显示所有学生的平均成绩"><a href="#17-按平均成绩从高到低显示所有学生的平均成绩" class="headerlink" title="17. 按平均成绩从高到低显示所有学生的平均成绩"></a>17. 按平均成绩从高到低显示所有学生的平均成绩</h3><pre><code class="sql">select sid,avg(score)
+from sc
+group by sid
+order by avg(score) desc</code></pre>
+<h3 id="18-查询各科成绩最高分、最低分和平均分：以如下形式显示：课程ID，课程name，最高分，最低分，平均分，及格率"><a href="#18-查询各科成绩最高分、最低分和平均分：以如下形式显示：课程ID，课程name，最高分，最低分，平均分，及格率" class="headerlink" title="18. 查询各科成绩最高分、最低分和平均分：以如下形式显示：课程ID，课程name，最高分，最低分，平均分，及格率"></a>18. 查询各科成绩最高分、最低分和平均分：以如下形式显示：课程ID，课程name，最高分，最低分，平均分，及格率</h3><pre><code class="sql">select
+    sc.cid
+    ,cname
+    ,max(score) as max_score
+    ,min(score) as min_score
+    ,avg(score) as avg_score
+    ,count(if(score&gt;=60,sid,null))/count(sid) as pass_rate
+ from sc 
+ left join course
+    on sc.cid=course.cid
+ group by sc.cid</code></pre>
+<h3 id="19-按各科平均成绩从低到高和及格率的百分数从高到低顺序"><a href="#19-按各科平均成绩从低到高和及格率的百分数从高到低顺序" class="headerlink" title="19. 按各科平均成绩从低到高和及格率的百分数从高到低顺序"></a>19. 按各科平均成绩从低到高和及格率的百分数从高到低顺序</h3><pre><code class="sql">#这里先按照平均成绩排序，再按照及格百分数排序，
+select 
+    cid
+    ,avg(score) as avg_score
+    ,count(if(score&gt;=60,sid,null))/count(sid) as pass_rate
+from sc
+group by cid
+order by avg_score,pass_rate desc</code></pre>
+<h3 id="20-查询学生的总成绩并进行排名"><a href="#20-查询学生的总成绩并进行排名" class="headerlink" title="20. 查询学生的总成绩并进行排名"></a>20. 查询学生的总成绩并进行排名</h3><pre><code class="sql">select
+    sid
+    ,sum(score) as sum_score
+from sc
+group by sid
+order by sum_score desc</code></pre>
+<h3 id="21-查询不同老师所教不同课程平均分从高到低显示"><a href="#21-查询不同老师所教不同课程平均分从高到低显示" class="headerlink" title="21. 查询不同老师所教不同课程平均分从高到低显示"></a>21. 查询不同老师所教不同课程平均分从高到低显示</h3><pre><code class="sql">select
+    tid
+    ,avg(score) as avg_score
+from course
+left join sc
+    on course.cid=sc.cid
+group by tid
+order by avg_score desc</code></pre>
+<h3 id="22-查询所有课程的成绩第2名到第3名的学生信息及该课程成绩"><a href="#22-查询所有课程的成绩第2名到第3名的学生信息及该课程成绩" class="headerlink" title="22. 查询所有课程的成绩第2名到第3名的学生信息及该课程成绩"></a>22. 查询所有课程的成绩第2名到第3名的学生信息及该课程成绩</h3><pre><code class="sql">select
+    sid,rank_num,score,cid
+from
+    (
+        select
+            rank() over(partition by cid order by score desc) as rank_num
+            ,sid
+            ,score
+            ,cid
+        from sc
+    )t
+where rank_num in (2,3)</code></pre>
+<h3 id="23-统计各科成绩各分数段人数：课程编号-课程名称-100-85-85-70-70-60-0-60-及所占百分比"><a href="#23-统计各科成绩各分数段人数：课程编号-课程名称-100-85-85-70-70-60-0-60-及所占百分比" class="headerlink" title="23. 统计各科成绩各分数段人数：课程编号,课程名称,[100-85],[85-70],[70-60],[0-60]及所占百分比"></a>23. 统计各科成绩各分数段人数：课程编号,课程名称,[100-85],[85-70],[70-60],[0-60]及所占百分比</h3><pre><code class="sql">select
+    sc.cid
+    ,cname
+    ,count(if(score between 85 and 100,sid,null))/count(sid)
+    ,count(if(score between 70 and 85,sid,null))/count(sid)
+    ,count(if(score between 60 and 70,sid,null))/count(sid)
+    ,count(if(score between 0 and 60,sid,null))/count(sid)
+from sc
+left join course
+    on sc.cid=course.cid
+group by sc.cid,cname</code></pre>
+<h3 id="24-查询学生平均成绩及其名次"><a href="#24-查询学生平均成绩及其名次" class="headerlink" title="24. 查询学生平均成绩及其名次"></a>24. 查询学生平均成绩及其名次</h3><pre><code class="sql">select
+    sid
+    ,avg_score
+    ,rank() over (order by avg_score desc)
+from 
+    (
+        select
+            sid
+            ,avg(score) as avg_score
+        from sc
+        group by sid
+    )t</code></pre>
+<h3 id="25-查询各科成绩前三名的记录"><a href="#25-查询各科成绩前三名的记录" class="headerlink" title="25. 查询各科成绩前三名的记录"></a>25. 查询各科成绩前三名的记录</h3><pre><code class="sql">select
+    sid,cid,rank1from 
+    (
+        select
+            cid
+            ,sid
+            ,rank() over(partition by cid order by score desc) as rank1
+        from sc
+    )twhere rank1&lt;=3</code></pre>
+<h3 id="26-查询每门课程被选修的学生数"><a href="#26-查询每门课程被选修的学生数" class="headerlink" title="26. 查询每门课程被选修的学生数"></a>26. 查询每门课程被选修的学生数</h3><pre><code class="sql">select
+    count(sid)
+    ,cid
+from sc
+group by cid</code></pre>
+<h3 id="27-查询出只选修了一门课程的全部学生的学号和姓名"><a href="#27-查询出只选修了一门课程的全部学生的学号和姓名" class="headerlink" title="27. 查询出只选修了一门课程的全部学生的学号和姓名"></a>27. 查询出只选修了一门课程的全部学生的学号和姓名</h3><pre><code class="sql">select
+    sid
+from sc
+group by sid
+having count(cid) =1</code></pre>
+<h3 id="28-查询男生、女生人数"><a href="#28-查询男生、女生人数" class="headerlink" title="28. 查询男生、女生人数"></a>28. 查询男生、女生人数</h3><pre><code class="sql">select
+    ssex
+    ,count(distinct sid)from studentgroup by ssex</code></pre>
+<h3 id="29-查询名字中含有”风”字的学生信息"><a href="#29-查询名字中含有”风”字的学生信息" class="headerlink" title="29. 查询名字中含有”风”字的学生信息"></a>29. 查询名字中含有”风”字的学生信息</h3><pre><code class="sql">select
+    sid,sname
+from student
+where sname like &#39;%风%&#39;</code></pre>
+<h3 id="30-查询同名同性学生名单，并统计同名人数"><a href="#30-查询同名同性学生名单，并统计同名人数" class="headerlink" title="30. 查询同名同性学生名单，并统计同名人数"></a>30. 查询同名同性学生名单，并统计同名人数</h3><pre><code class="sql">select
+    ssex
+    ,sname
+    ,count(sid)
+from student
+group by ssex,sname
+having count(sid)&gt;=2</code></pre>
+<h3 id="31-查询1990年出生的学生名单-注：Student表中Sage列的类型是datetime"><a href="#31-查询1990年出生的学生名单-注：Student表中Sage列的类型是datetime" class="headerlink" title="31. 查询1990年出生的学生名单(注：Student表中Sage列的类型是datetime)"></a>31. 查询1990年出生的学生名单(注：Student表中Sage列的类型是datetime)</h3><pre><code class="sql">select
+    sid,sname,sage
+from student
+where year(sage)=1990</code></pre>
+<h3 id="32-查询每门课程的平均成绩，结果按平均成绩升序排列，平均成绩相同时，按课程号降序排列"><a href="#32-查询每门课程的平均成绩，结果按平均成绩升序排列，平均成绩相同时，按课程号降序排列" class="headerlink" title="32. 查询每门课程的平均成绩，结果按平均成绩升序排列，平均成绩相同时，按课程号降序排列"></a>32. 查询每门课程的平均成绩，结果按平均成绩升序排列，平均成绩相同时，按课程号降序排列</h3><pre><code class="sql">select
+    cid,avg(score) as avg_score
+from sc
+group by cid
+order by avg_score,cid desc</code></pre>
+<h3 id="33-查询不及格的课程，并按课程号从大到小排列"><a href="#33-查询不及格的课程，并按课程号从大到小排列" class="headerlink" title="33. 查询不及格的课程，并按课程号从大到小排列"></a>33. 查询不及格的课程，并按课程号从大到小排列</h3><pre><code class="sql">select
+    cid,sid,score
+from sc
+where score&lt;60
+order by cid desc,sid</code></pre>
+<h3 id="34-查询课程编号为”01”且课程成绩在60分以上的学生的学号和姓名；"><a href="#34-查询课程编号为”01”且课程成绩在60分以上的学生的学号和姓名；" class="headerlink" title="34. 查询课程编号为”01”且课程成绩在60分以上的学生的学号和姓名；"></a>34. 查询课程编号为”01”且课程成绩在60分以上的学生的学号和姓名；</h3><pre><code class="sql">select
+    sid,cid,scorefrom scwhere cid=&#39;01&#39; and score&gt;60</code></pre>
+<h3 id="35-查询选修“张三”老师所授课程的学生中，成绩最高的学生姓名及其成绩"><a href="#35-查询选修“张三”老师所授课程的学生中，成绩最高的学生姓名及其成绩" class="headerlink" title="35. 查询选修“张三”老师所授课程的学生中，成绩最高的学生姓名及其成绩"></a>35. 查询选修“张三”老师所授课程的学生中，成绩最高的学生姓名及其成绩</h3><pre><code class="sql">select
+    sc.sid,sname,cname,score
+from sc
+left join course
+    style=&quot;font-weight: 600;&quot;&gt;=course.cid
+left join teacher
+    style=&quot;font-weight: 600;&quot;&gt;=teacher.tid
+left join student
+    style=&quot;font-weight: 600;&quot;&gt;=student.sid
+where tname=&#39;张三&#39;
+order by score desc
+limit 1;</code></pre>
+<h3 id="36-查询每门功课成绩最好的前两名"><a href="#36-查询每门功课成绩最好的前两名" class="headerlink" title="36. 查询每门功课成绩最好的前两名"></a>36. 查询每门功课成绩最好的前两名</h3><pre><code class="sql">select
+    cid,sid,rank1
+from 
+    (
+        select
+            cid
+            ,sid
+            ,rank() over(partition by cid order by score desc) as rank1
+        from sc 
+    )t
+where rank1 &lt;=2</code></pre>
+<h3 id="37-统计每门课程的学生选修人数（超过5人的课程才统计）。要求输出课程号和选修人数，查询结果按人数降序排列，若人数相同，按课程号升序排列"><a href="#37-统计每门课程的学生选修人数（超过5人的课程才统计）。要求输出课程号和选修人数，查询结果按人数降序排列，若人数相同，按课程号升序排列" class="headerlink" title="37. 统计每门课程的学生选修人数（超过5人的课程才统计）。要求输出课程号和选修人数，查询结果按人数降序排列，若人数相同，按课程号升序排列"></a>37. 统计每门课程的学生选修人数（超过5人的课程才统计）。要求输出课程号和选修人数，查询结果按人数降序排列，若人数相同，按课程号升序排列</h3><pre><code class="sql">select
+    cid
+    ,count(sid) as cnt
+from sc
+group by cid
+having cnt&gt;=5
+order by count(sid) desc,cid</code></pre>
+<h3 id="38-检索至少选修两门课程的学生学号"><a href="#38-检索至少选修两门课程的学生学号" class="headerlink" title="38. 检索至少选修两门课程的学生学号"></a>38. 检索至少选修两门课程的学生学号</h3><pre><code class="sql">select
+    sid
+    ,count(cid)
+from sc
+group by sid
+having count(cid)&gt;=2</code></pre>
+<h3 id="39-查询选修了全部课程的学生信息"><a href="#39-查询选修了全部课程的学生信息" class="headerlink" title="39. 查询选修了全部课程的学生信息"></a>39. 查询选修了全部课程的学生信息</h3><pre><code class="sql">select
+    sid
+    ,count(cid)
+from sc
+group by sid
+having count(cid)=(select count(distinct cid) from sc)</code></pre>
+<h3 id="40-查询各学生的年龄"><a href="#40-查询各学生的年龄" class="headerlink" title="40. 查询各学生的年龄"></a>40. 查询各学生的年龄</h3><pre><code class="sql">select
+    sid,sname,year(curdate())-year(sage) as sage
+from student</code></pre>
+<h3 id="41-查询本周过生日的学生"><a href="#41-查询本周过生日的学生" class="headerlink" title="41 查询本周过生日的学生"></a>41 查询本周过生日的学生</h3><pre><code class="sql">select
+    sid,sname,sage
+from student
+where weekofyear(sage)=weekofyear(curdate())</code></pre>
+<h3 id="42-查询下周过生日的学生"><a href="#42-查询下周过生日的学生" class="headerlink" title="42. 查询下周过生日的学生"></a>42. 查询下周过生日的学生</h3><pre><code class="sql">select 
+    sid,sname,sage
+from student
+where weekofyear(sage) = weekofyear(date_add(curdate(),interval 1 week))</code></pre>
+<h3 id="43-查询本月过生日的学生"><a href="#43-查询本月过生日的学生" class="headerlink" title="43 查询本月过生日的学生"></a>43 查询本月过生日的学生</h3><pre><code class="sql">select
+    sid,sname,sage
+from student
+where month(sage) = month(curdate())</code></pre>
+<h3 id="44-查询下月过生日的学生"><a href="#44-查询下月过生日的学生" class="headerlink" title="44. 查询下月过生日的学生"></a>44. 查询下月过生日的学生</h3><pre><code class="sql">select
+    sid,sname,sage
+from student
+where month(date_sub(sage,interval 1 month)) = month(curdate())</code></pre>
 
         </div>
         <!-- .entry-content -->
@@ -590,15 +884,15 @@ SELECT A.姓名,性别,部门 FROM [Sheet2$]A Left JOIN [Sheet1$]B ON A.姓名=B
           
             <div class="post-nepre half previous">
           
-            <a href="/2020/03/07/使用Python调用百度地图Api获取两地距离/" rel="prev">
+            <a href="/2020/04/05/SQL面试题整理汇总/" rel="prev">
               <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.1/images/article/baidumap20200306.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.1/images/article/baidumap20200306.jpg">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.3/images/article/dams20200405.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.3/images/article/dams20200405.jpg">
               </div>
               <span class="label">
               Previous Post</span>
               <div class="info">
                 <h3>
-                使用Python调用百度地图Api获取两地距离并打包为可执行程序</h3>
+                数据分析面试题整理汇总</h3>
                 <hr>
               </div>
             </a>
@@ -608,15 +902,15 @@ SELECT A.姓名,性别,部门 FROM [Sheet2$]A Left JOIN [Sheet1$]B ON A.姓名=B
           
             <div class="post-nepre half next">
           
-            <a href="/2020/03/02/京东商品评论爬虫/" rel="next">
+            <a href="/2020/03/21/海盗分金问题/" rel="next">
               <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.1/images/article/jdcommentspider20200302.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.1/images/article/jdcommentspider20200302.jpg">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.2/images/article/hdfj20200321.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.2/images/article/hdfj20200321.jpg">
               </div>
               <span class="label">
               Next Post</span>
               <div class="info">
                 <h3>
-                京东商品评论爬虫</h3>
+                海盗分金问题问题</h3>
                 <hr>
               </div>
             </a>
