@@ -498,15 +498,15 @@ End Sub</code></pre>
 <li>4、TOP 数值 percent：显示前面分之多少条记录                        </li>
 <li>5、&lt;列标题&gt;[[as]]&lt;别名列标题&gt;:给标题列重新命一个新名称                        </li>
 <li>6、where&lt;筛选条件&gt;：条件语句                        </li>
-<li>7、排序，如果要按两个或两个以上字段，那么字段与字段之间用豆号隔开，asc升序，为默认值，desc降序。  <h5 id="select关键字"><a href="#select关键字" class="headerlink" title="select关键字"></a>select关键字</h5>如果要显示显示所有字段的记录的语法结构如下：<pre><code>SELECT 列字段名1,列字段名2,列字段名3 FROM [工作表名称$]</code></pre>```SQL<br>select * from [sheet1$]</li>
+<li>7、排序，如果要按两个或两个以上字段，那么字段与字段之间用豆号隔开，asc升序，为默认值，desc降序。  <h5 id="select关键字"><a href="#select关键字" class="headerlink" title="select关键字"></a>select关键字</h5>如果要显示显示所有字段的记录的语法结构如下：<pre><code>SELECT 列字段名1,列字段名2,列字段名3 FROM [工作表名称$]</code></pre></li>
 </ul>
-<p>–或者<br>select ID,name,address,score from [sheet1$]</p>
-<pre><code>语句1中的*号是代表全部列，语句 2中，是写上全部列字段的名称,如果工作表没有列标题，用F1,F2,F3,F4.....这样代替
-
-##### As关键字
-使用别名
-```sql
-SELECT 姓名 AS Name FROM [Sheet1$]</code></pre><p><strong>注意事项：</strong><br><strong>1.在SQL语句中SQL语句英文不区分大小写，但标点符号必须是英文半角状态下输入，字段名也必须跟原来的一样。</strong><br><strong>2.使用SQL语句的时候，必须避免列字段中使用下面的特殊字符：<br>空格、双引号（”）、撇（’）、数字标记（#）、百分号(%)、大于号（&gt;）、小于号(&lt;)、叹号(!)、句号(.)、方括号（[或]）、星号（*）、美元符号($)、分号（;）、脱字号（^）、圆括号（（或））、加号（+）、反斜杠（\或/）。<br>如果在源数据表的列字段使用了这些特殊字符，那么在使用SQL语句列出各字段的数据时，就会发生错误。为了规范使用SQL语句，在对数据源字段命名时，尽量避免使用这些特殊字符。</strong></p>
+<pre><code class="SQL">select * from [sheet1$]
+--或者
+select ID,name,address,score from [sheet1$]</code></pre>
+<p>语句1中的*号是代表全部列，语句 2中，是写上全部列字段的名称,如果工作表没有列标题，用F1,F2,F3,F4…..这样代替</p>
+<h5 id="As关键字"><a href="#As关键字" class="headerlink" title="As关键字"></a>As关键字</h5><p>使用别名</p>
+<pre><code class="sql">SELECT 姓名 AS Name FROM [Sheet1$]</code></pre>
+<p><strong>注意事项：</strong><br><strong>1.在SQL语句中SQL语句英文不区分大小写，但标点符号必须是英文半角状态下输入，字段名也必须跟原来的一样。</strong><br><strong>2.使用SQL语句的时候，必须避免列字段中使用下面的特殊字符：<br>空格、双引号（”）、撇（’）、数字标记（#）、百分号(%)、大于号（&gt;）、小于号(&lt;)、叹号(!)、句号(.)、方括号（[或]）、星号（*）、美元符号($)、分号（;）、脱字号（^）、圆括号（（或））、加号（+）、反斜杠（\或/）。<br>如果在源数据表的列字段使用了这些特殊字符，那么在使用SQL语句列出各字段的数据时，就会发生错误。为了规范使用SQL语句，在对数据源字段命名时，尽量避免使用这些特殊字符。</strong></p>
 <h5 id="distinct关键字"><a href="#distinct关键字" class="headerlink" title="distinct关键字"></a>distinct关键字</h5><p>功能是去重复值只保留一条记录。语法结构为：</p>
 <pre><code>SELECT DISTINCT 要去重复值的字段1,要去重复值的字段2 FROM [工作表名$]</code></pre><pre><code class="sql">Select Distinct name,ID From [sheet1$]</code></pre>
 <h5 id="where关键字"><a href="#where关键字" class="headerlink" title="where关键字"></a>where关键字</h5><p>本帖最后由 335081548 于 2013-10-10 20:53 编辑</p>
