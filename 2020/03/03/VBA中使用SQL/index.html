@@ -498,9 +498,10 @@ End Sub</code></pre>
 <li>4、TOP 数值 percent：显示前面分之多少条记录                        </li>
 <li>5、&lt;列标题&gt;[[as]]&lt;别名列标题&gt;:给标题列重新命一个新名称                        </li>
 <li>6、where&lt;筛选条件&gt;：条件语句                        </li>
-<li>7、排序，如果要按两个或两个以上字段，那么字段与字段之间用豆号隔开，asc升序，为默认值，desc降序。  <h5 id="select关键字"><a href="#select关键字" class="headerlink" title="select关键字"></a>select关键字</h5>如果要显示显示所有字段的记录的语法结构如下：<pre><code>SELECT 列字段名1,列字段名2,列字段名3 FROM [工作表名称$]</code></pre></li>
+<li>7、排序，如果要按两个或两个以上字段，那么字段与字段之间用豆号隔开，asc升序，为默认值，desc降序。</li>
 </ul>
-<pre><code class="SQL">select * from [sheet1$]
+<h5 id="select关键字"><a href="#select关键字" class="headerlink" title="select关键字"></a>select关键字</h5><p>如果要显示显示所有字段的记录的语法结构如下：</p>
+<pre><code>SELECT 列字段名1,列字段名2,列字段名3 FROM [工作表名称$]</code></pre><pre><code class="SQL">select * from [sheet1$]
 --或者
 select ID,name,address,score from [sheet1$]</code></pre>
 <p>语句1中的*号是代表全部列，语句 2中，是写上全部列字段的名称,如果工作表没有列标题，用F1,F2,F3,F4…..这样代替</p>
