@@ -499,30 +499,43 @@ End Sub</code></pre>
 <pre><code class="VB"> thisworkbook.sheets(&quot;test&quot;).Columns(&quot;A:A&quot;).Resize(, 5).Insert Shift:=xlToRight, CopyOrigin:=xlFormatFromLeftOrAbove</code></pre>
 <h3 id="VBA连接特定的数据库并取数"><a href="#VBA连接特定的数据库并取数" class="headerlink" title="VBA连接特定的数据库并取数"></a>VBA连接特定的数据库并取数</h3><p>需要注意的是</p>
 <ol>
-<li><p>Provider=sqloledb这一个参数数据库不同的情况下也是不一样的，这里我用的是sql server云数据库，其他的数据库可以另行查找</p>
-</li>
-<li><p>Uid=用户名称;Pwd=数据库的密码  这两个参数都不是微软账户的名称和密码，否则会报错</p>
+<li>Provider=sqloledb这一个参数数据库不同的情况下也是不一样的，这里我用的是sql server云数据库，其他的数据库可以另行查找</li>
+<li>Uid=用户名称;Pwd=数据库的密码  这两个参数都不是微软账户的名称和密码，否则会报错</li>
+</ol>
 <pre><code class="vb">Sub getdata_fromdb()
 
-Dim Conn As Object, Rst As Object
-Dim strConn As String, strSQL As String
-Dim i As Integer, PathStr As String
-Set Conn = CreateObject(&quot;ADODB.Connection&quot;)
-Set Rst = CreateObject(&quot;ADODB.Recordset&quot;)
-PathStr = ThisWorkbook.FullName &#39;设置工作簿的完整路径和名称
-strConn = &quot;Provider=sqloledb;Server=数据库服务器地址;Database=数据库名称;Uid=用户名称;Pwd=数据库的密码&quot; &#39;定义数据库链接字符串
-</code></pre>
-</li>
-</ol>
-<p>‘#############################在这里改SQL查询语句<br> strSQL = “select * from test”</p>
-<p>Conn.Open strConn<br>Set Rst = Conn.Execute(strSQL)<br>With ThisWorkbook.Sheets(“raw”)<br>.Cells.Clear<br>For i = 0 To Rst.Fields.Count - 1<br>.Cells(1, i + 1) = Rst.Fields(i).Name<br>Next i<br>.Range(“A2”).CopyFromRecordset Rst<br>.Cells.EntireColumn.AutoFit<br>End With</p>
-<p>Rst.Close<br>Conn.Close<br>Set Conn = Nothing<br>Set Rst = Nothing</p>
-<p>MsgBox “数据已更新完成”</p>
-<p>End Sub</p>
-<pre><code>
-### 获取最前，后，左，右的行或列
-```vb
-&#39;从第一行向左查找到的第一个非空值单元格的列，即最左的一列的列数
+ Dim Conn As Object, Rst As Object
+ Dim strConn As String, strSQL As String
+ Dim i As Integer, PathStr As String
+ Set Conn = CreateObject(&quot;ADODB.Connection&quot;)
+ Set Rst = CreateObject(&quot;ADODB.Recordset&quot;)
+ PathStr = ThisWorkbook.FullName &#39;设置工作簿的完整路径和名称
+ strConn = &quot;Provider=sqloledb;Server=数据库服务器地址;Database=数据库名称;Uid=用户名称;Pwd=数据库的密码&quot; &#39;定义数据库链接字符串
+
+&#39;#############################在这里改SQL查询语句
+ strSQL = &quot;select * from test&quot;
+
+Conn.Open strConn
+Set Rst = Conn.Execute(strSQL)
+With ThisWorkbook.Sheets(&quot;raw&quot;)
+.Cells.Clear
+For i = 0 To Rst.Fields.Count - 1
+.Cells(1, i + 1) = Rst.Fields(i).Name
+Next i
+.Range(&quot;A2&quot;).CopyFromRecordset Rst
+.Cells.EntireColumn.AutoFit
+End With
+
+Rst.Close
+Conn.Close
+Set Conn = Nothing
+Set Rst = Nothing
+
+
+MsgBox &quot;数据已更新完成&quot;
+
+End Sub</code></pre>
+<h3 id="获取最前，后，左，右的行或列"><a href="#获取最前，后，左，右的行或列" class="headerlink" title="获取最前，后，左，右的行或列"></a>获取最前，后，左，右的行或列</h3><pre><code class="vb">&#39;从第一行向左查找到的第一个非空值单元格的列，即最左的一列的列数
 Nextcol=Cells(1,columns.count).End(xlToLeft).Column 
 
 &#39;从第一列的最后一行向上查找到的第一个非空值单元格的行数.End(xlup)，可以简写为end（3）
@@ -535,7 +548,8 @@ Nextcol=Cells(1,1).End(xldown).row
 Nextcol=Cells(1,1).End(xlright).column
 
 &#39;获取当前使用区域的最后一行
-ActiveSheet.UsedRange.SpecialCells(xlCellTypeLastCell).Row</code></pre><h3 id="选择性粘贴"><a href="#选择性粘贴" class="headerlink" title="选择性粘贴"></a>选择性粘贴</h3><p>选择性粘贴的语法为： .PasteSpecial(Paste,Operation,SkipBlanks,Transpose)<br>比较常用的几个paste参数为：</p>
+ActiveSheet.UsedRange.SpecialCells(xlCellTypeLastCell).Row</code></pre>
+<h3 id="选择性粘贴"><a href="#选择性粘贴" class="headerlink" title="选择性粘贴"></a>选择性粘贴</h3><p>选择性粘贴的语法为： .PasteSpecial(Paste,Operation,SkipBlanks,Transpose)<br>比较常用的几个paste参数为：</p>
 <ol>
 <li>公式 xlPasteFormulas</li>
 <li>数值 xlPasteValues</li>
