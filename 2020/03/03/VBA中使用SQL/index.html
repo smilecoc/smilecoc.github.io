@@ -556,12 +556,16 @@ strSQL = &quot;Select * from [Sheet1$] Where not 姓名 like &#39;[AB]%&#39;&quo
 <pre><code class="sql">SELECT A.姓名,B.性别,B.部门 FROM [Sheet2$] AS A Left Outer JOIN [Sheet1$] AS B ON A.姓名=B.姓名
 --简写为
 SELECT A.姓名,性别,部门 FROM [Sheet2$]A Left JOIN [Sheet1$]B ON A.姓名=B.姓名</code></pre>
-<p>join除了left join外还有right join，inner join,outer join等，之间的区别与sql语句都是一致的</p>
+<p>join除了left join外还有right join，inner join等，之间的区别与sql语句都是一致的。<strong>注意VBA中的SQL是不支持outer join连接的</strong></p>
 <h2 id="3-数据透视表"><a href="#3-数据透视表" class="headerlink" title="3.数据透视表"></a><strong>3.数据透视表</strong></h2><p>TRANSFORM语句可以实现像透视表一样的显示结果，语法结构为：</p>
 <pre><code>TRANSFORM 汇总方式  SELECT 行标签 from 表名 group by 行字段 PIVOT 列标签</code></pre><p>这一语句是非常常用的方法，要注意TRANSFORM后的汇总方式为一个聚合函数(一般为sum),同时后续的SELECT语句中不要加入a字段/b字段或者having语句，否则会导致语句错误无法运行<br>eg:</p>
 <pre><code>TRANSFORM Sum(数量) Select 产品名称 from [Sheet1$] group by 产品名称 PIVOT 款号</code></pre><p>TRANSFORM语句话还可以加入一些自定义的设置：</p>
 <pre><code>TRANSFORM 汇总方式  SELECT 行标签 from 表名 group by 行字段 PIVOT 列标签 in [列标签值1，列标签值2，列标签值3.....]</code></pre><p>使用in可以限制列标签的内容，同时可以规定列字段值的展示顺序</p>
-
+<h2 id="4-一些其他SQL语句的补充"><a href="#4-一些其他SQL语句的补充" class="headerlink" title="4.一些其他SQL语句的补充"></a><strong>4.一些其他SQL语句的补充</strong></h2><p>在SQL中使用广泛的case关键字在VBA　SQL中的实现方式为IIF，IIF的语法为：<br>IIf(Logical EXPression, Numeric Expression1, Numeric Expression2)<br>如果 Logical Expression 取值为 TRUE，则此函数返回 Numeric Expression1，否则，返回 Numeric Expression2。</p>
+<p>例如：<br>当site列填NA时，将if_address设为N，否则设为Y</p>
+<pre><code>select name,iif([site]=&#39;NA&#39;,&#39;N&#39;,&#39;Y&#39;) as if_address form [student$]</code></pre><p>同理，Logical Expression可以使用isnull,数字等值判断语句等</p>
+<p>同时iif语句对符合条件的数据进行计算。例如如果是赠送的，实际的花费为0,否则为原价购买计算花费</p>
+<pre><code>select 客户,sum(iif(buying_type=&#39;赠送&#39;,price,0)) as cost  from  [order$]</code></pre>
         </div>
         <!-- .entry-content -->
         <div class="single-reward">
