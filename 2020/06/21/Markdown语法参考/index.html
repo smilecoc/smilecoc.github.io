@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">Smilecoc&#39;s Blog</title>
+  <title itemprop="name">Markdown语法参考 | Smilecoc&#39;s Blog</title>
   
     <link rel="shortcut icon" href="/images/favicon.ico">
   
@@ -415,497 +415,511 @@
   </div>
 </header>
 
-      <div class="blank" style="padding-top: 0px;"></div>
+      <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<div class="pattern-center-blank"></div>
+
+  <div class="pattern-center single-center">
+    <!-- 有配图默认渲染第一张 -->
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.5/images/article/markdowm_guidance20200621.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.5/images/article/markdowm_guidance20200621.jpg">
+    </div>
+    <header class="pattern-header single-header">
+      <h1 class="entry-title">
+      Markdown语法参考</h1>
+      <p class="entry-census">
+        <span>
+          <a href="http://smilecoc.vip/">
+            <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico">
+          </a>
+        </span>
+        <span>
+          <a href="http://smilecoc.vip/">smilecoc</a>
+        </span>
+        <span class="bull">
+        ·</span>
+        2020-6-21<span class="bull">
+        ·</span>
+      <span id="busuanzi_value_page_pv"></span>次阅读</p>
+    </header>
+  </div>
+
 <div id="content" class="site-content">
-  
-  <div class="notice" style="margin-top:60px">
-    <i class="iconfont icon-notification">
-    </i>
-    <div class="notice-content">Welcome to My Blog</div>
-  </div>
-  
-  <div class="top-feature-row">
-  <h1 class="fes-title" style="font-family: 'Ubuntu', sans-serif;">
-  <i class="fa fa-anchor" aria-hidden="true">
-  </i>
-  START:DASH!!</h1>
-  
-  <div class="top-feature-v2">
-    <div class="the-feature square from_left_and_right">
-      <a href="http://smilecoc.vip/2019/08/20/%E6%88%91%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E5%85%A8%E8%AE%B0%E5%BD%95/" target="_blank">
-        <div class="img">
-          <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/startdash/sakura.jpg">
-        </div>
-        <div class="info">
-          <h3>Sakura</h3>
-          <p>本站 hexo 主题</p>
-        </div>
-      </a>
-    </div>
-  </div>
-  
-  <div class="top-feature-v2">
-    <div class="the-feature square from_left_and_right">
-      <a href="http://space.bilibili.com/46934171" target="_blank">
-        <div class="img">
-          <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/startdash/bilibili.jpg">
-        </div>
-        <div class="info">
-          <h3>Bilibili</h3>
-          <p>博主的b站视频</p>
-        </div>
-      </a>
-    </div>
-  </div>
-  
-  <div class="top-feature-v2">
-    <div class="the-feature square from_left_and_right">
-      <a href="/" target="_blank">
-        <div class="img">
-          <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/startdash/wangshiwu.jpg">
-        </div>
-        <div class="info">
-          <h3>Romi的杂货铺</h3>
-          <p>博主的微信公众号</p>
-        </div>
-      </a>
-    </div>
-  </div>
-  
-</div>
   <div id="primary" class="content-area">
     <main id="main" class="site-main" role="main">
-      <h1 class="main-title" style="font-family: 'Ubuntu', sans-serif;">
-      <i class="fa fa-envira" aria-hidden="true"></i>
-      Discovery</h1>
+      <article id="post-1" class="post-1 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+        <div class="toc"></div>
+        <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
+        
+        <div class="entry-content">
+          <p>Markdown 是一种轻量级标记语言,它允许人们“使用易读易写的纯文本格式编写文档，然后转换成有效的 XHTML（或者 HTML）文档”。被广泛应用于博客，网页与技术文档中</p>
+<h2 id="为什么选择-Markdown"><a href="#为什么选择-Markdown" class="headerlink" title="为什么选择 Markdown"></a>为什么选择 Markdown</h2><ul>
+<li>它基于纯文本，方便修改和共享；</li>
+<li>几乎可以在所有的文本编辑器中编写；</li>
+<li>有众多编程语言的实现，以及应用的相关扩展；</li>
+<li>在 GitHub 等网站中有很好的应用；</li>
+<li>很容易转换为 HTML 文档或其他格式；</li>
+<li>适合用来编写文档、记录笔记、撰写文章。</li>
+</ul>
+<h2 id="Markdown-语法"><a href="#Markdown-语法" class="headerlink" title="Markdown 语法"></a>Markdown 语法</h2><h3 id="段落与换行"><a href="#段落与换行" class="headerlink" title="段落与换行"></a>段落与换行</h3><ol>
+<li><p>段落的前后必须是空行：空行指的是行内什么都没有，或者只有空白符（空格或制表符).<strong>相邻两行文本，如果中间没有空行 会显示在一行中（换行符被转换为空格）</strong></p>
+</li>
+<li><p>如果需要在段落内加入换行（&lt;br&gt;）：可以在前一行的末尾加入至少两个空格,然后换行写其它的文字</p>
+</li>
+<li><p>Markdown 中的多数区块都需要在两个空行之间。</p>
+</li>
+</ol>
+<h3 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h3><p>一般用对称的 # 包括文本，或者只在左边使用 #。例如下面的语句：</p>
+<pre><code>#### 标题4 ####
+
+#####  标题5</code></pre><h4 id="标题4"><a href="#标题4" class="headerlink" title="标题4"></a>标题4</h4><h5 id="标题5"><a href="#标题5" class="headerlink" title="标题5"></a>标题5</h5><p>其中加几个#表示几级标题，在#符号内侧一般会加上空格</p>
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><h4 id="1-引用内容"><a href="#1-引用内容" class="headerlink" title="1. 引用内容"></a>1. 引用内容</h4><p>在段落或其他内容前使用 &gt; 符号，就可以将这段内容标记为 ‘引用’ 的内容：</p>
+<pre><code>&gt;引用内容</code></pre><blockquote>
+<p>引用内容</p>
+</blockquote>
+<h5 id="2-多行引用"><a href="#2-多行引用" class="headerlink" title="2. 多行引用"></a>2. 多行引用</h5><p>多行引用可以在每行前加 <code>&gt;</code>,也可以仅在第一行使用 <code>&gt;</code>，后面相邻的行即使省略 <code>&gt;</code>，也会变成引用内容。<br>如果引用内容需要换行，  可以在行尾添加两个空格，或者在引用内容中加一个空行，如下所示：</p>
+<pre><code>&gt;如果引用内容需要换行，  
+&gt;可以在行尾添加两个空格
+&gt;
+&gt;或者在引用内容中加一个空行</code></pre><h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><h4 id="无序列表"><a href="#无序列表" class="headerlink" title="无序列表"></a>无序列表</h4><pre><code>* 可以使用 `*` 作为标记
++ 也可以使用 `+`
+- 或者 `-`</code></pre><p>上述语句的渲染结果为：</p>
+<ul>
+<li>可以使用 <code>*</code> 作为标记</li>
+</ul>
+<ul>
+<li>也可以使用 <code>+</code></li>
+</ul>
+<ul>
+<li>或者 <code>-</code></li>
+</ul>
+<h4 id="有序列表"><a href="#有序列表" class="headerlink" title="有序列表"></a>有序列表</h4><pre><code>1. 有序列表以数字和 `.` 开始；
+3. 数字的序列并不会影响生成的列表序列；
+4. 但仍然推荐按照自然顺序（1.2.3...）编写。</code></pre><p>上述语句的渲染结果为：</p>
+<ol>
+<li>有序列表以数字和 <code>.</code> 开始；</li>
+<li>数字的序列并不会影响生成的列表序列；</li>
+<li>但仍然推荐按照自然顺序（1.2.3…）编写。</li>
+</ol>
+<h4 id="嵌套的列表"><a href="#嵌套的列表" class="headerlink" title="嵌套的列表"></a>嵌套的列表</h4><pre><code>1. 第一层
+  + 1-1
+  + 1-2
+2. 无序列表和有序列表可以随意相互嵌套
+  1. 2-1
+  2. 2-2</code></pre><ol>
+<li>第一层<ul>
+<li>1-1</li>
+<li>1-2</li>
+</ul>
+</li>
+<li>无序列表和有序列表可以随意相互嵌套<ol>
+<li>2-1</li>
+<li>2-2</li>
+</ol>
+</li>
+</ol>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><h4 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h4><p>可以使用缩进来插入代码块，但是一般我们使用 ``````来包含多行代码<br>```<br>   &lt;p&gt;code here&lt;/p&gt;<br>```<br>上述语句的渲染结果为：</p>
+<pre><code>&lt;p&gt;code here&lt;/p&gt;</code></pre><h4 id="代码高亮"><a href="#代码高亮" class="headerlink" title="代码高亮"></a>代码高亮</h4><p>在上面的代码块语法基础上，在第一组 ```之后添加代码的语言，如 ‘javascript’ 或 ‘js’，即可将代码标记为 JavaScript,同时可以将对应代码高亮<br>：<br>```js<br>window.addEventListener(‘load’, function() {<br>  console.log(‘window loaded’);<br>});<br>```</p>
+<pre><code class="js">window.addEventListener(&#39;load&#39;, function() {
+  console.log(&#39;window loaded&#39;);
+});</code></pre>
+<p> Markdown支持的语言与相应关键字有：</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>关键字</th>
+<th>调用的js</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>AppleScript</td>
+<td>applescript</td>
+<td>shBrushAppleScript.js</td>
+<td></td>
+</tr>
+<tr>
+<td>ActionScript 3.0</td>
+<td>actionscript3 , as3</td>
+<td>shBrushAS3.js</td>
+<td></td>
+</tr>
+<tr>
+<td>Shell</td>
+<td>bash , shell</td>
+<td>shBrushBash.js</td>
+<td></td>
+</tr>
+<tr>
+<td>ColdFusion</td>
+<td>coldfusion , cf</td>
+<td>shBrushColdFusion.js</td>
+<td></td>
+</tr>
+<tr>
+<td>C</td>
+<td>cpp , c</td>
+<td>shBrushCpp.js</td>
+<td></td>
+</tr>
+<tr>
+<td>C#</td>
+<td>c# , c-sharp , csharp</td>
+<td>shBrushCSharp.js</td>
+<td></td>
+</tr>
+<tr>
+<td>CSS</td>
+<td>css</td>
+<td>shBrushCss.js</td>
+<td></td>
+</tr>
+<tr>
+<td>Delphi</td>
+<td>delphi , pascal , pas</td>
+<td>shBrushDelphi.js</td>
+<td></td>
+</tr>
+<tr>
+<td>diff&amp;patch</td>
+<td>diff patch</td>
+<td>shBrushDiff.js</td>
+<td>用代码版本库时,遇到代码冲突,其语法就是这个.</td>
+</tr>
+<tr>
+<td>Erlang</td>
+<td>erl , erlang</td>
+<td>shBrushErlang.js</td>
+<td></td>
+</tr>
+<tr>
+<td>Groovy</td>
+<td>groovy</td>
+<td>shBrushGroovy.js</td>
+<td></td>
+</tr>
+<tr>
+<td>Java</td>
+<td>java</td>
+<td>shBrushJava.js</td>
+<td></td>
+</tr>
+<tr>
+<td>JavaFX</td>
+<td>jfx , javafx</td>
+<td>shBrushJavaFX.js</td>
+<td></td>
+</tr>
+<tr>
+<td>JavaScript</td>
+<td>js , jscript , javascript</td>
+<td>shBrushJScript.js</td>
+<td></td>
+</tr>
+<tr>
+<td>Perl</td>
+<td>perl , pl , Perl</td>
+<td>shBrushPerl.js</td>
+<td></td>
+</tr>
+<tr>
+<td>PHP</td>
+<td>php</td>
+<td>shBrushPhp.js</td>
+<td></td>
+</tr>
+<tr>
+<td>text</td>
+<td>text , plain</td>
+<td>shBrushPlain.js</td>
+<td>就是普通文本.</td>
+</tr>
+<tr>
+<td>Python</td>
+<td>py , python</td>
+<td>shBrushPython.js</td>
+<td></td>
+</tr>
+<tr>
+<td>Ruby</td>
+<td>ruby , rails , ror , rb</td>
+<td>shBrushRuby.js</td>
+<td></td>
+</tr>
+<tr>
+<td>SASS&amp;SCSS</td>
+<td>sass , scss</td>
+<td>shBrushSass.js</td>
+<td></td>
+</tr>
+<tr>
+<td>Scala</td>
+<td>scala</td>
+<td>shBrushScala.js</td>
+<td></td>
+</tr>
+<tr>
+<td>SQL</td>
+<td>sql</td>
+<td>shBrushSql.js</td>
+<td></td>
+</tr>
+<tr>
+<td>Visual Basic</td>
+<td>vb , vbnet</td>
+<td>shBrushVb.js</td>
+<td></td>
+</tr>
+<tr>
+<td>XML</td>
+<td>xml , xhtml , xslt , html</td>
+<td>shBrushXml.js</td>
+<td></td>
+</tr>
+<tr>
+<td>Objective C</td>
+<td>objc , obj-c</td>
+<td>shBrushObjectiveC.js</td>
+<td></td>
+</tr>
+<tr>
+<td>F#</td>
+<td>f# f-sharp , fsharp</td>
+<td>shBrushFSharp.js</td>
+<td></td>
+</tr>
+<tr>
+<td>R</td>
+<td>r , s , splus</td>
+<td>shBrushR.js</td>
+<td></td>
+</tr>
+<tr>
+<td>matlab</td>
+<td>matlab</td>
+<td>shBrushMatlab.js</td>
+<td></td>
+</tr>
+<tr>
+<td>swift</td>
+<td>swift</td>
+<td>shBrushSwift.js</td>
+<td></td>
+</tr>
+<tr>
+<td>GO</td>
+<td>go , golang</td>
+<td>shBrushGo.js</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>上述表格应该包括所有的常使用的代码语言，但肯定不包括所有的语言，如有缺失欢迎指出</p>
+<h3 id="分隔线"><a href="#分隔线" class="headerlink" title="分隔线"></a>分隔线</h3><p>可以在一行中使用三个或更多的 *、- 或 _ 来添加分隔线：</p>
+<pre><code>***
+------
+___</code></pre><hr>
+<h3 id="超链接"><a href="#超链接" class="headerlink" title="超链接"></a>超链接</h3><p>格式为[link text](URL ‘title text’)</p>
+<pre><code>[Google](http://www.google.com/)</code></pre><p>上述语句的渲染结果为：<br><a href="http://www.google.com/" target="_blank" rel="noopener">Google</a></p>
+<p>同时也可以创建指向本地文件的链接：</p>
+<pre><code>[icon.png](./images/icon.png)</code></pre><h3 id="图像"><a href="#图像" class="headerlink" title="图像"></a>图像</h3><p>插入图片的语法和插入超链接的语法基本一致，只是在最前面多一个 !.</p>
+<pre><code>![GitHub](https://avatars2.githubusercontent.com/u/3265208?v=3&amp;s=100 &quot;GitHub,Social Coding&quot;)</code></pre><p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9hdmF0YXJzMi5naXRodWJ1c2VyY29udGVudC5jb20vdS8zMjY1MjA4?x-oss-process=image/format,png" alt="GitHub"></p>
+<h3 id="强调"><a href="#强调" class="headerlink" title="强调"></a>强调</h3><ol>
+<li><p>使用 * * 或 _ _ 包括的文本会被转换为 &lt;em&gt;&lt;/em&gt; ，通常表现为斜体：</p>
+<pre><code>这是用来 *演示* 的 _文本_</code></pre><p>这是用来 <em>演示</em> 的 <em>文本</em></p>
+</li>
+<li><p>使用 ** ** 或 __ __ 包括的文本会被转换为 &lt;strong&gt;&lt;/strong&gt;，通常表现为加粗：</p>
+<pre><code>这是用来 **演示** 的 __文本__</code></pre><p>这是用来 <strong>演示</strong> 的 <strong>文本</strong></p>
+</li>
+<li><p>用来包括文本的 * 或 _ 内侧不能有空白，否则 * 和 _ 将不会被转换（不同的实现会有不同的表现）：</p>
+<pre><code>这是用来 * 演示* 的 _文本 _</code></pre><p>这是用来 * 演示* 的 _文本 _</p>
+</li>
+<li><p>如果需要在文本中显示成对的 * 或 _，可以在符号前加入 (转义字符) 即可：</p>
+<pre><code>这是用来 \*演示\* 的 \_文本\_</code></pre><p>这是用来 *演示* 的 _文本_</p>
+</li>
+<li><p><em>、*</em>、_ 和 __ 都必须 成对使用 。</p>
+</li>
+</ol>
+<h3 id="Markdown字符转义"><a href="#Markdown字符转义" class="headerlink" title="Markdown字符转义"></a>Markdown字符转义</h3><p>反斜线（\）用于插入在 Markdown 语法中有特殊作用的字符。</p>
+<pre><code>这是用来 *演示* 的 _文本_
+
+这是用来 \*演示\* 的 \_文本\_</code></pre><p>第一句结果出来的结果为：<br>这是用来 <em>演示</em> 的 <em>文本</em><br>而第二句的结果为:<br>这是用来 *演示* 的 _文本_</p>
+<p>这些需要转义的字符包括：</p>
+<pre><code>\
+`
+*
+_
+{}
+[]
+()
+#
++
+-
+.
+!</code></pre><h3 id="删除线"><a href="#删除线" class="headerlink" title="删除线"></a>删除线</h3><pre><code>这就是 ~~删除线~~</code></pre><p>这就是 <del>删除线</del></p>
+<h3 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h3><h4 id="单元格和表头"><a href="#单元格和表头" class="headerlink" title="单元格和表头"></a>单元格和表头</h4><p>使用 | 来分隔不同的单元格，使用 - 来分隔表头和其他行：</p>
+<pre><code>name | age
+---- | ---
+LearnShare | 12
+Mike |  32</code></pre><table>
+<thead>
+<tr>
+<th>name</th>
+<th>age</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>LearnShare</td>
+<td>12</td>
+</tr>
+<tr>
+<td>Mike</td>
+<td>32</td>
+</tr>
+</tbody></table>
+<p>为了美观，可以使用空格对齐不同行的单元格，并在左右两侧都使用 | 来标记单元格边界：</p>
+<pre><code>|    name    | age |
+| ---------- | --- |
+| LearnShare |  12 |
+| Mike       |  32 |</code></pre><table>
+<thead>
+<tr>
+<th>name</th>
+<th>age</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>LearnShare</td>
+<td>12</td>
+</tr>
+<tr>
+<td>Mike</td>
+<td>32</td>
+</tr>
+</tbody></table>
+<p>为了使 Markdown 更清晰，| 和 - 两侧需要至少有一个空格（最左侧和最右侧的 | 外就不需要了）。</p>
+<h4 id="对齐"><a href="#对齐" class="headerlink" title="对齐"></a>对齐</h4><p>在表头下方的分隔线标记中加入 :，即可标记下方单元格内容的对齐方式：</p>
+<ul>
+<li>:— 代表左对齐</li>
+<li>:–: 代表居中对齐</li>
+<li>—: 代表右对齐<pre><code>| left | center | right |
+| :--- | :----: | ----: |
+| aaaa | bbbbbb | ccccc |
+| a    | b      | c     |</code></pre><table>
+<thead>
+<tr>
+<th align="left">left</th>
+<th align="center">center</th>
+<th align="right">right</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">aaaa</td>
+<td align="center">bbbbbb</td>
+<td align="right">ccccc</td>
+</tr>
+<tr>
+<td align="left">a</td>
+<td align="center">b</td>
+<td align="right">c</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<p>如果不使用对齐标记，单元格中的内容默认左对齐；表头单元格中的内容会一直居中对齐（不同的实现可能会有不同表现）。</p>
+<h3 id="任务清单"><a href="#任务清单" class="headerlink" title="任务清单"></a>任务清单</h3><pre><code>- [ ] Eat
+- [x] Code
+  - [x] HTML
+  - [x] CSS
+  - [x] JavaScript
+- [ ] Sleep</code></pre><ul>
+<li><input disabled type="checkbox"> Eat</li>
+<li><input checked disabled type="checkbox"> Code<ul>
+<li><input checked disabled type="checkbox"> HTML</li>
+<li><input checked disabled type="checkbox"> CSS</li>
+<li><input checked disabled type="checkbox"> JavaScript</li>
+</ul>
+</li>
+<li><input disabled type="checkbox"> Sleep</li>
+</ul>
+
+        </div>
+        <!-- .entry-content -->
+        <div class="single-reward">
+          <div class="reward-open">赏<div class="reward-main">
+              <ul class="reward-row">
+                <li class="alipay-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/AliPayQR.jpg"></li>
+                <li class="wechat-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/wechatpayQR.jpg"></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
+        <footer class="post-footer">
+          <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
+          <div class="post-tags">
+          </div>
+          <div class="post-share">
+            <div class="social-share sharehidden share-component"></div>
+            <i class="iconfont show-share icon-forward"></i>
+          </div>
+        </footer><!-- .entry-footer -->
+      </article>
+      <!-- #post-## -->
+      <div class="toc" style="background: none;"></div>
+      <section class="post-squares nextprev">
+        
+        
+          
+            <div class="post-nepre full next">
+          
+            <a href="/2020/06/20/VBA常用代码汇总/" rel="next">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.5/images/article/vba_code20200620.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.5/images/article/vba_code20200620.jpg">
+              </div>
+              <span class="label">
+              Next Post</span>
+              <div class="info">
+                <h3>
+                VBA常用代码汇总</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+      </section>
       
-  <!-- 首页默认取最最新文章集 -->
-  
-    
-<article  class="post post-list-thumb post-list-thumb-left"  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
+<div id="vcomments"></div>
+<script>
+  window.onload = function(){
+      var valine = new Valine();
+      valine.init({
+        el: '#vcomments',
+        appId: "Hm83GoGeDX3sGPDh3Q50lSMz-gzGzoHsz",
+        appKey: "mXIVaYaFj1DNyH6yBicfUS0w",
+        path: window.location.pathname,
+        placeholder: "你是我一生只会遇见一次的惊喜 ..."
+      })
+  }
+</script>
 
-  <div class="post-thumb">
-    <a href="/2020/03/12/Git语句大全/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.2/images/article/githz20200312.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-3-12 22:03</div>
-      <a href="/2020/03/12/Git语句大全/" class="post-title">
-        <h3>Git语句大全</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/Git/">Git<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/转载/">转载</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>Git 语句宝典</p>
-        <div class="post-bottom">
-          <a href="/2020/03/12/Git语句大全/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
+      <section class="author-profile">
+        <div class="info" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <a href="http://smilecoc.vip/" class="profile gravatar"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico" itemprop="image" alt="smilecoc" height="70" width="70"></a>
+          <div class="meta">
+            <span class="title">Author</span>
+            <h3 itemprop="name">
+            <a href="http://smilecoc.vip/" itemprop="url" rel="author">smilecoc</a>
+            </h3>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/03/07/数据库设计范式/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.1/images/article/databasefs20200307.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-3-7 16:03</div>
-      <a href="/2020/03/07/数据库设计范式/" class="post-title">
-        <h3>数据库设计范式</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/SQL/">SQL<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/笔记/">笔记</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>数据库设计范式，如何从0开始建立一个数据库</p>
-        <div class="post-bottom">
-          <a href="/2020/03/07/数据库设计范式/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb post-list-thumb-left"  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/03/07/微博批量自动取关/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.1/images/article/weibo_selenium20200120.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-3-7 15:03</div>
-      <a href="/2020/03/07/微博批量自动取关/" class="post-title">
-        <h3>微博批量自动取关</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/python其他/">python其他<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/技术/">技术</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>使用Python的selenium库实现网页自动化</p>
-        <div class="post-bottom">
-          <a href="/2020/03/07/微博批量自动取关/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/03/07/使用Python调用百度地图Api获取两地距离/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.1/images/article/baidumap20200306.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-3-7 15:03</div>
-      <a href="/2020/03/07/使用Python调用百度地图Api获取两地距离/" class="post-title">
-        <h3>使用Python调用百度地图Api获取两地距离并打包为可执行程序</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/python其他/">python其他<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/技术/">技术</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>使用Python调用百度地图Api获取两地距离，并打包为可直接运行的exe可执行程序</p>
-        <div class="post-bottom">
-          <a href="/2020/03/07/使用Python调用百度地图Api获取两地距离/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb post-list-thumb-left"  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/03/03/VBA中使用SQL/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.1/images/article/vbasql20200303.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-3-3 22:03</div>
-      <a href="/2020/03/03/VBA中使用SQL/" class="post-title">
-        <h3>在VBA中使用SQL</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/Excel-VBA/">Excel &amp; VBA<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/技术/">技术</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>在vba中调用sql处理数据</p>
-        <div class="post-bottom">
-          <a href="/2020/03/03/VBA中使用SQL/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/03/02/京东商品评论爬虫/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.1/images/article/jdcommentspider20200302.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-3-2 22:03</div>
-      <a href="/2020/03/02/京东商品评论爬虫/" class="post-title">
-        <h3>京东商品评论爬虫</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/python爬虫/">python爬虫<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/技术/">技术</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>动态网页信息的抓取，并进行数据的存储与分析</p>
-        <div class="post-bottom">
-          <a href="/2020/03/02/京东商品评论爬虫/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb post-list-thumb-left"  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/02/24/Chrome插件资源/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5/images/article/chromecj20200224.png">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-2-24 21:02</div>
-      <a href="/2020/02/24/Chrome插件资源/" class="post-title">
-        <h3>Chrome插件资源</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/其他资源/">其他资源<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/资源/">资源</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>Chrome插件推荐，给你的Chrome浏览器加上灵魂</p>
-        <div class="post-bottom">
-          <a href="/2020/02/24/Chrome插件资源/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/02/15/B站每日排行榜爬虫/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5/images/article/bilispider.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-2-15 15:02</div>
-      <a href="/2020/02/15/B站每日排行榜爬虫/" class="post-title">
-        <h3>B站每日排行榜爬虫</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/python爬虫/">python爬虫<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/技术/">技术</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>爬取B站每日排行榜的名称，up主与播放量等信息</p>
-        <div class="post-bottom">
-          <a href="/2020/02/15/B站每日排行榜爬虫/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb post-list-thumb-left"  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/02/02/Hexo Sakura主题遇到的问题汇总/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/article/blogquestions.png">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-2-2 22:02</div>
-      <a href="/2020/02/02/Hexo Sakura主题遇到的问题汇总/" class="post-title">
-        <h3>Hexo Sakura主题的问题汇总</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/blog/">blog<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/技术/">技术</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>Hexo Sakura主题配置中遇到的问题，部分适用于其他的主题</p>
-        <div class="post-bottom">
-          <a href="/2020/02/02/Hexo Sakura主题遇到的问题汇总/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/01/01/定制系统资源/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/article/dzxt20200101.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-1-1 00:01</div>
-      <a href="/2020/01/01/定制系统资源/" class="post-title">
-        <h3>定制系统与使用方式资源</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/其他资源/">其他资源<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/资源/">资源</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>Windows定制系统资源与使用方法整理，不保证一直有效，看运气：）</p>
-        <div class="post-bottom">
-          <a href="/2020/01/01/定制系统资源/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-
-
-    </main>
-      <!-- 首页默认取最最新文章集 -->
-    <!-- 
-      <nav class="navigator">
-        
-        <a class="extend prev" rel="prev" href="/"><i class="iconfont icon-back"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="iconfont icon-right"></i></a>
-      </nav>
-     -->
-  </div>
-  
-    <div id="pagination"><a href="/page/3/" class="">Previous</a></div>
-  
+        <hr>
+        <p><i class="iconfont icon-write"></i></p>
+      </section>
+    </main><!-- #main -->
+  </div><!-- #primary -->
 </div>
+
+
 
     </div>    
     <div class="ins-search">
