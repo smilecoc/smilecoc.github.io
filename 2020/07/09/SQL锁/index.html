@@ -466,37 +466,49 @@
         
         <div class="entry-content">
           <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>锁在MySQL中是非常重要的一部分，锁对MySQL的数据访问并发有着举足轻重的影响。锁涉及到的知识篇幅也很多，所以要啃完并消化到自己的肚子里，是需要静下心好好反反复复几遍地细细品味。本文是对锁的一个大概的整理，一些相关深入的细节，还是需要找到相关书籍来继续夯实。</p>
-<h1 id="一张图了解-MySQL-锁"><a href="#一张图了解-MySQL-锁" class="headerlink" title="一张图了解 MySQL 锁"></a>一张图了解 MySQL 锁</h1><p>![](/upload_image/blog 2007/1.png!large)</p>
+<h1 id="一张图了解-MySQL-锁"><a href="#一张图了解-MySQL-锁" class="headerlink" title="一张图了解 MySQL 锁"></a>一张图了解 MySQL 锁</h1><p><img src="https://img-blog.csdnimg.cn/20200708161102941.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <h1 id="锁的认识"><a href="#锁的认识" class="headerlink" title="锁的认识"></a>锁的认识</h1><h2 id="1-1-锁的解释"><a href="#1-1-锁的解释" class="headerlink" title="1.1 锁的解释"></a>1.1 锁的解释</h2><p>计算机协调多个进程或线程并发访问某一资源的机制。</p>
 <h2 id="1-2-锁的重要性"><a href="#1-2-锁的重要性" class="headerlink" title="1.2 锁的重要性"></a>1.2 锁的重要性</h2><p>在数据库中，除传统计算资源（CPU、RAM、I\O等）的争抢，数据也是一种供多用户共享的资源。<br>如何保证数据并发访问的一致性，有效性，是所有数据库必须要解决的问题。<br>锁冲突也是影响数据库并发访问性能的一个重要因素，因此锁对数据库尤其重要。</p>
 <h2 id="1-3-锁的缺点"><a href="#1-3-锁的缺点" class="headerlink" title="1.3 锁的缺点"></a>1.3 锁的缺点</h2><p>加锁是消耗资源的，锁的各种操作，包括获得锁、检测锁是否已解除、释放锁等 ，都会增加系统的开销。</p>
 <h2 id="1-4-简单的例子"><a href="#1-4-简单的例子" class="headerlink" title="1.4 简单的例子"></a>1.4 简单的例子</h2><p>现如今网购已经特别普遍了，比如淘宝双十一活动，当天的人流量是千万及亿级别的，但商家的库存是有限的。<br>系统为了保证商家的商品库存不发生超卖现象，会对商品的库存进行锁控制。当有用户正在下单某款商品最后一件时，<br>系统会立马对该件商品进行锁定，防止其他用户也重复下单，直到支付动作完成才会释放（支付成功则立即减库存售罄，支付失败则立即释放）。</p>
 <h1 id="锁的类型"><a href="#锁的类型" class="headerlink" title="锁的类型"></a>锁的类型</h1><h2 id="2-1-表锁"><a href="#2-1-表锁" class="headerlink" title="2.1 表锁"></a>2.1 表锁</h2><h3 id="种类"><a href="#种类" class="headerlink" title="种类"></a>种类</h3><ol>
 <li>读锁（read lock），也叫共享锁（shared lock）。针对同一份数据，多个读操作可以同时进行而不会互相影响（select）</li>
-<li>写锁（write lock），也叫排他锁（exclusive lock）。当前操作没完成之前，会阻塞其它读和写操作（update、insert、delete）<h3 id="存储引擎默认锁"><a href="#存储引擎默认锁" class="headerlink" title="存储引擎默认锁"></a>存储引擎默认锁</h3>MyISAM<h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3></li>
+<li>写锁（write lock），也叫排他锁（exclusive lock）。当前操作没完成之前，会阻塞其它读和写操作（update、insert、delete）</li>
+</ol>
+<h3 id="存储引擎默认锁"><a href="#存储引擎默认锁" class="headerlink" title="存储引擎默认锁"></a>存储引擎默认锁</h3><p>MyISAM</p>
+<h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><ol>
 <li>对整张表加锁</li>
 <li>开销小</li>
 <li>加锁快</li>
 <li>无死锁</li>
-<li>锁粒度大，发生锁冲突概率大，并发性低<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3></li>
-<li>读锁会阻塞写操作，不会阻塞读操作</li>
-<li>写锁会阻塞读和写操作<h3 id="建议"><a href="#建议" class="headerlink" title="建议"></a>建议</h3>MyISAM的读写锁调度是写优先，这也是MyISAM不适合做写为主表的引擎，因为写锁以后，其它线程不能做任何操作，大量的更新使查询很难得到锁，从而造成永远阻塞。</li>
+<li>锁粒度大，发生锁冲突概率大，并发性低</li>
 </ol>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><ol>
+<li>读锁会阻塞写操作，不会阻塞读操作</li>
+<li>写锁会阻塞读和写操作</li>
+</ol>
+<h3 id="建议"><a href="#建议" class="headerlink" title="建议"></a>建议</h3><p>MyISAM的读写锁调度是写优先，这也是MyISAM不适合做写为主表的引擎，因为写锁以后，其它线程不能做任何操作，大量的更新使查询很难得到锁，从而造成永远阻塞。</p>
 <h2 id="2-2-行锁"><a href="#2-2-行锁" class="headerlink" title="2.2 行锁"></a>2.2 行锁</h2><h3 id="种类-1"><a href="#种类-1" class="headerlink" title="种类"></a>种类</h3><ol>
 <li>读锁（read lock），也叫共享锁（shared lock）。允许一个事务去读一行，阻止其他事务获得相同数据集的排他锁</li>
 <li>写锁（write lock），也叫排他锁（exclusive lock）。允许获得排他锁的事务更新数据，阻止其他事务取得相同数据集的共享锁和排他锁</li>
 <li>意向共享锁（IS），一个事务给一个数据行加共享锁时，必须先获得表的IS锁</li>
-<li>意向排它锁（IX），一个事务给一个数据行加排他锁时，必须先获得该表的IX锁<h3 id="存储引擎默认锁-1"><a href="#存储引擎默认锁-1" class="headerlink" title="存储引擎默认锁"></a>存储引擎默认锁</h3>InnoDB<h3 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h3></li>
+<li>意向排它锁（IX），一个事务给一个数据行加排他锁时，必须先获得该表的IX锁</li>
+</ol>
+<h3 id="存储引擎默认锁-1"><a href="#存储引擎默认锁-1" class="headerlink" title="存储引擎默认锁"></a>存储引擎默认锁</h3><p>InnoDB</p>
+<h3 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h3><ol>
 <li>对一行数据加锁</li>
 <li>开销大</li>
 <li>加锁慢</li>
 <li>会出现死锁</li>
-<li>锁粒度小，发生锁冲突概率最低，并发性高<h3 id="事务并发带来的问题"><a href="#事务并发带来的问题" class="headerlink" title="事务并发带来的问题"></a>事务并发带来的问题</h3></li>
+<li>锁粒度小，发生锁冲突概率最低，并发性高</li>
+</ol>
+<h3 id="事务并发带来的问题"><a href="#事务并发带来的问题" class="headerlink" title="事务并发带来的问题"></a>事务并发带来的问题</h3><ol>
 <li>更新丢失<br>解决：让事务变成串行操作，而不是并发的操作，即对每个事务开始—对读取记录加排他锁</li>
 <li>脏读<br>解决：隔离级别为Read uncommitted</li>
 <li>不可重读<br>解决：使用Next-Key Lock算法来避免</li>
-<li>幻读<br>解决：间隙锁（Gap Lock）<h2 id="2-3-页锁"><a href="#2-3-页锁" class="headerlink" title="2.3 页锁"></a>2.3 页锁</h2>开销、加锁时间和锁粒度介于表锁和行锁之间，会出现死锁，并发处理能力一般（此锁不做多介绍）</li>
+<li>幻读<br>解决：间隙锁（Gap Lock）</li>
 </ol>
+<h2 id="2-3-页锁"><a href="#2-3-页锁" class="headerlink" title="2.3 页锁"></a>2.3 页锁</h2><p>开销、加锁时间和锁粒度介于表锁和行锁之间，会出现死锁，并发处理能力一般（此锁不做多介绍）</p>
 <h1 id="如何上锁？"><a href="#如何上锁？" class="headerlink" title="如何上锁？"></a>如何上锁？</h1><h2 id="3-1-表锁"><a href="#3-1-表锁" class="headerlink" title="3.1 表锁"></a>3.1 表锁</h2><h3 id="隐式上锁（默认，自动加锁自动释放）"><a href="#隐式上锁（默认，自动加锁自动释放）" class="headerlink" title="隐式上锁（默认，自动加锁自动释放）"></a>隐式上锁（默认，自动加锁自动释放）</h3><p>select //上读锁<br>insert、update、delete //上写锁</p>
 <h3 id="显式上锁（手动）"><a href="#显式上锁（手动）" class="headerlink" title="显式上锁（手动）"></a>显式上锁（手动）</h3><pre><code>lock table tableName read;//读锁
 lock table tableName write;//写锁</code></pre><h3 id="解锁（手动）"><a href="#解锁（手动）" class="headerlink" title="解锁（手动）"></a>解锁（手动）</h3><pre><code>unlock tables;//所有锁表</code></pre><table>
@@ -641,33 +653,48 @@ select * from tableName for update;//写锁</code></pre><h3 id="解锁（手动�
 <h2 id="4-4-行锁的注意点"><a href="#4-4-行锁的注意点" class="headerlink" title="4.4 行锁的注意点"></a>4.4 行锁的注意点</h2><ol>
 <li>只有通过索引条件检索数据时，InnoDB才会使用行级锁，否则会使用表级锁(索引失效，行锁变表锁)</li>
 <li>即使是访问不同行的记录，如果使用的是相同的索引键，会发生锁冲突</li>
-<li>如果数据表建有多个索引时，可以通过不同的索引锁定不同的行<h1 id="如何排查锁？"><a href="#如何排查锁？" class="headerlink" title="如何排查锁？"></a>如何排查锁？</h1><h2 id="5-1-表锁"><a href="#5-1-表锁" class="headerlink" title="5.1 表锁"></a>5.1 表锁</h2><h3 id="查看表锁情况"><a href="#查看表锁情况" class="headerlink" title="查看表锁情况"></a>查看表锁情况</h3><pre><code>show open tables;</code></pre>![](/upload_image/blog 2007/2.png!large)</li>
+<li>如果数据表建有多个索引时，可以通过不同的索引锁定不同的行</li>
 </ol>
-<h3 id="表锁分析"><a href="#表锁分析" class="headerlink" title="表锁分析"></a>表锁分析</h3><pre><code>show status like &#39;table%&#39;;</code></pre><p>![](/upload_image/blog 2007/3.png!large)</p>
+<h1 id="如何排查锁？"><a href="#如何排查锁？" class="headerlink" title="如何排查锁？"></a>如何排查锁？</h1><h2 id="5-1-表锁"><a href="#5-1-表锁" class="headerlink" title="5.1 表锁"></a>5.1 表锁</h2><h3 id="查看表锁情况"><a href="#查看表锁情况" class="headerlink" title="查看表锁情况"></a>查看表锁情况</h3><pre><code>show open tables;</code></pre><p><img src="https://img-blog.csdnimg.cn/20200708172144793.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="一张图彻底搞懂 MySQL 的锁机制"></p>
+<h3 id="表锁分析"><a href="#表锁分析" class="headerlink" title="表锁分析"></a>表锁分析</h3><pre><code>show status like &#39;table%&#39;;</code></pre><p><img src="https://img-blog.csdnimg.cn/20200708172234239.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <ol>
 <li>table_locks_waited<br>出现表级锁定争用而发生等待的次数（不能立即获取锁的次数，每等待一次值加1），此值高说明存在着较严重的表级锁争用情况</li>
-<li>table_locks_immediate<br>产生表级锁定次数，不是可以立即获取锁的查询次数，每立即获取锁加1<h2 id="5-2-行锁"><a href="#5-2-行锁" class="headerlink" title="5.2 行锁"></a>5.2 行锁</h2><h3 id="行锁分析"><a href="#行锁分析" class="headerlink" title="行锁分析"></a>行锁分析</h3><pre><code>show status like &#39;innodb_row_lock%&#39;;</code></pre>![](/upload_image/blog 2007/4.png!large)</li>
+<li>table_locks_immediate<br>产生表级锁定次数，不是可以立即获取锁的查询次数，每立即获取锁加1</li>
+</ol>
+<h2 id="5-2-行锁"><a href="#5-2-行锁" class="headerlink" title="5.2 行锁"></a>5.2 行锁</h2><h3 id="行锁分析"><a href="#行锁分析" class="headerlink" title="行锁分析"></a>行锁分析</h3><pre><code>show status like &#39;innodb_row_lock%&#39;;</code></pre><p><img src="https://img-blog.csdnimg.cn/20200708172342577.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<ol>
 <li>innodb_row_lock_current_waits //当前正在等待锁定的数量</li>
 <li>innodb_row_lock_time //从系统启动到现在锁定总时间长度</li>
 <li>innodb_row_lock_time_avg //每次等待所花平均时间</li>
 <li>innodb_row_lock_time_max //从系统启动到现在等待最长的一次所花时间</li>
-<li>innodb_row_lock_waits //系统启动后到现在总共等待的次数<h3 id="information-schema库"><a href="#information-schema库" class="headerlink" title="information_schema库"></a>information_schema库</h3></li>
+<li>innodb_row_lock_waits //系统启动后到现在总共等待的次数</li>
+</ol>
+<h3 id="information-schema库"><a href="#information-schema库" class="headerlink" title="information_schema库"></a>information_schema库</h3><ol>
 <li>innodb_lock_waits表</li>
 <li>innodb_locks表</li>
-<li>innodb_trx表<h3 id="优化建议"><a href="#优化建议" class="headerlink" title="优化建议"></a>优化建议</h3></li>
+<li>innodb_trx表</li>
+</ol>
+<h3 id="优化建议"><a href="#优化建议" class="headerlink" title="优化建议"></a>优化建议</h3><ol>
 <li>尽可能让所有数据检索都通过索引来完成，避免无索引行锁升级为表锁</li>
 <li>合理设计索引，尽量缩小锁的范围</li>
 <li>尽可能较少检索条件，避免间隙锁</li>
 <li>尽量控制事务大小，减少锁定资源量和时间长度</li>
-<li>尽可能低级别事务隔离<h1 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h1><h2 id="6-1-解释"><a href="#6-1-解释" class="headerlink" title="6.1 解释"></a>6.1 解释</h2>指两个或者多个事务在同一资源上相互占用，并请求锁定对方占用的资源，从而导致恶性循环的现象<h2 id="6-2-产生的条件"><a href="#6-2-产生的条件" class="headerlink" title="6.2 产生的条件"></a>6.2 产生的条件</h2></li>
+<li>尽可能低级别事务隔离</li>
+</ol>
+<h1 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h1><h2 id="6-1-解释"><a href="#6-1-解释" class="headerlink" title="6.1 解释"></a>6.1 解释</h2><p>指两个或者多个事务在同一资源上相互占用，并请求锁定对方占用的资源，从而导致恶性循环的现象</p>
+<h2 id="6-2-产生的条件"><a href="#6-2-产生的条件" class="headerlink" title="6.2 产生的条件"></a>6.2 产生的条件</h2><ol>
 <li>互斥条件：一个资源每次只能被一个进程使用</li>
 <li>请求与保持条件：一个进程因请求资源而阻塞时，对已获得的资源保持不放</li>
 <li>不剥夺条件：进程已获得的资源，在没有使用完之前，不能强行剥夺</li>
-<li>循环等待条件：多个进程之间形成的一种互相循环等待的资源的关系<h2 id="6-3-解决"><a href="#6-3-解决" class="headerlink" title="6.3 解决"></a>6.3 解决</h2></li>
+<li>循环等待条件：多个进程之间形成的一种互相循环等待的资源的关系</li>
+</ol>
+<h2 id="6-3-解决"><a href="#6-3-解决" class="headerlink" title="6.3 解决"></a>6.3 解决</h2><ol>
 <li>查看死锁：show engine innodb status \G</li>
 <li>自动检测机制，超时自动回滚代价较小的事务（innodb_lock_wait_timeout 默认50s）</li>
 <li>人为解决，kill阻塞进程（show processlist）</li>
-<li>wait for graph 等待图（主动检测）<h2 id="6-4-如何避免"><a href="#6-4-如何避免" class="headerlink" title="6.4 如何避免"></a>6.4 如何避免</h2></li>
+<li>wait for graph 等待图（主动检测）</li>
+</ol>
+<h2 id="6-4-如何避免"><a href="#6-4-如何避免" class="headerlink" title="6.4 如何避免"></a>6.4 如何避免</h2><ol>
 <li>加锁顺序一致，尽可能一次性锁定所需的数据行</li>
 <li>尽量基于primary（主键）或unique key更新数据</li>
 <li>单次操作数据量不宜过多，涉及表尽量少</li>
@@ -675,8 +702,9 @@ select * from tableName for update;//写锁</code></pre><h3 id="解锁（手动�
 <li>尽量使用较低的隔离级别</li>
 <li>尽量使用相同条件访问数据，这样可以避免间隙锁对并发的插入影响</li>
 <li>精心设计索引，尽量使用索引访问数据</li>
-<li>借助相关工具：pt-deadlock-logger<h1 id="乐观锁与悲观锁"><a href="#乐观锁与悲观锁" class="headerlink" title="乐观锁与悲观锁"></a>乐观锁与悲观锁</h1>![](/upload_image/blog 2007/5.png!large)</li>
+<li>借助相关工具：pt-deadlock-logger</li>
 </ol>
+<h1 id="乐观锁与悲观锁"><a href="#乐观锁与悲观锁" class="headerlink" title="乐观锁与悲观锁"></a>乐观锁与悲观锁</h1><p><img src="https://img-blog.csdnimg.cn/20200708172548187.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <h2 id="7-1-悲观锁"><a href="#7-1-悲观锁" class="headerlink" title="7.1 悲观锁"></a>7.1 悲观锁</h2><h3 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h3><p>假定会发生并发冲突，屏蔽一切可能违反数据完整性的操作</p>
 <h3 id="实现机制"><a href="#实现机制" class="headerlink" title="实现机制"></a>实现机制</h3><p>表锁、行锁等</p>
 <h3 id="实现层面"><a href="#实现层面" class="headerlink" title="实现层面"></a>实现层面</h3><p>数据库本身</p>
