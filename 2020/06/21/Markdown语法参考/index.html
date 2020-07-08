@@ -841,6 +841,42 @@ Mike |  32</code></pre><table>
 </li>
 </ul>
 <p>如果不使用对齐标记，单元格中的内容默认左对齐；表头单元格中的内容会一直居中对齐（不同的实现可能会有不同表现）。</p>
+<h4 id="在表格单元格里换行"><a href="#在表格单元格里换行" class="headerlink" title="在表格单元格里换行"></a>在表格单元格里换行</h4><p>借助于 HTML 里的 <br> 实现。</p>
+<p>示例代码：</p>
+<pre><code>| Header1 | Header2                          |
+|---------|----------------------------------|
+| item 1  | 1. one&lt;br /&gt;2. two&lt;br /&gt;3. three |</code></pre><p>示例效果：</p>
+<table>
+<thead>
+<tr>
+<th>Header1</th>
+<th>Header2</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>item 1</td>
+<td>1. one<br>2. two<br>3. three</td>
+</tr>
+</tbody></table>
+<h4 id="在表格单元格里加入空格"><a href="#在表格单元格里加入空格" class="headerlink" title="在表格单元格里加入空格"></a>在表格单元格里加入空格</h4><p>直接在 Markdown 里用空格和 Tab 键缩进在渲染后会被忽略掉，需要借助 HTML 转义字符在行首添加空格来实现，&ensp; 代表半角空格，&emsp; 代表全角空格</p>
+<pre><code>| Header1 | Header2                          |
+|---------|----------------------------------|
+| &amp;ensp;   | one</code></pre><table>
+<thead>
+<tr>
+<th>Header1</th>
+<th>Header2</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&ensp;</td>
+<td>one</td>
+</tr>
+<tr>
+<td>同理，这个方法可以在任何需要添加空格和缩进的地方使用</td>
+<td></td>
+</tr>
+</tbody></table>
 <h3 id="任务清单"><a href="#任务清单" class="headerlink" title="任务清单"></a>任务清单</h3><pre><code>- [ ] Eat
 - [x] Code
   - [x] HTML
@@ -856,6 +892,45 @@ Mike |  32</code></pre><table>
 </li>
 <li><input disabled type="checkbox"> Sleep</li>
 </ul>
+<h3 id="添加emoji"><a href="#添加emoji" class="headerlink" title="添加emoji"></a>添加emoji</h3><p>更多可用 Emoji 代码参见 <a href="[https://www.webpagefx.com/tools/emoji-cheat-sheet/">https://www.webpagefx.com/tools/emoji-cheat-sheet/</a></p>
+<pre><code>我和我的小伙伴们都笑了。:smile:</code></pre><p>我和我的小伙伴们都笑了。:smile:</p>
+<h3 id="图文混排"><a href="#图文混排" class="headerlink" title="图文混排"></a>图文混排</h3><p>使用 <img> 标签来贴图，然后指定 align 属性。</p>
+<p>示例代码：</p>
+<pre><code>&lt;img align=&quot;right&quot; src=&quot;https://avatars2.githubusercontent.com/u/3265208?v=3&amp;s=100 &quot;/&gt;
+
+这是一个示例图片。
+
+图片显示在 N 段文字的右边。
+
+N 与图片高度有关。
+
+刷屏行。
+
+刷屏行。
+
+到这里应该不会受影响了，本行应该延伸到了图片的正下方，所以我要足够长才能确保不同的屏幕下都看到效果。</code></pre><img align="right" src="https://avatars2.githubusercontent.com/u/3265208?v=3&s=100 ">
+
+<p>这是一个示例图片。</p>
+<p>图片显示在 N 段文字的右边。</p>
+<p>N 与图片高度有关。</p>
+<p>刷屏行。</p>
+<p>刷屏行。</p>
+<p>到这里应该不会受影响了，本行应该延伸到了图片的正下方，所以我要足够长才能确保不同的屏幕下都看到效果。</p>
+<h3 id="控制图片大小和位置"><a href="#控制图片大小和位置" class="headerlink" title="控制图片大小和位置"></a>控制图片大小和位置</h3><p>标准的 Markdown 图片标记 <img src alt> 无法指定图片的大小和位置，只能依赖默认的图片大小，默认居左。</p>
+<p>而有时候源图太大想要缩小一点，或者想将图片居中，就仍需要借助 HTML 的标签来实现了。图片居中可以使用 <div> 标签加 align 属性来控制，图片宽高则用 width 和 height 来控制。</div></p>
+<p>示例代码：</p>
+<pre><code>**图片默认显示效果：**
+
+![](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL216bG9naW4vbXpsb2dpbi5naXRodWIuaW8vbWFzdGVyL2ltYWdlcy9wb3N0cy9tYXJrZG93bi9kZW1vLnBuZw?x-oss-process=image/format,png)
+
+**加以控制后的效果：**
+
+&lt;div align=&quot;center&quot;&gt;&lt;img width=&quot;65&quot; height=&quot;75&quot; src=&quot;https://imgconvert.csdnimg.cn/aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL216bG9naW4vbXpsb2dpbi5naXRodWIuaW8vbWFzdGVyL2ltYWdlcy9wb3N0cy9tYXJrZG93bi9kZW1vLnBuZw?x-oss-process=image/format,png&quot;/&gt;&lt;/div&gt;</code></pre><p><strong>图片默认显示效果：</strong></p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL216bG9naW4vbXpsb2dpbi5naXRodWIuaW8vbWFzdGVyL2ltYWdlcy9wb3N0cy9tYXJrZG93bi9kZW1vLnBuZw?x-oss-process=image/format,png" alt></p>
+<p><strong>加以控制后的效果：</strong></p>
+<div align="center"><img width="65" height="75" src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL216bG9naW4vbXpsb2dpbi5naXRodWIuaW8vbWFzdGVyL2ltYWdlcy9wb3N0cy9tYXJrZG93bi9kZW1vLnBuZw?x-oss-process=image/format,png"></div>
+
+
 <h3 id="文字颜色、大小、字体设置"><a href="#文字颜色、大小、字体设置" class="headerlink" title="文字颜色、大小、字体设置"></a>文字颜色、大小、字体设置</h3><h4 id="颜色"><a href="#颜色" class="headerlink" title="颜色"></a>颜色</h4><pre><code>浅红色文字：&lt;font color=&quot;#dd0000&quot;&gt;浅红色文字：&lt;/font&gt;&lt;br /&gt; 
 深红色文字：&lt;font color=&quot;#660000&quot;&gt;深红色文字&lt;/font&gt;&lt;br /&gt; 
 浅绿色文字：&lt;font color=&quot;#00dd00&quot;&gt;浅绿色文字&lt;/font&gt;&lt;br /&gt; 
@@ -890,6 +965,23 @@ size为10：&lt;font size=&quot;10&quot;&gt;size为10&lt;/font&gt;&lt;br /&gt; <
 <table><tr><td bgcolor="#D1EEEE">背景色的设置是按照十六进制颜色值：#D1EEEE</td></tr></table>
 <table><tr><td bgcolor="#C0FF3E">背景色的设置是按照十六进制颜色值：#C0FF3E</td></tr></table>
 <table><tr><td bgcolor="#54FF9F">背景色的设置是按照十六进制颜色值：#54FF9F</td></tr></table>
+
+<h3 id="格式化表格"><a href="#格式化表格" class="headerlink" title="格式化表格"></a>格式化表格</h3><p>表格在渲染之后很整洁好看，但是在文件源码里却可能是这样的：</p>
+<pre><code>|Header1|Header2|
+|---|---|
+|a|a|
+|ab|ab|
+|abc|abc|</code></pre><p>在各种编辑器里有为 Markdown 提供了表格格式化功能，比如我使用 <a href="https://github.com/dhruvasagar/vim-table-mode" target="_blank" rel="noopener">Vim 编辑器</a>，就有 vim-table-mode 插件，它能帮我自动将表格格式化成这样：</p>
+<pre><code>| Header1 | Header2 |
+|---------|---------|
+| a       | a       |
+| ab      | ab      |
+| abc     | abc     |</code></pre><p>是不是看着舒服多了？</p>
+<p>如果你不使用 Vim，也没有关系，比如 Atom 编辑器的 markdown-table-formatter 插件，Sublime Text 3 的 MarkdownTableFormatter 等等，都提供了类似的解决方案。</p>
+<h3 id="自动维护目录"><a href="#自动维护目录" class="headerlink" title="自动维护目录"></a>自动维护目录</h3><p>有时候维护一份比较长的文档，希望能够自动根据文档中的标题生成目录（Table of Contents），并且当标题有变化时自动更新目录，能减轻工作量，也不易出错。</p>
+<p>如果你使用 Vim 编辑器，那可以使用插件 vim-markdown-toc 来帮你完美地解决此事：</p>
+<p>插件地址：<a href="https://github.com/mzlogin/vim-markdown-toc" target="_blank" rel="noopener">https://github.com/mzlogin/vim-markdown-toc</a></p>
+<p>参考文档：<br><a href="https://mazhuang.org/2017/09/01/markdown-odd-skills/#%E5%9B%BE%E6%96%87%E6%B7%B7%E6%8E%92" target="_blank" rel="noopener">https://mazhuang.org/2017/09/01/markdown-odd-skills/#%E5%9B%BE%E6%96%87%E6%B7%B7%E6%8E%92</a><br><a href="http://xianbai.me/learn-md/index.html" target="_blank" rel="noopener">http://xianbai.me/learn-md/index.html</a></p>
 
         </div>
         <!-- .entry-content -->

@@ -552,7 +552,7 @@ select ID,name,address,score from [sheet1$]</code></pre>
 <pre><code class="sql">SELECT * From [Sheet1$A:C] where 日期&gt;=#10/1/2013# And 日期&lt;=#10/7/2013#</code></pre>
 <p>还可以以单元为动态引用查询两个日期内的数据,如下图所示</p>
 <pre><code class="sql"> strSQL = &quot;SELECT * From [Sheet1$A:C] where 日期&gt;=#&quot; &amp; Range(&quot;J1&quot;) &amp; &quot;# And 日期&lt;=#&quot; &amp; Range(&quot;K1&quot;) &amp; &quot;#&quot;</code></pre>
-<p><img src="/upload_image/%EF%BD%82%EF%BD%8C%EF%BD%8F%EF%BD%87%EF%BC%92%EF%BC%90%EF%BC%90%EF%BC%93/4.png" alt></p>
+<p>![](/upload_image/blog 2003/4.png)</p>
 <h5 id="like关键字"><a href="#like关键字" class="headerlink" title="like关键字"></a>like关键字</h5><p>Like 操作符用于在 WHERE 子句中搜索列中的模糊匹配</p>
 <pre><code>Select 列字段名 From [工作表名$] Where 列字段 Like &#39;关键字&#39;</code></pre><p>可以加上通配符% （相当于函数公式中的通配符*）</p>
 <pre><code>strSQL = &quot;Select * from [Sheet1$] Where 姓名 like &#39;[AB]%&#39;&quot;</code></pre><p>这一语句表示匹配姓名以A开头或B开头的数据<br>同样的可以反向查询姓名不以A开头或B开头的数据</p>

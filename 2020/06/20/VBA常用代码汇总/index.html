@@ -679,7 +679,6 @@ Sub Vlookup_byarray()
 &#39;Arr为填写vlookup结果的区域
 Arr = thisworkbook.sheets(&quot;test&quot;).Range(&quot;a1&quot;).CurrentRegion
 Set d = CreateObject(&quot;Scripting.Dictionary&quot;) &#39;d是字典,创建字典
-
     arr1 = Sheets(&quot;raw&quot;).Range(&quot;a1&quot;).CurrentRegion &#39;ARR1就是要v的数据,即原始数据
     For i = 2 To UBound(arr1) &#39;对于从Arr1里的所有数据
         d(arr1(i, 1)) = arr1(i, 2) &#39;给字典赋值，键在数组第一列，值在数组第2列
