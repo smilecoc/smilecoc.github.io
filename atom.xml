@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://smilecoc.vip/"/>
-  <updated>2020-07-08T17:04:22.676Z</updated>
+  <updated>2020-07-20T16:04:41.952Z</updated>
   <id>http://smilecoc.vip/</id>
   
   <author>
@@ -15,6 +15,69 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Faker库：快速生成测试数据</title>
+    <link href="http://smilecoc.vip/2020/07/20/Faker%E5%BA%93/"/>
+    <id>http://smilecoc.vip/2020/07/20/Faker%E5%BA%93/</id>
+    <published>2020-07-20T15:57:14.629Z</published>
+    <updated>2020-07-20T16:04:41.952Z</updated>
+    
+    <summary type="html">
+    
+      Faker库
+    
+    </summary>
+    
+    
+      <category term="技术" scheme="http://smilecoc.vip/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="Python库" scheme="http://smilecoc.vip/tags/Python%E5%BA%93/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>removebg包：一键抠图&amp;换证件照底色</title>
+    <link href="http://smilecoc.vip/2020/07/13/removebg%E5%BA%93/"/>
+    <id>http://smilecoc.vip/2020/07/13/removebg%E5%BA%93/</id>
+    <published>2020-07-13T03:52:14.000Z</published>
+    <updated>2020-07-20T16:05:49.160Z</updated>
+    
+    <summary type="html">
+    
+      一键抠图&amp;换证件照底色的python包
+    
+    </summary>
+    
+    
+      <category term="技术" scheme="http://smilecoc.vip/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="Python包" scheme="http://smilecoc.vip/tags/Python%E5%8C%85/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>removebg包：一键抠图&amp;换证件照底色</title>
+    <link href="http://smilecoc.vip/2020/07/13/sweetviz/"/>
+    <id>http://smilecoc.vip/2020/07/13/sweetviz/</id>
+    <published>2020-07-13T03:52:14.000Z</published>
+    <updated>2020-07-27T14:15:08.812Z</updated>
+    
+    <summary type="html">
+    
+      一键抠图&amp;换证件照底色的python包
+    
+    </summary>
+    
+    
+      <category term="技术" scheme="http://smilecoc.vip/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="Python包" scheme="http://smilecoc.vip/tags/Python%E5%8C%85/"/>
+    
+  </entry>
   
   <entry>
     <title>一张图彻底搞懂 MySQL 的锁机制</title>
@@ -147,7 +210,7 @@
     <link href="http://smilecoc.vip/2020/04/12/%E5%AE%9E%E7%94%A8%E7%BD%91%E7%AB%99%E6%B1%87%E6%80%BB/"/>
     <id>http://smilecoc.vip/2020/04/12/%E5%AE%9E%E7%94%A8%E7%BD%91%E7%AB%99%E6%B1%87%E6%80%BB/</id>
     <published>2020-04-12T14:06:14.000Z</published>
-    <updated>2020-07-05T15:16:25.633Z</updated>
+    <updated>2020-07-20T15:27:37.939Z</updated>
     
     <summary type="html">
     
@@ -357,7 +420,7 @@
     <link href="http://smilecoc.vip/2020/03/03/VBA%E4%B8%AD%E4%BD%BF%E7%94%A8SQL/"/>
     <id>http://smilecoc.vip/2020/03/03/VBA%E4%B8%AD%E4%BD%BF%E7%94%A8SQL/</id>
     <published>2020-03-03T14:24:01.000Z</published>
-    <updated>2020-07-08T16:40:13.613Z</updated>
+    <updated>2020-07-20T15:36:12.700Z</updated>
     
     <summary type="html">
     
@@ -370,69 +433,6 @@
     
     
       <category term="Excel &amp; VBA" scheme="http://smilecoc.vip/tags/Excel-VBA/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>京东商品评论爬虫</title>
-    <link href="http://smilecoc.vip/2020/03/02/%E4%BA%AC%E4%B8%9C%E5%95%86%E5%93%81%E8%AF%84%E8%AE%BA%E7%88%AC%E8%99%AB/"/>
-    <id>http://smilecoc.vip/2020/03/02/%E4%BA%AC%E4%B8%9C%E5%95%86%E5%93%81%E8%AF%84%E8%AE%BA%E7%88%AC%E8%99%AB/</id>
-    <published>2020-03-02T14:16:24.000Z</published>
-    <updated>2020-07-08T16:39:23.444Z</updated>
-    
-    <summary type="html">
-    
-      动态网页信息的抓取，并进行数据的存储与分析
-    
-    </summary>
-    
-    
-      <category term="技术" scheme="http://smilecoc.vip/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-    
-      <category term="python爬虫" scheme="http://smilecoc.vip/tags/python%E7%88%AC%E8%99%AB/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Chrome插件资源</title>
-    <link href="http://smilecoc.vip/2020/02/24/Chrome%E6%8F%92%E4%BB%B6%E8%B5%84%E6%BA%90/"/>
-    <id>http://smilecoc.vip/2020/02/24/Chrome%E6%8F%92%E4%BB%B6%E8%B5%84%E6%BA%90/</id>
-    <published>2020-02-24T13:57:00.000Z</published>
-    <updated>2020-04-12T15:40:47.732Z</updated>
-    
-    <summary type="html">
-    
-      Chrome插件推荐，给你的Chrome浏览器加上灵魂
-    
-    </summary>
-    
-    
-      <category term="资源" scheme="http://smilecoc.vip/categories/%E8%B5%84%E6%BA%90/"/>
-    
-    
-      <category term="其他资源" scheme="http://smilecoc.vip/tags/%E5%85%B6%E4%BB%96%E8%B5%84%E6%BA%90/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>B站每日排行榜爬虫</title>
-    <link href="http://smilecoc.vip/2020/02/15/B%E7%AB%99%E6%AF%8F%E6%97%A5%E6%8E%92%E8%A1%8C%E6%A6%9C%E7%88%AC%E8%99%AB/"/>
-    <id>http://smilecoc.vip/2020/02/15/B%E7%AB%99%E6%AF%8F%E6%97%A5%E6%8E%92%E8%A1%8C%E6%A6%9C%E7%88%AC%E8%99%AB/</id>
-    <published>2020-02-15T07:59:01.000Z</published>
-    <updated>2020-02-26T14:30:21.718Z</updated>
-    
-    <summary type="html">
-    
-      爬取B站每日排行榜的名称，up主与播放量等信息
-    
-    </summary>
-    
-    
-      <category term="技术" scheme="http://smilecoc.vip/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-    
-      <category term="python爬虫" scheme="http://smilecoc.vip/tags/python%E7%88%AC%E8%99%AB/"/>
     
   </entry>
   

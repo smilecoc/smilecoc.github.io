@@ -524,8 +524,7 @@ select ID,name,address,score from [sheet1$]</code></pre>
 <p><strong>注意事项：</strong><br><strong>1.在SQL语句中SQL语句英文不区分大小写，但标点符号必须是英文半角状态下输入，字段名也必须跟原来的一样。</strong><br><strong>2.使用SQL语句的时候，必须避免列字段中使用下面的特殊字符：<br>空格、双引号（”）、撇（’）、数字标记（#）、百分号(%)、大于号（&gt;）、小于号(&lt;)、叹号(!)、句号(.)、方括号（[或]）、星号（*）、美元符号($)、分号（;）、脱字号（^）、圆括号（（或））、加号（+）、反斜杠（\或/）。<br>如果在源数据表的列字段使用了这些特殊字符，那么在使用SQL语句列出各字段的数据时，就会发生错误。为了规范使用SQL语句，在对数据源字段命名时，尽量避免使用这些特殊字符。</strong></p>
 <h5 id="distinct关键字"><a href="#distinct关键字" class="headerlink" title="distinct关键字"></a>distinct关键字</h5><p>功能是去重复值只保留一条记录。语法结构为：</p>
 <pre><code>SELECT DISTINCT 要去重复值的字段1,要去重复值的字段2 FROM [工作表名$]</code></pre><pre><code class="sql">Select Distinct name,ID From [sheet1$]</code></pre>
-<h5 id="where关键字"><a href="#where关键字" class="headerlink" title="where关键字"></a>where关键字</h5><p>本帖最后由 335081548 于 2013-10-10 20:53 编辑</p>
-<p>按条件筛选 使用SQL关键词 WHERE查询中的条件指定要满足什么标准信息，去掉不满足条件的数据（删除用户不要的数据）。<br>WHERE语句中可以有多个条件，条件之间可以用操作符AND 或者OR进行连接。<br>WHERE语句的语法结构如下：</p>
+<h5 id="where关键字"><a href="#where关键字" class="headerlink" title="where关键字"></a>where关键字</h5><p>按条件筛选 使用SQL关键词 WHERE查询中的条件指定要满足什么标准信息，去掉不满足条件的数据（删除用户不要的数据）。<br>WHERE语句中可以有多个条件，条件之间可以用操作符AND 或者OR进行连接。<br>WHERE语句的语法结构如下：</p>
 <pre><code>SELECT 列字段名称 FROM [表名称$] WHERE 列字段名 运算符 值</code></pre><p>运算符包含大于、小于、等于、不等于、大于或等于、小于或等于、IN、 BETWEEN、AND等。</p>
 <pre><code class="sql">SELECT * FROM [Sheet1$] where 消费金额=100
 --提取消费金额等于100的数据</code></pre>
@@ -571,6 +570,8 @@ strSQL = &quot;Select * from [Sheet1$] Where not 姓名 like &#39;[AB]%&#39;&quo
 --简写为
 SELECT A.姓名,性别,部门 FROM [Sheet2$]A Left JOIN [Sheet1$]B ON A.姓名=B.姓名</code></pre>
 <p>join除了left join外还有right join，inner join等，之间的区别与sql语句都是一致的。<strong>注意VBA中的SQL是不支持outer join连接的</strong></p>
+<h2 id="4-三表连接"><a href="#4-三表连接" class="headerlink" title="4.三表连接"></a><strong>4.三表连接</strong></h2><p>注意语句中的括号，在VBA  SQL中不使用括号会导致错误</p>
+<pre><code class="sql">select b.Impression,b.Click,c.Visits,c.DemandClick,c.Bounce_Rate,c.PD_Page_View,c.Add_to_Cart,c.Cart_Additions,c.My_Account_Registration,c.Average_Time_Spent,c.Checkout_Starts,c.Total_Orders from ([database template$] as a left JOIN [Raw$] as b on b.SPID=a.placement_id) left JOIN [Raw_Om$] as c on c.key=a.key&quot;</code></pre>
 <h2 id="3-数据透视表"><a href="#3-数据透视表" class="headerlink" title="3.数据透视表"></a><strong>3.数据透视表</strong></h2><p>TRANSFORM语句可以实现像透视表一样的显示结果，语法结构为：</p>
 <pre><code>TRANSFORM 汇总方式  SELECT 行标签 from 表名 group by 行字段 PIVOT 列标签</code></pre><p>这一语句是非常常用的方法，要注意TRANSFORM后的汇总方式为一个聚合函数(一般为sum),同时后续的SELECT语句中不要加入a字段/b字段或者having语句，否则会导致语句错误无法运行<br>eg:</p>
 <pre><code>TRANSFORM Sum(数量) Select 产品名称 from [Sheet1$] group by 产品名称 PIVOT 款号</code></pre><p>TRANSFORM语句话还可以加入一些自定义的设置：</p>

@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">一张图彻底搞懂 MySQL 的锁机制 | Smilecoc&#39;s Blog</title>
+  <title itemprop="name">Faker库：快速生成测试数据 | Smilecoc&#39;s Blog</title>
   
     <link rel="shortcut icon" href="/images/favicon.ico">
   
@@ -435,11 +435,11 @@
 
   <div class="pattern-center single-center">
     <!-- 有配图默认渲染第一张 -->
-    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.7/images/article/sqllock20200709.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.7/images/article/sqllock20200709.jpg">
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.8/images/article/python_codevideo2020520.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.8/images/article/python_codevideo2020520.jpg">
     </div>
     <header class="pattern-header single-header">
       <h1 class="entry-title">
-      一张图彻底搞懂 MySQL 的锁机制</h1>
+      Faker库：快速生成测试数据</h1>
       <p class="entry-census">
         <span>
           <a href="http://smilecoc.vip/">
@@ -451,7 +451,7 @@
         </span>
         <span class="bull">
         ·</span>
-        2020-7-9<span class="bull">
+        2020-7-20<span class="bull">
         ·</span>
       <span id="busuanzi_value_page_pv"></span>次阅读</p>
     </header>
@@ -465,255 +465,410 @@
         <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
         
         <div class="entry-content">
-          <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>锁在MySQL中是非常重要的一部分，锁对MySQL的数据访问并发有着举足轻重的影响。锁涉及到的知识篇幅也很多，所以要啃完并消化到自己的肚子里，是需要静下心好好反反复复几遍地细细品味。本文是对锁的一个大概的整理，一些相关深入的细节，还是需要找到相关书籍来继续夯实。</p>
-<h1 id="一张图了解-MySQL-锁"><a href="#一张图了解-MySQL-锁" class="headerlink" title="一张图了解 MySQL 锁"></a>一张图了解 MySQL 锁</h1><p><img src="https://img-blog.csdnimg.cn/20200708161102941.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h1 id="锁的认识"><a href="#锁的认识" class="headerlink" title="锁的认识"></a>锁的认识</h1><h2 id="1-1-锁的解释"><a href="#1-1-锁的解释" class="headerlink" title="1.1 锁的解释"></a>1.1 锁的解释</h2><p>计算机协调多个进程或线程并发访问某一资源的机制。</p>
-<h2 id="1-2-锁的重要性"><a href="#1-2-锁的重要性" class="headerlink" title="1.2 锁的重要性"></a>1.2 锁的重要性</h2><p>在数据库中，除传统计算资源（CPU、RAM、I\O等）的争抢，数据也是一种供多用户共享的资源。<br>如何保证数据并发访问的一致性，有效性，是所有数据库必须要解决的问题。<br>锁冲突也是影响数据库并发访问性能的一个重要因素，因此锁对数据库尤其重要。</p>
-<h2 id="1-3-锁的缺点"><a href="#1-3-锁的缺点" class="headerlink" title="1.3 锁的缺点"></a>1.3 锁的缺点</h2><p>加锁是消耗资源的，锁的各种操作，包括获得锁、检测锁是否已解除、释放锁等 ，都会增加系统的开销。</p>
-<h2 id="1-4-简单的例子"><a href="#1-4-简单的例子" class="headerlink" title="1.4 简单的例子"></a>1.4 简单的例子</h2><p>现如今网购已经特别普遍了，比如淘宝双十一活动，当天的人流量是千万及亿级别的，但商家的库存是有限的。<br>系统为了保证商家的商品库存不发生超卖现象，会对商品的库存进行锁控制。当有用户正在下单某款商品最后一件时，<br>系统会立马对该件商品进行锁定，防止其他用户也重复下单，直到支付动作完成才会释放（支付成功则立即减库存售罄，支付失败则立即释放）。</p>
-<h1 id="锁的类型"><a href="#锁的类型" class="headerlink" title="锁的类型"></a>锁的类型</h1><h2 id="2-1-表锁"><a href="#2-1-表锁" class="headerlink" title="2.1 表锁"></a>2.1 表锁</h2><h3 id="种类"><a href="#种类" class="headerlink" title="种类"></a>种类</h3><ol>
-<li>读锁（read lock），也叫共享锁（shared lock）。针对同一份数据，多个读操作可以同时进行而不会互相影响（select）</li>
-<li>写锁（write lock），也叫排他锁（exclusive lock）。当前操作没完成之前，会阻塞其它读和写操作（update、insert、delete）</li>
-</ol>
-<h3 id="存储引擎默认锁"><a href="#存储引擎默认锁" class="headerlink" title="存储引擎默认锁"></a>存储引擎默认锁</h3><p>MyISAM</p>
-<h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><ol>
-<li>对整张表加锁</li>
-<li>开销小</li>
-<li>加锁快</li>
-<li>无死锁</li>
-<li>锁粒度大，发生锁冲突概率大，并发性低</li>
-</ol>
-<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><ol>
-<li>读锁会阻塞写操作，不会阻塞读操作</li>
-<li>写锁会阻塞读和写操作</li>
-</ol>
-<h3 id="建议"><a href="#建议" class="headerlink" title="建议"></a>建议</h3><p>MyISAM的读写锁调度是写优先，这也是MyISAM不适合做写为主表的引擎，因为写锁以后，其它线程不能做任何操作，大量的更新使查询很难得到锁，从而造成永远阻塞。</p>
-<h2 id="2-2-行锁"><a href="#2-2-行锁" class="headerlink" title="2.2 行锁"></a>2.2 行锁</h2><h3 id="种类-1"><a href="#种类-1" class="headerlink" title="种类"></a>种类</h3><ol>
-<li>读锁（read lock），也叫共享锁（shared lock）。允许一个事务去读一行，阻止其他事务获得相同数据集的排他锁</li>
-<li>写锁（write lock），也叫排他锁（exclusive lock）。允许获得排他锁的事务更新数据，阻止其他事务取得相同数据集的共享锁和排他锁</li>
-<li>意向共享锁（IS），一个事务给一个数据行加共享锁时，必须先获得表的IS锁</li>
-<li>意向排它锁（IX），一个事务给一个数据行加排他锁时，必须先获得该表的IX锁</li>
-</ol>
-<h3 id="存储引擎默认锁-1"><a href="#存储引擎默认锁-1" class="headerlink" title="存储引擎默认锁"></a>存储引擎默认锁</h3><p>InnoDB</p>
-<h3 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h3><ol>
-<li>对一行数据加锁</li>
-<li>开销大</li>
-<li>加锁慢</li>
-<li>会出现死锁</li>
-<li>锁粒度小，发生锁冲突概率最低，并发性高</li>
-</ol>
-<h3 id="事务并发带来的问题"><a href="#事务并发带来的问题" class="headerlink" title="事务并发带来的问题"></a>事务并发带来的问题</h3><ol>
-<li>更新丢失<br>解决：让事务变成串行操作，而不是并发的操作，即对每个事务开始—对读取记录加排他锁</li>
-<li>脏读<br>解决：隔离级别为Read uncommitted</li>
-<li>不可重读<br>解决：使用Next-Key Lock算法来避免</li>
-<li>幻读<br>解决：间隙锁（Gap Lock）</li>
-</ol>
-<h2 id="2-3-页锁"><a href="#2-3-页锁" class="headerlink" title="2.3 页锁"></a>2.3 页锁</h2><p>开销、加锁时间和锁粒度介于表锁和行锁之间，会出现死锁，并发处理能力一般（此锁不做多介绍）</p>
-<h1 id="如何上锁？"><a href="#如何上锁？" class="headerlink" title="如何上锁？"></a>如何上锁？</h1><h2 id="3-1-表锁"><a href="#3-1-表锁" class="headerlink" title="3.1 表锁"></a>3.1 表锁</h2><h3 id="隐式上锁（默认，自动加锁自动释放）"><a href="#隐式上锁（默认，自动加锁自动释放）" class="headerlink" title="隐式上锁（默认，自动加锁自动释放）"></a>隐式上锁（默认，自动加锁自动释放）</h3><p>select //上读锁<br>insert、update、delete //上写锁</p>
-<h3 id="显式上锁（手动）"><a href="#显式上锁（手动）" class="headerlink" title="显式上锁（手动）"></a>显式上锁（手动）</h3><pre><code>lock table tableName read;//读锁
-lock table tableName write;//写锁</code></pre><h3 id="解锁（手动）"><a href="#解锁（手动）" class="headerlink" title="解锁（手动）"></a>解锁（手动）</h3><pre><code>unlock tables;//所有锁表</code></pre><table>
-<thead>
-<tr>
-<th>session01</th>
-<th>session02</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>lock table teacher read;//上读锁</td>
-<td></td>
-</tr>
-<tr>
-<td>select * from teacher; //可以正常读取</td>
-<td>select * from teacher;//可以正常读取</td>
-</tr>
-<tr>
-<td>update teacher set name = 3 where id =2;//报错因被上读锁不能写操作</td>
-<td>update teacher set name = 3 where id =2;//被阻塞</td>
-</tr>
-<tr>
-<td>unlock tables;//解锁</td>
-<td></td>
-</tr>
-<tr>
-<td>-</td>
-<td>update teacher set name = 3 where id =2;//更新操作成功</td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th>session01</th>
-<th>session02</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>lock table teacher write;//上写锁</td>
-<td></td>
-</tr>
-<tr>
-<td>select * from teacher; //可以正常读取</td>
-<td>select * from teacher;//被阻塞</td>
-</tr>
-<tr>
-<td>update teacher set name = 3 where id =2;//可以正常更新操作</td>
-<td>update teacher set name = 4 where id =2;//被阻塞</td>
-</tr>
-<tr>
-<td>unlock tables;//解锁</td>
-<td></td>
-</tr>
-<tr>
-<td>&ensp;</td>
-<td>select * from teacher;//读取成功</td>
-</tr>
-<tr>
-<td>&ensp;</td>
-<td>update teacher set name = 4 where id =2;//更新操作成功</td>
-</tr>
-</tbody></table>
-<h2 id="3-2-行锁"><a href="#3-2-行锁" class="headerlink" title="3.2 行锁"></a>3.2 行锁</h2><h3 id="隐式上锁（默认，自动加锁自动释放）-1"><a href="#隐式上锁（默认，自动加锁自动释放）-1" class="headerlink" title="隐式上锁（默认，自动加锁自动释放）"></a>隐式上锁（默认，自动加锁自动释放）</h3><p>select //不会上锁<br>insert、update、delete //上写锁</p>
-<h3 id="显式上锁（手动）-1"><a href="#显式上锁（手动）-1" class="headerlink" title="显式上锁（手动）"></a>显式上锁（手动）</h3><pre><code>select * from tableName lock in share mode;//读锁
-select * from tableName for update;//写锁</code></pre><h3 id="解锁（手动）-1"><a href="#解锁（手动）-1" class="headerlink" title="解锁（手动）"></a>解锁（手动）</h3><ol>
-<li>提交事务（commit）</li>
-<li>回滚事务（rollback）</li>
-<li>kill 阻塞进程</li>
-</ol>
-<table>
-<thead>
-<tr>
-<th>session01</th>
-<th>session02</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>begin;</td>
-<td></td>
-</tr>
-<tr>
-<td>select * from teacher where id = 2 lock in share mode;//上读锁</td>
-<td></td>
-</tr>
-<tr>
-<td>&ensp;</td>
-<td>select * from teacher where id = 2;//可以正常读取</td>
-</tr>
-<tr>
-<td>update teacher set name = 3 where id =2;// 可以更新操作</td>
-<td>update teacher set name = 5 where id =2;//被阻塞</td>
-</tr>
-<tr>
-<td>commit;</td>
-<td></td>
-</tr>
-<tr>
-<td>&ensp;</td>
-<td>update teacher set name = 5 where id =2;//更新操作成功</td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th>session01</th>
-<th>session02</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>begin;</td>
-<td></td>
-</tr>
-<tr>
-<td>select * from teacher where id = 2 for update;//上写锁</td>
-<td></td>
-</tr>
-<tr>
-<td>&ensp;</td>
-<td>select * from teacher where id = 2;//可以正常读取</td>
-</tr>
-<tr>
-<td>update teacher set name = 3 where id =2;// 可以更新操作</td>
-<td>update teacher set name = 5 where id =2;//被阻塞</td>
-</tr>
-<tr>
-<td>rollback;</td>
-<td></td>
-</tr>
-<tr>
-<td>&ensp;</td>
-<td>update teacher set name = 5 where id =2;//更新操作成功</td>
-</tr>
-</tbody></table>
-<ul>
-<li>为什么上了写锁，别的事务还可以读操作？因为InnoDB有MVCC机制（多版本并发控制），可以使用快照读，而不会被阻塞。</li>
-</ul>
-<h1 id="行锁的实现算法"><a href="#行锁的实现算法" class="headerlink" title="行锁的实现算法"></a>行锁的实现算法</h1><h2 id="4-1-Record-Lock锁"><a href="#4-1-Record-Lock锁" class="headerlink" title="4.1 Record Lock锁"></a>4.1 Record Lock锁</h2><p>单个行记录上的锁<br>Record Lock总是会去锁住索引记录，如果InnoDB存储引擎表建立的时候没有设置任何一个索引，这时InnoDB存储引擎会使用隐式的主键来进行锁定</p>
-<h2 id="4-2-Gap-Lock锁"><a href="#4-2-Gap-Lock锁" class="headerlink" title="4.2 Gap Lock锁"></a>4.2 Gap Lock锁</h2><p>当我们用范围条件而不是相等条件检索数据，并请求共享或排他锁时，InnoDB会给符合条件的已有数据记录的索引加锁，对于键值在条件范围内但并不存在的记录。</p>
-<p>优点：解决了事务并发的幻读问题<br>不足：因为query执行过程中通过范围查找的话，他会锁定争个范围内所有的索引键值，即使这个键值并不存在。</p>
-<p>间隙锁有一个致命的弱点，就是当锁定一个范围键值之后，即使某些不存在的键值也会被无辜的锁定，而造成锁定的时候无法插入锁定键值范围内任何数据。在某些场景下这可能会对性能造成很大的危害。</p>
-<h2 id="4-3-Next-key-Lock锁"><a href="#4-3-Next-key-Lock锁" class="headerlink" title="4.3 Next-key Lock锁"></a>4.3 Next-key Lock锁</h2><p>同时锁住数据+间隙锁<br>在Repeatable Read隔离级别下，Next-key Lock 算法是默认的行记录锁定算法。</p>
-<h2 id="4-4-行锁的注意点"><a href="#4-4-行锁的注意点" class="headerlink" title="4.4 行锁的注意点"></a>4.4 行锁的注意点</h2><ol>
-<li>只有通过索引条件检索数据时，InnoDB才会使用行级锁，否则会使用表级锁(索引失效，行锁变表锁)</li>
-<li>即使是访问不同行的记录，如果使用的是相同的索引键，会发生锁冲突</li>
-<li>如果数据表建有多个索引时，可以通过不同的索引锁定不同的行</li>
-</ol>
-<h1 id="如何排查锁？"><a href="#如何排查锁？" class="headerlink" title="如何排查锁？"></a>如何排查锁？</h1><h2 id="5-1-表锁"><a href="#5-1-表锁" class="headerlink" title="5.1 表锁"></a>5.1 表锁</h2><h3 id="查看表锁情况"><a href="#查看表锁情况" class="headerlink" title="查看表锁情况"></a>查看表锁情况</h3><pre><code>show open tables;</code></pre><p><img src="https://img-blog.csdnimg.cn/20200708172144793.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="一张图彻底搞懂 MySQL 的锁机制"></p>
-<h3 id="表锁分析"><a href="#表锁分析" class="headerlink" title="表锁分析"></a>表锁分析</h3><pre><code>show status like &#39;table%&#39;;</code></pre><p><img src="https://img-blog.csdnimg.cn/20200708172234239.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<ol>
-<li>table_locks_waited<br>出现表级锁定争用而发生等待的次数（不能立即获取锁的次数，每等待一次值加1），此值高说明存在着较严重的表级锁争用情况</li>
-<li>table_locks_immediate<br>产生表级锁定次数，不是可以立即获取锁的查询次数，每立即获取锁加1</li>
-</ol>
-<h2 id="5-2-行锁"><a href="#5-2-行锁" class="headerlink" title="5.2 行锁"></a>5.2 行锁</h2><h3 id="行锁分析"><a href="#行锁分析" class="headerlink" title="行锁分析"></a>行锁分析</h3><pre><code>show status like &#39;innodb_row_lock%&#39;;</code></pre><p><img src="https://img-blog.csdnimg.cn/20200708172342577.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<ol>
-<li>innodb_row_lock_current_waits //当前正在等待锁定的数量</li>
-<li>innodb_row_lock_time //从系统启动到现在锁定总时间长度</li>
-<li>innodb_row_lock_time_avg //每次等待所花平均时间</li>
-<li>innodb_row_lock_time_max //从系统启动到现在等待最长的一次所花时间</li>
-<li>innodb_row_lock_waits //系统启动后到现在总共等待的次数</li>
-</ol>
-<h3 id="information-schema库"><a href="#information-schema库" class="headerlink" title="information_schema库"></a>information_schema库</h3><ol>
-<li>innodb_lock_waits表</li>
-<li>innodb_locks表</li>
-<li>innodb_trx表</li>
-</ol>
-<h3 id="优化建议"><a href="#优化建议" class="headerlink" title="优化建议"></a>优化建议</h3><ol>
-<li>尽可能让所有数据检索都通过索引来完成，避免无索引行锁升级为表锁</li>
-<li>合理设计索引，尽量缩小锁的范围</li>
-<li>尽可能较少检索条件，避免间隙锁</li>
-<li>尽量控制事务大小，减少锁定资源量和时间长度</li>
-<li>尽可能低级别事务隔离</li>
-</ol>
-<h1 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h1><h2 id="6-1-解释"><a href="#6-1-解释" class="headerlink" title="6.1 解释"></a>6.1 解释</h2><p>指两个或者多个事务在同一资源上相互占用，并请求锁定对方占用的资源，从而导致恶性循环的现象</p>
-<h2 id="6-2-产生的条件"><a href="#6-2-产生的条件" class="headerlink" title="6.2 产生的条件"></a>6.2 产生的条件</h2><ol>
-<li>互斥条件：一个资源每次只能被一个进程使用</li>
-<li>请求与保持条件：一个进程因请求资源而阻塞时，对已获得的资源保持不放</li>
-<li>不剥夺条件：进程已获得的资源，在没有使用完之前，不能强行剥夺</li>
-<li>循环等待条件：多个进程之间形成的一种互相循环等待的资源的关系</li>
-</ol>
-<h2 id="6-3-解决"><a href="#6-3-解决" class="headerlink" title="6.3 解决"></a>6.3 解决</h2><ol>
-<li>查看死锁：show engine innodb status \G</li>
-<li>自动检测机制，超时自动回滚代价较小的事务（innodb_lock_wait_timeout 默认50s）</li>
-<li>人为解决，kill阻塞进程（show processlist）</li>
-<li>wait for graph 等待图（主动检测）</li>
-</ol>
-<h2 id="6-4-如何避免"><a href="#6-4-如何避免" class="headerlink" title="6.4 如何避免"></a>6.4 如何避免</h2><ol>
-<li>加锁顺序一致，尽可能一次性锁定所需的数据行</li>
-<li>尽量基于primary（主键）或unique key更新数据</li>
-<li>单次操作数据量不宜过多，涉及表尽量少</li>
-<li>减少表上索引，减少锁定资源</li>
-<li>尽量使用较低的隔离级别</li>
-<li>尽量使用相同条件访问数据，这样可以避免间隙锁对并发的插入影响</li>
-<li>精心设计索引，尽量使用索引访问数据</li>
-<li>借助相关工具：pt-deadlock-logger</li>
-</ol>
-<h1 id="乐观锁与悲观锁"><a href="#乐观锁与悲观锁" class="headerlink" title="乐观锁与悲观锁"></a>乐观锁与悲观锁</h1><p><img src="https://img-blog.csdnimg.cn/20200708172548187.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h2 id="7-1-悲观锁"><a href="#7-1-悲观锁" class="headerlink" title="7.1 悲观锁"></a>7.1 悲观锁</h2><h3 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h3><p>假定会发生并发冲突，屏蔽一切可能违反数据完整性的操作</p>
-<h3 id="实现机制"><a href="#实现机制" class="headerlink" title="实现机制"></a>实现机制</h3><p>表锁、行锁等</p>
-<h3 id="实现层面"><a href="#实现层面" class="headerlink" title="实现层面"></a>实现层面</h3><p>数据库本身</p>
-<h3 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h3><p>并发量大</p>
-<h2 id="7-2-乐观锁"><a href="#7-2-乐观锁" class="headerlink" title="7.2 乐观锁"></a>7.2 乐观锁</h2><h3 id="解释-1"><a href="#解释-1" class="headerlink" title="解释"></a>解释</h3><p>假设不会发生并发冲突，只在提交操作时检查是否违反数据完整性</p>
-<h3 id="实现机制-1"><a href="#实现机制-1" class="headerlink" title="实现机制"></a>实现机制</h3><p>提交更新时检查版本号或者时间戳是否符合</p>
-<h3 id="实现层面-1"><a href="#实现层面-1" class="headerlink" title="实现层面"></a>实现层面</h3><p>业务代码</p>
-<h3 id="适用场景-1"><a href="#适用场景-1" class="headerlink" title="适用场景"></a>适用场景</h3><p>并发量小</p>
-<p>原文地址：<a href="https://developer.aliyun.com/article/741811" target="_blank" rel="noopener">https://developer.aliyun.com/article/741811</a></p>
+          <p>在做程序开发的时候，我们经常会用到一些测试数据.在 Python 中有个神库，叫做 Faker，它可以自动帮我们来生成各种各样的看起来很真的”假“数据，让我们来看看吧！</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>首先让我们来看看这个库的安装方法，实际上装起来非常简单，使用 pip 安装即可，Python3 版本的安装命令如下：</p>
+<pre><code class="python">pip3 install faker</code></pre>
+<p>安装好了之后，我们使用最简单的例子来生成几个假数据试试：</p>
+<pre><code class="python">from faker import Faker
+
+faker = Faker()
+print(&#39;name:&#39;, faker.name())
+print(&#39;address:&#39;, faker.address())
+print(&#39;text:&#39;, faker.text())</code></pre>
+<p>首先我们从 faker 这个包里面导入一个 Faker 类，然后将其实例化为 faker 对象，依次调用它的 name、address、text 方法，看下运行效果：</p>
+<pre><code>name: Nicholas Wilson
+address: 70561 Simmons Road Apt. 893
+Lake Raymondville, HI 35240
+text: Both begin bring federal space.
+Official start idea specific. Able under young fire.
+Who show line traditional easy people. Until economic lead event case. Technology college his director style.</code></pre><p>看到这里给我们生成了看起来很真的英文姓名、地址、长文本。</p>
+<p>但我们是中国人，我们肯定想要生成中文的吧，不用担心，这个库对非常多的语言都有支持，当然也包括中文了，具体的支持的语言列表可以见：<a href="https://faker.readthedocs.io/en/master/locales.html" target="_blank" rel="noopener">https://faker.readthedocs.io/en/master/locales.html</a>。</p>
+<p>这里几个比较常见的语言代号列一下：</p>
+<pre><code>简体中文：zh_CN
+繁体中文：zh_TW
+美国英文：en_US
+英国英文：en_GB
+德文：de_DE
+日文：ja_JP
+韩文：ko_KR
+法文：fr_FR</code></pre><p>那么如果要生成中文，只需要在 Faker 类的第一个参数传入对应的语言代号即可，例如简体中文就传入 zh_CN，所以上面的代码改写如下：</p>
+<pre><code>from faker import Faker
+
+faker = Faker(&#39;zh_CN&#39;)
+print(&#39;name:&#39;, faker.name())
+print(&#39;address:&#39;, faker.address())
+print(&#39;text:&#39;, faker.text())</code></pre><p>运行结果如下：</p>
+<pre><code>name: 何琳
+address: 宁夏回族自治区六盘水县南溪北镇街f座 912311
+text: 经营软件积分开始次数专业.美国留言一种管理人民解决两个.支持只有地方一切.
+文化目前东西的是不过所以.系统觉得这种为什一下他们.时候以及这样继续是一状态威望.
+网站密码情况.问题一点那个还是.其实过程详细.
+中国历史环境电话规定.经验上海控制不要生活.朋友运行项目我们.
+以后今天那些使用免费国家加入但是.内容简介空间次数最大一个.日期通过得到日本北京.</code></pre><p>可以看到一段中文的姓名、地址、长文本便生成了。看起来地址是省份、地级市、县级市、街道是随机组合的，文本也是一些随机的词组合而成的，但其实这样已经比文章一开头列的测试数据强太多了。</p>
+<p>上面的代码每次运行得到的结果都是不同的，因为生成的结果都是随机组合而成的。</p>
+<h1 id="Provider"><a href="#Provider" class="headerlink" title="Provider"></a>Provider</h1><p>接下来让我们详细看下 faker 可以都生成什么类型的数据，具体的可用 API 可以看 <a href="https://faker.readthedocs.io/en/master/locales/zh_CN.html，这里面列出来了可用的所有方法。" target="_blank" rel="noopener">https://faker.readthedocs.io/en/master/locales/zh_CN.html，这里面列出来了可用的所有方法。</a></p>
+<p>但打开之后可以发现，这里面多了一个 Provider 对象，那么这个 Provider 是怎么一回事呢？</p>
+<p>实际上这个 faker 库在设计上，为了解耦，将 Provider 对象做成了 Faker 对象的”插件“。Faker 可以添加一个个 Provider 对象，Provider 对象为 Faker 对象提供了生成某项数据的核心实现。就相当于 Faker 对象是一个生成器，它的生成功能依赖于什么呢？依赖于 Provider，是 Provider 提供给了 Faker 对象生成某项数据的能力。</p>
+<p>正是因为 Faker 对象内置了一些 Provider 对象，Faker 对象才可以生成刚才所要求的姓名、地址和文本。</p>
+<p>那么这时候我们肯定就很好奇了，既然 Faker 对象有生成数据的能力，那么它一定内置了一些默认的 Provider 对象，下面我们来打印看一下：</p>
+<pre><code class="py">from faker import Faker
+
+faker = Faker(&#39;zh_CN&#39;)
+print(faker.providers)</code></pre>
+<p>运行结果如下：</p>
+<pre><code>[&lt;faker.providers.user_agent.Provider object at 0x10249de48&gt;, &lt;faker.providers.ssn.zh_CN.Provider object at 0x10249dc18&gt;, &lt;faker.providers.python.Provider object at 0x10249dd68&gt;, &lt;faker.providers.profile.Provider object at 0x10249dcc0&gt;, &lt;faker.providers.phone_number.zh_CN.Provider object at 0x10249dc88&gt;, &lt;faker.providers.person.zh_CN.Provider object at 0x10249de80&gt;, &lt;faker.providers.misc.Provider object at 0x10249df60&gt;, &lt;faker.providers.lorem.zh_CN.Provider object at 0x10249dc50&gt;, &lt;faker.providers.job.zh_CN.Provider object at 0x10249de10&gt;, &lt;faker.providers.isbn.Provider object at 0x10249c6d8&gt;, &lt;faker.providers.internet.zh_CN.Provider object at 0x10249c828&gt;, &lt;faker.providers.geo.en_US.Provider object at 0x102484748&gt;, &lt;faker.providers.file.Provider object at 0x102484828&gt;, &lt;faker.providers.date_time.en_US.Provider object at 0x1023789e8&gt;, &lt;faker.providers.currency.Provider object at 0x102484780&gt;, &lt;faker.providers.credit_card.Provider object at 0x1024845f8&gt;, &lt;faker.providers.company.zh_CN.Provider object at 0x102499ef0&gt;, &lt;faker.providers.color.en_US.Provider object at 0x1023532e8&gt;, &lt;faker.providers.barcode.Provider object at 0x101cb6d30&gt;, &lt;faker.providers.bank.en_GB.Provider object at 0x102378f98&gt;, &lt;faker.providers.automotive.en_US.Provider object at 0x1017a5c50&gt;, &lt;faker.providers.address.zh_CN.Provider object at 0x101787c18&gt;]</code></pre><p>还真不少，通过名字可以看到有 user_agent、phone_number、isbn、credit_card 等 Provider，其中具有语言差异化的 Provider 还单独区分了语言，比如 phone_number 代表电话号码，这个不同语言的不同，所以这里就又分了一层 zh_CN，作了语言的区分。</p>
+<p>这样一来，通用的 Provider 就直接处在某个 Provider 类别的模块中，具有语言差异的 Provider 就又根据不同的语言进一步划分了模块，设计上非常科学，易扩展又不冗余。</p>
+<p>知道了 Faker 具有这么多 Provider 之后，我们来看看刚才调用的 name、address 等方法又和 Provider 有什么关系呢？</p>
+<p>我们将 name、address、text 等方法打印一下看看：</p>
+<pre><code class="py">from faker import Faker
+
+faker = Faker(&#39;zh_CN&#39;)
+print(&#39;name:&#39;, faker.name)
+print(&#39;address:&#39;, faker.address)
+print(&#39;text:&#39;, faker.text)</code></pre>
+<p>注意这里没有调用，而是直接打印了这三个方法，这样可以直接输出方法的对象形式的描述，结果如下：</p>
+<pre><code>name: &lt;bound method Provider.name of &lt;faker.providers.person.zh_CN.Provider object at 0x10f6dea58&gt;&gt;
+address: &lt;bound method Provider.address of &lt;faker.providers.address.zh_CN.Provider object at 0x10e9e6cf8&gt;&gt;
+text: &lt;bound method Provider.text of &lt;faker.providers.lorem.zh_CN.Provider object at 0x10f6dfda0&gt;&gt;</code></pre><p>恍然大悟，原来我们调用的方法就是 Faker 对象调用的 Provider 里面的对应方法，比如 name 就是 faker.providers.person.zh_CN.Provider 里面的 name 方法，二者是一致的，我们扒一扒源码验证下，源码在：<a href="https://github.com/joke2k/faker/blob/master/faker/providers/person/__init__.py" target="_blank" rel="noopener">https://github.com/joke2k/faker/blob/master/faker/providers/person/_<em>init_</em>.py</a>，果不其然，里面定义了 name 方法，然后 Faker 动态地将这个方法引入进来了，就可以使用了。</p>
+<h1 id="方法列举"><a href="#方法列举" class="headerlink" title="方法列举"></a>方法列举</h1><p>既然有这么多 Provider，下面我们再详细地看看还有哪些常用的方法吧，下面进行一部分简单的梳理，参考来源文档地址为：<a href="https://faker.readthedocs.io/en/master/providers.html。" target="_blank" rel="noopener">https://faker.readthedocs.io/en/master/providers.html。</a></p>
+<h2 id="Address"><a href="#Address" class="headerlink" title="Address"></a>Address</h2><p>Address，用于生成一些和地址相关的数据，如地址、城市、邮政编码、街道等内容， 用法如下：</p>
+<pre><code class="py">faker.address()
+# &#39;新疆维吾尔自治区杰县南湖武汉街D座 253105&#39;
+faker.building_number()
+# &#39;B座&#39;
+faker.city()
+# &#39;璐县&#39;
+faker.city_name()
+# &#39;贵阳&#39;
+faker.city_suffix()
+# &#39;县&#39;
+faker.country()
+# &#39;阿拉斯加&#39;
+faker.country_code(representation=&quot;alpha-2&quot;)
+# &#39;CR&#39;
+faker.district()
+# &#39;西峰&#39;
+faker.postcode()
+# &#39;726749&#39;
+faker.province()
+# &#39;福建省&#39;
+faker.street_address()
+# &#39;余路N座&#39;
+faker.street_name()
+# &#39;李路&#39;
+faker.street_suffix()
+# &#39;路&#39;</code></pre>
+<h2 id="Color"><a href="#Color" class="headerlink" title="Color"></a>Color</h2><p>Color，用于生成和颜色相关的数据，如 HEX、RGB、RGBA 等格式的颜色，用法如下：</p>
+<pre><code class="py">faker.color_name()
+# &#39;DarkKhaki&#39;
+faker.hex_color()
+# &#39;#97d14e&#39;
+faker.rgb_color()
+# &#39;107,179,51&#39;
+faker.rgb_css_color()
+# &#39;rgb(20,46,70)&#39;
+faker.safe_color_name()
+# &#39;navy&#39;
+faker.safe_hex_color()
+# &#39;#dd2200&#39;</code></pre>
+<h2 id="Company"><a href="#Company" class="headerlink" title="Company"></a>Company</h2><p>Company，用于生成公司相关数据，如公司名、公司前缀、公司后缀等内容，用法如下：</p>
+<pre><code class="py">faker.bs()
+# &#39;grow rich initiatives&#39;
+faker.catch_phrase()
+# &#39;Self-enabling encompassing function&#39;
+faker.company()
+# &#39;恒聪百汇网络有限公司&#39;
+faker.company_prefix()
+# &#39;晖来计算机&#39;
+faker.company_suffix()
+# &#39;信息有限公司&#39;
+Credit Card
+
+Credit Card，用于生成信用卡相关数据，如过期时间、银行卡号、安全码等内容，用法如下：
+
+faker.credit_card_expire(start=&quot;now&quot;, end=&quot;+10y&quot;, date_format=&quot;%m/%y&quot;)
+# &#39;08/20&#39;
+faker.credit_card_full(card_type=None)
+# &#39;Mastercard\n玉兰 范\n5183689713096897 01/25\nCVV: 012\n&#39;
+faker.credit_card_number(card_type=None)
+# &#39;4009911097184929918&#39;
+faker.credit_card_provider(card_type=None)
+# &#39;JCB 15 digit&#39;
+faker.credit_card_security_code(card_type=None)
+# &#39;259&#39;</code></pre>
+<h2 id="Date-Time"><a href="#Date-Time" class="headerlink" title="Date Time"></a>Date Time</h2><p>Date Time，用于生成时间相关数据，如年份、月份、星期、出生日期等内容，可以返回 datetime 类型的数据，用法如下：</p>
+<pre><code class="py">faker.am_pm()
+# &#39;AM&#39;
+faker.century()
+# &#39;X&#39;
+faker.date(pattern=&quot;%Y-%m-%d&quot;, end_datetime=None)
+# &#39;1997-06-16&#39;
+faker.date_between(start_date=&quot;-30y&quot;, end_date=&quot;today&quot;)
+# datetime.date(2000, 8, 30)
+faker.date_between_dates(date_start=None, date_end=None)
+# datetime.date(2019, 7, 30)
+faker.date_object(end_datetime=None)
+# datetime.date(1978, 3, 12)
+faker.date_of_birth(tzinfo=None, minimum_age=0, maximum_age=115)
+# datetime.date(2012, 6, 3)
+faker.date_this_century(before_today=True, after_today=False)
+# datetime.date(2011, 6, 12)
+faker.date_this_decade(before_today=True, after_today=False)
+# datetime.date(2011, 8, 22)
+faker.date_this_month(before_today=True, after_today=False)
+# datetime.date(2019, 7, 25)
+faker.date_this_year(before_today=True, after_today=False)
+# datetime.date(2019, 7, 22)
+faker.date_time(tzinfo=None, end_datetime=None)
+# datetime.datetime(2018, 8, 11, 22, 3, 34)
+faker.date_time_ad(tzinfo=None, end_datetime=None, start_datetime=None)
+# datetime.datetime(1566, 8, 26, 16, 25, 30)
+faker.date_time_between(start_date=&quot;-30y&quot;, end_date=&quot;now&quot;, tzinfo=None)
+# datetime.datetime(2015, 1, 31, 4, 14, 10)
+faker.date_time_between_dates(datetime_start=None, datetime_end=None, tzinfo=None)
+# datetime.datetime(2019, 7, 30, 17, 51, 44)
+faker.date_time_this_century(before_now=True, after_now=False, tzinfo=None)
+# datetime.datetime(2002, 9, 25, 23, 59, 49)
+faker.date_time_this_decade(before_now=True, after_now=False, tzinfo=None)
+# datetime.datetime(2010, 5, 25, 20, 20, 52)
+faker.date_time_this_month(before_now=True, after_now=False, tzinfo=None)
+# datetime.datetime(2019, 7, 19, 18, 4, 6)
+faker.date_time_this_year(before_now=True, after_now=False, tzinfo=None)
+# datetime.datetime(2019, 3, 15, 11, 4, 18)
+faker.day_of_month()
+# &#39;04&#39;
+faker.day_of_week()
+# &#39;Monday&#39;
+faker.future_date(end_date=&quot;+30d&quot;, tzinfo=None)
+# datetime.date(2019, 8, 12)
+faker.future_datetime(end_date=&quot;+30d&quot;, tzinfo=None)
+# datetime.datetime(2019, 8, 24, 2, 59, 4)
+faker.iso8601(tzinfo=None, end_datetime=None)
+# &#39;1987-07-01T18:33:56&#39;
+faker.month()
+# &#39;11&#39;
+faker.month_name()
+# &#39;August&#39;
+faker.past_date(start_date=&quot;-30d&quot;, tzinfo=None)
+# datetime.date(2019, 7, 25)
+faker.past_datetime(start_date=&quot;-30d&quot;, tzinfo=None)
+# datetime.datetime(2019, 7, 18, 22, 46, 51)
+faker.time(pattern=&quot;%H:%M:%S&quot;, end_datetime=None)
+# &#39;16:22:30&#39;
+faker.time_delta(end_datetime=None)
+# datetime.timedelta(0)
+faker.time_object(end_datetime=None)
+# datetime.time(22, 12, 15)
+faker.time_series(start_date=&quot;-30d&quot;, end_date=&quot;now&quot;, precision=None, distrib=None, tzinfo=None)
+# &lt;generator object Provider.time_series at 0x7fcbce0604f8&gt;
+faker.timezone()
+# &#39;Indian/Comoro&#39;
+faker.unix_time(end_datetime=None, start_datetime=None)
+# 1182857626
+faker.year()
+# &#39;1970&#39;</code></pre>
+<h2 id="File"><a href="#File" class="headerlink" title="File"></a>File</h2><p>File，用于生成文件和文件路径相关的数据，包括文件扩展名、文件路径、MIME_TYPE、磁盘分区等内容，用法如下：</p>
+<pre><code class="py">faker.file_extension(category=None)
+# &#39;flac&#39;
+faker.file_name(category=None, extension=None)
+# &#39;然后.numbers&#39;
+faker.file_path(depth=1, category=None, extension=None)
+# &#39;/关系/科技.mov&#39;
+faker.mime_type(category=None)
+# &#39;video/ogg&#39;
+faker.unix_device(prefix=None)
+# &#39;/dev/sdd&#39;
+faker.unix_partition(prefix=None)
+# &#39;/dev/xvds3&#39;</code></pre>
+<h2 id="Geo"><a href="#Geo" class="headerlink" title="Geo"></a>Geo</h2><p>Geo，用于生成和地理位置相关的数据，包括经纬度，时区等等信息，用法如下：</p>
+<pre><code class="py">faker.coordinate(center=None, radius=0.001)
+# Decimal(&#39;-114.420686&#39;)
+faker.latitude()
+# Decimal(&#39;-9.772541&#39;)
+faker.latlng()
+# (Decimal(&#39;-27.0730915&#39;), Decimal(&#39;-5.919460&#39;))
+faker.local_latlng(country_code=&quot;US&quot;, coords_only=False)
+# (&#39;41.47892&#39;, &#39;-87.45476&#39;, &#39;Schererville&#39;, &#39;US&#39;, &#39;America/Chicago&#39;)
+faker.location_on_land(coords_only=False)
+# (&#39;12.74482&#39;, &#39;4.52514&#39;, &#39;Argungu&#39;, &#39;NG&#39;, &#39;Africa/Lagos&#39;)
+faker.longitude()
+# Decimal(&#39;40.885895&#39;)</code></pre>
+<h2 id="Internet"><a href="#Internet" class="headerlink" title="Internet"></a>Internet</h2><p>Internet，用于生成和互联网相关的数据，包括随机电子邮箱、域名、IP 地址、URL、用户名、后缀名等内容，用法如下：</p>
+<pre><code class="py">faker.ascii_company_email(*args, **kwargs)
+# &#39;xuna@xiaqian.cn&#39;
+faker.ascii_email(*args, **kwargs)
+# &#39;min59@60.cn&#39;
+faker.ascii_free_email(*args, **kwargs)
+# &#39;min75@gmail.com&#39;
+faker.ascii_safe_email(*args, **kwargs)
+# &#39;cliu@example.com&#39;
+faker.company_email(*args, **kwargs)
+# &#39;ilong@99.cn&#39;
+faker.domain_name(levels=1)
+# &#39;xiulan.cn&#39;
+faker.domain_word(*args, **kwargs)
+# &#39;luo&#39;
+faker.email(*args, **kwargs)
+# &#39;maoxiulan@hotmail.com&#39;
+faker.free_email(*args, **kwargs)
+# &#39;yanshen@gmail.com&#39;
+faker.free_email_domain(*args, **kwargs)
+# &#39;yahoo.com&#39;
+faker.hostname(*args, **kwargs)
+# &#39;lt-18.pan.cn&#39;
+faker.image_url(width=None, height=None)
+# &#39;https://placekitten.com/51/201&#39;
+faker.ipv4(network=False, address_class=None, private=None)
+# &#39;192.233.68.5&#39;
+faker.ipv4_network_class()
+# &#39;a&#39;
+faker.ipv4_private(network=False, address_class=None)
+# &#39;10.9.97.93&#39;
+faker.ipv4_public(network=False, address_class=None)
+# &#39;192.51.22.7&#39;
+faker.ipv6(network=False)
+# &#39;de57:9c6f:a38c:9864:10ec:6442:775d:5f02&#39;
+faker.mac_address()
+# &#39;99:80:5c:ab:8c:a9&#39;
+faker.safe_email(*args, **kwargs)
+# &#39;tangjuan@example.net&#39;
+faker.slug(*args, **kwargs)
+# &#39;&#39;
+faker.tld()
+# &#39;cn&#39;
+faker.uri()
+# &#39;http://fangfan.org/app/tag/post/&#39;
+faker.uri_extension()
+# &#39;.php&#39;
+faker.uri_page()
+# &#39;about&#39;
+faker.uri_path(deep=None)
+# &#39;app&#39;
+faker.url(schemes=None)
+# &#39;http://mingli.cn/&#39;
+faker.user_name(*args, **kwargs)
+# &#39;jie54&#39;
+Job
+
+Job，用于生成和职业相关的数据，用法如下：
+
+faker.job()
+# &#39;烫工&#39;</code></pre>
+<h2 id="Lorem"><a href="#Lorem" class="headerlink" title="Lorem"></a>Lorem</h2><p>Lorem，用于生成一些假文字数据，包括句子、自然段、长文本、关键词等，另外可以传入不同的参数来控制生成的长度，用法如下：</p>
+<pre><code>faker.paragraph(nb_sentences=3, variable_nb_sentences=True, ext_word_list=None)
+# &#39;包括的是报告那些一点.图片地址基本全部.&#39;
+faker.paragraphs(nb=3, ext_word_list=None)
+# [   &#39;计划规定这样所以组织商品其中.参加成为不同发表地区.精华科技谢谢大家需要.一下手机上海中文工程.&#39;,
+#     &#39;非常相关是一就是一个一种文章发生.增加那些以及之后以下你的.&#39;,
+#     &#39;学生应该出来分析增加关系组织.评论来源朋友注册应该需要单位.感觉最后无法发现选择人民.&#39;]
+faker.sentence(nb_words=6, variable_nb_words=True, ext_word_list=None)
+# &#39;介绍结果自己解决处理.&#39;
+faker.sentences(nb=3, ext_word_list=None)
+# [&#39;查看其实一次学习登录浏览是一他们.&#39;, &#39;而且资源的人事情.&#39;, &#39;科技价格免费大学教育.&#39;]
+faker.text(max_nb_chars=200, ext_word_list=None)
+# (&#39;只是当前国内中文所以.威望系统在线虽然.\n&#39;
+#  &#39;图片人民非常合作这种谢谢更新.名称详细直接社会一直首页完全.\n&#39;
+#  &#39;重要更多只要市场.必须只是学生音乐.系统美国类别这些一切环境.\n&#39;
+#  &#39;但是的话人民美国关于.\n&#39;
+#  &#39;情况专业国际看到研究.音乐环境市场搜索发现.\n&#39;
+#  &#39;工具还是到了今天位置人民.留言作者品牌工程项目必须.上海精华现在我们新闻应该关系.\n&#39;
+#  &#39;更新经济能力全部资源如果.手机能够登录国内.&#39;)
+faker.texts(nb_texts=3, max_nb_chars=200, ext_word_list=None)
+# [   &#39;成功可能推荐你的行业.地区而且推荐.\n&#39;
+#     &#39;网络不断是一主要必须.开始安全服务.\n&#39;
+#     &#39;应该网上通过以后通过大学.管理要求有关国际阅读当前.为了应该结果点击公司开始怎么.\n&#39;
+#     &#39;成功一次最大生产网站.这种加入她的地址有限.\n&#39;
+#     &#39;根据新闻汽车起来非常主题显示必须.有些建设来自作者电话支持.\n&#39;
+#     &#39;只是资源还是由于经济事情喜欢.为什中文大小得到服务.网络密码是否免费参加一次社区欢迎.&#39;,
+#     &#39;部门活动技术.商品影响发生行业密码完成.就是部门结果资料学习当然.或者帮助城市要求首页市场教育你们.\n&#39;
+#     &#39;专业完全分析处理城市大学什么.\n&#39;
+#     &#39;文件非常国际全部起来积分公司.资料的是电影没有.这是本站需要.\n&#39;
+#     &#39;合作重要没有现在市场开发空间.您的会员推荐成功教育进行中国.\n&#39;
+#     &#39;文件不是如果评论.因为经验设备规定.\n&#39;
+#     &#39;加入一起影响网上大家运行在线如果.工程企业这种以后.&#39;,
+#     &#39;空间市场出现必须基本电话.显示一个标准其他设计作品.工程不断新闻问题更多更新这么.\n&#39;
+#     &#39;一起简介网上内容不会.任何知道各种两个.类别事情经营那么投资市场.\n&#39;
+#     &#39;那些使用介绍公司朋友人民你们浏览.应该表示一点一般说明主要谢谢.电话回复起来经验一个来源加入.\n&#39;
+#     &#39;地区法律其他表示虽然.参加社会喜欢有限论坛一般发布.类别目前文化可以.\n&#39;
+#     &#39;报告质量工作主要.企业发布完全.得到名称作者等级两个论坛只要电话.&#39;]
+faker.word(ext_word_list=None)
+# &#39;注意&#39;
+faker.words(nb=3, ext_word_list=None, unique=False)
+# [&#39;责任&#39;, &#39;组织&#39;, &#39;以后&#39;]</code></pre><p>在这里每个方法的参数是不同的，具体的参数解释可以见源代码每个方法的注释：<a href="https://github.com/joke2k/faker/blob/master/faker/providers/lorem/__init\__.py，" target="_blank" rel="noopener">https://github.com/joke2k/faker/blob/master/faker/providers/lorem/__init\__.py，</a></p>
+<h2 id="Misc"><a href="#Misc" class="headerlink" title="Misc"></a>Misc</h2><p>Misc，用于生成生成一些混淆数据，比如密码、sha1、sha256、md5 等加密后的内容，用法如下：</p>
+<pre><code class="py">faker.boolean(chance_of_getting_true=50)
+# True
+faker.md5(raw_output=False)
+# &#39;3166fa26ffd3f2a33e020dfe11191ac6&#39;
+faker.null_boolean()
+# False
+faker.password(length=10, special_chars=True, digits=True, upper_case=True, lower_case=True)
+# &#39;W7Ln8La@%O&#39;
+faker.sha1(raw_output=False)
+# &#39;c8301a2a79445439ee5287f38053e4b3a05eac79&#39;
+faker.sha256(raw_output=False)
+# &#39;1e909d331e20cf241aaa2da894deae5a3a75e5cdc35c053422d9b8e7ccfa0402&#39;
+faker.uuid4(cast_to=&lt;class &#39;str&#39;&gt;)
+# &#39;6e6fe387-6877-48d9-94ea-4263c4c71aa5&#39;</code></pre>
+<h2 id="Person"><a href="#Person" class="headerlink" title="Person"></a>Person</h2><p>Person，用于生成和人名相关的数据，包括姓氏、名字、全名、英文名等内容，还能区分男女名字，用法如下：</p>
+<pre><code class="py">faker.first_name()
+# &#39;颖&#39;
+faker.first_name_female()
+# &#39;芳&#39;
+faker.first_name_male()
+# &#39;利&#39;
+faker.first_romanized_name()
+# &#39;Jing&#39;
+faker.last_name()
+# &#39;温&#39;
+faker.last_name_female()
+# &#39;寇&#39;
+faker.last_name_male()
+# &#39;陈&#39;
+faker.last_romanized_name()
+# &#39;Lei&#39;
+faker.name()
+# &#39;黄明&#39;
+faker.name_female()
+# &#39;张凯&#39;
+faker.name_male()
+# &#39;黄鹏&#39;</code></pre>
+<h2 id="User-Agent"><a href="#User-Agent" class="headerlink" title="User-Agent"></a>User-Agent</h2><p>User-Agent，用于生成和浏览器 User-Agent 相关的内容，可以定制各种浏览器，还可以传入版本信息来控制生成的内容，用法如下：</p>
+<pre><code class="py">faker.chrome(version_from=13, version_to=63, build_from=800, build_to=899)
+# (&#39;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/5332 (KHTML, like Gecko) &#39;
+#  &#39;Chrome/40.0.837.0 Safari/5332&#39;)
+faker.firefox()
+# (&#39;Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_8_9; rv:1.9.4.20) &#39;
+#  &#39;Gecko/2019-05-02 05:58:44 Firefox/3.6.19&#39;)
+faker.internet_explorer()
+# &#39;Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 5.2; Trident/3.0)&#39;
+faker.linux_platform_token()
+# &#39;X11; Linux i686&#39;
+faker.linux_processor()
+# &#39;x86_64&#39;
+faker.mac_platform_token()
+# &#39;Macintosh; U; PPC Mac OS X 10_12_5&#39;
+faker.mac_processor()
+# &#39;U; Intel&#39;
+faker.opera()
+# &#39;Opera/9.77.(Windows NT 4.0; vi-VN) Presto/2.9.182 Version/11.00&#39;
+faker.safari()
+# (&#39;Mozilla/5.0 (Macintosh; PPC Mac OS X 10_7_1 rv:5.0; or-IN) &#39;
+#  &#39;AppleWebKit/535.9.4 (KHTML, like Gecko) Version/5.0.2 Safari/535.9.4&#39;)
+faker.user_agent()
+# &#39;Opera/8.69.(X11; Linux i686; ml-IN) Presto/2.9.170 Version/11.00&#39;
+faker.windows_platform_token()
+# &#39;Windows NT 6.1&#39;</code></pre>
+<p>以上仅仅列了一部分，还有更多的功能大家可以查看官方文档的内容，链接为：<a href="https://faker.readthedocs.io/en/master/locales/zh_CN.html。" target="_blank" rel="noopener">https://faker.readthedocs.io/en/master/locales/zh_CN.html。</a></p>
+<h1 id="其他-Provider"><a href="#其他-Provider" class="headerlink" title="其他 Provider"></a>其他 Provider</h1><p>另外还有一些社区贡献的 Provider，如 WiFi、微服务相关的，大家可以查看文档的说明，另外需要额外安装这些扩展包并自行添加 Provider，文档见：<a href="https://faker.readthedocs.io/en/master/communityproviders.html。" target="_blank" rel="noopener">https://faker.readthedocs.io/en/master/communityproviders.html。</a></p>
+<p>添加 Provider 需要调用 add_provider 方法，用法示例如下：</p>
+<pre><code class="py">from faker import Faker
+from faker.providers import internet
+
+faker = Faker()
+faker.add_provider(internet)
+print(faker.ipv4_private())</code></pre>
+<p>还有更多的内容大家可以参考官方文档，链接：<a href="https://faker.readthedocs.io/。" target="_blank" rel="noopener">https://faker.readthedocs.io/。</a></p>
 
         </div>
         <!-- .entry-content -->
@@ -741,36 +896,19 @@ select * from tableName for update;//写锁</code></pre><h3 id="解锁（手动�
       <div class="toc" style="background: none;"></div>
       <section class="post-squares nextprev">
         
-          
-            <div class="post-nepre half previous">
-          
-            <a href="/2020/07/13/sweetviz/" rel="prev">
-              <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.8/images/article/sweetviz20200727.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.8/images/article/sweetviz20200727.jpg">
-              </div>
-              <span class="label">
-              Previous Post</span>
-              <div class="info">
-                <h3>
-                removebg包：一键抠图&amp;换证件照底色</h3>
-                <hr>
-              </div>
-            </a>
-          </div>
-        
         
           
-            <div class="post-nepre half next">
+            <div class="post-nepre full next">
           
-            <a href="/2020/06/23/SQL  server中的模式架构schema详解/" rel="next">
+            <a href="/2020/07/13/removebg库/" rel="next">
               <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.6/images/article/sql_schema20200622.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.6/images/article/sql_schema20200622.jpg">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.8/images/article/removebg20200720.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.8/images/article/removebg20200720.jpg">
               </div>
               <span class="label">
               Next Post</span>
               <div class="info">
                 <h3>
-                SQL server中的模式架构schema详解</h3>
+                removebg包：一键抠图&amp;换证件照底色</h3>
                 <hr>
               </div>
             </a>
