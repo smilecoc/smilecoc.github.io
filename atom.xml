@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://smilecoc.vip/"/>
-  <updated>2020-07-20T16:04:41.952Z</updated>
+  <updated>2020-07-27T14:26:03.623Z</updated>
   <id>http://smilecoc.vip/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>sweetviz包：快速可视化和数据集EDA</title>
+    <link href="http://smilecoc.vip/2020/07/27/sweetviz/"/>
+    <id>http://smilecoc.vip/2020/07/27/sweetviz/</id>
+    <published>2020-07-27T02:08:45.000Z</published>
+    <updated>2020-07-27T14:26:03.623Z</updated>
+    
+    <summary type="html">
+    
+      快速可视化和数据集EDA的python包
+    
+    </summary>
+    
+    
+      <category term="技术" scheme="http://smilecoc.vip/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="Python包" scheme="http://smilecoc.vip/tags/Python%E5%8C%85/"/>
+    
+  </entry>
   
   <entry>
     <title>Faker库：快速生成测试数据</title>
@@ -43,27 +64,6 @@
     <id>http://smilecoc.vip/2020/07/13/removebg%E5%BA%93/</id>
     <published>2020-07-13T03:52:14.000Z</published>
     <updated>2020-07-20T16:05:49.160Z</updated>
-    
-    <summary type="html">
-    
-      一键抠图&amp;换证件照底色的python包
-    
-    </summary>
-    
-    
-      <category term="技术" scheme="http://smilecoc.vip/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-    
-      <category term="Python包" scheme="http://smilecoc.vip/tags/Python%E5%8C%85/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>removebg包：一键抠图&amp;换证件照底色</title>
-    <link href="http://smilecoc.vip/2020/07/13/sweetviz/"/>
-    <id>http://smilecoc.vip/2020/07/13/sweetviz/</id>
-    <published>2020-07-13T03:52:14.000Z</published>
-    <updated>2020-07-27T14:15:08.812Z</updated>
     
     <summary type="html">
     
