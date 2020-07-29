@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://smilecoc.vip/"/>
-  <updated>2020-07-27T14:33:10.203Z</updated>
+  <updated>2020-07-29T16:10:27.970Z</updated>
   <id>http://smilecoc.vip/</id>
   
   <author>
@@ -17,11 +17,11 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>sweetviz包：快速可视化和数据集EDA</title>
+    <title>sweetviz库：快速可视化和数据集EDA</title>
     <link href="http://smilecoc.vip/2020/07/27/sweetviz/"/>
     <id>http://smilecoc.vip/2020/07/27/sweetviz/</id>
     <published>2020-07-27T02:08:45.000Z</published>
-    <updated>2020-07-27T14:33:10.203Z</updated>
+    <updated>2020-07-29T16:10:27.970Z</updated>
     
     <summary type="html">
     
@@ -33,7 +33,7 @@
       <category term="技术" scheme="http://smilecoc.vip/categories/%E6%8A%80%E6%9C%AF/"/>
     
     
-      <category term="Python包" scheme="http://smilecoc.vip/tags/Python%E5%8C%85/"/>
+      <category term="Python库" scheme="http://smilecoc.vip/tags/Python%E5%BA%93/"/>
     
   </entry>
   
@@ -59,11 +59,11 @@
   </entry>
   
   <entry>
-    <title>removebg包：一键抠图&amp;换证件照底色</title>
+    <title>removebg库：一键抠图&amp;换证件照底色</title>
     <link href="http://smilecoc.vip/2020/07/13/removebg%E5%BA%93/"/>
     <id>http://smilecoc.vip/2020/07/13/removebg%E5%BA%93/</id>
     <published>2020-07-13T03:52:14.000Z</published>
-    <updated>2020-07-20T16:05:49.160Z</updated>
+    <updated>2020-07-29T16:10:55.038Z</updated>
     
     <summary type="html">
     
@@ -75,7 +75,7 @@
       <category term="技术" scheme="http://smilecoc.vip/categories/%E6%8A%80%E6%9C%AF/"/>
     
     
-      <category term="Python包" scheme="http://smilecoc.vip/tags/Python%E5%8C%85/"/>
+      <category term="Python库" scheme="http://smilecoc.vip/tags/Python%E5%BA%93/"/>
     
   </entry>
   
@@ -231,11 +231,11 @@
     <link href="http://smilecoc.vip/2020/04/05/SQL%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86%E6%B1%87%E6%80%BB/"/>
     <id>http://smilecoc.vip/2020/04/05/SQL%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86%E6%B1%87%E6%80%BB/</id>
     <published>2020-04-05T02:24:33.000Z</published>
-    <updated>2020-07-08T16:26:42.547Z</updated>
+    <updated>2020-07-29T16:10:13.030Z</updated>
     
     <summary type="html">
     
-      整理了一下自己遇到的预计网上找到的一些数据分析面试题
+      整理了一下自己遇到的以及网上找到的一些数据分析面试题
     
     </summary>
     
