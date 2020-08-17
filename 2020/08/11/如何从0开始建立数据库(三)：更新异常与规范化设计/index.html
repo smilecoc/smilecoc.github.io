@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">Smilecoc&#39;s Blog</title>
+  <title itemprop="name">如何从0开始建立数据库(三)：更新异常与规范化设计 | Smilecoc&#39;s Blog</title>
   
     <link rel="shortcut icon" href="/images/favicon.ico">
   
@@ -429,497 +429,189 @@
   </div>
 </header>
 
-      <div class="blank" style="padding-top: 0px;"></div>
+      <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<div class="pattern-center-blank"></div>
+
+  <div class="pattern-center single-center">
+    <!-- 有配图默认渲染第一张 -->
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part320200811.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part320200811.jpg">
+    </div>
+    <header class="pattern-header single-header">
+      <h1 class="entry-title">
+      如何从0开始建立数据库(三)：更新异常与规范化设计</h1>
+      <p class="entry-census">
+        <span>
+          <a href="http://smilecoc.vip/">
+            <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico">
+          </a>
+        </span>
+        <span>
+          <a href="http://smilecoc.vip/">smilecoc</a>
+        </span>
+        <span class="bull">
+        ·</span>
+        2020-8-11<span class="bull">
+        ·</span>
+      <span id="busuanzi_value_page_pv"></span>次阅读</p>
+    </header>
+  </div>
+
 <div id="content" class="site-content">
-  
-  <div class="notice" style="margin-top:60px">
-    <i class="iconfont icon-notification">
-    </i>
-    <div class="notice-content">Welcome to My Blog</div>
-  </div>
-  
-  <div class="top-feature-row">
-  <h1 class="fes-title" style="font-family: 'Ubuntu', sans-serif;">
-  <i class="fa fa-anchor" aria-hidden="true">
-  </i>
-  START:DASH!!</h1>
-  
-  <div class="top-feature-v2">
-    <div class="the-feature square from_left_and_right">
-      <a href="http://smilecoc.vip/2019/08/20/%E6%88%91%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E5%85%A8%E8%AE%B0%E5%BD%95/" target="_blank">
-        <div class="img">
-          <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/startdash/sakura.jpg">
-        </div>
-        <div class="info">
-          <h3>Sakura</h3>
-          <p>本站 hexo 主题</p>
-        </div>
-      </a>
-    </div>
-  </div>
-  
-  <div class="top-feature-v2">
-    <div class="the-feature square from_left_and_right">
-      <a href="http://space.bilibili.com/46934171" target="_blank">
-        <div class="img">
-          <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/startdash/bilibili.jpg">
-        </div>
-        <div class="info">
-          <h3>Bilibili</h3>
-          <p>博主的b站视频</p>
-        </div>
-      </a>
-    </div>
-  </div>
-  
-  <div class="top-feature-v2">
-    <div class="the-feature square from_left_and_right">
-      <a href="/" target="_blank">
-        <div class="img">
-          <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/startdash/wangshiwu.jpg">
-        </div>
-        <div class="info">
-          <h3>Romi的杂货铺</h3>
-          <p>博主的微信公众号</p>
-        </div>
-      </a>
-    </div>
-  </div>
-  
-</div>
   <div id="primary" class="content-area">
     <main id="main" class="site-main" role="main">
-      <h1 class="main-title" style="font-family: 'Ubuntu', sans-serif;">
-      <i class="fa fa-envira" aria-hidden="true"></i>
-      Discovery</h1>
+      <article id="post-1" class="post-1 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+        <div class="toc"></div>
+        <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
+        
+        <div class="entry-content">
+          <p>本文转载于<a href="https://www.cnblogs.com/muchen/p/5272620.html，仅做学习参考使用，侵删" target="_blank" rel="noopener">https://www.cnblogs.com/muchen/p/5272620.html，仅做学习参考使用，侵删</a></p>
+<h1 id="更新异常与规范化设计"><a href="#更新异常与规范化设计" class="headerlink" title="更新异常与规范化设计"></a>更新异常与规范化设计</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在前两篇中，主要讲了ER建模和关系建模。在具体分析如何用数据库管理软件RDBMS(Relational Database Management System)实现这些关系前，我想有必要思考下面这个问题：</p>
+<p>为什么要这么麻烦？为什么又是ER建模又是关系建模的？</p>
+<p>本篇的出发点就是回答这个问题。然而某种程度上，也是回答另一个本质性的问题：为什么要有数据库？</p>
+<h2 id="更新异常"><a href="#更新异常" class="headerlink" title="更新异常"></a>更新异常</h2><p>数据库的四大操作：增，删，改，查中，除了查，其他三个都可归为更新操作。而总的来说，ER建模和关系建模的目的，就是为了避免因大量冗余数据导致的数据库更新异常。</p>
+<p>接下来本文将使用一张旅游公司的数据表，来具体分析没有ER建模和关系建模将导致的问题。</p>
+<p>该数据表将由以下这些列组成：<br><img src="https://img-blog.csdnimg.cn/20200806145000890.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br> 下面是该表内的一部分数据：<br><img src="https://img-blog.csdnimg.cn/20200806145012391.png" alt="在这里插入图片描述"></p>
+<p>看到这张表的第一眼，就能发现有很多冗余数据存在，比如红框中的部分： <img src="https://img-blog.csdnimg.cn/20200806145030686.png" alt="在这里插入图片描述"><br>为什么信息冗余会导致更新异常呢？下面将对三种更新操作：插入，删除，修改可能出现的异常分别进行分析。</p>
+<h3 id="1-插入异常-insertion-anomaly"><a href="#1-插入异常-insertion-anomaly" class="headerlink" title="1.插入异常(insertion anomaly)"></a>1.插入异常(insertion anomaly)</h3><p>这种异常是指当用户想要插入某一真实世界的实体数据时，还必须输入另一个真实世界中实体的数据。</p>
+<p>举例来说，公司业务发展，新建了一个“家庭主妇团”的模式。但我要想往表里录入一个新的模式，还必须绑定地录入一个新的活动。</p>
+<h3 id="2-删除异常-deletion-anomaly"><a href="#2-删除异常-deletion-anomaly" class="headerlink" title="2.删除异常(deletion anomaly)"></a>2.删除异常(deletion anomaly)</h3><p>这种异常是指当用户要删除某一真实世界的实体数据时，还必须删除另一个真实世界中实体的数据。</p>
+<p>举例来说，假如删除下图红框中的记录：<br> <img src="https://img-blog.csdnimg.cn/20200806145247571.png" alt="在这里插入图片描述"><br>就会导致把“老年人团”这种模式的相关数据也给清除掉了。</p>
+<h3 id="3-修改异常-modification-anomaly"><a href="#3-修改异常-modification-anomaly" class="headerlink" title="3.修改异常(modification anomaly)"></a>3.修改异常(modification anomaly)</h3><p>这种异常是指当用户要修改某个值的时候，同样的修改操作需要重复多次。</p>
+<p>举例来说，假如公司为了吸引客户，决定多送一天，因而需要将”云南七日游“的持续时间改为8天。这时需要改动的地方就有三处了，如下图红框中所示：<br><img src="https://img-blog.csdnimg.cn/20200806145323262.png" alt="在这里插入图片描述"></p>
+<h2 id="函数依赖"><a href="#函数依赖" class="headerlink" title="函数依赖"></a>函数依赖</h2><p>上述的这些更新异常，都可通过规范化设计的方式避免。在详细介绍规范化设计之前，首先来讨论一个重要的概念：函数依赖(functional dependency)。</p>
+<p>函数依赖，是指关系中每行记录的某一列(或几列)的值唯一决定该条记录另一列的值。总的来说，有以下几种函数依赖：</p>
+<h3 id="1-平凡函数依赖-trivial-functional-dependency"><a href="#1-平凡函数依赖-trivial-functional-dependency" class="headerlink" title="1. 平凡函数依赖(trivial functional dependency)"></a>1. 平凡函数依赖(trivial functional dependency)</h3><p> 是指一个或多个属性确定它自己，或者它的子集。如本文样例数据集中</p>
+<p>TravelCampaignID,TravelCampaignName -&gt; TravelCampaignID就是一个平凡函数依赖。</p>
+<p>注：这种依赖在规范化中不会被用到。</p>
+<h3 id="2-增广函数依赖-augmented-functional-dependency"><a href="#2-增广函数依赖-augmented-functional-dependency" class="headerlink" title="2. 增广函数依赖(augmented functional dependency)"></a>2. 增广函数依赖(augmented functional dependency)</h3><p>是指某个依赖式为真，则依赖式左侧，或者两侧同时增加某语句形成的一种依赖关系。如本文样例数据集中</p>
+<p>TravelCampaignID,ModleID -&gt; TravelCampaignName。因为只需要TravelCampaignID就能够确定TravelCampaignName了。</p>
+<p>注：这种依赖在规范化中不会被用到。</p>
+<h3 id="3-等价函数依赖-equivalent-functional-dependency"><a href="#3-等价函数依赖-equivalent-functional-dependency" class="headerlink" title="3. 等价函数依赖(equivalent functional dependency)"></a>3. 等价函数依赖(equivalent functional dependency)</h3><pre><code>    这种依赖关系是一对对的。比如若A-&gt;B和B-&gt;A都为真，那么A能推出来的，B同样也能推出来，因此A-&gt;B和B-&gt;A就被称作等价函数依赖。如本文样例数据集中</code></pre><p>TravelCampaignID-&gt; TravelCampaignName和TravelCampaignName-&gt; TravelCampaignID。</p>
+<p>注：这种依赖只需保留一组依赖关系即可，但它不属于规范化的范畴。</p>
+<ol start="4">
+<li>部分函数依赖(partial functional dependency)</li>
+</ol>
+<p>是指关系的一列函数依赖于组合主码的一部分。显然这种依赖只有组合主码才存在。如本文样例数据中ModelID-&gt;ModelName，因为记录的复合主码(TravelCampaignID, ModelID)能确定记录的任何一列，ModelID只是该复合主码的一部分。</p>
+<p> 注：这种依赖关系属于规范化范畴。</p>
+<h3 id="5-完全函数依赖-full-key-functional-dependency"><a href="#5-完全函数依赖-full-key-functional-dependency" class="headerlink" title="5. 完全函数依赖(full key functional dependency)"></a>5. 完全函数依赖(full key functional dependency)</h3><p>是指复合主码函数确定关系中的其他列，并且复合主码的任意部分不能单独确定其他列。这个概念和上面的部分函数依赖显然是对立的。</p>
+<p>注：这种依赖关系属于规范化范畴。</p>
+<h3 id="6-传递函数依赖-transitive-functional-dependency"><a href="#6-传递函数依赖-transitive-functional-dependency" class="headerlink" title="6. 传递函数依赖(transitive functional dependency)"></a>6. 传递函数依赖(transitive functional dependency)</h3><p>是指非码列函数确定关系中的其他非码列。如本文样例数据中CampaignManangerID-&gt;CampaignManangerName显然就是一个传递函数依赖。</p>
+<p>这六种函数依赖中只有后面三种和规范化设计有关。前面三种则因为对改进冗余信息并没有帮助，不纳入规范化过程中。</p>
+<h2 id="规范化"><a href="#规范化" class="headerlink" title="规范化"></a>规范化</h2><p>规范化设计能够有效的避免数据冗余导致的更新异常，它基于范式思想。一个关系是否满足某种范式通常要看它是否不包含某个函数依赖。</p>
+<p>下面首先来看看这几个范式的定义：</p>
+<h2 id="1-第一范式-1NF"><a href="#1-第一范式-1NF" class="headerlink" title="1. 第一范式(1NF)"></a>1. 第一范式(1NF)</h2><p>一个表如果每一行都是唯一，并且任何行都没有包含多个值的列，则它满足1NF。但对于关系表来说，真正的规范化过程从第二范式开始，因为关系表本身已经满足1NF了。</p>
+<h2 id="2-第二范式-2NF"><a href="#2-第二范式-2NF" class="headerlink" title="2. 第二范式(2NF)"></a>2. 第二范式(2NF)</h2><p>一个表如果满足1NF，并且不包含部分函数依赖，则这个表满足2NF。</p>
+<h2 id="3-第三范式-3NF"><a href="#3-第三范式-3NF" class="headerlink" title="3. 第三范式(3NF)"></a>3. 第三范式(3NF)</h2><p> 一个表如果满足2NF，并且不包含传递函数依赖，则这个表满足3NF。</p>
+<p>至于3NF以上的范式，则基于其他函数依赖，对于减少数据冗余消除异常没有多大帮助。这里就不再介绍了。</p>
+<p>对样例数据进行第三范式规范化后，结果如下(红字列对应主码)：</p>
+<p>旅行活动表：<br><img src="https://img-blog.csdnimg.cn/20200806150123676.png" alt="在这里插入图片描述"><br>业务经理表：<br><img src="https://img-blog.csdnimg.cn/20200806150133807.png" alt="在这里插入图片描述"><br>游玩模式表：<br><img src="https://img-blog.csdnimg.cn/20200806150158806.png" alt="在这里插入图片描述"></p>
+<p>旅行活动 - 游玩模式联系表：<br><img src="https://img-blog.csdnimg.cn/20200806150205935.png" alt="在这里插入图片描述"></p>
+<p>现在请读者自行思考一下，更新异常解决了吗？答案是肯定的。但是也不能说100%的冗余信息都去除了，比如说外码的映射关系就重复了一次。</p>
+<p>那么如果要对外码进行变更，有什么办法保证不异常呢？这部分内容将在第五篇讲解。</p>
+<h2 id="规范化的例外情况"><a href="#规范化的例外情况" class="headerlink" title="规范化的例外情况"></a>规范化的例外情况</h2><p>并不是说所有的关系都必须满足3NF，没有那么绝对。有些时候可以考虑降到2NF。</p>
+<p>比如说下面这个是某公司销售经理信息表：<br><img src="https://img-blog.csdnimg.cn/20200806150254555.png" alt="在这里插入图片描述"><br> 这张表并不满足3NF，因为邮编和城市之间存在了部分函数依赖，从而有信息冗余(见上图红框部分)。但由于该公司同一地区最多只有两名销售经理，因此冗余情况很少，规范化到3NF让表设计显得过于复杂化了。因此这种情况可以考虑不升级到3NF，让上层实现去解决冗余问题。</p>
+<h2 id="ER建模，关系建模与规范化设计"><a href="#ER建模，关系建模与规范化设计" class="headerlink" title="ER建模，关系建模与规范化设计"></a>ER建模，关系建模与规范化设计</h2><p>看到这里，它们之间的关系也就呼之欲出了。这些建模工作的作用，就是能够让设计的关系更容易满足规范化设计中的(第三)范式要求，从而减少数据冗余，消除更新异常。</p>
+<p>在实际开发中，绝大部分情况还是按着ER建模-&gt;关系建模-&gt;物理模型建模来走。这样设计出来的表绝大部分满足第三范式，只有小部分地方需要调整一下，根据实际情况决定是选用3NF还是2NF，其中前者占大多数情况。</p>
+<p>不按这个套路来，后果就是前文提到的那一堆更新异常。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>看完本文的分析，读者应该明白了前两篇所做的工作：ER建模和关系建模的根本意义所在，也应该体会到了关系数据库理论的价值。</p>
+<p>接下来的一篇，将讲解如何具体在数据库管理软件RDBMS里创建这些表，以及如何对这些表进行增，删，改，查等操作。这些工作将使用到大名鼎鼎的SQL，它是目前最受数据分析师，数据挖掘工程师们欢迎的语言。</p>
+
+        </div>
+        <!-- .entry-content -->
+        <div class="single-reward">
+          <div class="reward-open">赏<div class="reward-main">
+              <ul class="reward-row">
+                <li class="alipay-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/AliPayQR.jpg"></li>
+                <li class="wechat-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/wechatpayQR.jpg"></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
+        <footer class="post-footer">
+          <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
+          <div class="post-tags">
+          </div>
+          <div class="post-share">
+            <div class="social-share sharehidden share-component"></div>
+            <i class="iconfont show-share icon-forward"></i>
+          </div>
+        </footer><!-- .entry-footer -->
+      </article>
+      <!-- #post-## -->
+      <div class="toc" style="background: none;"></div>
+      <section class="post-squares nextprev">
+        
+          
+            <div class="post-nepre half previous">
+          
+            <a href="/2020/08/11/如何从0开始建立数据库(五)：数据库系统的实现/" rel="prev">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part520200811.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part520200811.jpg">
+              </div>
+              <span class="label">
+              Previous Post</span>
+              <div class="info">
+                <h3>
+                如何从0开始建立数据库(五)：数据库系统的实现</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+        
+          
+            <div class="post-nepre half next">
+          
+            <a href="/2020/08/11/如何从0开始建立数据库(四)：SQL/" rel="next">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part420200811.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part420200811.jpg">
+              </div>
+              <span class="label">
+              Next Post</span>
+              <div class="info">
+                <h3>
+                如何从0开始建立数据库(四)：SQL</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+      </section>
       
-  <!-- 首页默认取最最新文章集 -->
-  
-    
-<article  class="post post-list-thumb post-list-thumb-left"  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
+<div id="vcomments"></div>
+<script>
+  window.onload = function(){
+      var valine = new Valine();
+      valine.init({
+        el: '#vcomments',
+        appId: "Hm83GoGeDX3sGPDh3Q50lSMz-gzGzoHsz",
+        appKey: "mXIVaYaFj1DNyH6yBicfUS0w",
+        path: window.location.pathname,
+        placeholder: "你是我一生只会遇见一次的惊喜 ..."
+      })
+  }
+</script>
 
-  <div class="post-thumb">
-    <a href="/2020/06/23/SQL  server中的模式架构schema详解/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.6/images/article/sql_schema20200622.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-6-23 23:06</div>
-      <a href="/2020/06/23/SQL  server中的模式架构schema详解/" class="post-title">
-        <h3>SQL server中的模式架构schema详解</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/SQL-数据库/">SQL&amp;数据库<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/笔记/">笔记</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>SQL server中的schema(中文叫做模式/架构)详解</p>
-        <div class="post-bottom">
-          <a href="/2020/06/23/SQL  server中的模式架构schema详解/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
+      <section class="author-profile">
+        <div class="info" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <a href="http://smilecoc.vip/" class="profile gravatar"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico" itemprop="image" alt="smilecoc" height="70" width="70"></a>
+          <div class="meta">
+            <span class="title">Author</span>
+            <h3 itemprop="name">
+            <a href="http://smilecoc.vip/" itemprop="url" rel="author">smilecoc</a>
+            </h3>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/06/21/Markdown语法参考/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.6/images/article/markdowm_guidance20200621.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-6-21 13:06</div>
-      <a href="/2020/06/21/Markdown语法参考/" class="post-title">
-        <h3>Markdown语法参考</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/Markdown/">Markdown<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/转载/">转载</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>Markdown语法参考</p>
-        <div class="post-bottom">
-          <a href="/2020/06/21/Markdown语法参考/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb post-list-thumb-left"  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/06/20/VBA常用代码汇总/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.5/images/article/vba_code20200620.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-6-20 12:06</div>
-      <a href="/2020/06/20/VBA常用代码汇总/" class="post-title">
-        <h3>VBA常用代码汇总</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/Excel-VBA/">Excel &amp; VBA<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/技术/">技术</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>VBA常用代码汇总</p>
-        <div class="post-bottom">
-          <a href="/2020/06/20/VBA常用代码汇总/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/05/31/MMM/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.5/images/article/mmm2020531.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-5-31 19:05</div>
-      <a href="/2020/05/31/MMM/" class="post-title">
-        <h3>Python数据分析实战之营销组合模型</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/Python数据分析/">Python数据分析<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/技术/">技术</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>Python数据分析实战之营销组合模型</p>
-        <div class="post-bottom">
-          <a href="/2020/05/31/MMM/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb post-list-thumb-left"  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/05/20/Python视频相关操作/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.5/images/article/python_codevideo2020520.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-5-20 20:05</div>
-      <a href="/2020/05/20/Python视频相关操作/" class="post-title">
-        <h3>Python骚操作之使用python做个视频</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/python其他/">python其他<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/技术/">技术</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>使用Python下载视频，转化视频一条龙 🤔</p>
-        <div class="post-bottom">
-          <a href="/2020/05/20/Python视频相关操作/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/04/12/实用网站汇总/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.4/images/article/websitezl20200412.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-4-12 22:04</div>
-      <a href="/2020/04/12/实用网站汇总/" class="post-title">
-        <h3>实用网站资源整理汇总</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/其他资源/">其他资源<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/资源/">资源</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>一些比较好用的网站整理~</p>
-        <div class="post-bottom">
-          <a href="/2020/04/12/实用网站汇总/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb post-list-thumb-left"  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/04/05/SQL面试题整理汇总/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.3/images/article/dams20200405.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-4-5 10:04</div>
-      <a href="/2020/04/05/SQL面试题整理汇总/" class="post-title">
-        <h3>数据分析面试题整理汇总</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/SQL-数据库/">SQL&amp;数据库<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/笔记/">笔记</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>整理了一下自己遇到的以及网上找到的一些数据分析面试题</p>
-        <div class="post-bottom">
-          <a href="/2020/04/05/SQL面试题整理汇总/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/04/04/SQL面试44题/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.3/images/article/sqlms4420200404.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-4-4 16:04</div>
-      <a href="/2020/04/04/SQL面试44题/" class="post-title">
-        <h3>SQL面试44题</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/SQL-数据库/">SQL&amp;数据库<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/笔记/">笔记</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>SQL经典面试44题</p>
-        <div class="post-bottom">
-          <a href="/2020/04/04/SQL面试44题/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb post-list-thumb-left"  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/03/21/海盗分金问题/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.2/images/article/hdfj20200321.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-3-21 19:03</div>
-      <a href="/2020/03/21/海盗分金问题/" class="post-title">
-        <h3>海盗分金问题问题</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/题解/">题解<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/笔记/">笔记</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>海盗分金问题，博弈论习题</p>
-        <div class="post-bottom">
-          <a href="/2020/03/21/海盗分金问题/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/03/20/双蛋问题/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.2/images/article/doubleeggs20200320.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-3-20 20:03</div>
-      <a href="/2020/03/20/双蛋问题/" class="post-title">
-        <h3>双蛋问题</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/题解/">题解<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/笔记/">笔记</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>双蛋问题的多种情况下的解法与递归求解</p>
-        <div class="post-bottom">
-          <a href="/2020/03/20/双蛋问题/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-
-
-    </main>
-      <!-- 首页默认取最最新文章集 -->
-    <!-- 
-      <nav class="navigator">
-        
-        <a class="extend prev" rel="prev" href="/"><i class="iconfont icon-back"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/"><i class="iconfont icon-right"></i></a>
-      </nav>
-     -->
-  </div>
-  
-    <div id="pagination"><a href="/page/3/" class="">Previous</a></div>
-  
+        <hr>
+        <p><i class="iconfont icon-write"></i></p>
+      </section>
+    </main><!-- #main -->
+  </div><!-- #primary -->
 </div>
+
+
 
     </div>    
     <div class="ins-search">

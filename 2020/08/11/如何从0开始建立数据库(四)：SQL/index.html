@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">Smilecoc&#39;s Blog</title>
+  <title itemprop="name">如何从0开始建立数据库(四)：SQL | Smilecoc&#39;s Blog</title>
   
     <link rel="shortcut icon" href="/images/favicon.ico">
   
@@ -429,497 +429,189 @@
   </div>
 </header>
 
-      <div class="blank" style="padding-top: 0px;"></div>
+      <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<div class="pattern-center-blank"></div>
+
+  <div class="pattern-center single-center">
+    <!-- 有配图默认渲染第一张 -->
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part420200811.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part420200811.jpg">
+    </div>
+    <header class="pattern-header single-header">
+      <h1 class="entry-title">
+      如何从0开始建立数据库(四)：SQL</h1>
+      <p class="entry-census">
+        <span>
+          <a href="http://smilecoc.vip/">
+            <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico">
+          </a>
+        </span>
+        <span>
+          <a href="http://smilecoc.vip/">smilecoc</a>
+        </span>
+        <span class="bull">
+        ·</span>
+        2020-8-11<span class="bull">
+        ·</span>
+      <span id="busuanzi_value_page_pv"></span>次阅读</p>
+    </header>
+  </div>
+
 <div id="content" class="site-content">
-  
-  <div class="notice" style="margin-top:60px">
-    <i class="iconfont icon-notification">
-    </i>
-    <div class="notice-content">Welcome to My Blog</div>
-  </div>
-  
-  <div class="top-feature-row">
-  <h1 class="fes-title" style="font-family: 'Ubuntu', sans-serif;">
-  <i class="fa fa-anchor" aria-hidden="true">
-  </i>
-  START:DASH!!</h1>
-  
-  <div class="top-feature-v2">
-    <div class="the-feature square from_left_and_right">
-      <a href="http://smilecoc.vip/2019/08/20/%E6%88%91%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E5%85%A8%E8%AE%B0%E5%BD%95/" target="_blank">
-        <div class="img">
-          <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/startdash/sakura.jpg">
-        </div>
-        <div class="info">
-          <h3>Sakura</h3>
-          <p>本站 hexo 主题</p>
-        </div>
-      </a>
-    </div>
-  </div>
-  
-  <div class="top-feature-v2">
-    <div class="the-feature square from_left_and_right">
-      <a href="http://space.bilibili.com/46934171" target="_blank">
-        <div class="img">
-          <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/startdash/bilibili.jpg">
-        </div>
-        <div class="info">
-          <h3>Bilibili</h3>
-          <p>博主的b站视频</p>
-        </div>
-      </a>
-    </div>
-  </div>
-  
-  <div class="top-feature-v2">
-    <div class="the-feature square from_left_and_right">
-      <a href="/" target="_blank">
-        <div class="img">
-          <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/startdash/wangshiwu.jpg">
-        </div>
-        <div class="info">
-          <h3>Romi的杂货铺</h3>
-          <p>博主的微信公众号</p>
-        </div>
-      </a>
-    </div>
-  </div>
-  
-</div>
   <div id="primary" class="content-area">
     <main id="main" class="site-main" role="main">
-      <h1 class="main-title" style="font-family: 'Ubuntu', sans-serif;">
-      <i class="fa fa-envira" aria-hidden="true"></i>
-      Discovery</h1>
+      <article id="post-1" class="post-1 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+        <div class="toc"></div>
+        <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
+        
+        <div class="entry-content">
+          <p>本文转载于<a href="https://www.cnblogs.com/muchen/p/5286769.html，仅做学习参考使用，侵删" target="_blank" rel="noopener">https://www.cnblogs.com/muchen/p/5286769.html，仅做学习参考使用，侵删</a></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>确实，关于SQL的学习资料，各类文档在网上到处都是。但它们绝大多数的出发点都局限在旧有关系数据库里，内容近乎千篇一律。而在当今大数据的浪潮下，SQL早就被赋予了新的责任和意义。</p>
+<p>本篇中，笔者将结合过去在A公司和T公司大数据部门的学习工作经历，对传统SQL语法进行一次回顾性学习。同时，思考这门语言在大数据时代的重要意义。</p>
+<h2 id="大数据技术中SQL的作用"><a href="#大数据技术中SQL的作用" class="headerlink" title="大数据技术中SQL的作用"></a>大数据技术中SQL的作用</h2><p>SQL的全称为Structured Query Language，也即结构化查询语言。关系数据库中，SQL是用户使用数据库的基本手段，它能用于创建数据库或者关系，能对数据库中各关系进行增删改查，还能对数据库进行维护和管理等等。而随着分布式计算平台如Hadoop，Spark的兴起，SQL的应用范围发生了较大变化，但它作为数据分析核心的地位，始终没有动摇。在新的背景下，SQL语言具有以下新的意义：</p>
+<h3 id="1-管理大型分布式数据仓储系统中的”元仓”"><a href="#1-管理大型分布式数据仓储系统中的”元仓”" class="headerlink" title="1. 管理大型分布式数据仓储系统中的”元仓”"></a>1. 管理大型分布式数据仓储系统中的”元仓”</h3><p>所谓”元仓”，可以理解为存放元数据的数据库。关系数据库中叫数据字典(data dictionary)，而Hadoop平台的数据仓库工具Hive或Spark平台的Spark SQL则将其称为metastore。在这类分布式的仓储系统里，数据计算都是在分布式平台上进行，但其metastore几乎都是建立在传统的关系数据库(如MySQL)上。</p>
+<p>那么元数据又是什么？对大数据计算分析平台重要吗？</p>
+<p> 举个例子，笔者之前所在的A公司其云计算系统可以说是国内业界最强。在该公司的某个巨型大数据离线计算平台的元仓里，主要存放的元数据有各关系的基本信息(表名列名等)，数据血缘及调度依赖关系，数据权限关系，数据资产关系  ，数据监控关系等等，如下图所示：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200806185124921.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>而基于元仓，还可以开发出类似数据地图系统，数据资产管理系统，数据质量工程系统等高级数据管理工具供公司各类开发人员使用。关于这些数据在分布式平台的采集、管理属于一个非常有趣而有挑战的话题，甚至可能是将来云计算发展的一个重要趋势所在。但由于这部分比较多的涉及到商业机密，本文点到为止了。</p>
+<p>回到主题，读者想必对元仓的重要性有了感悟。而元仓又是存放在关系数据库里，因此要想管理好元仓，你需要熟练掌握SQL。</p>
+<h3 id="2-操作大数据平台完成数据分析任务"><a href="#2-操作大数据平台完成数据分析任务" class="headerlink" title="2. 操作大数据平台完成数据分析任务"></a>2. 操作大数据平台完成数据分析任务</h3><p>了解大数据技术的童鞋想必清楚，Hadoop平台没有实现数据库，其核心只在于MapReduce编程框架和Hdfs文件系统。但如果每个计算任务都要写MR代码，那是很让人抓狂的。这点很快就被Apache公司注意到，并针对该问题发布了Hive数据仓库工具。这个工具提供一种类SQL的语言，用户能直接使用它进行数据分析，而它则负责将类SQL语言转化为MR代码，提交Hadoop平台执行。Hive在Hadoop生态圈中的意义恐怕不是最大也是最大之一，很多公司甚至就单纯为了使用Hive而搭建的Hadoop环境。所以为了不纠结于分布式代码缩减开发成本，你需要熟练掌握SQL。</p>
+<h3 id="3-在线报表展示"><a href="#3-在线报表展示" class="headerlink" title="3. 在线报表展示"></a>3. 在线报表展示</h3><p>再举个例子，笔者在T公司工作时，在利用大数据分析平台进行数据分析后，最终结果需要提交到在线报表系统以进行可视化展示。但由于数据分析结果的量并不大，同时为了利用关系数据库强一致性等优势，数据分析的结果都要先从大数据平台转入关系数据库，然后让报表系统从关系数据库中取数。所以为了顺利高效的在线发布数据分析结果，你需要熟练掌握SQL。</p>
+<h3 id="4-其他"><a href="#4-其他" class="headerlink" title="4. 其他"></a>4. 其他</h3><p>以上部分仅仅是SQL应用的冰山一角。对于从事数据研发的人来说，无论在什么环境框架下，都可能用到这门语言。以致于有些同事将之戏称为”西阔心经”：）。</p>
+<h2 id="SQL命令综述"><a href="#SQL命令综述" class="headerlink" title="SQL命令综述"></a>SQL命令综述</h2><p>SQL虽然基础重要应用广泛，但学起来却比较容易。记得以前某人跟我说的，想成为一个特级厨师，基本刀功肯定不能差。那么在接下来学习数据仓库，数据挖掘，深度学习等”高大上”技术之前，还是先好好巩固一下”西阔心经”吧。</p>
+<p>总的来说，SQL语法可以划分为几大块：<br><img src="https://img-blog.csdnimg.cn/20200806185830931.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<ol>
+<li><p>数据定义语言DDL：用于具体实现关系，以及关系附带的一些结构，如索引等；</p>
+<ol start="2">
+<li>数据查询语言DML：用于操作数据库，包括增删改查；</li>
+<li>数据控制语言DCL：用来帮助实现数据库的存取控制；</li>
+<li>事务控制语言TCL：用于数据库中的事务管理；</li>
+</ol>
+<p>接下来本文将对几大类的SQL进行讲解，采用回顾总结型的讲解方式，不会涉及过多细节。</p>
+</li>
+</ol>
+<h2 id="DDL"><a href="#DDL" class="headerlink" title="DDL"></a>DDL</h2><pre><code>    数据定义语言DDL(Data Definition Language)的组成部分并不多，主要涉及到的关键字有：CREATE, ALTER, DROP这三个。</code></pre><ol>
+<li>CREATE:用于创建数据库，创建关系表，创建视图等。需要注意的是在建表的时候除了表本身，还要定义主外键约束，以及一些附带结构，如索引等。<ol start="2">
+<li>ALTER:用于调整数据库/表/视图的结构信息。</li>
+</ol>
+</li>
+<li>DROP:用于删除数据库/表/视图。要注意删除的时候必须先删除外码所在关系，然后再删除被外码参照的主码的关系。</li>
+</ol>
+<h2 id="DML"><a href="#DML" class="headerlink" title="DML"></a>DML</h2><p>数据查询语言DML(Data Manipulation Language)是SQL的主体成分，SQL的编写工作绝大部分都是在这一块。该部分知识比较杂而多，故本文选择从整体角度，以经验总结的形式进行讲解，相关语法细节请读者查询有关函数手册。</p>
+<p>总的来说，DML有以下功能(底层项为功能所涉及关键字)：<br><img src="https://img-blog.csdnimg.cn/20200806185936224.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h3 id="1-基本检索"><a href="#1-基本检索" class="headerlink" title="1. 基本检索"></a>1. 基本检索</h3><p>SELECT+WHERE+GROUP BY(聚集函数)+HAVING+ORDER BY是最常用的查询组合，要注意的是如果SELECT搭配了GROUP BY，那么GROUP BY后列也要是SELECT的一部分，这样查询结果才能清楚展示数据是按什么分组的。另一方面，如果使用了GROUP BY，那么出现在SELECT后不使用聚集函数的列必须也出现在GROUP BY里否则系统提示异常。新手常会犯这个错误，如以下代码：</p>
+<pre><code class="sql">SELECT id, name, count(*)
+GROUP BY id</code></pre>
+<p>name列没有使用聚集函数，且没有出现在GROUP BY后，因此系统必然提示出错。</p>
+<p> 因此请意识到GROUP BY后面跟了什么列，SELECT后面就单写什么列(不使用聚合函数)，出现的其他列则必须使用聚合函数。</p>
+<p>此外，HAVING后面跟着的约束对象必须是聚合函数列。虽然感觉是有点重复(聚合函数列写了两次)，而且WHERE子句和HAVING子句中都不允许使用列别名…但若不满足这些约束，查询结果会混乱。</p>
+<h3 id="2-高级检索"><a href="#2-高级检索" class="headerlink" title="2. 高级检索"></a>2. 高级检索</h3><p> a) 嵌套查询：嵌套查询的层数尽量不要太高，否则会影响查询效率；</p>
+<p>b) 连接查询：注意区分几种JOIN的不同含义；</p>
+<p>c) 集合运算：集合运算的本质在于合并多条能”相融”的SQL语句；</p>
+<h3 id="3-插入语句"><a href="#3-插入语句" class="headerlink" title="3. 插入语句"></a>3. 插入语句</h3><p>插入语句的标准形式是INSERT INTO 表名 VALUES(表内容)，没有外码的关系要优先执行插入。</p>
+<h3 id="4-更新语句"><a href="#4-更新语句" class="headerlink" title="4. 更新语句"></a>4. 更新语句</h3><p>更新语句的标准形式是UPDATE 表名 SET 列值=’XX’ WHERE 条件。</p>
+<h3 id="5-删除语句"><a href="#5-删除语句" class="headerlink" title="5. 删除语句"></a>5. 删除语句</h3><p>删除语句的标准形式DELETE FROM 表名 WHERE 条件。注意不要和删除表的命令DROP搞混。</p>
+<h3 id="6-其他关键字"><a href="#6-其他关键字" class="headerlink" title="6. 其他关键字"></a>6. 其他关键字</h3><p>没啥好说的。</p>
+<h2 id="DCL-amp-TCL"><a href="#DCL-amp-TCL" class="headerlink" title="DCL &amp; TCL"></a>DCL &amp; TCL</h2><p>数据控制语言DCL(Data Control Language)主要是管理数据库权限，负责数据的安全。最常用的是GRANT和ROVOKE命令。</p>
+<p>事务控制语言TCL(Transaction Control Language)则主要面向数据库的备份和恢复两大主题，常用命令为COMMIT和ROLLBACK。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>  SQL的学习并不难，但是如果要在具体环境下写出高质量的SQL，则未必是一件容易的事情。不论是对于传统的关系型数据库，还是分布式仓储系统如Hive、Spark SQL，SQL的优化都可以再单独写一本书了。最好在明确了要长期使用的数据分析平台后，再深入针对性地学习专有SQL。比如选定了用Hive，那么就要狠下功夫研究怎么写SQL才能避免”数据倾斜”问题。</p>
+<p> 最后，一个优秀的厨师，基本刀功不会差；一个卓越的数据分析师，SQL功底也不会含糊。</p>
+
+        </div>
+        <!-- .entry-content -->
+        <div class="single-reward">
+          <div class="reward-open">赏<div class="reward-main">
+              <ul class="reward-row">
+                <li class="alipay-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/AliPayQR.jpg"></li>
+                <li class="wechat-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/wechatpayQR.jpg"></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
+        <footer class="post-footer">
+          <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
+          <div class="post-tags">
+          </div>
+          <div class="post-share">
+            <div class="social-share sharehidden share-component"></div>
+            <i class="iconfont show-share icon-forward"></i>
+          </div>
+        </footer><!-- .entry-footer -->
+      </article>
+      <!-- #post-## -->
+      <div class="toc" style="background: none;"></div>
+      <section class="post-squares nextprev">
+        
+          
+            <div class="post-nepre half previous">
+          
+            <a href="/2020/08/11/如何从0开始建立数据库(三)：更新异常与规范化设计/" rel="prev">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part320200811.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part320200811.jpg">
+              </div>
+              <span class="label">
+              Previous Post</span>
+              <div class="info">
+                <h3>
+                如何从0开始建立数据库(三)：更新异常与规范化设计</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+        
+          
+            <div class="post-nepre half next">
+          
+            <a href="/2020/08/11/如何从0开始建立数据库(二)：数据库关系建模/" rel="next">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part220200811.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part220200811.jpg">
+              </div>
+              <span class="label">
+              Next Post</span>
+              <div class="info">
+                <h3>
+                如何从0开始建立数据库(二)：数据库关系建模</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+      </section>
       
-  <!-- 首页默认取最最新文章集 -->
-  
-    
-<article  class="post post-list-thumb post-list-thumb-left"  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
+<div id="vcomments"></div>
+<script>
+  window.onload = function(){
+      var valine = new Valine();
+      valine.init({
+        el: '#vcomments',
+        appId: "Hm83GoGeDX3sGPDh3Q50lSMz-gzGzoHsz",
+        appKey: "mXIVaYaFj1DNyH6yBicfUS0w",
+        path: window.location.pathname,
+        placeholder: "你是我一生只会遇见一次的惊喜 ..."
+      })
+  }
+</script>
 
-  <div class="post-thumb">
-    <a href="/2020/06/23/SQL  server中的模式架构schema详解/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.6/images/article/sql_schema20200622.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-6-23 23:06</div>
-      <a href="/2020/06/23/SQL  server中的模式架构schema详解/" class="post-title">
-        <h3>SQL server中的模式架构schema详解</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/SQL-数据库/">SQL&amp;数据库<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/笔记/">笔记</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>SQL server中的schema(中文叫做模式/架构)详解</p>
-        <div class="post-bottom">
-          <a href="/2020/06/23/SQL  server中的模式架构schema详解/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
+      <section class="author-profile">
+        <div class="info" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <a href="http://smilecoc.vip/" class="profile gravatar"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico" itemprop="image" alt="smilecoc" height="70" width="70"></a>
+          <div class="meta">
+            <span class="title">Author</span>
+            <h3 itemprop="name">
+            <a href="http://smilecoc.vip/" itemprop="url" rel="author">smilecoc</a>
+            </h3>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/06/21/Markdown语法参考/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.6/images/article/markdowm_guidance20200621.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-6-21 13:06</div>
-      <a href="/2020/06/21/Markdown语法参考/" class="post-title">
-        <h3>Markdown语法参考</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/Markdown/">Markdown<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/转载/">转载</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>Markdown语法参考</p>
-        <div class="post-bottom">
-          <a href="/2020/06/21/Markdown语法参考/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb post-list-thumb-left"  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/06/20/VBA常用代码汇总/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.5/images/article/vba_code20200620.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-6-20 12:06</div>
-      <a href="/2020/06/20/VBA常用代码汇总/" class="post-title">
-        <h3>VBA常用代码汇总</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/Excel-VBA/">Excel &amp; VBA<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/技术/">技术</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>VBA常用代码汇总</p>
-        <div class="post-bottom">
-          <a href="/2020/06/20/VBA常用代码汇总/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/05/31/MMM/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.5/images/article/mmm2020531.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-5-31 19:05</div>
-      <a href="/2020/05/31/MMM/" class="post-title">
-        <h3>Python数据分析实战之营销组合模型</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/Python数据分析/">Python数据分析<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/技术/">技术</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>Python数据分析实战之营销组合模型</p>
-        <div class="post-bottom">
-          <a href="/2020/05/31/MMM/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb post-list-thumb-left"  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/05/20/Python视频相关操作/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.5/images/article/python_codevideo2020520.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-5-20 20:05</div>
-      <a href="/2020/05/20/Python视频相关操作/" class="post-title">
-        <h3>Python骚操作之使用python做个视频</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/python其他/">python其他<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/技术/">技术</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>使用Python下载视频，转化视频一条龙 🤔</p>
-        <div class="post-bottom">
-          <a href="/2020/05/20/Python视频相关操作/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/04/12/实用网站汇总/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.4/images/article/websitezl20200412.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-4-12 22:04</div>
-      <a href="/2020/04/12/实用网站汇总/" class="post-title">
-        <h3>实用网站资源整理汇总</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/其他资源/">其他资源<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/资源/">资源</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>一些比较好用的网站整理~</p>
-        <div class="post-bottom">
-          <a href="/2020/04/12/实用网站汇总/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb post-list-thumb-left"  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/04/05/SQL面试题整理汇总/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.3/images/article/dams20200405.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-4-5 10:04</div>
-      <a href="/2020/04/05/SQL面试题整理汇总/" class="post-title">
-        <h3>数据分析面试题整理汇总</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/SQL-数据库/">SQL&amp;数据库<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/笔记/">笔记</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>整理了一下自己遇到的以及网上找到的一些数据分析面试题</p>
-        <div class="post-bottom">
-          <a href="/2020/04/05/SQL面试题整理汇总/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/04/04/SQL面试44题/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.3/images/article/sqlms4420200404.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-4-4 16:04</div>
-      <a href="/2020/04/04/SQL面试44题/" class="post-title">
-        <h3>SQL面试44题</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/SQL-数据库/">SQL&amp;数据库<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/笔记/">笔记</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>SQL经典面试44题</p>
-        <div class="post-bottom">
-          <a href="/2020/04/04/SQL面试44题/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb post-list-thumb-left"  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/03/21/海盗分金问题/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.2/images/article/hdfj20200321.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-3-21 19:03</div>
-      <a href="/2020/03/21/海盗分金问题/" class="post-title">
-        <h3>海盗分金问题问题</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/题解/">题解<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/笔记/">笔记</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>海盗分金问题，博弈论习题</p>
-        <div class="post-bottom">
-          <a href="/2020/03/21/海盗分金问题/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/03/20/双蛋问题/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.2/images/article/doubleeggs20200320.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-3-20 20:03</div>
-      <a href="/2020/03/20/双蛋问题/" class="post-title">
-        <h3>双蛋问题</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/题解/">题解<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/笔记/">笔记</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>双蛋问题的多种情况下的解法与递归求解</p>
-        <div class="post-bottom">
-          <a href="/2020/03/20/双蛋问题/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-
-
-    </main>
-      <!-- 首页默认取最最新文章集 -->
-    <!-- 
-      <nav class="navigator">
-        
-        <a class="extend prev" rel="prev" href="/"><i class="iconfont icon-back"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/"><i class="iconfont icon-right"></i></a>
-      </nav>
-     -->
-  </div>
-  
-    <div id="pagination"><a href="/page/3/" class="">Previous</a></div>
-  
+        <hr>
+        <p><i class="iconfont icon-write"></i></p>
+      </section>
+    </main><!-- #main -->
+  </div><!-- #primary -->
 </div>
+
+
 
     </div>    
     <div class="ins-search">

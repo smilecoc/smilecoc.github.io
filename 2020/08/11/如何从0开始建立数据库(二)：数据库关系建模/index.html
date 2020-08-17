@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">Smilecoc&#39;s Blog</title>
+  <title itemprop="name">如何从0开始建立数据库(二)：数据库关系建模 | Smilecoc&#39;s Blog</title>
   
     <link rel="shortcut icon" href="/images/favicon.ico">
   
@@ -429,497 +429,206 @@
   </div>
 </header>
 
-      <div class="blank" style="padding-top: 0px;"></div>
+      <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<div class="pattern-center-blank"></div>
+
+  <div class="pattern-center single-center">
+    <!-- 有配图默认渲染第一张 -->
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part220200811.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part220200811.jpg">
+    </div>
+    <header class="pattern-header single-header">
+      <h1 class="entry-title">
+      如何从0开始建立数据库(二)：数据库关系建模</h1>
+      <p class="entry-census">
+        <span>
+          <a href="http://smilecoc.vip/">
+            <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico">
+          </a>
+        </span>
+        <span>
+          <a href="http://smilecoc.vip/">smilecoc</a>
+        </span>
+        <span class="bull">
+        ·</span>
+        2020-8-11<span class="bull">
+        ·</span>
+      <span id="busuanzi_value_page_pv"></span>次阅读</p>
+    </header>
+  </div>
+
 <div id="content" class="site-content">
-  
-  <div class="notice" style="margin-top:60px">
-    <i class="iconfont icon-notification">
-    </i>
-    <div class="notice-content">Welcome to My Blog</div>
-  </div>
-  
-  <div class="top-feature-row">
-  <h1 class="fes-title" style="font-family: 'Ubuntu', sans-serif;">
-  <i class="fa fa-anchor" aria-hidden="true">
-  </i>
-  START:DASH!!</h1>
-  
-  <div class="top-feature-v2">
-    <div class="the-feature square from_left_and_right">
-      <a href="http://smilecoc.vip/2019/08/20/%E6%88%91%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E5%85%A8%E8%AE%B0%E5%BD%95/" target="_blank">
-        <div class="img">
-          <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/startdash/sakura.jpg">
-        </div>
-        <div class="info">
-          <h3>Sakura</h3>
-          <p>本站 hexo 主题</p>
-        </div>
-      </a>
-    </div>
-  </div>
-  
-  <div class="top-feature-v2">
-    <div class="the-feature square from_left_and_right">
-      <a href="http://space.bilibili.com/46934171" target="_blank">
-        <div class="img">
-          <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/startdash/bilibili.jpg">
-        </div>
-        <div class="info">
-          <h3>Bilibili</h3>
-          <p>博主的b站视频</p>
-        </div>
-      </a>
-    </div>
-  </div>
-  
-  <div class="top-feature-v2">
-    <div class="the-feature square from_left_and_right">
-      <a href="/" target="_blank">
-        <div class="img">
-          <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/startdash/wangshiwu.jpg">
-        </div>
-        <div class="info">
-          <h3>Romi的杂货铺</h3>
-          <p>博主的微信公众号</p>
-        </div>
-      </a>
-    </div>
-  </div>
-  
-</div>
   <div id="primary" class="content-area">
     <main id="main" class="site-main" role="main">
-      <h1 class="main-title" style="font-family: 'Ubuntu', sans-serif;">
-      <i class="fa fa-envira" aria-hidden="true"></i>
-      Discovery</h1>
+      <article id="post-1" class="post-1 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+        <div class="toc"></div>
+        <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
+        
+        <div class="entry-content">
+          <p>本文转载于<a href="https://www.cnblogs.com/muchen/p/5258197.html，仅做学习参考使用，侵删" target="_blank" rel="noopener">https://www.cnblogs.com/muchen/p/5258197.html，仅做学习参考使用，侵删</a></p>
+<h1 id="数据库需求与ER建模"><a href="#数据库需求与ER建模" class="headerlink" title="数据库需求与ER建模"></a>数据库需求与ER建模</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在数据库建设过程中，哪一步最重要？绝大多数资料会告诉你，是需求分析阶段。这一步的好坏甚至直接决定数据库项目的成败。</p>
+<p> 需求分析阶段，也被称为ER建模(entity-relationship modeling)阶段，也常被称为需求可视化，概念建模等。这一阶段数据库系统开发人员将协同需求方以ER图的方式对业务需求进行可视化展现。</p>
+<p>首先我们详细介绍ER符号体系，并在其中穿插一些具体实例讲解。</p>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h3 id="实体-entity"><a href="#实体-entity" class="headerlink" title="实体(entity)"></a>实体(entity)</h3><p>实体表示客观世界中的众多概念，比如：人，地点，事件等。</p>
+<p>每个实体本身包含多个实体成员，比如实体人可能包含张三，李四王五等。</p>
+<p>在ER图中，实体通常用矩形表示，并在矩形中写上实体名称，比如学生，专业等。如下所示：<br><img src="https://img-blog.csdnimg.cn/20200805162757641.png" alt="在这里插入图片描述"></p>
+<h3 id="属性-attribute"><a href="#属性-attribute" class="headerlink" title="属性(attribute)"></a>属性(attribute)</h3><p>每个实体都有属性，用椭圆表示并用来描述实体各个特征。 比如顾客的特征可能有顾客ID，顾客姓名，顾客性别，顾客年龄等，如下图所示：<br><img src="https://img-blog.csdnimg.cn/20200805162930635.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p> 此外，每个实体至少要有一个唯一属性，用下划线标记，如上图中的id字段。</p>
+<h3 id="联系-relation"><a href="#联系-relation" class="headerlink" title="联系(relation)"></a>联系(relation)</h3><p>实体与实体之间通常具有某种关联，在ER图中用菱形表示。比如某职员向某主管汇报，如下图所示：<br><img src="https://img-blog.csdnimg.cn/20200805163222611.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>细心的读者相必发现了，实体间连线的两端，写有一些符号。这些符号被称为基数约束(cardinality constraint)，用来表示实体可以有多少实例与另一实体的实例存在联系。</p>
+<p>基数约束共有四种形态：<br><img src="https://img-blog.csdnimg.cn/20200805163309971.png" alt="在这里插入图片描述"><br>此为形态一，即强制多个对应，表示一个实体A对应多个实体B。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200805163326461.png" alt="在这里插入图片描述"></p>
+<p> 此为形态二，即可选多个对应，表示一个实体A对应0个或多个实体B。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200805163333934.png" alt="在这里插入图片描述"></p>
+<p>此为形态三，即强制单个对应，表示一个实体A对应一个实体B。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200805163342791.png" alt="在这里插入图片描述"></p>
+<p>此为形态四，即可选单个对应，表示一个实体A对应0个或1个实体B。</p>
+<p>我们知道联系是双向的，所以实际ER建模中常见的版本长这样：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200805172919506.png" alt="在这里插入图片描述"></p>
+<p>理解这个联系的方法是从两个方向进行解读，“实体A对应0个或1个实体B，实体B对应一个或多个实体A”。</p>
+<h2 id="扩展概念"><a href="#扩展概念" class="headerlink" title="扩展概念"></a>扩展概念</h2><p>使用前面介绍的这些概念，已经能完成基础ER建模了。然而，为了更为细致的刻画出用户需求，又有了下面这些建模规则。</p>
+<h3 id="复合属性-composite-attribute"><a href="#复合属性-composite-attribute" class="headerlink" title="复合属性(composite attribute)"></a>复合属性(composite attribute)</h3><p>   部分属性具有复合的特点，比如地址属性。地址可能包含了省份，城市，街道等子属性。</p>
+<p>ER图上这类属性的属性名应当标记圆括号，然后扩展为多个子属性。可参考下面这个商店实体定义：</p>
+<p><img src="https://img-blog.csdnimg.cn/2020080517301896.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h3 id="多值属性-multivalued-attribute"><a href="#多值属性-multivalued-attribute" class="headerlink" title="多值属性(multivalued attribute)"></a>多值属性(multivalued attribute)</h3><p>部分属性具有多值的特点，比如一个职工可能有多个电话号码。</p>
+<p>ER图上这类属性用双层椭圆标识，可参考下面这个职工实体定义：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200805173151632.png" alt="在这里插入图片描述"></p>
+<h3 id="派生属性-derives-attribute"><a href="#派生属性-derives-attribute" class="headerlink" title="派生属性(derives attribute)"></a>派生属性(derives attribute)</h3><p>部分属性可从其他属性或者其他数据(如当前日期)派生出来，这类属性在ER图上用虚线椭圆标识。</p>
+<p>可参考下面这个士多店实体定义：<br><img src="https://img-blog.csdnimg.cn/20200805173213521.png" alt="在这里插入图片描述"></p>
+<p>上图中士多店的YearsInBusiness属性表示店铺开张了多少年，这个属性可以结合当前日期与OpeningDate属性算到，因此用虚线椭圆标识。</p>
+<h3 id="可选属性-optional-attribute"><a href="#可选属性-optional-attribute" class="headerlink" title="可选属性(optional attribute)"></a>可选属性(optional attribute)</h3><p>部分属性可能有也可能没有取值，比如说职工奖金。</p>
+<p>ER图上这类属性通过在属性名后面添加(0)标识，可参考下面这个职工实体定义：<br><img src="https://img-blog.csdnimg.cn/20200805173248860.png" alt="在这里插入图片描述"></p>
+<h3 id="联系的进一步描述"><a href="#联系的进一步描述" class="headerlink" title="联系的进一步描述"></a>联系的进一步描述</h3><p>a. 可以在联系中表明联系中的最大最小基数，如下图所示：</p>
+<p><img src="https://img-blog.csdnimg.cn/2020080517331553.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>在上面这个例子中，每个学生具体对应到了2-6间教室；同时每间教室对应到了5-40名学生。</p>
+<p> b. 也可以在联系中说明联系中的角色。这在一元联系中尤为常见，如下图所示：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200805173357574.png" alt="在这里插入图片描述"><br>每个人只能送给其他人一份礼物，但可以收到0或多份礼物。</p>
+<h3 id="关联实体-associated-entity"><a href="#关联实体-associated-entity" class="headerlink" title="关联实体(associated entity)"></a>关联实体(associated entity)</h3><p>关联实体示用于描述M：N联系的一个替代方式，用一个内部有菱形的矩形表示，它没有唯一属性也没有部分唯一属性，且通常来说没有任何属性。</p>
+<p>如下两个图可以说是等价的：<br><img src="https://img-blog.csdnimg.cn/20200805173842659.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20200805173847290.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>关联实体基本都是在多元联系的场景下用到，后面的高级话题部分会讲。</p>
+<h3 id="弱实体-week-entity"><a href="#弱实体-week-entity" class="headerlink" title="弱实体(week entity)"></a>弱实体(week entity)</h3><p>通常来说，实体至少要有一个唯一属性。因为这样才能精确定位到需要处理的记录。但在ER建模这一层，也并非总是如此。</p>
+<p>举例来说，假如现在需要为某个连锁酒店管理系统进行ER建模。该公司在全国各地都开有酒店。现在需要记录下各地酒店的房间使用情况。</p>
+<p>可以将房间使用相关信息作为酒店的建模一个多值复合属性，如下图所示：<br><img src="https://img-blog.csdnimg.cn/20200805175650418.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br> 这样做算是对的，但是并没有体现出部分码地位，也就是说各RoomID在各Building的唯一性。同时，很多时候需要将房间实体化与其他实体相联系。比如每个房间对应的清洁工。</p>
+<p>引入弱实体机制后，便可顺利解决这两个问题。如下图所示：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200805175706224.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>两个地方要注意一下，一是弱实体的“主码”称为部分码，码名下方用虚线标记；</p>
+<p>再一个就是弱实体必须至少有一个属主实体，它们之间的联系需用双框菱形标识。弱实体部分码同其属主实体候选码的组合可以唯一定位到任何一个弱实体记录。</p>
+<h2 id="高级话题"><a href="#高级话题" class="headerlink" title="高级话题"></a>高级话题</h2><h3 id="1-相同实体之间具有多个M-N关系"><a href="#1-相同实体之间具有多个M-N关系" class="headerlink" title="1. 相同实体之间具有多个M:N关系"></a>1. 相同实体之间具有多个M:N关系</h3><p> 某人为一个学生选课系统进行ER建模，得到如下结果：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200805180209571.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p> 假如需求中有说明：一个同学一门课只能选一次，那这样的设计没问题。可是如果需求中说明，一个同学可以选一门课几次(可能是挂了好几次)，这样的设计就有问题了。</p>
+<p> 对此，正确的做法之一是使用有两个属主实体的弱实体：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200805180758887.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>或者为每次预定生成一个唯一的id，如下图所示：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200805180819920.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h3 id="2-三元-或更多-关系"><a href="#2-三元-或更多-关系" class="headerlink" title="2. 三元(或更多)关系"></a>2. 三元(或更多)关系</h3><p>在ER图中，联系一般是将两个实体关联起来，又或者自己关联自己。但是也有些时候，需求方需要同时将多个实体联系起来。这怎么办呢？要知道表示联系的菱形有且只有两个接口。</p>
+<p>答曰：使用关联实体。下面这个ER图中，使用了关联实体描述了某工厂的供货商，生产产品，零件三方联系：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200805180948891.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>但如果现在需求又变更了，需要给关联增加某些属性，比如说供货商每次提供的货物量，这个ER图就不能用了。</p>
+<p>因为这样就没办法区分同一家供应商为同一产品提供等数量的同一零件的不同实例了。解决的办法是把关联实体改成一般的实体，并增设一个唯一标识符：</p>
+<p><img src="https://img-blog.csdnimg.cn/2020080518094417.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2 id="其他说明"><a href="#其他说明" class="headerlink" title="其他说明"></a>其他说明</h2><ol>
+<li>本文实体名全大写，属性和关系名则用首字母大写的驼峰法，同时尽量保证所有命名都全局唯一；<ol start="2">
+<li>用户的更多个性需求应当以注释，标签等方式一并标记在ER图中；</li>
+<li>建模工具可使用PowerDesigner，Workbench等。不过笔者在这里推荐一款轻量级的在线数据库建模工具，网址是<a href="https://erdplus.com/#" target="_blank" rel="noopener">https://erdplus.com/#</a>；</li>
+</ol>
+</li>
+</ol>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>需求分析，ER建模是贯穿整个数据库生命周期的工作。这部分工作要求开发人员和业务方，数据库的使用者，公司领导等方面协同好需求，并将需求以ER图的模式可视化展现出来。</p>
+<p> 只有绘制好ER图之后，才能顺利进入到接下来的关系表设计阶段。这也是下篇要讲解的内容</p>
+
+        </div>
+        <!-- .entry-content -->
+        <div class="single-reward">
+          <div class="reward-open">赏<div class="reward-main">
+              <ul class="reward-row">
+                <li class="alipay-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/AliPayQR.jpg"></li>
+                <li class="wechat-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/wechatpayQR.jpg"></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
+        <footer class="post-footer">
+          <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
+          <div class="post-tags">
+          </div>
+          <div class="post-share">
+            <div class="social-share sharehidden share-component"></div>
+            <i class="iconfont show-share icon-forward"></i>
+          </div>
+        </footer><!-- .entry-footer -->
+      </article>
+      <!-- #post-## -->
+      <div class="toc" style="background: none;"></div>
+      <section class="post-squares nextprev">
+        
+          
+            <div class="post-nepre half previous">
+          
+            <a href="/2020/08/11/如何从0开始建立数据库(四)：SQL/" rel="prev">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part420200811.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part420200811.jpg">
+              </div>
+              <span class="label">
+              Previous Post</span>
+              <div class="info">
+                <h3>
+                如何从0开始建立数据库(四)：SQL</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+        
+          
+            <div class="post-nepre half next">
+          
+            <a href="/2020/08/11/如何从0开始建立数据库(一)：数据库需求与ER建模/" rel="next">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part120200811.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part120200811.jpg">
+              </div>
+              <span class="label">
+              Next Post</span>
+              <div class="info">
+                <h3>
+                如何从0开始建立数据库(一)：数据库需求与ER建模</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+      </section>
       
-  <!-- 首页默认取最最新文章集 -->
-  
-    
-<article  class="post post-list-thumb post-list-thumb-left"  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
+<div id="vcomments"></div>
+<script>
+  window.onload = function(){
+      var valine = new Valine();
+      valine.init({
+        el: '#vcomments',
+        appId: "Hm83GoGeDX3sGPDh3Q50lSMz-gzGzoHsz",
+        appKey: "mXIVaYaFj1DNyH6yBicfUS0w",
+        path: window.location.pathname,
+        placeholder: "你是我一生只会遇见一次的惊喜 ..."
+      })
+  }
+</script>
 
-  <div class="post-thumb">
-    <a href="/2020/06/23/SQL  server中的模式架构schema详解/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.6/images/article/sql_schema20200622.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-6-23 23:06</div>
-      <a href="/2020/06/23/SQL  server中的模式架构schema详解/" class="post-title">
-        <h3>SQL server中的模式架构schema详解</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/SQL-数据库/">SQL&amp;数据库<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/笔记/">笔记</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>SQL server中的schema(中文叫做模式/架构)详解</p>
-        <div class="post-bottom">
-          <a href="/2020/06/23/SQL  server中的模式架构schema详解/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
+      <section class="author-profile">
+        <div class="info" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <a href="http://smilecoc.vip/" class="profile gravatar"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico" itemprop="image" alt="smilecoc" height="70" width="70"></a>
+          <div class="meta">
+            <span class="title">Author</span>
+            <h3 itemprop="name">
+            <a href="http://smilecoc.vip/" itemprop="url" rel="author">smilecoc</a>
+            </h3>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/06/21/Markdown语法参考/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.6/images/article/markdowm_guidance20200621.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-6-21 13:06</div>
-      <a href="/2020/06/21/Markdown语法参考/" class="post-title">
-        <h3>Markdown语法参考</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/Markdown/">Markdown<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/转载/">转载</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>Markdown语法参考</p>
-        <div class="post-bottom">
-          <a href="/2020/06/21/Markdown语法参考/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb post-list-thumb-left"  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/06/20/VBA常用代码汇总/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.5/images/article/vba_code20200620.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-6-20 12:06</div>
-      <a href="/2020/06/20/VBA常用代码汇总/" class="post-title">
-        <h3>VBA常用代码汇总</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/Excel-VBA/">Excel &amp; VBA<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/技术/">技术</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>VBA常用代码汇总</p>
-        <div class="post-bottom">
-          <a href="/2020/06/20/VBA常用代码汇总/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/05/31/MMM/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.5/images/article/mmm2020531.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-5-31 19:05</div>
-      <a href="/2020/05/31/MMM/" class="post-title">
-        <h3>Python数据分析实战之营销组合模型</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/Python数据分析/">Python数据分析<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/技术/">技术</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>Python数据分析实战之营销组合模型</p>
-        <div class="post-bottom">
-          <a href="/2020/05/31/MMM/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb post-list-thumb-left"  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/05/20/Python视频相关操作/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.5/images/article/python_codevideo2020520.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-5-20 20:05</div>
-      <a href="/2020/05/20/Python视频相关操作/" class="post-title">
-        <h3>Python骚操作之使用python做个视频</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/python其他/">python其他<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/技术/">技术</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>使用Python下载视频，转化视频一条龙 🤔</p>
-        <div class="post-bottom">
-          <a href="/2020/05/20/Python视频相关操作/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/04/12/实用网站汇总/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.4/images/article/websitezl20200412.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-4-12 22:04</div>
-      <a href="/2020/04/12/实用网站汇总/" class="post-title">
-        <h3>实用网站资源整理汇总</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/其他资源/">其他资源<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/资源/">资源</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>一些比较好用的网站整理~</p>
-        <div class="post-bottom">
-          <a href="/2020/04/12/实用网站汇总/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb post-list-thumb-left"  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/04/05/SQL面试题整理汇总/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.3/images/article/dams20200405.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-4-5 10:04</div>
-      <a href="/2020/04/05/SQL面试题整理汇总/" class="post-title">
-        <h3>数据分析面试题整理汇总</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/SQL-数据库/">SQL&amp;数据库<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/笔记/">笔记</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>整理了一下自己遇到的以及网上找到的一些数据分析面试题</p>
-        <div class="post-bottom">
-          <a href="/2020/04/05/SQL面试题整理汇总/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/04/04/SQL面试44题/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.3/images/article/sqlms4420200404.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-4-4 16:04</div>
-      <a href="/2020/04/04/SQL面试44题/" class="post-title">
-        <h3>SQL面试44题</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/SQL-数据库/">SQL&amp;数据库<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/笔记/">笔记</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>SQL经典面试44题</p>
-        <div class="post-bottom">
-          <a href="/2020/04/04/SQL面试44题/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb post-list-thumb-left"  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/03/21/海盗分金问题/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.2/images/article/hdfj20200321.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-3-21 19:03</div>
-      <a href="/2020/03/21/海盗分金问题/" class="post-title">
-        <h3>海盗分金问题问题</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/题解/">题解<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/笔记/">笔记</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>海盗分金问题，博弈论习题</p>
-        <div class="post-bottom">
-          <a href="/2020/03/21/海盗分金问题/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/03/20/双蛋问题/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.2/images/article/doubleeggs20200320.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-3-20 20:03</div>
-      <a href="/2020/03/20/双蛋问题/" class="post-title">
-        <h3>双蛋问题</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/题解/">题解<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/笔记/">笔记</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>双蛋问题的多种情况下的解法与递归求解</p>
-        <div class="post-bottom">
-          <a href="/2020/03/20/双蛋问题/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-
-
-    </main>
-      <!-- 首页默认取最最新文章集 -->
-    <!-- 
-      <nav class="navigator">
-        
-        <a class="extend prev" rel="prev" href="/"><i class="iconfont icon-back"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/"><i class="iconfont icon-right"></i></a>
-      </nav>
-     -->
-  </div>
-  
-    <div id="pagination"><a href="/page/3/" class="">Previous</a></div>
-  
+        <hr>
+        <p><i class="iconfont icon-write"></i></p>
+      </section>
+    </main><!-- #main -->
+  </div><!-- #primary -->
 </div>
+
+
 
     </div>    
     <div class="ins-search">
