@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">removebg库：一键抠图&amp;换证件照底色 | Smilecoc&#39;s Blog</title>
+  <title itemprop="name">With在Python中的实践原理 | Smilecoc&#39;s Blog</title>
   
     <link rel="shortcut icon" href="/images/favicon.ico">
   
@@ -435,11 +435,11 @@
 
   <div class="pattern-center single-center">
     <!-- 有配图默认渲染第一张 -->
-    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.8/images/article/removebg20200720.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.8/images/article/removebg20200720.jpg">
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.0/images/article/with_python_20200901.png);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.0/images/article/with_python_20200901.png">
     </div>
     <header class="pattern-header single-header">
       <h1 class="entry-title">
-      removebg库：一键抠图&换证件照底色</h1>
+      With在Python中的实践原理</h1>
       <p class="entry-census">
         <span>
           <a href="http://smilecoc.vip/">
@@ -451,7 +451,7 @@
         </span>
         <span class="bull">
         ·</span>
-        2020-7-13<span class="bull">
+        2020-7-15<span class="bull">
         ·</span>
       <span id="busuanzi_value_page_pv"></span>次阅读</p>
     </header>
@@ -465,39 +465,64 @@
         <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
         
         <div class="entry-content">
-          <p>Remove.bg是一个利用AI智能抠图的网站，在这个网站上可以上传图片，然后实现自动抠图并更换背景等，如果不懂编程的可以直接登陆<a href="https://www.remove.bg/zh" target="_blank" rel="noopener">https://www.remove.bg/zh</a>操作</p>
-<p>Remove.bg 网站提供了API 接口，可以直接调用并实现抠图。而在python中已经有基于api开发的removebg包，可以非常方便的实现相关功能</p>
-<p>首先安装removebg包：</p>
-<pre><code class="python">pip install removebg</code></pre>
-<p>然后需要一个Remove.bg 网站的API-key.需要登录Remove.bg的官网并注册。注册完成后可以在“我的账户”中查看API-key。复制这个key即可</p>
-<p>之后就可以使用remove_background_from_img_file函数快速转化图片的背景了：</p>
-<pre><code class="python">from removebg import RemoveBg
+          <p>在长期的编程实践中，我们必然已经有过使用下面这段代码的经验：</p>
+<pre><code class="py">with open(&quot;test.txt&quot;, &quot;r&quot;, encoding=&quot;utf-8&quot;) as f:
+    s = f.readlines()</code></pre>
+<p>有的人知道这么写的原因；但也有很多人不知道，只是单纯地“别人都这么写，我也应该这么写”。</p>
+<p>同时，很多知道原因的人也只是知其然而不知其所以然：with语句可以替我们自动关闭打开的文件对象。但是这是通过什么机制办到的呢？</p>
+<h2 id="1-with和异常处理"><a href="#1-with和异常处理" class="headerlink" title="1. with和异常处理"></a>1. with和异常处理</h2><p>我们知道，如果不使用with语句的话，正常地读写一个文件应该经过这些过程：打开文件、操作文件、关闭文件。表达为Python代码如下：</p>
+<pre><code class="py">f = open(&quot;test.txt&quot;, &quot;r&quot;, encoding=&quot;utf-8&quot;)
+s = f.readlines()
+f.close()</code></pre>
+<p>在正常情况下，这样写看起来也没啥问题。<br>接下来我们就人为制造一点“意外”：把打开文件对象时指定的模式由“r”改为“w”。</p>
+<pre><code class="py">f = open(&quot;test.txt&quot;, &quot;w&quot;, encoding=&quot;utf-8&quot;)
+s = f.readlines()
+f.close()</code></pre>
+<p>此时，当程序执行到第2行读取文件内容时，就会抛出错误：</p>
+<pre><code>Traceback (most recent call last):
+  File &quot;test_with.py&quot;, line 2, in &lt;module&gt;
+    s = f.readlines()
+io.UnsupportedOperation: not readable</code></pre><p>然后……一个可怕的情况就发生了。<br>Python产生未处理的异常从而退出了，导致第2行之后的代码尚未执行，因此<strong>f.close()</strong>也就再也没有机会执行。一个孤魂野鬼般打开的文件对象就这样一个人漂泊在内存的汪洋大海中，没有人知道他是谁、他从哪儿来、他要去哪儿。</p>
+<p>就这样，每当抛出一次异常，就会产生这么一个流浪对象。久而久之，内存的汪洋大海也就顺理成章被改造成了流浪者的乐土，其他人想来压根儿没门儿。</p>
+<p>追根究底，我们发现导致这个问题的关键在于“打开-操作-关闭”文件这个流水操作中，存在抛出异常的可能。</p>
+<p>所以我们想到了使用Python为我们提供的大杀器，来对付这些异常：try-catch。<br>用异常处理改造一下前面的代码：</p>
+<pre><code class="py">try:
+    f = open(&quot;test.txt&quot;, &quot;a&quot;, encoding=&quot;utf-8&quot;)
+    s = f.readlines()
+except:
+    print(&quot;出现异常&quot;)
+finally:
+    f.close()</code></pre>
+<p>这样一来，通过附加的<strong>finally</strong>语句，无论文件操作是否抛出异常，都能够保证打开的文件被关闭。从而避免了不断占用资源导致资源泄露的问题。</p>
+<p>实际上，with语句正是为我们提供了一种<strong>try-catch-finally</strong>的封装。</p>
+<p>编程时，看似只是随随便便的一个with，其实已经暗地里确保了类似于上面代码的异常处理机制。</p>
+<h2 id="2-上下文管理器"><a href="#2-上下文管理器" class="headerlink" title="2. 上下文管理器"></a>2. 上下文管理器</h2><p>with要生效，需要作用于一个上下文管理器——</p>
+<p>打住，到底什么是上下文管理器呢？</p>
+<p>长话短说，就是实现了<strong><strong>enter</strong></strong>和<strong><strong>exit</strong></strong>方法的对象。</p>
+<p>在进入一个运行时上下文前，会先加载这两个方法以备使用。进入这个运行时上下文时，调用<strong>enter</strong>方法；退出该上下文前，则会调用<strong>exit</strong>方法。</p>
+<p>这里的“运行时上下文”，可以简单地理解为一个提供了某些特殊配置的代码作用域。</p>
+<p>当我们使用<code>with open(&quot;test.txt&quot;, &quot;r&quot;, encoding=&quot;utf-8&quot;) as f</code>这句代码时，Python首先对<code>open(&quot;test.txt&quot;, &quot;r&quot;, encoding=&quot;utf-8&quot;)</code>求值，得到一个上下文管理器。</p>
+<p>这里有一点特殊的是，Python中文件对象本身就是一个上下文管理器，因此我们可以使用open函数作为求值的表达式。</p>
+<p>随后调用<strong><strong>enter</strong></strong>方法，返回的对象绑定到我们指定的标识符f上。文件对象的<strong><strong>enter</strong></strong>返回文件对象自身，因此这句代码就是将打开的“test.txt”文件对象绑定到了标识符f上。</p>
+<p>紧跟着执行with语句块中的内容。</p>
+<p>最后调用<strong><strong>exit</strong></strong>，退出with语句块。</p>
+<p>根据上面的内容，我们也可以自行构造一个上下文管理器（注意，两个特征方法的参数要与协议一致）：</p>
+<pre><code class="py">class testContextManager:
+    def __enter__(self):
+        print(&quot;进入运行时上下文，调用__enter__方法&quot;)
 
-rmbg = RemoveBg(&quot;YOUR-API-KEY&quot;, &quot;error.log&quot;)
-rmbg.remove_background_from_img_file(&quot;testrmbg.jpg&quot;)</code></pre>
-<p>语法为：<br>remove_background_from_img_file（img_file_path，size，bg_color），参数如下图所示：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200713161625942.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>例如要将证件照背景换为白色底色，并且输出4k分辨率的图片</p>
-<pre><code class="python">from removebg import RemoveBg
+    def __exit__(self, exc_type, exc_value, traceback):
+        print(&quot;退出运行时上下文，调用__exit__方法&quot;)
 
-rmbg = RemoveBg(&quot;YOUR-API-KEY&quot;, &quot;error.log&quot;)
-rmbg.remove_background_from_img_file(&quot;identificationphoto.jpg&quot;,&#39;4k&#39;,&#39;blank&#39;)</code></pre>
-<p>同时我们也可以实现照片的批量转换：</p>
-<pre><code class="python">from removebg import RemoveBg
-import os
 
-rmbg = RemoveBg(&quot;YOUR-API-KEY&quot;, &quot;error.log&quot;)
-#os.getcwd() 方法用于返回当前工作目录
-#同时将生成的结果放在路径中的picture文件夹中
-path=&#39;%s/picture&#39;%os.getcwd()
-print(path)
-
-for pic in os.listdir(path):  #os.listdir() 方法用于返回指定的文件夹包含的文件或文件夹的名字的列表。
-    rmbg.remove_background_from_img_file(&#39;%s\%s&#39;%(path,pic))</code></pre>
-<p>需要注意的是免费用户系统会自动赠送你一个credit以及50次的免费预览。免费预览就是低像素（最高 25 万像素，例如625 × 400 像素）的抠图，想要获得高像素图像就需要花费credit。所以用完了之后就会拒绝你的api请求.</p>
-<p>另外此包还支持修改url图片背景remove_background_from_img_url（）和base64图片remove_background_from_base64_img（）</p>
-<p>最后附上removebg包的github地址：<br><a href="https://github.com/brilam/remove-bg" target="_blank" rel="noopener">https://github.com/brilam/remove-bg</a></p>
-<p>官网API文档：<br><a href="https://www.remove.bg/zh/api" target="_blank" rel="noopener">https://www.remove.bg/zh/api</a></p>
-<p>本文首发于博客：<a href="http://smilecoc.vip/">http://smilecoc.vip/</a><br>微信公众号：Romi的杂货铺</p>
+with testContextManager() as o:
+    pass</code></pre>
+<p>输出结果：</p>
+<pre><code>进入运行时上下文，调用__enter__方法
+退出运行时上下文，调用__exit__方法</code></pre><p>with语句之所以能够替代繁琐的异常处理语句，正是由于上下文管理器遵循协议实现了<strong>enter</strong>和<strong>exit</strong>方法，而with语句又确保了发生异常时能够执行完<strong>exit</strong>方法，再退出相关运行时上下文。</p>
+<p>在这个方法中，我们就可以完成一些必要的清理工作</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文我们讲解了with语句的内部逻辑，尝试实现了一个自定义的上下文管理器。相信大家对于with的作用方式有了更深刻的领会。</p>
+<p>with语句不仅仅可以用于读写文件，还可以用于锁的自动获取和释放、全局状态的保存和恢复等。更多的实用方式留待大家探索。</p>
 
         </div>
         <!-- .entry-content -->
@@ -528,15 +553,15 @@ for pic in os.listdir(path):  #os.listdir() 方法用于返回指定的文件夹
           
             <div class="post-nepre half previous">
           
-            <a href="/2020/07/15/With在Python中的实践原理/" rel="prev">
+            <a href="/2020/07/20/Faker库/" rel="prev">
               <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.0/images/article/with_python_20200901.png" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.0/images/article/with_python_20200901.png">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.8/images/article/faker20200715.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.8/images/article/faker20200715.jpg">
               </div>
               <span class="label">
               Previous Post</span>
               <div class="info">
                 <h3>
-                With在Python中的实践原理</h3>
+                Faker库：快速生成测试数据</h3>
                 <hr>
               </div>
             </a>
@@ -546,15 +571,15 @@ for pic in os.listdir(path):  #os.listdir() 方法用于返回指定的文件夹
           
             <div class="post-nepre half next">
           
-            <a href="/2020/07/09/SQL锁/" rel="next">
+            <a href="/2020/07/13/removebg库/" rel="next">
               <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.7/images/article/sqllock20200709.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.7/images/article/sqllock20200709.jpg">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.8/images/article/removebg20200720.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.8/images/article/removebg20200720.jpg">
               </div>
               <span class="label">
               Next Post</span>
               <div class="info">
                 <h3>
-                一张图彻底搞懂 MySQL 的锁机制</h3>
+                removebg库：一键抠图&amp;换证件照底色</h3>
                 <hr>
               </div>
             </a>

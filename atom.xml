@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://smilecoc.vip/"/>
-  <updated>2020-08-17T16:03:40.339Z</updated>
+  <updated>2020-09-06T06:00:35.189Z</updated>
   <id>http://smilecoc.vip/</id>
   
   <author>
@@ -15,6 +15,69 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>利用Python对英雄联盟胜利条件进行分析</title>
+    <link href="http://smilecoc.vip/2020/09/06/%E8%8B%B1%E9%9B%84%E8%81%94%E7%9B%9F%E8%83%9C%E5%88%A9%E5%9B%A0%E7%B4%A0%E5%88%86%E6%9E%90/"/>
+    <id>http://smilecoc.vip/2020/09/06/%E8%8B%B1%E9%9B%84%E8%81%94%E7%9B%9F%E8%83%9C%E5%88%A9%E5%9B%A0%E7%B4%A0%E5%88%86%E6%9E%90/</id>
+    <published>2020-09-06T05:15:11.000Z</published>
+    <updated>2020-09-06T06:00:35.189Z</updated>
+    
+    <summary type="html">
+    
+      基于PCA与逻辑回归对英雄联盟胜利条件进行研究并预测
+    
+    </summary>
+    
+    
+      <category term="技术" scheme="http://smilecoc.vip/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="Python数据分析" scheme="http://smilecoc.vip/tags/Python%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>sklearn三种数据标准化方法的对比：StandardScaler、MinMaxScaler、RobustScaler</title>
+    <link href="http://smilecoc.vip/2020/09/03/sklearn%E4%B8%89%E7%A7%8D%E6%95%B0%E6%8D%AE%E6%A0%87%E5%87%86%E5%8C%96%E6%96%B9%E6%B3%95%E7%9A%84%E5%AF%B9%E6%AF%94%EF%BC%9AStandardScaler%E3%80%81MinMaxScaler%E3%80%81RobustScaler/"/>
+    <id>http://smilecoc.vip/2020/09/03/sklearn%E4%B8%89%E7%A7%8D%E6%95%B0%E6%8D%AE%E6%A0%87%E5%87%86%E5%8C%96%E6%96%B9%E6%B3%95%E7%9A%84%E5%AF%B9%E6%AF%94%EF%BC%9AStandardScaler%E3%80%81MinMaxScaler%E3%80%81RobustScaler/</id>
+    <published>2020-09-03T02:08:24.000Z</published>
+    <updated>2020-09-06T06:53:39.922Z</updated>
+    
+    <summary type="html">
+    
+      sklearn三种数据标准化方法的对比：StandardScaler、MinMaxScaler、RobustScaler
+    
+    </summary>
+    
+    
+      <category term="转载" scheme="http://smilecoc.vip/categories/%E8%BD%AC%E8%BD%BD/"/>
+    
+    
+      <category term="机器学习" scheme="http://smilecoc.vip/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>sklearn.model_selection.train_test_split用法-划分训练集与测试集</title>
+    <link href="http://smilecoc.vip/2020/09/01/sklearn.model_selection.train_test_split%E7%94%A8%E6%B3%95-%E5%88%92%E5%88%86%E8%AE%AD%E7%BB%83%E9%9B%86%E4%B8%8E%E6%B5%8B%E8%AF%95%E9%9B%86/"/>
+    <id>http://smilecoc.vip/2020/09/01/sklearn.model_selection.train_test_split%E7%94%A8%E6%B3%95-%E5%88%92%E5%88%86%E8%AE%AD%E7%BB%83%E9%9B%86%E4%B8%8E%E6%B5%8B%E8%AF%95%E9%9B%86/</id>
+    <published>2020-09-01T04:22:24.000Z</published>
+    <updated>2020-09-06T06:28:16.841Z</updated>
+    
+    <summary type="html">
+    
+      利用sklearn.model_selection.train_test_split方法划分训练集与测试集
+    
+    </summary>
+    
+    
+      <category term="转载" scheme="http://smilecoc.vip/categories/%E8%BD%AC%E8%BD%BD/"/>
+    
+    
+      <category term="Python数据分析" scheme="http://smilecoc.vip/tags/Python%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/"/>
+    
+  </entry>
   
   <entry>
     <title>left join on and 与 left join on where的区别</title>
@@ -178,6 +241,27 @@
     
     
       <category term="技术" scheme="http://smilecoc.vip/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="Python库" scheme="http://smilecoc.vip/tags/Python%E5%BA%93/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>With在Python中的实践原理</title>
+    <link href="http://smilecoc.vip/2020/07/15/With%E5%9C%A8Python%E4%B8%AD%E7%9A%84%E5%AE%9E%E8%B7%B5%E5%8E%9F%E7%90%86/"/>
+    <id>http://smilecoc.vip/2020/07/15/With%E5%9C%A8Python%E4%B8%AD%E7%9A%84%E5%AE%9E%E8%B7%B5%E5%8E%9F%E7%90%86/</id>
+    <published>2020-07-15T10:22:24.000Z</published>
+    <updated>2020-09-06T06:28:40.068Z</updated>
+    
+    <summary type="html">
+    
+      详解With在Python中的实践原理
+    
+    </summary>
+    
+    
+      <category term="转载" scheme="http://smilecoc.vip/categories/%E8%BD%AC%E8%BD%BD/"/>
     
     
       <category term="Python库" scheme="http://smilecoc.vip/tags/Python%E5%BA%93/"/>
@@ -349,90 +433,6 @@
     
     
       <category term="其他资源" scheme="http://smilecoc.vip/tags/%E5%85%B6%E4%BB%96%E8%B5%84%E6%BA%90/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>数据分析面试题整理汇总</title>
-    <link href="http://smilecoc.vip/2020/04/05/SQL%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86%E6%B1%87%E6%80%BB/"/>
-    <id>http://smilecoc.vip/2020/04/05/SQL%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86%E6%B1%87%E6%80%BB/</id>
-    <published>2020-04-05T02:24:33.000Z</published>
-    <updated>2020-07-29T16:10:13.030Z</updated>
-    
-    <summary type="html">
-    
-      整理了一下自己遇到的以及网上找到的一些数据分析面试题
-    
-    </summary>
-    
-    
-      <category term="笔记" scheme="http://smilecoc.vip/categories/%E7%AC%94%E8%AE%B0/"/>
-    
-    
-      <category term="SQL&amp;数据库" scheme="http://smilecoc.vip/tags/SQL-%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>SQL面试44题</title>
-    <link href="http://smilecoc.vip/2020/04/04/SQL%E9%9D%A2%E8%AF%9544%E9%A2%98/"/>
-    <id>http://smilecoc.vip/2020/04/04/SQL%E9%9D%A2%E8%AF%9544%E9%A2%98/</id>
-    <published>2020-04-04T08:24:08.000Z</published>
-    <updated>2020-07-08T16:26:50.283Z</updated>
-    
-    <summary type="html">
-    
-      SQL经典面试44题
-    
-    </summary>
-    
-    
-      <category term="笔记" scheme="http://smilecoc.vip/categories/%E7%AC%94%E8%AE%B0/"/>
-    
-    
-      <category term="SQL&amp;数据库" scheme="http://smilecoc.vip/tags/SQL-%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>海盗分金问题问题</title>
-    <link href="http://smilecoc.vip/2020/03/21/%E6%B5%B7%E7%9B%97%E5%88%86%E9%87%91%E9%97%AE%E9%A2%98/"/>
-    <id>http://smilecoc.vip/2020/03/21/%E6%B5%B7%E7%9B%97%E5%88%86%E9%87%91%E9%97%AE%E9%A2%98/</id>
-    <published>2020-03-21T11:42:55.000Z</published>
-    <updated>2020-03-23T13:50:59.885Z</updated>
-    
-    <summary type="html">
-    
-      海盗分金问题，博弈论习题
-    
-    </summary>
-    
-    
-      <category term="笔记" scheme="http://smilecoc.vip/categories/%E7%AC%94%E8%AE%B0/"/>
-    
-    
-      <category term="题解" scheme="http://smilecoc.vip/tags/%E9%A2%98%E8%A7%A3/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>双蛋问题</title>
-    <link href="http://smilecoc.vip/2020/03/20/%E5%8F%8C%E8%9B%8B%E9%97%AE%E9%A2%98/"/>
-    <id>http://smilecoc.vip/2020/03/20/%E5%8F%8C%E8%9B%8B%E9%97%AE%E9%A2%98/</id>
-    <published>2020-03-20T12:56:55.000Z</published>
-    <updated>2020-03-23T13:51:46.321Z</updated>
-    
-    <summary type="html">
-    
-      双蛋问题的多种情况下的解法与递归求解
-    
-    </summary>
-    
-    
-      <category term="笔记" scheme="http://smilecoc.vip/categories/%E7%AC%94%E8%AE%B0/"/>
-    
-    
-      <category term="题解" scheme="http://smilecoc.vip/tags/%E9%A2%98%E8%A7%A3/"/>
     
   </entry>
   

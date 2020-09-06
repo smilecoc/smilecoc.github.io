@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">removebg库：一键抠图&amp;换证件照底色 | Smilecoc&#39;s Blog</title>
+  <title itemprop="name">sklearn三种数据标准化方法的对比：StandardScaler、MinMaxScaler、RobustScaler | Smilecoc&#39;s Blog</title>
   
     <link rel="shortcut icon" href="/images/favicon.ico">
   
@@ -435,11 +435,11 @@
 
   <div class="pattern-center single-center">
     <!-- 有配图默认渲染第一张 -->
-    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.8/images/article/removebg20200720.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.8/images/article/removebg20200720.jpg">
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.0/images/article/sklearn_standardize_20200903.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.0/images/article/sklearn_standardize_20200903.jpg">
     </div>
     <header class="pattern-header single-header">
       <h1 class="entry-title">
-      removebg库：一键抠图&换证件照底色</h1>
+      sklearn三种数据标准化方法的对比：StandardScaler、MinMaxScaler、RobustScaler</h1>
       <p class="entry-census">
         <span>
           <a href="http://smilecoc.vip/">
@@ -451,7 +451,7 @@
         </span>
         <span class="bull">
         ·</span>
-        2020-7-13<span class="bull">
+        2020-9-3<span class="bull">
         ·</span>
       <span id="busuanzi_value_page_pv"></span>次阅读</p>
     </header>
@@ -465,39 +465,85 @@
         <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
         
         <div class="entry-content">
-          <p>Remove.bg是一个利用AI智能抠图的网站，在这个网站上可以上传图片，然后实现自动抠图并更换背景等，如果不懂编程的可以直接登陆<a href="https://www.remove.bg/zh" target="_blank" rel="noopener">https://www.remove.bg/zh</a>操作</p>
-<p>Remove.bg 网站提供了API 接口，可以直接调用并实现抠图。而在python中已经有基于api开发的removebg包，可以非常方便的实现相关功能</p>
-<p>首先安装removebg包：</p>
-<pre><code class="python">pip install removebg</code></pre>
-<p>然后需要一个Remove.bg 网站的API-key.需要登录Remove.bg的官网并注册。注册完成后可以在“我的账户”中查看API-key。复制这个key即可</p>
-<p>之后就可以使用remove_background_from_img_file函数快速转化图片的背景了：</p>
-<pre><code class="python">from removebg import RemoveBg
-
-rmbg = RemoveBg(&quot;YOUR-API-KEY&quot;, &quot;error.log&quot;)
-rmbg.remove_background_from_img_file(&quot;testrmbg.jpg&quot;)</code></pre>
-<p>语法为：<br>remove_background_from_img_file（img_file_path，size，bg_color），参数如下图所示：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200713161625942.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>例如要将证件照背景换为白色底色，并且输出4k分辨率的图片</p>
-<pre><code class="python">from removebg import RemoveBg
-
-rmbg = RemoveBg(&quot;YOUR-API-KEY&quot;, &quot;error.log&quot;)
-rmbg.remove_background_from_img_file(&quot;identificationphoto.jpg&quot;,&#39;4k&#39;,&#39;blank&#39;)</code></pre>
-<p>同时我们也可以实现照片的批量转换：</p>
-<pre><code class="python">from removebg import RemoveBg
-import os
-
-rmbg = RemoveBg(&quot;YOUR-API-KEY&quot;, &quot;error.log&quot;)
-#os.getcwd() 方法用于返回当前工作目录
-#同时将生成的结果放在路径中的picture文件夹中
-path=&#39;%s/picture&#39;%os.getcwd()
-print(path)
-
-for pic in os.listdir(path):  #os.listdir() 方法用于返回指定的文件夹包含的文件或文件夹的名字的列表。
-    rmbg.remove_background_from_img_file(&#39;%s\%s&#39;%(path,pic))</code></pre>
-<p>需要注意的是免费用户系统会自动赠送你一个credit以及50次的免费预览。免费预览就是低像素（最高 25 万像素，例如625 × 400 像素）的抠图，想要获得高像素图像就需要花费credit。所以用完了之后就会拒绝你的api请求.</p>
-<p>另外此包还支持修改url图片背景remove_background_from_img_url（）和base64图片remove_background_from_base64_img（）</p>
-<p>最后附上removebg包的github地址：<br><a href="https://github.com/brilam/remove-bg" target="_blank" rel="noopener">https://github.com/brilam/remove-bg</a></p>
-<p>官网API文档：<br><a href="https://www.remove.bg/zh/api" target="_blank" rel="noopener">https://www.remove.bg/zh/api</a></p>
-<p>本文首发于博客：<a href="http://smilecoc.vip/">http://smilecoc.vip/</a><br>微信公众号：Romi的杂货铺</p>
+          <h1 id="一、数据标准化-归一化的作用"><a href="#一、数据标准化-归一化的作用" class="headerlink" title="一、数据标准化 / 归一化的作用"></a>一、数据标准化 / 归一化的作用</h1><ul>
+<li><p>提升模型精度：标准化 / 归一化使不同维度的特征在数值上更具比较性，提高分类器的准确性。</p>
+</li>
+<li><p>提升收敛速度：对于线性模型，数据归一化使梯度下降过程更加平缓，更易正确的收敛到最优解。</p>
+<h1 id="二、标准差标准化-StandardScaler"><a href="#二、标准差标准化-StandardScaler" class="headerlink" title="二、标准差标准化 StandardScaler"></a>二、标准差标准化 StandardScaler</h1><pre><code class="py">from sklearn.preprocessing import StandardScaler</code></pre>
+</li>
+<li><p><em>使用均值与方差，对服从正态分布的数据处理，得到符合标准正态分布的数据*</em></p>
+</li>
+<li><p>处理方法：标准化数据减去均值，然后除以标准差，经过处理后数据符合标准正态分布，即均值为0，标准差为1；</p>
+</li>
+<li><p>转化函数：x = (x-mean) / std,std表示标准差；</p>
+</li>
+<li><p>适用性：适用于本身服从正态分布的数据；</p>
+</li>
+<li><p>Outlier 的影响：基本可用于有outlier的情况，但在计算方差和均值时outliers仍然会影响计算。</p>
+</li>
+<li></li>
+<li><p><em>参数包括：with_mean, with_std, copy*</em></p>
+</li>
+<li><p>with_mean：布尔型，默认为 True，表示在缩放前将数据居中，当尝试在稀疏矩阵上时，这不起作用(并且会引发异常)，因为将它们居中需要构建一个密集矩阵，在常见的用例中，该矩阵可能太大而无法容纳在内存中；</p>
+</li>
+<li><p>with_std：布尔型，默认为True，表示将数据换算成单位方差(或等效的单位标准差)；</p>
+</li>
+<li><p>copy : 布尔值，默认为True，可选参数，表示拷贝一份数据以避免在原数据上进行操作，若设置为 False 执行插入行规范化并避免复制。</p>
+</li>
+</ul>
+<p><strong>属性包括：mean_, scale_, var_, n_samples_seen_</strong></p>
+<ul>
+<li>mean_：训练集中每个特征的平均值，当_mean=False时，为None；</li>
+<li>scale_：每个特征数据的相对缩放；</li>
+<li>var_：训练集中每个特征的方差，用于计算比例，当_ std =False时，为None；</li>
+<li>n_samples_seen_：每个特征处理的样本数。如没有丢失的样本，n_samples_seen_是一个整数，否则是一个数组，并将被重置或递增。</li>
+</ul>
+<h1 id="三、极差标准化-归一化-MinMaxScaler"><a href="#三、极差标准化-归一化-MinMaxScaler" class="headerlink" title="三、极差标准化 / 归一化 MinMaxScaler"></a>三、极差标准化 / 归一化 MinMaxScaler</h1><pre><code class="py">from sklearn.preprocessing import MinMaxScaler</code></pre>
+<p><strong>区间缩放，基于最大最小值，将数据转换到0,1区间上的</strong></p>
+<ul>
+<li>处理方法：将特征缩放到给定的最小值和最大值之间，也可以将每个特征的最大绝对值转换至单位大小。这种方法是对原始数据的线性变换，将数据归一到[0,1]中间；</li>
+<li>转换函数：x = (x-min) / (max-min)；</li>
+<li>适用性：适用于分布范围较稳定的数据，当新数据的加入导致max/min变化，则需重新定义；</li>
+<li>Outlier 的影响：因为outlier会影响最大值或最小值，因此对outlier非常敏感。</li>
+</ul>
+<p><strong>参数包括：min, max, copy</strong></p>
+<ul>
+<li>min：默认为0，指定区间的下限；</li>
+<li>max：默认为1，指定区间的上限；</li>
+<li>copy : 布尔值，默认为True，可选参数，表示拷贝一份数据以避免在原数据上进行操作，若设置为 False 执行插入行规范化并避免复制。</li>
+</ul>
+<p><strong>属性包括：min_, scale_, data_min_, data_max_</strong></p>
+<ul>
+<li>min_：每个功能调整为最小；</li>
+<li>scale_：每个特征数据的相对缩放；</li>
+<li>data_min_：每个特征在数据中出现的最小值；</li>
+<li>data_max_：每个特征在数据中心出现的最大值。</li>
+</ul>
+<h1 id="四、稳健标准化-RobustScaler"><a href="#四、稳健标准化-RobustScaler" class="headerlink" title="四、稳健标准化 RobustScaler"></a>四、稳健标准化 RobustScaler</h1><pre><code class="py">from sklearn.preprocessing import RobustScaler</code></pre>
+<p><strong>使用具有鲁棒性的统计量缩放带有异常值（离群值）的数据</strong></p>
+<ul>
+<li>处理方法：该缩放器删除中位数，并根据百分位数范围（默认值为IQR：四分位间距）缩放数据；</li>
+<li>IQR：是第1个四分位数（25%）和第3个四分位数（75%）之间的范围；</li>
+<li>适用性：适用于包含许多异常值的数据；</li>
+<li>Outlier 的影响：RobustScaler 利用IQR进行缩放来弱化 outlier 的影响。</li>
+</ul>
+<p><strong>参数包括：with_centering, with_scaling, quantile_range, copy</strong></p>
+<ul>
+<li>with_centering：布尔值，默认为 True，表示在缩放之前将数据居中。若使用稀疏矩阵时，这将导致转换引发异常，因为将它们居中需要建立一个密集的矩阵，在通常的使用情况下，该矩阵可能太大而无法容纳在内存中；</li>
+<li>with_scaling : 布尔值，默认为True，表示将数据缩放到四分位数范围；</li>
+<li>quantile_range : 元组，默认值为（25.0, 75.0）即 IQR，表示用于计算 scale_的分位数范围；</li>
+<li>copy : 布尔值，默认为True，可选参数，表示拷贝一份数据以避免在原数据上进行操作，若设置为 False 执行插入行规范化并避免复制。</li>
+</ul>
+<p><strong>属性包括：center_, scale_</strong></p>
+<ul>
+<li>center_ ：训练集中每个属性的中位数；</li>
+<li>scale_ ：训练集中每个属性的四分位间距。</li>
+</ul>
+<h1 id="五、总结"><a href="#五、总结" class="headerlink" title="五、总结"></a>五、总结</h1><ul>
+<li>在分类、聚类算法中，需要使用距离来度量相似性的时候、或者使用PCA技术进行降维的时候，StandardScaler表现更好（避免不同量纲对方差、协方差计算的影响）；</li>
+<li>在不涉及距离度量、协方差、数据不符合正态分布、异常值较少的时候，可使用MinMaxScaler。（eg：图像处理中，将RGB图像转换为灰度图像后将其值限定在 [0, 255] 的范围）；</li>
+<li>在带有的离群值较多的数据时，推荐使用Ro bustScaler。</li>
+</ul>
 
         </div>
         <!-- .entry-content -->
@@ -528,15 +574,15 @@ for pic in os.listdir(path):  #os.listdir() 方法用于返回指定的文件夹
           
             <div class="post-nepre half previous">
           
-            <a href="/2020/07/15/With在Python中的实践原理/" rel="prev">
+            <a href="/2020/09/06/英雄联盟胜利因素分析/" rel="prev">
               <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.0/images/article/with_python_20200901.png" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.0/images/article/with_python_20200901.png">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.0/images/article/lol_analysis_20200906.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.0/images/article/lol_analysis_20200906.jpg">
               </div>
               <span class="label">
               Previous Post</span>
               <div class="info">
                 <h3>
-                With在Python中的实践原理</h3>
+                利用Python对英雄联盟胜利条件进行分析</h3>
                 <hr>
               </div>
             </a>
@@ -546,15 +592,15 @@ for pic in os.listdir(path):  #os.listdir() 方法用于返回指定的文件夹
           
             <div class="post-nepre half next">
           
-            <a href="/2020/07/09/SQL锁/" rel="next">
+            <a href="/2020/09/01/sklearn.model_selection.train_test_split用法-划分训练集与测试集/" rel="next">
               <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.7/images/article/sqllock20200709.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.7/images/article/sqllock20200709.jpg">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.0/images/article/sklearn_test-train_spilt_20200901.png" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.0/images/article/sklearn_test-train_spilt_20200901.png">
               </div>
               <span class="label">
               Next Post</span>
               <div class="info">
                 <h3>
-                一张图彻底搞懂 MySQL 的锁机制</h3>
+                sklearn.model_selection.train_test_split用法-划分训练集与测试集</h3>
                 <hr>
               </div>
             </a>

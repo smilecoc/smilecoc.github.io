@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">removebg库：一键抠图&amp;换证件照底色 | Smilecoc&#39;s Blog</title>
+  <title itemprop="name">利用Python对英雄联盟胜利条件进行分析 | Smilecoc&#39;s Blog</title>
   
     <link rel="shortcut icon" href="/images/favicon.ico">
   
@@ -435,11 +435,11 @@
 
   <div class="pattern-center single-center">
     <!-- 有配图默认渲染第一张 -->
-    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.8/images/article/removebg20200720.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.8/images/article/removebg20200720.jpg">
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.0/images/article/lol_analysis_20200906.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.0/images/article/lol_analysis_20200906.jpg">
     </div>
     <header class="pattern-header single-header">
       <h1 class="entry-title">
-      removebg库：一键抠图&换证件照底色</h1>
+      利用Python对英雄联盟胜利条件进行分析</h1>
       <p class="entry-census">
         <span>
           <a href="http://smilecoc.vip/">
@@ -451,7 +451,7 @@
         </span>
         <span class="bull">
         ·</span>
-        2020-7-13<span class="bull">
+        2020-9-6<span class="bull">
         ·</span>
       <span id="busuanzi_value_page_pv"></span>次阅读</p>
     </header>
@@ -465,39 +465,73 @@
         <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
         
         <div class="entry-content">
-          <p>Remove.bg是一个利用AI智能抠图的网站，在这个网站上可以上传图片，然后实现自动抠图并更换背景等，如果不懂编程的可以直接登陆<a href="https://www.remove.bg/zh" target="_blank" rel="noopener">https://www.remove.bg/zh</a>操作</p>
-<p>Remove.bg 网站提供了API 接口，可以直接调用并实现抠图。而在python中已经有基于api开发的removebg包，可以非常方便的实现相关功能</p>
-<p>首先安装removebg包：</p>
-<pre><code class="python">pip install removebg</code></pre>
-<p>然后需要一个Remove.bg 网站的API-key.需要登录Remove.bg的官网并注册。注册完成后可以在“我的账户”中查看API-key。复制这个key即可</p>
-<p>之后就可以使用remove_background_from_img_file函数快速转化图片的背景了：</p>
-<pre><code class="python">from removebg import RemoveBg
+          <p>在《英雄联盟》的比赛中过程中会有很多因素会影响游戏是否胜利，例如一血，是否拿到小龙和男爵，是否率先推掉水晶等，一般这些资源会对比赛胜利产生影响。通过这个项目，我想更好的了解这些目标中哪一个是赢得英雄联盟游戏最重要的。就此提出的问题如下:​</p>
+<ul>
+<li>1.英雄联盟最重要的获胜条件是什么?</li>
+<li>2.当某些因素发生后如何让去预测这场比赛是否会胜利</li>
+</ul>
+<h1 id="数据获取与探索性数据分析（EDA）"><a href="#数据获取与探索性数据分析（EDA）" class="headerlink" title="数据获取与探索性数据分析（EDA）"></a>数据获取与探索性数据分析（EDA）</h1><p>原始数据与源码可以微信后台回复<strong>英雄联盟胜利因素分析</strong>获取</p>
+<p>原始数据中给出了包括比赛ID，是否胜利，以相关资源的获取数量，包括塔，龙，水晶的等因素。首先的探索性数据分析部分我们依旧是先查看数据的数据类型,数据分布与是否存在缺失值</p>
+<pre><code class="py">match_df=pd.read_csv(r&quot;matches.csv&quot;)
+match_df.describe()
+match_df.info()
 
-rmbg = RemoveBg(&quot;YOUR-API-KEY&quot;, &quot;error.log&quot;)
-rmbg.remove_background_from_img_file(&quot;testrmbg.jpg&quot;)</code></pre>
-<p>语法为：<br>remove_background_from_img_file（img_file_path，size，bg_color），参数如下图所示：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200713161625942.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>例如要将证件照背景换为白色底色，并且输出4k分辨率的图片</p>
-<pre><code class="python">from removebg import RemoveBg
 
-rmbg = RemoveBg(&quot;YOUR-API-KEY&quot;, &quot;error.log&quot;)
-rmbg.remove_background_from_img_file(&quot;identificationphoto.jpg&quot;,&#39;4k&#39;,&#39;blank&#39;)</code></pre>
-<p>同时我们也可以实现照片的批量转换：</p>
-<pre><code class="python">from removebg import RemoveBg
-import os
+#使用seaborn可视化是否存在缺失值
+sns.set_style(&#39;darkgrid&#39;) 
+plt.figure(figsize = (12,8)) 
+cmap = sns.diverging_palette(220, 20, l = 40, s = 99, sep = 20, center = &#39;light&#39;, as_cmap = True) 
+sns.heatmap(match_df.isna(), cmap = cmap, yticklabels = False)#利用df.isna()来获取是否存在nan并用热力图可视化</code></pre>
+<p>在确认数据无缺失值后来看一下各个变量间的相关系数：</p>
+<pre><code class="py">#设定图像样式
+plt.figure(figsize = (12,8))
+cmap = sns.diverging_palette(220, 20, l = 40, s = 99, sep = 20, center = &#39;light&#39;, as_cmap = True) 
 
-rmbg = RemoveBg(&quot;YOUR-API-KEY&quot;, &quot;error.log&quot;)
-#os.getcwd() 方法用于返回当前工作目录
-#同时将生成的结果放在路径中的picture文件夹中
-path=&#39;%s/picture&#39;%os.getcwd()
-print(path)
+#drop函数默认删除行，列需要加axis = 1
+#查看各个变量之间的相关系数
+sns.heatmap(match_df.drop([&#39;region&#39;], axis = 1).corr(), vmin = 0, vmax = 1, annot = True, cmap = cmap, lw = .5, linecolor = &#39;white&#39;)</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20200905185708802.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>可以看出拿到第一座水晶，推塔数量与摧毁水晶数量对于胜利的影响有较强的相关性</p>
+<h1 id="主成分分析部分（PCA）"><a href="#主成分分析部分（PCA）" class="headerlink" title="主成分分析部分（PCA）"></a>主成分分析部分（PCA）</h1><p>在这些原始数据提供的维度中，有哪些维度是比较重要的维度，可以让我们在较少的维度下去进行数据分析呢？针对这个问题，我们使用sklearn中的PCA模块对数据进行降维。</p>
+<pre><code class="py">#数据标准化 / 归一化
+scaler = StandardScaler()
+scaler.fit(match_df.drop([&#39;win&#39;, &#39;region&#39;], axis = 1))
+scaled_data = scaler.transform(match_df.drop([&#39;win&#39;, &#39;region&#39;], axis=1))
 
-for pic in os.listdir(path):  #os.listdir() 方法用于返回指定的文件夹包含的文件或文件夹的名字的列表。
-    rmbg.remove_background_from_img_file(&#39;%s\%s&#39;%(path,pic))</code></pre>
-<p>需要注意的是免费用户系统会自动赠送你一个credit以及50次的免费预览。免费预览就是低像素（最高 25 万像素，例如625 × 400 像素）的抠图，想要获得高像素图像就需要花费credit。所以用完了之后就会拒绝你的api请求.</p>
-<p>另外此包还支持修改url图片背景remove_background_from_img_url（）和base64图片remove_background_from_base64_img（）</p>
-<p>最后附上removebg包的github地址：<br><a href="https://github.com/brilam/remove-bg" target="_blank" rel="noopener">https://github.com/brilam/remove-bg</a></p>
-<p>官网API文档：<br><a href="https://www.remove.bg/zh/api" target="_blank" rel="noopener">https://www.remove.bg/zh/api</a></p>
-<p>本文首发于博客：<a href="http://smilecoc.vip/">http://smilecoc.vip/</a><br>微信公众号：Romi的杂货铺</p>
+#留下维度数量的选择
+exp_var_ratio = []
+for n in range(0,8):
+    pca = PCA(n_components = n)
+    pca.fit(scaled_data)
+    pca.transform(scaled_data)
+    exp_var_ratio.append(sum(pca.explained_variance_ratio_))
+
+#可视化
+
+fig = plt.figure(figsize = (12, 8))
+ax = fig.add_subplot(111)
+plt.plot(range(1,9), exp_var_ratio, marker = &#39;o&#39;, markerfacecolor = &#39;orange&#39;, markersize = 6)
+#利用zip返回一个可迭代的对象
+for i,j in zip(range(1,9),exp_var_ratio):
+    ax.annotate(&#39;{:.2f}&#39;.format(j),xy=(i-.2,j+.03))
+plt.xlabel(&#39;Number of Componenets&#39;, size = 15)
+plt.ylabel(&#39;Ratio of Variance Explained&#39;, size = 15)</code></pre>
+<p>在使用PCA之前必须标准化数据的原因是PCA方法对初始变量的方差非常敏感。也就是说，如果初始变量的范围之间存在较大差异，那么范围较大的变量占的比重较大，和较小的变量相比（例如，范围介于0和100之间的变量较0到1之间的变量会占较大比重），这将导致主成分的偏差。通过将数据转换为同样的比例可以防止这个问题。<br>输出结果：<br><img src="https://img-blog.csdnimg.cn/20200905192455652.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>从输出结果来看，超过80%的方差可以用6个特征来解释。为了了解哪个维度更重要，我们对各成分的方差值与方差占比进行计算并使用热力图可视化</p>
+<pre><code class="py">#将PCA特征的个数选定在6个
+pca = PCA(n_components = 6)
+pca.fit(scaled_data)
+data_pca = pca.transform(scaled_data)
+
+pca_corr = pd.DataFrame(pca.components_, columns = match_df.drop([&#39;win&#39;, &#39;region&#39;], axis = 1).columns)#pca.components_:返回具有最大方差的成分
+
+plt.figure(figsize = (12,8))
+sns.heatmap(pca_corr, cmap = cmap, vmin = -1, vmax = 1, annot = True, lw = .5, linecolor = &#39;white&#39;)
+
+#查看各主成分的方差解释度占比
+pca.explained_variance_ratio_</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20200906035022201.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>从热力图中可以看出，摧毁第一座水晶，推塔数和摧毁水晶数占据比赛胜利的重要因素，这也与我们的认知相符。</p>
+<h1 id="逻辑回归建模部分"><a href="#逻辑回归建模部分" class="headerlink" title="逻辑回归建模部分"></a>逻辑回归建模部分</h1><p>最后通过逻辑回归模型，我们可以看到不同的地区胜利与这些影响因素之间的关系<br><img src="https://img-blog.csdnimg.cn/20200906041438710.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>从这个模型中可以看出各个地区之间的游戏风格存在的差异，并可以去预测给定因素下是否会胜利</p>
+<p>原始数据与源码可以微信后台回复<strong>英雄联盟胜利因素分析</strong>获取<br>英文原作者代码与数据清洗:<a href="https://github.com/ankushbharadwaj/league-of-legends-win-conditions" target="_blank" rel="noopener">https://github.com/ankushbharadwaj/league-of-legends-win-conditions</a></p>
 
         </div>
         <!-- .entry-content -->
@@ -525,36 +559,19 @@ for pic in os.listdir(path):  #os.listdir() 方法用于返回指定的文件夹
       <div class="toc" style="background: none;"></div>
       <section class="post-squares nextprev">
         
-          
-            <div class="post-nepre half previous">
-          
-            <a href="/2020/07/15/With在Python中的实践原理/" rel="prev">
-              <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.0/images/article/with_python_20200901.png" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.0/images/article/with_python_20200901.png">
-              </div>
-              <span class="label">
-              Previous Post</span>
-              <div class="info">
-                <h3>
-                With在Python中的实践原理</h3>
-                <hr>
-              </div>
-            </a>
-          </div>
-        
         
           
-            <div class="post-nepre half next">
+            <div class="post-nepre full next">
           
-            <a href="/2020/07/09/SQL锁/" rel="next">
+            <a href="/2020/09/03/sklearn三种数据标准化方法的对比：StandardScaler、MinMaxScaler、RobustScaler/" rel="next">
               <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.7/images/article/sqllock20200709.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.7/images/article/sqllock20200709.jpg">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.0/images/article/sklearn_standardize_20200903.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.0/images/article/sklearn_standardize_20200903.jpg">
               </div>
               <span class="label">
               Next Post</span>
               <div class="info">
                 <h3>
-                一张图彻底搞懂 MySQL 的锁机制</h3>
+                sklearn三种数据标准化方法的对比：StandardScaler、MinMaxScaler、RobustScaler</h3>
                 <hr>
               </div>
             </a>
