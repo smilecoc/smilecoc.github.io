@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">archive_a | Smilecoc&#39;s Blog</title>
+  <title itemprop="name">SQL Server 公用表表达式(CTE) | Smilecoc&#39;s Blog</title>
   
     <link rel="shortcut icon" href="/images/favicon.ico">
   
@@ -429,783 +429,391 @@
   </div>
 </header>
 
-      <div class="blank" style="padding-top: 75px;">
-</div>
-<div id="content" class="site-content">
-  <div id="main">
-    <header class="page-header">
-      <h1 class="cat-title">
-      归档</h1>
-      <span class="cat-des">
-        <p>
-        Archives</p>
-      </span>
+      <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<div class="pattern-center-blank"></div>
+
+  <div class="pattern-center single-center">
+    <!-- 有配图默认渲染第一张 -->
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.1/images/article/sql_cte_20200920.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.1/images/article/sql_cte_20200920.jpg">
+    </div>
+    <header class="pattern-header single-header">
+      <h1 class="entry-title">
+      SQL Server 公用表表达式(CTE)</h1>
+      <p class="entry-census">
+        <span>
+          <a href="http://smilecoc.vip/">
+            <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico">
+          </a>
+        </span>
+        <span>
+          <a href="http://smilecoc.vip/">smilecoc</a>
+        </span>
+        <span class="bull">
+        ·</span>
+        2020-9-20<span class="bull">
+        ·</span>
+      <span id="busuanzi_value_page_pv"></span>次阅读</p>
     </header>
-    <div id="main-part">
-      <article class="art">
-        <div class="art-main">
-          <div class="art-content">
-            <div id="archives">
-              <p style="text-align:right;">
-                [<span id="al_expand_collapse" style="cursor: s-resize;">
-                全部展开/收缩</span>
-              ]</p>
-              
-              
-              
-              
-              
-                
-                <h3 class="al_year">2020年</h3>
-              
-              
-                
-                <ul class="al_mon_list">
-                  <li class="al_li">
-                    <span class="al_mon" style="cursor: s-resize;">
-                      09月(<span id="post-num">
-                      3</span>
-                    篇文章)</span>
-                    <ul class="al_post_list" style="">
-              
-                      <li>
-                        <a href="/2020/09/22/SQL查询众数与中位数/">
-                          <span style="color:#0bf;">
-                          22日17:36:18</span>
-                          SQL查询众数与中位数
-                        </a>
-                      </li>
-                      
-              
-              
-              
-              
-              
-                      <li>
-                        <a href="/2020/09/20/SQL Server日期函数详解与实战/">
-                          <span style="color:#0bf;">
-                          20日17:22:11</span>
-                          SSQL Server日期函数详解与实战
-                        </a>
-                      </li>
-                      
-              
-              
-              
-              
-              
-                      <li>
-                        <a href="/2020/09/20/SQL  Server 公用表表达式(CTE)/">
-                          <span style="color:#0bf;">
-                          20日10:25:18</span>
-                          SQL Server 公用表表达式(CTE)
-                        </a>
-                      </li>
-                      
-              
-              
-              
-              
-              
-                      <li>
-                        <a href="/2020/09/06/英雄联盟胜利因素分析/">
-                          <span style="color:#0bf;">
-                          06日13:15:11</span>
-                          利用Python对英雄联盟胜利条件进行分析
-                        </a>
-                      </li>
-                      
-              
-              
-              
-              
-              
-                      <li>
-                        <a href="/2020/09/03/sklearn三种数据标准化方法的对比：StandardScaler、MinMaxScaler、RobustScaler/">
-                          <span style="color:#0bf;">
-                          03日10:08:24</span>
-                          sklearn三种数据标准化方法的对比：StandardScaler、MinMaxScaler、RobustScaler
-                        </a>
-                      </li>
-                      
-              
-              
-              
-              
-              
-                      <li>
-                        <a href="/2020/09/01/sklearn.model_selection.train_test_split用法-划分训练集与测试集/">
-                          <span style="color:#0bf;">
-                          01日12:22:24</span>
-                          sklearn.model_selection.train_test_split用法-划分训练集与测试集
-                        </a>
-                      </li>
-                      
-                    </ul>
-                  </li>
-                </ul>
-              
-              
-              
-              
-              
-              
-                
-                <ul class="al_mon_list">
-                  <li class="al_li">
-                    <span class="al_mon" style="cursor: s-resize;">
-                      08月(<span id="post-num">
-                      3</span>
-                    篇文章)</span>
-                    <ul class="al_post_list" style="">
-              
-                      <li>
-                        <a href="/2020/08/17/数据库设计范式 - Copy/">
-                          <span style="color:#0bf;">
-                          17日23:56:29</span>
-                          left join on and 与 left join on where的区别
-                        </a>
-                      </li>
-                      
-              
-              
-              
-              
-              
-                      <li>
-                        <a href="/2020/08/11/如何从0开始建立数据库(五)：数据库系统的实现/">
-                          <span style="color:#0bf;">
-                          11日20:24:53</span>
-                          如何从0开始建立数据库(五)：数据库系统的实现
-                        </a>
-                      </li>
-                      
-              
-              
-              
-              
-              
-                      <li>
-                        <a href="/2020/08/11/如何从0开始建立数据库(四)：SQL/">
-                          <span style="color:#0bf;">
-                          11日19:01:11</span>
-                          如何从0开始建立数据库(四)：SQL
-                        </a>
-                      </li>
-                      
-              
-              
-              
-              
-              
-                      <li>
-                        <a href="/2020/08/11/如何从0开始建立数据库(三)：更新异常与规范化设计/">
-                          <span style="color:#0bf;">
-                          11日18:55:18</span>
-                          如何从0开始建立数据库(三)：更新异常与规范化设计
-                        </a>
-                      </li>
-                      
-              
-              
-              
-              
-              
-                      <li>
-                        <a href="/2020/08/11/如何从0开始建立数据库(二)：数据库关系建模/">
-                          <span style="color:#0bf;">
-                          11日17:21:06</span>
-                          如何从0开始建立数据库(二)：数据库关系建模
-                        </a>
-                      </li>
-                      
-              
-              
-              
-              
-              
-                      <li>
-                        <a href="/2020/08/11/如何从0开始建立数据库(一)：数据库需求与ER建模/">
-                          <span style="color:#0bf;">
-                          11日16:24:08</span>
-                          如何从0开始建立数据库(一)：数据库需求与ER建模
-                        </a>
-                      </li>
-                      
-                    </ul>
-                  </li>
-                </ul>
-              
-              
-              
-              
-              
-              
-                
-                <ul class="al_mon_list">
-                  <li class="al_li">
-                    <span class="al_mon" style="cursor: s-resize;">
-                      07月(<span id="post-num">
-                      3</span>
-                    篇文章)</span>
-                    <ul class="al_post_list" style="">
-              
-                      <li>
-                        <a href="/2020/07/27/sweetviz/">
-                          <span style="color:#0bf;">
-                          27日10:08:45</span>
-                          sweetviz库：快速可视化和数据集EDA
-                        </a>
-                      </li>
-                      
-              
-              
-              
-              
-              
-                      <li>
-                        <a href="/2020/07/20/Faker库/">
-                          <span style="color:#0bf;">
-                          20日23:57:14</span>
-                          Faker库：快速生成测试数据
-                        </a>
-                      </li>
-                      
-              
-              
-              
-              
-              
-                      <li>
-                        <a href="/2020/07/15/With在Python中的实践原理/">
-                          <span style="color:#0bf;">
-                          15日18:22:24</span>
-                          With在Python中的实践原理
-                        </a>
-                      </li>
-                      
-              
-              
-              
-              
-              
-                      <li>
-                        <a href="/2020/07/13/removebg库/">
-                          <span style="color:#0bf;">
-                          13日11:52:14</span>
-                          removebg库：一键抠图&amp;换证件照底色
-                        </a>
-                      </li>
-                      
-              
-              
-              
-              
-              
-                      <li>
-                        <a href="/2020/07/09/SQL锁/">
-                          <span style="color:#0bf;">
-                          09日12:25:18</span>
-                          一张图彻底搞懂 MySQL 的锁机制
-                        </a>
-                      </li>
-                      
-                    </ul>
-                  </li>
-                </ul>
-              
-              
-              
-              
-              
-              
-                
-                <ul class="al_mon_list">
-                  <li class="al_li">
-                    <span class="al_mon" style="cursor: s-resize;">
-                      06月(<span id="post-num">
-                      3</span>
-                    篇文章)</span>
-                    <ul class="al_post_list" style="">
-              
-                      <li>
-                        <a href="/2020/06/23/SQL  server中的模式架构schema详解/">
-                          <span style="color:#0bf;">
-                          23日23:33:33</span>
-                          SQL server中的模式架构schema详解
-                        </a>
-                      </li>
-                      
-              
-              
-              
-              
-              
-                      <li>
-                        <a href="/2020/06/21/Markdown语法参考/">
-                          <span style="color:#0bf;">
-                          21日13:28:30</span>
-                          Markdown语法参考
-                        </a>
-                      </li>
-                      
-              
-              
-              
-              
-              
-                      <li>
-                        <a href="/2020/06/20/VBA常用代码汇总/">
-                          <span style="color:#0bf;">
-                          20日12:36:23</span>
-                          VBA常用代码汇总
-                        </a>
-                      </li>
-                      
-                    </ul>
-                  </li>
-                </ul>
-              
-              
-              
-              
-              
-              
-                
-                <ul class="al_mon_list">
-                  <li class="al_li">
-                    <span class="al_mon" style="cursor: s-resize;">
-                      05月(<span id="post-num">
-                      3</span>
-                    篇文章)</span>
-                    <ul class="al_post_list" style="">
-              
-                      <li>
-                        <a href="/2020/05/31/MMM/">
-                          <span style="color:#0bf;">
-                          31日19:21:08</span>
-                          Python数据分析实战之营销组合模型
-                        </a>
-                      </li>
-                      
-              
-              
-              
-              
-              
-                      <li>
-                        <a href="/2020/05/20/Python视频相关操作/">
-                          <span style="color:#0bf;">
-                          20日20:13:14</span>
-                          Python骚操作之使用python做个视频
-                        </a>
-                      </li>
-                      
-                    </ul>
-                  </li>
-                </ul>
-              
-              
-              
-              
-              
-              
-                
-                <ul class="al_mon_list">
-                  <li class="al_li">
-                    <span class="al_mon" style="cursor: s-resize;">
-                      04月(<span id="post-num">
-                      3</span>
-                    篇文章)</span>
-                    <ul class="al_post_list" style="">
-              
-                      <li>
-                        <a href="/2020/04/12/实用网站汇总/">
-                          <span style="color:#0bf;">
-                          12日22:06:14</span>
-                          实用网站资源整理汇总
-                        </a>
-                      </li>
-                      
-              
-              
-              
-              
-              
-                      <li>
-                        <a href="/2020/04/05/SQL面试题整理汇总/">
-                          <span style="color:#0bf;">
-                          05日10:24:33</span>
-                          数据分析面试题整理汇总
-                        </a>
-                      </li>
-                      
-              
-              
-              
-              
-              
-                      <li>
-                        <a href="/2020/04/04/SQL面试44题/">
-                          <span style="color:#0bf;">
-                          04日16:24:08</span>
-                          SQL面试44题
-                        </a>
-                      </li>
-                      
-                    </ul>
-                  </li>
-                </ul>
-              
-              
-              
-              
-              
-              
-                
-                <ul class="al_mon_list">
-                  <li class="al_li">
-                    <span class="al_mon" style="cursor: s-resize;">
-                      03月(<span id="post-num">
-                      3</span>
-                    篇文章)</span>
-                    <ul class="al_post_list" style="">
-              
-                      <li>
-                        <a href="/2020/03/21/海盗分金问题/">
-                          <span style="color:#0bf;">
-                          21日19:42:55</span>
-                          海盗分金问题问题
-                        </a>
-                      </li>
-                      
-              
-              
-              
-              
-              
-                      <li>
-                        <a href="/2020/03/20/双蛋问题/">
-                          <span style="color:#0bf;">
-                          20日20:56:55</span>
-                          双蛋问题
-                        </a>
-                      </li>
-                      
-              
-              
-              
-              
-              
-                      <li>
-                        <a href="/2020/03/15/pandas笔记/">
-                          <span style="color:#0bf;">
-                          15日23:46:34</span>
-                          Pandas笔记
-                        </a>
-                      </li>
-                      
-              
-              
-              
-              
-              
-                      <li>
-                        <a href="/2020/03/12/Git语句大全/">
-                          <span style="color:#0bf;">
-                          12日22:22:30</span>
-                          Git语句大全
-                        </a>
-                      </li>
-                      
-              
-              
-              
-              
-              
-                      <li>
-                        <a href="/2020/03/07/数据库设计范式/">
-                          <span style="color:#0bf;">
-                          07日16:06:22</span>
-                          数据库设计范式
-                        </a>
-                      </li>
-                      
-              
-              
-              
-              
-              
-                      <li>
-                        <a href="/2020/03/07/微博批量自动取关/">
-                          <span style="color:#0bf;">
-                          07日15:54:45</span>
-                          微博批量自动取关
-                        </a>
-                      </li>
-                      
-              
-              
-              
-              
-              
-                      <li>
-                        <a href="/2020/03/07/使用Python调用百度地图Api获取两地距离/">
-                          <span style="color:#0bf;">
-                          07日15:41:11</span>
-                          使用Python调用百度地图Api获取两地距离并打包为可执行程序
-                        </a>
-                      </li>
-                      
-              
-              
-              
-              
-              
-                      <li>
-                        <a href="/2020/03/03/VBA中使用SQL/">
-                          <span style="color:#0bf;">
-                          03日22:24:01</span>
-                          在VBA中使用SQL
-                        </a>
-                      </li>
-                      
-              
-              
-              
-              
-              
-                      <li>
-                        <a href="/2020/03/02/京东商品评论爬虫/">
-                          <span style="color:#0bf;">
-                          02日22:16:24</span>
-                          京东商品评论爬虫
-                        </a>
-                      </li>
-                      
-                    </ul>
-                  </li>
-                </ul>
-              
-              
-              
-              
-              
-              
-                
-                <ul class="al_mon_list">
-                  <li class="al_li">
-                    <span class="al_mon" style="cursor: s-resize;">
-                      02月(<span id="post-num">
-                      3</span>
-                    篇文章)</span>
-                    <ul class="al_post_list" style="">
-              
-                      <li>
-                        <a href="/2020/02/24/Chrome插件资源/">
-                          <span style="color:#0bf;">
-                          24日21:57:00</span>
-                          Chrome插件资源
-                        </a>
-                      </li>
-                      
-              
-              
-              
-              
-              
-                      <li>
-                        <a href="/2020/02/15/B站每日排行榜爬虫/">
-                          <span style="color:#0bf;">
-                          15日15:59:01</span>
-                          B站每日排行榜爬虫
-                        </a>
-                      </li>
-                      
-              
-              
-              
-              
-              
-                      <li>
-                        <a href="/2020/02/02/Hexo Sakura主题遇到的问题汇总/">
-                          <span style="color:#0bf;">
-                          02日22:02:02</span>
-                          Hexo Sakura主题的问题汇总
-                        </a>
-                      </li>
-                      
-                    </ul>
-                  </li>
-                </ul>
-              
-              
-              
-              
-              
-              
-                
-                <ul class="al_mon_list">
-                  <li class="al_li">
-                    <span class="al_mon" style="cursor: s-resize;">
-                      01月(<span id="post-num">
-                      3</span>
-                    篇文章)</span>
-                    <ul class="al_post_list" style="">
-              
-                      <li>
-                        <a href="/2020/01/01/定制系统资源/">
-                          <span style="color:#0bf;">
-                          01日00:00:00</span>
-                          定制系统与使用方式资源
-                        </a>
-                      </li>
-                      
-                    </ul>
-                  </li>
-                </ul>
-              
-              
-              
-              
-              
-                
-                <h3 class="al_year">2019年</h3>
-              
-              
-                
-                <ul class="al_mon_list">
-                  <li class="al_li">
-                    <span class="al_mon" style="cursor: s-resize;">
-                      12月(<span id="post-num">
-                      3</span>
-                    篇文章)</span>
-                    <ul class="al_post_list" style="">
-              
-                      <li>
-                        <a href="/2019/12/25/SQL实现筛选出连续3天登录用户/">
-                          <span style="color:#0bf;">
-                          25日16:24:08</span>
-                          SQL窗口函数并实现筛选出连续n天登录用户
-                        </a>
-                      </li>
-                      
-                    </ul>
-                  </li>
-                </ul>
-              
-              
-              
-              
-              
-              
-                
-                <ul class="al_mon_list">
-                  <li class="al_li">
-                    <span class="al_mon" style="cursor: s-resize;">
-                      10月(<span id="post-num">
-                      3</span>
-                    篇文章)</span>
-                    <ul class="al_post_list" style="">
-              
-                      <li>
-                        <a href="/2019/10/01/简单实用的SQL脚本汇总/">
-                          <span style="color:#0bf;">
-                          01日00:00:01</span>
-                          简单实用的SQL脚本汇总
-                        </a>
-                      </li>
-                      
-              
-              
-              
-              
-              
-                      <li>
-                        <a href="/2019/10/01/经典SQL语句大全/">
-                          <span style="color:#0bf;">
-                          01日00:00:00</span>
-                          经典SQL语句大全
-                        </a>
-                      </li>
-                      
-                    </ul>
-                  </li>
-                </ul>
-              
-              
-              
-              
-              
-              
-                
-                <ul class="al_mon_list">
-                  <li class="al_li">
-                    <span class="al_mon" style="cursor: s-resize;">
-                      08月(<span id="post-num">
-                      3</span>
-                    篇文章)</span>
-                    <ul class="al_post_list" style="">
-              
-                      <li>
-                        <a href="/2019/08/20/我的博客搭建全记录/">
-                          <span style="color:#0bf;">
-                          20日12:34:02</span>
-                          博客搭建记录
-                        </a>
-                      </li>
-                      
-              
-              
-              
-              
-              
-                      <li>
-                        <a href="/2019/08/06/2019年随想/">
-                          <span style="color:#0bf;">
-                          06日00:00:00</span>
-                          2019年，小破站建立撒花~
-                        </a>
-                      </li>
-                      
-                    </ul>
-                  </li>
-                </ul>
-              
-              
-              
-              
-              
-              
-                
-                <ul class="al_mon_list">
-                  <li class="al_li">
-                    <span class="al_mon" style="cursor: s-resize;">
-                      03月(<span id="post-num">
-                      3</span>
-                    篇文章)</span>
-                    <ul class="al_post_list" style="">
-              
-                      <li>
-                        <a href="/2019/03/12/RFM用户分析模型/">
-                          <span style="color:#0bf;">
-                          12日22:22:30</span>
-                          RFM用户模型
-                        </a>
-                      </li>
-                      
-                    </ul>
-                  </li>
-                </ul>
-              
-              
+  </div>
+
+<div id="content" class="site-content">
+  <div id="primary" class="content-area">
+    <main id="main" class="site-main" role="main">
+      <article id="post-1" class="post-1 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+        <div class="toc"></div>
+        <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
+        
+        <div class="entry-content">
+          <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>在书写SQL的过程中经常会需要用到中间过程表或者结果集，一般我们实现中间表供后续查询的方法有：<strong>使用子查询</strong> 或者 <strong>创建视图进行存储</strong>。但是使用子查询会使语句变得不易于阅读，不利于SQL代码更加简洁和可读，而视图是作为系统对象存在数据库中，那对于结果集仅仅需要在存储过程或是用户自定义函数中使用一次的时候，使用视图就显得有些奢侈了.</p>
+<p>公用表表达式（Common Table Expression)是SQL SERVER 2005版本之后引入的一个特性.CTE可以看作是一个临时的结果集，可以在接下来的一个SELECT,INSERT,UPDATE,DELETE,MERGE语句中被多次引用。使用公用表达式可以让语句更加清晰简练.</p>
+<p>除此之外，根据微软对CTE好处的描述，可以归结为四点:</p>
+<ul>
+<li>可以定义递归公用表表达式(CTE)</li>
+<li>当不需要将结果集作为视图被多个地方引用时，CTE可以使其更加简洁</li>
+<li>GROUP BY语句可以直接作用于子查询所得的标量列</li>
+<li>可以在一个语句中多次引用公用表表达式(CTE)</li>
+</ul>
+<h1 id="公用表表达式-CTE-的定义"><a href="#公用表表达式-CTE-的定义" class="headerlink" title="公用表表达式(CTE)的定义"></a>公用表表达式(CTE)的定义</h1><p>公用表达式的定义非常简单，只包含三部分：</p>
+<pre><code>WITH Expression_Name [ ( ColumnName [1,...n] ) ]
+AS
+( CTE query definition )</code></pre><p>Expression_Name为公用表表达式的名字（在WITH之后），ColumnName所涉及的列名（可选）CTE ，query definition 为SQL语句(紧跟AS之后)</p>
+<p>按照是否递归，可以将公用表（CTE）表达式分为递归公用表表达式和非递归公用表表达式.</p>
+<h1 id="非递归公用表表达式-CTE"><a href="#非递归公用表表达式-CTE" class="headerlink" title="非递归公用表表达式(CTE)"></a>非递归公用表表达式(CTE)</h1><p>非递归公用表表达式（CTE）是查询结果仅仅一次性返回一个结果集用于外部查询调用。并不在其定义的语句中调用其自身的CTE</p>
+<p>非递归公用表表达式（CTE）的使用方式和视图以及子查询一致</p>
+<p>比如一个简单的非递归公用表表达式:</p>
+<pre><code class="sql">WITH CTE_Test
+AS
+(
+SELECT *
+FROM Student
+)
+
+SELECT * FROM CTE_Test</code></pre>
+<p>当然，公用表表达式的好处之一是可以在接下来一条语句中多次引用:</p>
+<pre><code class="sql">WITH CTE_Test
+AS
+(
+SELECT *
+FROM Student
+)
+SELECT * FROM CTE_Test a
+inner join  CTE_Test b
+on a.ID=b.ID
+group by a.ID</code></pre>
+<p>前面一直强调“在接下来的一条语句中”，意味着只能接下来一条使用:</p>
+<pre><code class="sql">WITH CTE_Test
+AS
+(
+SELECT *
+FROM Student
+)
+--语句1，正常运行
+SELECT * FROM CTE_Test
+--语句2，运行报错CTE_Test无效
+SELECT * FROM CTE_Test</code></pre>
+<p>   由于CTE只能在接下来一条语句中使用，因此，当需要接下来的一条语句中引用多个CTE时，可以定义多个，中间用逗号分隔：</p>
+<pre><code class="sql">WITH CTE_Test
+AS
+(
+SELECT *
+FROM Student
+)
+CTE_Test2
+AS
+(
+SELECT *
+FROM School
+)
+
+SELECT * FROM CTE_Test
+SELECT * FROM CTE_Test2</code></pre>
+<h1 id="递归公用表表达式-CTE"><a href="#递归公用表表达式-CTE" class="headerlink" title="递归公用表表达式(CTE)"></a>递归公用表表达式(CTE)</h1><p>递归是指一个函数或是过程直接或者间接的调用其自身.递归公用表表达式很像派生表（Derived Tables ），指的是在CTE内的语句中调用其自身的CTE.与派生表不同的是，CTE可以在一次定义多次进行派生递归.</p>
+<p>对于递归公用表达式来说，需要在语句中定义：基本语句，递归语句，以及递归终止条件。</p>
+<p>下面我们通过实例来说明递归CTE的使用</p>
+<h2 id="公司层次结构案例"><a href="#公司层次结构案例" class="headerlink" title="公司层次结构案例"></a>公司层次结构案例</h2><p>首先建立测试表</p>
+<pre><code class="sql">create table #dt_user
+(
+    UserID int,
+    ManagerID int,
+    Name Nvarchar(10)
+)
+
+insert into #dt_user
+select 1,-1,N&#39;Boss&#39;
+union all
+select 11,1,N&#39;A1&#39;
+union all
+select 12,1,N&#39;A2&#39;
+union all
+select 13,1,N&#39;A3&#39;
+union all
+select 111,11,N&#39;B1&#39;
+union all
+select 112,11,N&#39;B2&#39;
+union all
+select 121,12,N&#39;C1&#39;</code></pre>
+<p>测试表数据：</p>
+<pre><code>+─────────+────────────+───────+
+| UserID  | ManagerID  | Name  |
++─────────+────────────+───────+
+| 1       | -1         | Boss  |
+| 11      | 1          | A1    |
+| 12      | 1          | A2    |
+| 13      | 1          | A3    |
+| 111     | 11         | B1    |
+| 112     | 11         | B2    |
+| 121     | 12         | C1    |
++─────────+────────────+───────+</code></pre><p>现在我们通过CTE找出所有员工的上级姓名</p>
+<pre><code class="sql">with cte as
+(
+select UserID,ManagerID,name,name as ManagerName
+from #dt_user
+where ManagerID=-1
+
+union all
+
+select c.UserID,c.ManagerID,c.Name,p.name as ManagerName
+from cte P
+inner join #dt_user c
+    on p.UserID=c.ManagerID
+)
+select UserID,ManagerID,Name,ManagerName
+from cte
+order by UserID</code></pre>
+<p>结果为：</p>
+<pre><code>+─────────+────────────+───────+──────────────+
+| UserID  | ManagerID  | Name  | ManagerName  |
++─────────+────────────+───────+──────────────+
+| 1       | -1         | Boss  | Boss         |
+| 11      | 1          | A1    | Boss         |
+| 12      | 1          | A2    | Boss         |
+| 13      | 1          | A3    | Boss         |
+| 111     | 11         | B1    | A1           |
+| 112     | 11         | B2    | A1           |
+| 121     | 12         | C1    | A2           |
++─────────+────────────+───────+──────────────+
+</code></pre><p>这样我们通过递归从最高级别开始，一步步找出下一级中ManageID等于UserID的信息并返回。<br>具体步骤：<br>step1：先查询ManagerID=-1，作为root node，这是递归查询的起始点。<br>step2：迭代公式是 union all 下面的查询语句。在查询语句中调用中cte，而查询语句就是cte的组成部分，即 “自己调用自己”，这就是递归的真谛所在。<br>所谓迭代，是指每一次递归都要调用上一次查询的结果集，Union ALL是指每次都把结果集并在一起。<br>step3-N：迭代公式利用上一次查询返回的结果集执行特定的查询，直到CTE返回null 或达到最大的迭代次数，默认值是32。最终的结果集是迭代公式返回的各个结果集的并集，求并集是由Union All 子句定义的，并且只能使用Union ALL。</p>
+<p>通过递归CTE使查询变得优雅和简洁.这也是CTE最强大的地方.</p>
+<h2 id="地理位置层次案例"><a href="#地理位置层次案例" class="headerlink" title="地理位置层次案例"></a>地理位置层次案例</h2><p>首先建立数据源表：</p>
+<pre><code class="sql">create table #hierarchy
+(
+ID  int not null primary key,
+ParentID int not null,
+name nvarchar(100) not null
+)
+
+insert into #hierarchy
+values(1,0,N&#39;河南省&#39;)
+,(2,1,N&#39;信阳市&#39;),(3,2,N&#39;淮滨县&#39;),(4,3,N&#39;芦集乡&#39;),(12,3,N&#39;邓湾乡&#39;),(13,3,N&#39;台头乡&#39;),(14,3,N&#39;谷堆乡&#39;)
+              ,(8,2,N&#39;固始县&#39;),(9,8,N&#39;李店乡&#39;)
+              ,(10,2,N&#39;息县&#39;),(11,10,N&#39;关店乡&#39;)
+,(5,1,N&#39;安阳市&#39;),(6,5,N&#39;滑县&#39;),(7,6,N&#39;老庙乡&#39;)
+,(15,1,N&#39;南阳市&#39;),(16,15,N&#39;方城县&#39;)
+,(17,1,N&#39;驻马店市&#39;),(18,17,N&#39;正阳县&#39;)</code></pre>
+<p>表结构为：</p>
+<pre><code>| ID | ParentID | name |
+|----|----------|------|
+| 1  | 0        | 河南省  |
+| 19 | 0        | 北京市  |
+| 20 | 0        | 江苏省  |
+| 21 | 1        | 南京市  |
+| 2  | 1        | 信阳市  |
+| 5  | 1        | 安阳市  |
+| 15 | 1        | 南阳市  |
+| 17 | 1        | 驻马店市|
+| 10 | 2        |  息县   |
+| 8  | 2        | 固始县  |
+| 3  | 2        | 淮滨县  |
+| 22 | 2        | 正阳县  |
+| 4  | 3        | 芦集乡  |
+| 12 | 3        | 邓湾乡  |
+| 13 | 3        | 台头乡  |
+| 14 | 3        | 谷堆乡  |
+| 6  | 5        | 滑县   |
+| 7  | 6        | 老庙乡  |
+| 9  | 8        | 李店乡  |
+| 11 | 10       | 关店乡  |
+| 16 | 15       | 方城县  |
+| 18 | 17       | 正阳县  |
+</code></pre><p>下面我们通过CTE筛选出所有河南省下辖的所有行政区域。</p>
+<pre><code class="sql">select * 
+from #hierarchy
+order by ParentID
+
+with cte(Id,ParentID,Name) as
+(
+select * 
+from #hierarchy 
+where id=1
+
+union all
+select h.* 
+from #hierarchy h
+inner join cte c on h.ParentID=c.id 
+)
+select *
+from cte
+order by ParentID</code></pre>
+<p>如果想知道具体的行政区划级别：</p>
+<pre><code class="sql">with cte(Id,ParentID,Name,Level) as
+(
+select ID,ParentID,Name,0 as Level
+from #hierarchy 
+where id=1
+
+union all
+select h.ID,h.ParentID,h.Name,c.Level+1 as Level
+from #hierarchy h
+inner join cte c on h.ParentID=c.id 
+--where c.id!=h.ID
+)
+select *
+from cte
+order by ParentID</code></pre>
+<p>结果为：</p>
+<pre><code>| Id | ParentID | Name | Level |
+|----|----------|------|-------|
+| 1  | 0        | 河南省  | 0     |
+| 2  | 1        | 信阳市  | 1     |
+| 5  | 1        | 安阳市  | 1     |
+| 15 | 1        | 南阳市  | 1     |
+| 17 | 1        | 驻马店市 | 1     |
+| 21 | 1        | 南京市  | 1     |
+| 3  | 2        | 淮滨县  | 2     |
+| 8  | 2        | 固始县  | 2     |
+| 10 | 2        | 息县   | 2     |
+| 22 | 2        | 正阳县  | 2     |
+| 4  | 3        | 芦集乡  | 3     |
+| 12 | 3        | 邓湾乡  | 3     |
+| 13 | 3        | 台头乡  | 3     |
+| 14 | 3        | 谷堆乡  | 3     |
+| 6  | 5        | 滑县   | 2     |
+| 7  | 6        | 老庙乡  | 3     |
+| 9  | 8        | 李店乡  | 3     |
+| 11 | 10       | 关店乡  | 3     |
+| 16 | 15       | 方城县  | 2     |
+| 18 | 17       | 正阳县  | 2     |</code></pre><p>如果想从下级往上级查找，例如：查找芦集乡所属省，市，县</p>
+<pre><code class="sql">with cte as
+(
+select ID,ParentID,name
+from #hierarchy
+where id=4 --芦集乡的ID
+
+union all
+select h.ID,h.ParentID,h.name
+from #hierarchy h
+inner join cte c on h.id=c.ParentID
+)
+select ID,ParentID,name
+from cte
+order by ParentID</code></pre>
+<p>结果：</p>
+<pre><code>| ID | ParentID | name |
+|----|----------|------|
+| 1  | 0        | 河南省  |
+| 2  | 1        | 信阳市  |
+| 3  | 2        | 淮滨县  |
+| 4  | 3        | 芦集乡  |</code></pre><h1 id="CTE的递归终止条件"><a href="#CTE的递归终止条件" class="headerlink" title="CTE的递归终止条件"></a>CTE的递归终止条件</h1><p>递归查询没有显式的递归终止条件，只有<strong>当递归子查询返回空结果集</strong>（没有数据行返回）或是<strong>超出了递归次数的最大限制</strong>时，才停止递归。</p>
+<p>默认的递归查询次数是100，可以使用查询提示option(MAXRECURSION）控制递归的最大次数：OPTION( MAXRECURSION 16)；<br>如果允许无限制的递归次数，使用查询提示：option(maxrecursion 0)；<br>当递归查询达到指定或默认的 MAXRECURSION 数量限制时，SQL Server将结束查询并返回错误，如下：</p>
+<pre><code>The statement terminated. The maximum recursion 10 has been exhausted before statement completion.</code></pre><p>事务执行失败，该事务包含的所有操作都被回滚。在产品环境中，慎用maxrecursion 查询提示，推荐通过 where 条件限制递归的次数。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>CTE是一种十分优雅的存在。CTE所带来最大的好处是代码可读性的提升,这是良好代码的必须品质之一。使用递归CTE可以更加轻松愉快的用优雅简洁的方式实现复杂的查询。</p>
+
+        </div>
+        <!-- .entry-content -->
+        <div class="single-reward">
+          <div class="reward-open">赏<div class="reward-main">
+              <ul class="reward-row">
+                <li class="alipay-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/AliPayQR.jpg"></li>
+                <li class="wechat-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/wechatpayQR.jpg"></li>
+              </ul>
             </div>
           </div>
         </div>
+        <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
+        <footer class="post-footer">
+          <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
+          <div class="post-tags">
+          </div>
+          <div class="post-share">
+            <div class="social-share sharehidden share-component"></div>
+            <i class="iconfont show-share icon-forward"></i>
+          </div>
+        </footer><!-- .entry-footer -->
       </article>
-    </div>
-  </div>
+      <!-- #post-## -->
+      <div class="toc" style="background: none;"></div>
+      <section class="post-squares nextprev">
+        
+          
+            <div class="post-nepre half previous">
+          
+            <a href="/2020/09/20/SQL Server日期函数详解与实战/" rel="prev">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.1/images/article/sql_datefunc20200920.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.1/images/article/sql_datefunc20200920.jpg">
+              </div>
+              <span class="label">
+              Previous Post</span>
+              <div class="info">
+                <h3>
+                SSQL Server日期函数详解与实战</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+        
+          
+            <div class="post-nepre half next">
+          
+            <a href="/2020/09/06/英雄联盟胜利因素分析/" rel="next">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.0/images/article/lol_analysis_20200906.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.0/images/article/lol_analysis_20200906.jpg">
+              </div>
+              <span class="label">
+              Next Post</span>
+              <div class="info">
+                <h3>
+                利用Python对英雄联盟胜利条件进行分析</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+      </section>
+      
+<div id="vcomments"></div>
+<script>
+  window.onload = function(){
+      var valine = new Valine();
+      valine.init({
+        el: '#vcomments',
+        appId: "Hm83GoGeDX3sGPDh3Q50lSMz-gzGzoHsz",
+        appKey: "mXIVaYaFj1DNyH6yBicfUS0w",
+        path: window.location.pathname,
+        placeholder: "你是我一生只会遇见一次的惊喜 ..."
+      })
+  }
+</script>
+
+      <section class="author-profile">
+        <div class="info" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <a href="http://smilecoc.vip/" class="profile gravatar"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico" itemprop="image" alt="smilecoc" height="70" width="70"></a>
+          <div class="meta">
+            <span class="title">Author</span>
+            <h3 itemprop="name">
+            <a href="http://smilecoc.vip/" itemprop="url" rel="author">smilecoc</a>
+            </h3>
+          </div>
+        </div>
+        <hr>
+        <p><i class="iconfont icon-write"></i></p>
+      </section>
+    </main><!-- #main -->
+  </div><!-- #primary -->
 </div>
+
+
 
     </div>    
     <div class="ins-search">
