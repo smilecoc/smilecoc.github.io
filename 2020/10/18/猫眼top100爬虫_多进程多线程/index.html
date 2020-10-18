@@ -497,7 +497,7 @@
             &#39;上映时间&#39;: info[3].strip()[5:],
             &#39;评分&#39;: info[4] + info[5]
         }</code></pre>
-<p>这一段中我们使用 strip() 方法用于移除字符串头尾指定的字符（默认为空格或换行符）或字符序列，同时使用yield函数创建一个可迭代的字典对象。<br>关于yield函数的使用可以查看这一篇文章：</p>
+<p>这一段中我们使用 strip() 方法用于移除字符串头尾指定的字符（默认为空格或换行符）或字符序列，同时使用yield函数创建一个可迭代的字典对象。<br>关于yield函数的使用可以查看这一篇文章：<a href="http://smilecoc.vip/2020/10/10/python%E4%B8%ADyield%E7%9A%84%E7%94%A8%E6%B3%95%E8%AF%A6%E8%A7%A3/">http://smilecoc.vip/2020/10/10/python%E4%B8%ADyield%E7%9A%84%E7%94%A8%E6%B3%95%E8%AF%A6%E8%A7%A3/</a></p>
 <h2 id="数据保存"><a href="#数据保存" class="headerlink" title="数据保存"></a>数据保存</h2><p>这一步骤中将上一步骤中的返回的数据保存到csv中</p>
 <pre><code class="py">def save_data(data):
     with open(&#39;miaoyan_top_100_film.csv&#39;, &#39;a&#39;, newline=&#39;&#39;, encoding=&#39;utf-8-sig&#39;, errors=&#39;ignore&#39;) as f:
@@ -522,7 +522,8 @@ if __name__ == &#39;__main__&#39;:
 </code></pre>
 <p>这里有一个注意的地方，如果在header只有User-Agent运行代码，返回了200，看似很成功，但即将引来第二个障碍——我们发现它虽然返回了html信息，但是仔细一看有一个大大的验证中心，并不是我们需要的html页面<br><img src="https://img-blog.csdnimg.cn/20201017225944760.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>针对这种情况，我们加上自己的cookies就可以破解反扒了。</p>
 <p>同时为了增加爬取速度，我们可以使用多线程或者多进程爬取</p>
-<h1 id="多线程与多进程"><a href="#多线程与多进程" class="headerlink" title="多线程与多进程"></a>多线程与多进程</h1><h2 id="多进程爬取"><a href="#多进程爬取" class="headerlink" title="多进程爬取"></a>多进程爬取</h2><p>Python中使用多进程需要multiprocessing，以及提供了process、queue、pipe、lock、pool等组件，这里主要使用的是pool，可以叫做进程池。</p>
+<h1 id="多线程与多进程"><a href="#多线程与多进程" class="headerlink" title="多线程与多进程"></a>多线程与多进程</h1><p>关于多线程与多进程的概念请参阅：<a href="http://smilecoc.vip/2020/10/10/%E5%A4%9A%E8%BF%9B%E7%A8%8B%E5%92%8C%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E6%A6%82%E5%BF%B5/">http://smilecoc.vip/2020/10/10/%E5%A4%9A%E8%BF%9B%E7%A8%8B%E5%92%8C%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E6%A6%82%E5%BF%B5/</a></p>
+<h2 id="多进程爬取"><a href="#多进程爬取" class="headerlink" title="多进程爬取"></a>多进程爬取</h2><p>Python中使用多进程需要multiprocessing，以及提供了process、queue、pipe、lock、pool等组件，这里主要使用的是pool，可以叫做进程池。</p>
 <p>使用pool前需要先了解：</p>
 <ul>
 <li><strong>pool = Pool(n)：</strong> 建立进程池，n就是代表了建立几个进程，这个n的设定一般与cpu的核数一样</li>
