@@ -501,7 +501,7 @@ select * from tab1 left join tab2 on (tab1.size = tab2.size and tab2.name=’AAA
 | 2        | 20         | NULL       | NULL       |
 | 3        | 30         | NULL       | NULL       |</code></pre><p>2.结果中返回上一步得到的临时表</p>
 <p>其实以上结果的关键原因就是left join,right join,full join的特殊性，不管on上的条件是否为真都会返回left或right表中的记录，full则具有left和right的特性的并集。而inner jion没这个特殊性，则条件放在on中和where中，返回的结果集是相同的。<br>所以实际的过程中一定要注意left join on and是无法获取只含有符合条件的结果集的。我们可以看下面这个例子：</p>
-<p>有如下两张表，语句：<code>select count(s_id) from students left join information on s.id=id and province in (&#39;山东&#39;,&#39;湖南&#39;)</code>的执行结果为？<br>students表：</p>
+<p>有如下两张表，执行语句：<code>select count(s_id) from students left join information on s.id=id and province in (&#39;山东&#39;,&#39;湖南&#39;)</code>的结果集的行数为？<br>students表：</p>
 <pre><code>|  s_id  |  name  |
 |--------| ------ |
 | 123585 | 张小飞 |

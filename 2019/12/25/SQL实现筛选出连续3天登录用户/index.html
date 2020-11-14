@@ -625,7 +625,6 @@ group by user_id,DATEADD(D,-t.rn,login_date)
 having count(1)&gt;=3;</code></pre>
 <p>在Mysql中：</p>
 <pre><code class="sql">select user_id
-    --date_sub(login_date,t.rn)=flag_date
 from (
   select user_id,login_date,
     row_number() over(partition by user_id order by login_date) as
