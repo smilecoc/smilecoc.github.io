@@ -484,16 +484,14 @@ select id from t where num=20</code></pre>
 <p>优化方式：尽量在字段后面使用模糊查询或者全文检索。如下：</p>
 <pre><code class="sql">SELECT * FROM t WHERE username LIKE &#39;li%&#39;</code></pre>
 <p>06</p>
-<p>in 和 not in 也要慎用，否则会导致全表扫描，如：</p>
-<pre><code class="sql">select id from t where num in(1,2,3)</code></pre>
-<p>对于连续的数值，能用 between 就不要用 in 了：</p>
-<pre><code class="sql">select id from t  where num between 1 and 3
+<p>尽量避免使用in 和not in，会导致数据库引擎放弃索引进行全表扫描。如下：</p>
+<pre><code class="sql">SELECT * FROM t WHERE id IN (2,3)
 
-很多时候用 exists 代替 in 是一个好的选择：
-```sql
-select num from a where num in(select num from b)</code></pre>
-<p>用下面的语句替换：</p>
-<pre><code class="sql">select num from a  where exists (select 1 from b where num=a.num)</code></pre>
+SELECT * FROM t1 WHERE username IN (SELECT username FROM t2)</code></pre>
+<p>优化方式：如果是连续数值，可以用between代替。如下：</p>
+<pre><code class="sql">SELECT * FROM t WHERE id BETWEEN 2 AND 3</code></pre>
+<p>如果是子查询，可以用exists代替。如下：</p>
+<pre><code class="sql">SELECT * FROM t1 WHERE EXISTS (SELECT * FROM t2 WHERE t1.username = t2.username)</code></pre>
 <p>07</p>
 <p>如果在 where 子句中使用参数，也会导致全表扫描。因为SQL只有在运行时才会解析局部变量，但优化程序不能将访问计划的选择推迟到运行时；它必须在编译时进行选择。然而，如果在编译时建立访问计划，变量的值还是未知的，因而无法作为索引选择的输入项。如下面语句将进行全表扫描：</p>
 <pre><code class="sql">select id from t where num=@num</code></pre>
