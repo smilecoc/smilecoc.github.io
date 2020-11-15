@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">Category: 转载 | Smilecoc&#39;s Blog</title>
+  <title itemprop="name">SQL存储过程详解与实战 | Smilecoc&#39;s Blog</title>
   
     <link rel="shortcut icon" href="/images/favicon.ico">
   
@@ -429,706 +429,252 @@
   </div>
 </header>
 
-      
+      <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
 <div class="pattern-center-blank"></div>
-<div class="pattern-center ">
-  <div class="pattern-attachment-img">
-    <img data-src="转载.img" class="lazyload" onerror="imgError(this,3)" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+
+  <div class="pattern-center single-center">
+    <!-- 有配图默认渲染第一张 -->
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.4/images/article/sql_storedprocedure20201112.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.4/images/article/sql_storedprocedure20201112.jpg">
+    </div>
+    <header class="pattern-header single-header">
+      <h1 class="entry-title">
+      SQL存储过程详解与实战</h1>
+      <p class="entry-census">
+        <span>
+          <a href="http://smilecoc.vip/">
+            <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico">
+          </a>
+        </span>
+        <span>
+          <a href="http://smilecoc.vip/">smilecoc</a>
+        </span>
+        <span class="bull">
+        ·</span>
+        2020-11-12<span class="bull">
+        ·</span>
+      <span id="busuanzi_value_page_pv"></span>次阅读</p>
+    </header>
   </div>
-  <header class="pattern-header ">
-    <h1 class="cat-title">转载.zh</h1>
-    <span class="cat-des">
-      <p>转载.en</p>
-    </span>
-  </header>
-</div>
+
 <div id="content" class="site-content">
   <div id="primary" class="content-area">
     <main id="main" class="site-main" role="main">
-      
-  <!-- 首页默认取最最新文章集 -->
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/11/11/SQL语句优化/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.4/images/article/sql_optimization20201111.png" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/11/11/SQL语句优化/">
-    SQL语句优化</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-11-11</div>
-    <p>
-    SQL语句优化的具体案例与准则</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/11/11/SQL语句优化/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/10/10/多进程和多线程的概念/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.3/images/article/mutiprocessing_thread_20201010.png" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/10/10/多进程和多线程的概念/">
-    多进程和多线程的概念详解</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-10-10</div>
-    <p>
-    Python多进程和多线程的概念详解</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/10/10/多进程和多线程的概念/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/10/10/python中yield的用法详解/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.3/images/article/python_yield_20201010.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/10/10/python中yield的用法详解/">
-    python中yield的用法详解</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-10-10</div>
-    <p>
-    最简单易懂讲解python中yield的用法详解</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/10/10/python中yield的用法详解/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/09/03/sklearn三种数据标准化方法的对比：StandardScaler、MinMaxScaler、RobustScaler/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.0/images/article/sklearn_standardize_20200903.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/09/03/sklearn三种数据标准化方法的对比：StandardScaler、MinMaxScaler、RobustScaler/">
-    sklearn三种数据标准化方法的对比：StandardScaler、MinMaxScaler、RobustScaler</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-9-3</div>
-    <p>
-    sklearn三种数据标准化方法的对比：StandardScaler、MinMaxScaler、RobustScaler</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/09/03/sklearn三种数据标准化方法的对比：StandardScaler、MinMaxScaler、RobustScaler/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/09/01/sklearn.model_selection.train_test_split用法-划分训练集与测试集/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.0/images/article/sklearn_test-train_spilt_20200901.png" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/09/01/sklearn.model_selection.train_test_split用法-划分训练集与测试集/">
-    sklearn.model_selection.train_test_split用法-划分训练集与测试集</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-9-1</div>
-    <p>
-    利用sklearn.model_selection.train_test_split方法划分训练集与测试集</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/09/01/sklearn.model_selection.train_test_split用法-划分训练集与测试集/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/08/12/如何从0开始建立数据库(六)数据库建表SQL索引规范/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part620200812.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/08/12/如何从0开始建立数据库(六)数据库建表SQL索引规范/">
-    如何从0开始建立数据库(六)：数据库建表/SQL/索引规范</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-8-12</div>
-    <p>
-    如何从0开始建立数据库(六)：数据库建表/SQL/索引规范</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/08/12/如何从0开始建立数据库(六)数据库建表SQL索引规范/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/08/11/如何从0开始建立数据库(五)：数据库系统的实现/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part520200811.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/08/11/如何从0开始建立数据库(五)：数据库系统的实现/">
-    如何从0开始建立数据库(五)：数据库系统的实现</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-8-11</div>
-    <p>
-    如何从0开始建立数据库(五)：数据库系统的实现</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/08/11/如何从0开始建立数据库(五)：数据库系统的实现/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/08/11/如何从0开始建立数据库(四)：SQL/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part420200811.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/08/11/如何从0开始建立数据库(四)：SQL/">
-    如何从0开始建立数据库(四)：SQL</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-8-11</div>
-    <p>
-    如何从0开始建立数据库(三)：更新异常与规范化设计</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/08/11/如何从0开始建立数据库(四)：SQL/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/08/11/如何从0开始建立数据库(三)：更新异常与规范化设计/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part320200811.png" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/08/11/如何从0开始建立数据库(三)：更新异常与规范化设计/">
-    如何从0开始建立数据库(三)：更新异常与规范化设计</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-8-11</div>
-    <p>
-    如何从0开始建立数据库(三)：更新异常与规范化设计</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/08/11/如何从0开始建立数据库(三)：更新异常与规范化设计/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/08/11/如何从0开始建立数据库(二)：数据库关系建模/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part220200811.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/08/11/如何从0开始建立数据库(二)：数据库关系建模/">
-    如何从0开始建立数据库(二)：数据库关系建模</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-8-11</div>
-    <p>
-    如何从0开始建立数据库(二)：数据库关系建模</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/08/11/如何从0开始建立数据库(二)：数据库关系建模/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-
-
-      <div class="clearer">
-      </div>
-    </main>
-    <!-- 
-      <nav class="navigator">
+      <article id="post-1" class="post-1 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+        <div class="toc"></div>
+        <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
         
-        <span class="page-number current">1</span><a class="page-number" href="/categories/转载/page/2/">2</a><a class="extend next" rel="next" href="/categories/转载/page/2/"><i class="iconfont icon-right"></i></a>
-      </nav>
-     -->
-    
-      <div id="pagination"><a href="/categories/转载/page/2/" class="">Previous</a></div>
-    
-  </div>
+        <div class="entry-content">
+          <h1 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h1><p>存储过程（Stored Procedure）是一种在数据库中存储复杂程序，以便外部程序调用的一种数据库对象。</p>
+<p>存储过程是为了完成特定功能的SQL语句集，经编译创建并保存在数据库中，用户可通过指定存储过程的名字并给定参数(需要时)来调用执行。</p>
+<p>你可以理解为其他编程语言中的函数或者子程序</p>
+<h1 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h1><ol>
+<li>将重复性很高的一些操作，封装到一个存储过程中，简化了对这些SQL的调用</li>
+<li>批量处理：可以直接批量运行存储过程中的多个SQL语句</li>
+<li>提高速度：由于存储过程是先编译再执行的，同时可以批量执行语句，因此存储过程能够实现较快的执行速度并减少网络时间消耗</li>
+<li>统一接口，同时将业务逻辑隐藏，确保数据的安全</li>
+</ol>
+<h1 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h1><ol>
+<li>存储过程，往往定制化于特定的数据库上，因为支持的编程语言不同。当切换到其他厂商的数据库系统时，需要重写原有的存储过程。</li>
+<li>存储过程的性能调校与撰写，受限于各种数据库系统。</li>
+</ol>
+<h1 id="创建存储过程"><a href="#创建存储过程" class="headerlink" title="创建存储过程"></a>创建存储过程</h1><p>创建存储过程的语法为：</p>
+<pre><code class="sql">-- 适用于SQL Server 与 Azure SQL Database
+
+CREATE [ OR ALTER ] { PROC | PROCEDURE }
+    [schema_name.] procedure_name [ ; number ]
+    [ { @parameter [ type_schema_name. ] data_type }
+        [ VARYING ] [ = default ] [ OUT | OUTPUT | [READONLY]
+    ] [ ,...n ]
+[ WITH &lt;procedure_option&gt; [ ,...n ] ]
+[ FOR REPLICATION ]
+AS { [ BEGIN ] sql_statement [;] [ ...n ] [ END ] }
+[;]
+
+&lt;procedure_option&gt; ::=
+    [ ENCRYPTION ]
+    [ RECOMPILE ]
+    [ EXECUTE AS Clause ]</code></pre>
+<p>注意不同的数据库的语法可能会有些许不同。</p>
+<p>看到这个语法是不是很复杂，但是不用担心，常用的参数其实很少。在这篇文章中我们不会介绍所有参数，所以想要了解所有参数可以查看官网文档：<a href="https://docs.microsoft.com/zh-cn/sql/t-sql/statements/create-procedure-transact-sql?view=sql-server-ver15" target="_blank" rel="noopener">https://docs.microsoft.com/zh-cn/sql/t-sql/statements/create-procedure-transact-sql?view=sql-server-ver15</a></p>
+<h2 id="创建不带参数的存储过程"><a href="#创建不带参数的存储过程" class="headerlink" title="创建不带参数的存储过程"></a>创建不带参数的存储过程</h2><p>语法为：</p>
+<pre><code class="sql">create proc | procedure pro_name
+as
+    SQL_statements</code></pre>
+<p> 其中pro_name为自定义的存储过程名称，SQL_statements为SQL语句。proc和procedure选择其中一个均可使用（proc是procedure的缩写）</p>
+<p>例如创建一个存储过程，实现从student表中选取所有的数据</p>
+<pre><code class="sql">create proc proc_get_student
+as
+    select * from student; </code></pre>
+<p>之后使用exec+存储过程名即可调用存储过程</p>
+<pre><code class="sql">exec proc_get_student</code></pre>
+<h2 id="创建带参数的存储过程"><a href="#创建带参数的存储过程" class="headerlink" title="创建带参数的存储过程"></a>创建带参数的存储过程</h2><p>创建带参数的存储过程首先要在存储过程中声明该参数，每个存储过程参数都必须用唯一的名称进行定义。与T-SQL变量相同，参数名必须以@为前缀，并且遵从标识符规则。当用户不提供该参数的值时可以使用一个默认值来代替。<br>创建带参数的存储过程的基本语句为：</p>
+<pre><code class="sql">create proc | procedure pro_name
+    [{@参数数据类型} [=默认值] [output],
+     {@参数数据类型} [=默认值] [output],
+     ....
+    ]
+as
+    SQL_statements
+</code></pre>
+<h3 id="1-不带默认值的参数"><a href="#1-不带默认值的参数" class="headerlink" title="1.不带默认值的参数"></a>1.不带默认值的参数</h3><p>创建一个参数不带默认值的存储过程，在调用该存储过程时，必须对存储过程中的所有参数进行赋值，如果有一个参数没有赋值，则无法调用该存储过程。例如：</p>
+<pre><code class="sql">use db_student
+--创建存储过程
+create procedure proc_group
+@课程类别 varchar(20),  --定义参数
+@学分 int 
+as 
+select * from course
+where 课程类别=@课程类别 and 学分&gt;@学分</code></pre>
+<p>执行不带参数的存储过程就是：</p>
+<pre><code class="sql">use db_student
+exec proc_group &#39;歌曲&#39;,8</code></pre>
+<p>如果不按顺序赋值可以写成：</p>
+<pre><code class="sql">use db_student
+exec proc_group @学分=8,@课程类别=‘篮球课’</code></pre>
+<h3 id="2-带默认值的参数"><a href="#2-带默认值的参数" class="headerlink" title="2.带默认值的参数"></a>2.带默认值的参数</h3><p>在SQL中我们可以对字段进行默认值的约束，在存储过程中也可以建立使用默认值的参数。只要在参数的定义之后加上等号，并在等号后面写出默认值即可。</p>
+<pre><code class="sql">--创建存储过程
+use db_student
+create procedure proc_group
+@课程类别 varchar(20)=&#39;体育课&#39;,
+@学分 int=6
+as 
+select * from course where 课程类别=@课程类别 and 学分&gt;@学分</code></pre>
+<p>执行参数带默认值的存储过程</p>
+<pre><code class="sql">use db_student
+exec proc_group @学分=8</code></pre>
+<h3 id="带返回参数的存储过程"><a href="#带返回参数的存储过程" class="headerlink" title="带返回参数的存储过程"></a>带返回参数的存储过程</h3><p>创建存储过程时，可以用output/out参数来创建一个带返回值的存储过程，例如：<code>@a int output</code><br>如果创建带返回参数的存储过程proc_group，那么SQL语句如下：</p>
+<pre><code class="sql">--创建带返回值的存储过程
+create procedure proc_group
+@课程类别 varchar(20),
+@平均学分 int output         --设置带返回值的参数
+as 
+select @平均学分=avg(学分) from course where 课程类别=@课程类别</code></pre>
+<p><strong>执行带返回值的存储过程与普通的执行过程会有区别：</strong></p>
+<pre><code class="sql">DECLARE @平均学分 int;
+exec proc_group &#39;D&#39;, @平均学分 output
+print (@平均学分)</code></pre>
+<h2 id="创建存储过程的优化"><a href="#创建存储过程的优化" class="headerlink" title="创建存储过程的优化"></a>创建存储过程的优化</h2><p>存储过程是不允许重名的，所以有时我们会在创建存储过程的语句中加一个判断，如果已存在同名的存储过程则删除</p>
+<pre><code class="sql">if (exists (select * from sys.objects where name = &#39;proc_get_student&#39;))
+    drop proc proc_get_student
+go
+create proc proc_get_student
+as
+    select * from student;</code></pre>
+<h1 id="修改存储过程"><a href="#修改存储过程" class="headerlink" title="修改存储过程"></a>修改存储过程</h1><p>使用alter修改存储过程</p>
+<pre><code class="sql">alter proc proc_get_student
+as
+select * from student;</code></pre>
+<h1 id="删除存储过程"><a href="#删除存储过程" class="headerlink" title="删除存储过程"></a>删除存储过程</h1><pre><code class="sql">drop proc proc_get_student</code></pre>
+<h1 id="系统存储过程"><a href="#系统存储过程" class="headerlink" title="系统存储过程"></a>系统存储过程</h1><p>系统存储过程是系统创建的存储过程，目的在于能够方便的从系统表中查询信息或完成与更新数据库表相关的管理任务或其他的系统管理任务。系统存储过程主要存储在master数据库中，以“sp”下划线开头的存储过程。尽管这些系统存储过程在master数据库中，但我们在其他数据库还是可以调用系统存储过程。有一些系统存储过程会在创建新的数据库的时候被自动创建在当前数据库中</p>
+<pre><code class="sql">exec sp_databases; --查看数据库
+exec sp_tables;        --查看表
+exec sp_columns student;--查看列
+exec sp_helpIndex student;--查看索引
+exec sp_helpConstraint student;--约束
+exec sp_stored_procedures;--查看所有存储过程信息
+exec sp_helptext &#39;sp_stored_procedures&#39;;--查看存储过程创建、定义语句
+exec sp_rename student, stuInfo;--修改表、索引、列的名称
+exec sp_renamedb myTempDB, myDB;--更改数据库名称
+exec sp_defaultdb &#39;master&#39;, &#39;myDB&#39;;--更改登录名的默认数据库
+exec sp_helpdb;--数据库帮助，查询数据库信息</code></pre>
+
+        </div>
+        <!-- .entry-content -->
+        <div class="single-reward">
+          <div class="reward-open">赏<div class="reward-main">
+              <ul class="reward-row">
+                <li class="alipay-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/AliPayQR.jpg"></li>
+                <li class="wechat-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/wechatpayQR.jpg"></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
+        <footer class="post-footer">
+          <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
+          <div class="post-tags">
+          </div>
+          <div class="post-share">
+            <div class="social-share sharehidden share-component"></div>
+            <i class="iconfont show-share icon-forward"></i>
+          </div>
+        </footer><!-- .entry-footer -->
+      </article>
+      <!-- #post-## -->
+      <div class="toc" style="background: none;"></div>
+      <section class="post-squares nextprev">
+        
+          
+            <div class="post-nepre half previous">
+          
+            <a href="/2020/11/15/SQL面试题整理汇总/" rel="prev">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.4/images/article/sql_mianshi20201115.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.4/images/article/sql_mianshi20201115.jpg">
+              </div>
+              <span class="label">
+              Previous Post</span>
+              <div class="info">
+                <h3>
+                SQL面试题整理汇总-进阶篇</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+        
+          
+            <div class="post-nepre half next">
+          
+            <a href="/2020/11/11/SQL语句优化/" rel="next">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.4/images/article/sql_optimization20201111.png" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.4/images/article/sql_optimization20201111.png">
+              </div>
+              <span class="label">
+              Next Post</span>
+              <div class="info">
+                <h3>
+                SQL语句优化</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+      </section>
+      
+<div id="vcomments"></div>
+<script>
+  window.onload = function(){
+      var valine = new Valine();
+      valine.init({
+        el: '#vcomments',
+        appId: "Hm83GoGeDX3sGPDh3Q50lSMz-gzGzoHsz",
+        appKey: "mXIVaYaFj1DNyH6yBicfUS0w",
+        path: window.location.pathname,
+        placeholder: "你是我一生只会遇见一次的惊喜 ..."
+      })
+  }
+</script>
+
+      <section class="author-profile">
+        <div class="info" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <a href="http://smilecoc.vip/" class="profile gravatar"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico" itemprop="image" alt="smilecoc" height="70" width="70"></a>
+          <div class="meta">
+            <span class="title">Author</span>
+            <h3 itemprop="name">
+            <a href="http://smilecoc.vip/" itemprop="url" rel="author">smilecoc</a>
+            </h3>
+          </div>
+        </div>
+        <hr>
+        <p><i class="iconfont icon-write"></i></p>
+      </section>
+    </main><!-- #main -->
+  </div><!-- #primary -->
 </div>
 
-<!-- 
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/11/11/SQL语句优化/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.4/images/article/sql_optimization20201111.png" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/11/11/SQL语句优化/">
-    SQL语句优化</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-11-11</div>
-    <p>
-    SQL语句优化的具体案例与准则</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/11/11/SQL语句优化/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/10/10/多进程和多线程的概念/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.3/images/article/mutiprocessing_thread_20201010.png" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/10/10/多进程和多线程的概念/">
-    多进程和多线程的概念详解</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-10-10</div>
-    <p>
-    Python多进程和多线程的概念详解</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/10/10/多进程和多线程的概念/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/10/10/python中yield的用法详解/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.3/images/article/python_yield_20201010.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/10/10/python中yield的用法详解/">
-    python中yield的用法详解</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-10-10</div>
-    <p>
-    最简单易懂讲解python中yield的用法详解</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/10/10/python中yield的用法详解/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/09/03/sklearn三种数据标准化方法的对比：StandardScaler、MinMaxScaler、RobustScaler/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.0/images/article/sklearn_standardize_20200903.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/09/03/sklearn三种数据标准化方法的对比：StandardScaler、MinMaxScaler、RobustScaler/">
-    sklearn三种数据标准化方法的对比：StandardScaler、MinMaxScaler、RobustScaler</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-9-3</div>
-    <p>
-    sklearn三种数据标准化方法的对比：StandardScaler、MinMaxScaler、RobustScaler</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/09/03/sklearn三种数据标准化方法的对比：StandardScaler、MinMaxScaler、RobustScaler/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/09/01/sklearn.model_selection.train_test_split用法-划分训练集与测试集/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.0/images/article/sklearn_test-train_spilt_20200901.png" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/09/01/sklearn.model_selection.train_test_split用法-划分训练集与测试集/">
-    sklearn.model_selection.train_test_split用法-划分训练集与测试集</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-9-1</div>
-    <p>
-    利用sklearn.model_selection.train_test_split方法划分训练集与测试集</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/09/01/sklearn.model_selection.train_test_split用法-划分训练集与测试集/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/08/12/如何从0开始建立数据库(六)数据库建表SQL索引规范/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part620200812.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/08/12/如何从0开始建立数据库(六)数据库建表SQL索引规范/">
-    如何从0开始建立数据库(六)：数据库建表/SQL/索引规范</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-8-12</div>
-    <p>
-    如何从0开始建立数据库(六)：数据库建表/SQL/索引规范</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/08/12/如何从0开始建立数据库(六)数据库建表SQL索引规范/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/08/11/如何从0开始建立数据库(五)：数据库系统的实现/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part520200811.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/08/11/如何从0开始建立数据库(五)：数据库系统的实现/">
-    如何从0开始建立数据库(五)：数据库系统的实现</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-8-11</div>
-    <p>
-    如何从0开始建立数据库(五)：数据库系统的实现</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/08/11/如何从0开始建立数据库(五)：数据库系统的实现/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/08/11/如何从0开始建立数据库(四)：SQL/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part420200811.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/08/11/如何从0开始建立数据库(四)：SQL/">
-    如何从0开始建立数据库(四)：SQL</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-8-11</div>
-    <p>
-    如何从0开始建立数据库(三)：更新异常与规范化设计</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/08/11/如何从0开始建立数据库(四)：SQL/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/08/11/如何从0开始建立数据库(三)：更新异常与规范化设计/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part320200811.png" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/08/11/如何从0开始建立数据库(三)：更新异常与规范化设计/">
-    如何从0开始建立数据库(三)：更新异常与规范化设计</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-8-11</div>
-    <p>
-    如何从0开始建立数据库(三)：更新异常与规范化设计</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/08/11/如何从0开始建立数据库(三)：更新异常与规范化设计/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/08/11/如何从0开始建立数据库(二)：数据库关系建模/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part220200811.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/08/11/如何从0开始建立数据库(二)：数据库关系建模/">
-    如何从0开始建立数据库(二)：数据库关系建模</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-8-11</div>
-    <p>
-    如何从0开始建立数据库(二)：数据库关系建模</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/08/11/如何从0开始建立数据库(二)：数据库关系建模/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
 
- -->
+
     </div>    
     <div class="ins-search">
     <div class="ins-search-mask"></div>

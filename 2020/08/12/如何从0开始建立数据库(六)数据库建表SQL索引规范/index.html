@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">Category: 转载 | Smilecoc&#39;s Blog</title>
+  <title itemprop="name">如何从0开始建立数据库(六)：数据库建表/SQL/索引规范 | Smilecoc&#39;s Blog</title>
   
     <link rel="shortcut icon" href="/images/favicon.ico">
   
@@ -429,706 +429,170 @@
   </div>
 </header>
 
-      
+      <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
 <div class="pattern-center-blank"></div>
-<div class="pattern-center ">
-  <div class="pattern-attachment-img">
-    <img data-src="转载.img" class="lazyload" onerror="imgError(this,3)" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+
+  <div class="pattern-center single-center">
+    <!-- 有配图默认渲染第一张 -->
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part620200812.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part620200812.jpg">
+    </div>
+    <header class="pattern-header single-header">
+      <h1 class="entry-title">
+      如何从0开始建立数据库(六)：数据库建表/SQL/索引规范</h1>
+      <p class="entry-census">
+        <span>
+          <a href="http://smilecoc.vip/">
+            <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico">
+          </a>
+        </span>
+        <span>
+          <a href="http://smilecoc.vip/">smilecoc</a>
+        </span>
+        <span class="bull">
+        ·</span>
+        2020-8-12<span class="bull">
+        ·</span>
+      <span id="busuanzi_value_page_pv"></span>次阅读</p>
+    </header>
   </div>
-  <header class="pattern-header ">
-    <h1 class="cat-title">转载.zh</h1>
-    <span class="cat-des">
-      <p>转载.en</p>
-    </span>
-  </header>
-</div>
+
 <div id="content" class="site-content">
   <div id="primary" class="content-area">
     <main id="main" class="site-main" role="main">
-      
-  <!-- 首页默认取最最新文章集 -->
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/11/11/SQL语句优化/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.4/images/article/sql_optimization20201111.png" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/11/11/SQL语句优化/">
-    SQL语句优化</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-11-11</div>
-    <p>
-    SQL语句优化的具体案例与准则</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/11/11/SQL语句优化/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/10/10/多进程和多线程的概念/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.3/images/article/mutiprocessing_thread_20201010.png" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/10/10/多进程和多线程的概念/">
-    多进程和多线程的概念详解</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-10-10</div>
-    <p>
-    Python多进程和多线程的概念详解</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/10/10/多进程和多线程的概念/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/10/10/python中yield的用法详解/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.3/images/article/python_yield_20201010.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/10/10/python中yield的用法详解/">
-    python中yield的用法详解</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-10-10</div>
-    <p>
-    最简单易懂讲解python中yield的用法详解</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/10/10/python中yield的用法详解/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/09/03/sklearn三种数据标准化方法的对比：StandardScaler、MinMaxScaler、RobustScaler/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.0/images/article/sklearn_standardize_20200903.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/09/03/sklearn三种数据标准化方法的对比：StandardScaler、MinMaxScaler、RobustScaler/">
-    sklearn三种数据标准化方法的对比：StandardScaler、MinMaxScaler、RobustScaler</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-9-3</div>
-    <p>
-    sklearn三种数据标准化方法的对比：StandardScaler、MinMaxScaler、RobustScaler</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/09/03/sklearn三种数据标准化方法的对比：StandardScaler、MinMaxScaler、RobustScaler/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/09/01/sklearn.model_selection.train_test_split用法-划分训练集与测试集/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.0/images/article/sklearn_test-train_spilt_20200901.png" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/09/01/sklearn.model_selection.train_test_split用法-划分训练集与测试集/">
-    sklearn.model_selection.train_test_split用法-划分训练集与测试集</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-9-1</div>
-    <p>
-    利用sklearn.model_selection.train_test_split方法划分训练集与测试集</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/09/01/sklearn.model_selection.train_test_split用法-划分训练集与测试集/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/08/12/如何从0开始建立数据库(六)数据库建表SQL索引规范/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part620200812.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/08/12/如何从0开始建立数据库(六)数据库建表SQL索引规范/">
-    如何从0开始建立数据库(六)：数据库建表/SQL/索引规范</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-8-12</div>
-    <p>
-    如何从0开始建立数据库(六)：数据库建表/SQL/索引规范</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/08/12/如何从0开始建立数据库(六)数据库建表SQL索引规范/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/08/11/如何从0开始建立数据库(五)：数据库系统的实现/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part520200811.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/08/11/如何从0开始建立数据库(五)：数据库系统的实现/">
-    如何从0开始建立数据库(五)：数据库系统的实现</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-8-11</div>
-    <p>
-    如何从0开始建立数据库(五)：数据库系统的实现</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/08/11/如何从0开始建立数据库(五)：数据库系统的实现/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/08/11/如何从0开始建立数据库(四)：SQL/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part420200811.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/08/11/如何从0开始建立数据库(四)：SQL/">
-    如何从0开始建立数据库(四)：SQL</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-8-11</div>
-    <p>
-    如何从0开始建立数据库(三)：更新异常与规范化设计</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/08/11/如何从0开始建立数据库(四)：SQL/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/08/11/如何从0开始建立数据库(三)：更新异常与规范化设计/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part320200811.png" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/08/11/如何从0开始建立数据库(三)：更新异常与规范化设计/">
-    如何从0开始建立数据库(三)：更新异常与规范化设计</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-8-11</div>
-    <p>
-    如何从0开始建立数据库(三)：更新异常与规范化设计</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/08/11/如何从0开始建立数据库(三)：更新异常与规范化设计/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/08/11/如何从0开始建立数据库(二)：数据库关系建模/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part220200811.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/08/11/如何从0开始建立数据库(二)：数据库关系建模/">
-    如何从0开始建立数据库(二)：数据库关系建模</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-8-11</div>
-    <p>
-    如何从0开始建立数据库(二)：数据库关系建模</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/08/11/如何从0开始建立数据库(二)：数据库关系建模/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-
-
-      <div class="clearer">
-      </div>
-    </main>
-    <!-- 
-      <nav class="navigator">
+      <article id="post-1" class="post-1 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+        <div class="toc"></div>
+        <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
         
-        <span class="page-number current">1</span><a class="page-number" href="/categories/转载/page/2/">2</a><a class="extend next" rel="next" href="/categories/转载/page/2/"><i class="iconfont icon-right"></i></a>
-      </nav>
-     -->
-    
-      <div id="pagination"><a href="/categories/转载/page/2/" class="">Previous</a></div>
-    
-  </div>
+        <div class="entry-content">
+          <p>本篇文章作为从0开始建立数据库系列的补充，详细说明了一些数据库建表/SQL语句/索引规范</p>
+<h1 id="一、建表规约"><a href="#一、建表规约" class="headerlink" title="一、建表规约"></a>一、建表规约</h1><p><strong>【强制】</strong>（1） 存储引擎必须使用InnoDB<br><strong>解读：</strong> InnoDB支持事物、行级锁、并发性能更好，CPU及内存缓存页优化使得资源利用率更高。</p>
+<p><strong>【强制】</strong>（2）每张表必须设置一个主键ID，且这个主键ID使用自增主键（在满足需要的情况下尽量短），除非在分库分表环境下。<br><strong>解读：</strong> 由于InnoDB组织数据的方式决定了需要有一个主键，而且若是这个主键ID是单调递增的可以有效提高插入的性能，避免过多的页分裂、减少表碎片提高空间的使用率。而在分库分表环境下，则需要统一来分配各个表中的主键值，从而避免整个逻辑表中主键重复。</p>
+<p><strong>【强制】</strong>（3）必须使用utf8mb4字符集<br><strong>解读：</strong> 在Mysql中的UTF-8并非“真正的UTF-8”，而utf8mb4”才是真正的“UTF-8”。</p>
+<p><strong>【强制】</strong>（4） 数据库表、表字段必须加入中文注释<br><strong>解读：</strong> 大家都别懒</p>
+<p><strong>【强制】</strong>（5） 库名、表名、字段名均小写，下划线风格，不超过32个字符，必须见名知意，禁止拼音英文混用。<br><strong>解读：</strong> 约定</p>
+<p><strong>【强制】</strong>（6）单表列数目必须小于30，若超过则应该考虑将表拆分<br><strong>解读：</strong> 单表列数太多使得Mysql服务器处理InnoDB返回数据之间的映射成本太高</p>
+<p><strong>【强制】</strong>（7）禁止使用外键，如果有外键完整性约束，需要应用程序控制<br><strong>解读：</strong> 外键会导致表与表之间耦合，UPDATE与DELETE操作都会涉及相关联的表，十分影响SQL的性能，甚至会造成死锁。</p>
+<p><strong>【强制】</strong>（8）必须把字段定义为NOT NULL并且提供默认值<br><strong>解读：</strong> a、NULL的列使索引/索引统计/值比较都更加复杂，对MySQL来说更难优化 b、NULL这种类型Msql内部需要进行特殊处理，增加数据库处理记录的复杂性；同等条件下，表中有较多空字段的时候，数据库的处理性能会降低很多 c、NULL值需要更多的存储空，无论是表还是索引中每行中的NULL的列都需要额外的空间来标识</p>
+<p><strong>【强制】</strong>（9）禁用保留字，如DESC、RANGE、MARCH等，请参考Mysql官方保留字。</p>
+<p><strong>【强制】</strong>（ 10）如果存储的字符串长度几乎相等，使用CHAR定长字符串类型。<br><strong>解读：</strong> 能够减少空间碎片，节省存储空间。更多SQL技巧可搜索公号：SQL数据库开发</p>
+<p><strong>【建议】</strong>（11）在一些场景下，考虑使用TIMESTAMP代替DATETIME。<br><strong>解读：</strong> a、这两种类型的都能表达”yyyy-MM-dd HH:mm:ss”格式的时间，TIMESTAMP只需要占用4个字节的长度，可以存储的范围为(1970-2038)年，在各个时区，所展示的时间是不一样的；b、而DATETIME类型占用8个字节，对时区不敏感，可以存储的范围为(1001-9999)年。</p>
+<p><strong>【建议】</strong>（12）当心自动生成的Schema，建议所有的Schema手动编写。<br><strong>解读：</strong> 对于一些数据库客户端不要太过信任。</p>
+<h1 id="二、SQL规约"><a href="#二、SQL规约" class="headerlink" title="二、SQL规约"></a>二、SQL规约</h1><p><strong>【建议】</strong> (1) 为了充分利用缓存，不允许使用自定义函数、存储函数、用户变量。<br><strong>解读：</strong> 如果查询中包含任何用户自定义函数、存储函数、用户变量、临时表、Mysql库中的系统表，其查询结果都不会被缓存。比如函数NOW()或者CURRENT_DATE()会因为不同的查询时间，返回不同的查询结果。</p>
+<p><strong>【强制】</strong>（2）在查询中指定所需的列，而不是直接使用“ <em>”返回所有的列<br>*</em>解读：** a）读取不需要的列会增加CPU、IO、NET消耗 b）不能有效的利用覆盖索引</p>
+<p><strong>【强制】</strong>（3）不允许使用属性隐式转换<br><strong>解读：</strong> 假设我们在手机号列上添加了索引，然后执行下面的SQL会发生什么？explain SELECT user_name FROM parent WHERE phone=13812345678;很明显就是索引不生效，会全表扫描。</p>
+<p><strong>【建议】</strong>（4）在WHERE条件的属性上使用函数或者表达式<br><strong>解读：</strong> Mysql无法自动解析这种表达式，无法使用到索引。</p>
+<p><strong>【强制】</strong>（5）禁止使用外键与级联，一切外键概念必须在应用层解决。<br><strong>解读：</strong> 外键与级联更新适用于单机低并发，不适合分布式、高并发集群;级联更新是强阻塞，存在数据库更新风暴的风险；外键影响数据库的插入速度。</p>
+<p><strong>【建议】</strong>（6）应尽量避免在WHERE子句中使用or作为连接条件<br><strong>解读：</strong> 根据情况可以选择使用UNION ALL来代替OR</p>
+<p><strong>【强制】</strong>（7）不允许使用%开头的模糊查询<br><strong>解读：</strong> 根据索引的最左前缀原理，%开头的模糊查询无法使用索引，可以使用ES来做检索。</p>
+<h1 id="三、索引规约"><a href="#三、索引规约" class="headerlink" title="三、索引规约"></a>三、索引规约</h1><p><strong>【建议】</strong>（1）避免在更新比较频繁、区分度不高的列上单独建立索引<br><strong>解读：</strong> 区分度不高的列单独创建索引的优化效果很小，但是较为频繁的更新则会让索引的维护成本更高</p>
+<p><strong>【强制】</strong>（2） JOIN的表不允许超过五个。需要JOIN的字段，数据类型必须绝对一致; 多表关联查询时，保证被关联的字段需要有索引。<br><strong>解读：</strong> 太多表的JOIN会让Mysql的优化器更难权衡出一个“最佳”的执行计划（可能性为表数量的阶乘），同时要注意关联字段的类型、长度、字符编码等等是否一致。</p>
+<p><strong>【强制】</strong>（3）在一个联合索引中，若第一列索引区分度等于1，那么则不需要建立联合索引。<br><strong>解读：</strong> 索引通过第一列就能够完全定位的数据，所以联合索引的后边部分是不需要的。</p>
+<p><strong>【强制】</strong>（4）建立联合索引时，必须将区分度更高的字段放在左边<br><strong>解读：</strong> 区分度更高的列放在左边，能够在一开始就有效的过滤掉无用数据。提高索引的效率，相应我们在Mapper中编写SQL的WHERE条件中有多个条件时，需要先看看当前表是否有现成的联合索引直接使用，注意各个条件的顺序尽量和索引的顺序一致。</p>
+<p><strong>【建议】</strong>（5）利用覆盖索引来进行查询操作，避免回表<br><strong>解读：</strong> 覆盖查询即是查询只需要通过索引即可拿到所需DATA，而不再需要再次回表查询，所以效率相对很高。我们在使用EXPLAIN的结果，extra列会出现：”using index”。这里也要强调一下不要使用“SELECT * ”，否则几乎不可能使用到覆盖索引。</p>
+<p><strong>【建议】</strong>（6）在较长VARCHAR字段,例如VARCHAR(100)上建立索引时，应指定索引长度，没必要对全字段建立索引，根据实际文本区分度决定索引长度即可。<br><strong>解读：</strong> 索引的长度与区分度是一对矛盾体，一般对字符串类型数据，若长度为20的索引，区分度会高达90%以上，则可以考虑创建长度例为20的索引，而非全字段索引。例如可以使用SELECT COUNT(DISTINCT LEFT(lesson_code, 20)) / COUNT(*) FROM lesson;来确定lesson_code字段字符长度为20时文本区分度。</p>
+<p><strong>【建议】</strong>（7）如果有ORDER BY的场景，请注意利用索引的有序性。ORDER BY最后的字段是联合索引的一部分，并且放在索引组合顺序的最后，避免出现file_sort的情况，影响查询性能。<br><strong>解读：</strong> 1、假设有查询条件为WHERE a=? and b=? ORDER BY c； 存在索引：a_b_c，则此时可以利用索引排序。2、反例：在查询条件中包含了范围查询，那么索引有序性无法利用，如:WHERE a&gt;10 ORDER BY b; 索引a_b无法排序。</p>
+<p><strong>【建议】</strong>（8）在where中索引的列不能某个表达式的一部分，也不能是函数的参数。<br><strong>解读：</strong> 即是某列上已经添加了索引，但是若此列成为表达式的一部分、或者是函数的参数，Mysql无法将此列单独解析出来，索引也不会生效。</p>
+<p><strong>【建议】</strong> （9）我们在where条件中使用范围查询时，索引最多用于一个范围条件，超过一个则后边的不走索引。<br><strong>解读：</strong> Mysql能够使用多个范围条件里边的最左边的第一个范围查询，但是后边的范围查询则无法使用。</p>
+<p><strong>【建议】</strong> （10）在多个表进行外连接时，表之间的关联字段类型必须完全一致<br><strong>解读：</strong> 当两个表进行Join时，字段类型若没有完全一致，则加索引也不会生效，这里的完全一致包括但不限于字段类型、字段长度、字符集、collection等等</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p>《High.Performance.MySQL.3rd.Edition》<br>《阿里巴巴java开发手册》</p>
+
+        </div>
+        <!-- .entry-content -->
+        <div class="single-reward">
+          <div class="reward-open">赏<div class="reward-main">
+              <ul class="reward-row">
+                <li class="alipay-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/AliPayQR.jpg"></li>
+                <li class="wechat-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/wechatpayQR.jpg"></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
+        <footer class="post-footer">
+          <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
+          <div class="post-tags">
+          </div>
+          <div class="post-share">
+            <div class="social-share sharehidden share-component"></div>
+            <i class="iconfont show-share icon-forward"></i>
+          </div>
+        </footer><!-- .entry-footer -->
+      </article>
+      <!-- #post-## -->
+      <div class="toc" style="background: none;"></div>
+      <section class="post-squares nextprev">
+        
+          
+            <div class="post-nepre half previous">
+          
+            <a href="/2020/08/17/left join on and 与 left join on where的区别/" rel="prev">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.4/images/article/lj_whereand_20200818.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.4/images/article/lj_whereand_20200818.jpg">
+              </div>
+              <span class="label">
+              Previous Post</span>
+              <div class="info">
+                <h3>
+                left join on and 与 left join on where的区别</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+        
+          
+            <div class="post-nepre half next">
+          
+            <a href="/2020/08/11/如何从0开始建立数据库(五)：数据库系统的实现/" rel="next">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part520200811.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part520200811.jpg">
+              </div>
+              <span class="label">
+              Next Post</span>
+              <div class="info">
+                <h3>
+                如何从0开始建立数据库(五)：数据库系统的实现</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+      </section>
+      
+<div id="vcomments"></div>
+<script>
+  window.onload = function(){
+      var valine = new Valine();
+      valine.init({
+        el: '#vcomments',
+        appId: "Hm83GoGeDX3sGPDh3Q50lSMz-gzGzoHsz",
+        appKey: "mXIVaYaFj1DNyH6yBicfUS0w",
+        path: window.location.pathname,
+        placeholder: "你是我一生只会遇见一次的惊喜 ..."
+      })
+  }
+</script>
+
+      <section class="author-profile">
+        <div class="info" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <a href="http://smilecoc.vip/" class="profile gravatar"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico" itemprop="image" alt="smilecoc" height="70" width="70"></a>
+          <div class="meta">
+            <span class="title">Author</span>
+            <h3 itemprop="name">
+            <a href="http://smilecoc.vip/" itemprop="url" rel="author">smilecoc</a>
+            </h3>
+          </div>
+        </div>
+        <hr>
+        <p><i class="iconfont icon-write"></i></p>
+      </section>
+    </main><!-- #main -->
+  </div><!-- #primary -->
 </div>
 
-<!-- 
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/11/11/SQL语句优化/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.4/images/article/sql_optimization20201111.png" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/11/11/SQL语句优化/">
-    SQL语句优化</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-11-11</div>
-    <p>
-    SQL语句优化的具体案例与准则</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/11/11/SQL语句优化/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/10/10/多进程和多线程的概念/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.3/images/article/mutiprocessing_thread_20201010.png" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/10/10/多进程和多线程的概念/">
-    多进程和多线程的概念详解</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-10-10</div>
-    <p>
-    Python多进程和多线程的概念详解</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/10/10/多进程和多线程的概念/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/10/10/python中yield的用法详解/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.3/images/article/python_yield_20201010.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/10/10/python中yield的用法详解/">
-    python中yield的用法详解</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-10-10</div>
-    <p>
-    最简单易懂讲解python中yield的用法详解</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/10/10/python中yield的用法详解/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/09/03/sklearn三种数据标准化方法的对比：StandardScaler、MinMaxScaler、RobustScaler/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.0/images/article/sklearn_standardize_20200903.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/09/03/sklearn三种数据标准化方法的对比：StandardScaler、MinMaxScaler、RobustScaler/">
-    sklearn三种数据标准化方法的对比：StandardScaler、MinMaxScaler、RobustScaler</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-9-3</div>
-    <p>
-    sklearn三种数据标准化方法的对比：StandardScaler、MinMaxScaler、RobustScaler</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/09/03/sklearn三种数据标准化方法的对比：StandardScaler、MinMaxScaler、RobustScaler/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/09/01/sklearn.model_selection.train_test_split用法-划分训练集与测试集/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.0/images/article/sklearn_test-train_spilt_20200901.png" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/09/01/sklearn.model_selection.train_test_split用法-划分训练集与测试集/">
-    sklearn.model_selection.train_test_split用法-划分训练集与测试集</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-9-1</div>
-    <p>
-    利用sklearn.model_selection.train_test_split方法划分训练集与测试集</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/09/01/sklearn.model_selection.train_test_split用法-划分训练集与测试集/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/08/12/如何从0开始建立数据库(六)数据库建表SQL索引规范/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part620200812.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/08/12/如何从0开始建立数据库(六)数据库建表SQL索引规范/">
-    如何从0开始建立数据库(六)：数据库建表/SQL/索引规范</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-8-12</div>
-    <p>
-    如何从0开始建立数据库(六)：数据库建表/SQL/索引规范</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/08/12/如何从0开始建立数据库(六)数据库建表SQL索引规范/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/08/11/如何从0开始建立数据库(五)：数据库系统的实现/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part520200811.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/08/11/如何从0开始建立数据库(五)：数据库系统的实现/">
-    如何从0开始建立数据库(五)：数据库系统的实现</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-8-11</div>
-    <p>
-    如何从0开始建立数据库(五)：数据库系统的实现</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/08/11/如何从0开始建立数据库(五)：数据库系统的实现/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/08/11/如何从0开始建立数据库(四)：SQL/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part420200811.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/08/11/如何从0开始建立数据库(四)：SQL/">
-    如何从0开始建立数据库(四)：SQL</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-8-11</div>
-    <p>
-    如何从0开始建立数据库(三)：更新异常与规范化设计</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/08/11/如何从0开始建立数据库(四)：SQL/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/08/11/如何从0开始建立数据库(三)：更新异常与规范化设计/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part320200811.png" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/08/11/如何从0开始建立数据库(三)：更新异常与规范化设计/">
-    如何从0开始建立数据库(三)：更新异常与规范化设计</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-8-11</div>
-    <p>
-    如何从0开始建立数据库(三)：更新异常与规范化设计</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/08/11/如何从0开始建立数据库(三)：更新异常与规范化设计/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/08/11/如何从0开始建立数据库(二)：数据库关系建模/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part220200811.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/08/11/如何从0开始建立数据库(二)：数据库关系建模/">
-    如何从0开始建立数据库(二)：数据库关系建模</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-8-11</div>
-    <p>
-    如何从0开始建立数据库(二)：数据库关系建模</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/08/11/如何从0开始建立数据库(二)：数据库关系建模/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
 
- -->
+
     </div>    
     <div class="ins-search">
     <div class="ins-search-mask"></div>
