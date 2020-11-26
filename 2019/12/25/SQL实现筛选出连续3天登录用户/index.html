@@ -627,12 +627,11 @@ having count(1)&gt;=3;</code></pre>
 <pre><code class="sql">select user_id
 from (
   select user_id,login_date,
-    row_number() over(partition by user_id order by login_date) as
-rn
+   1 as rn
   from last_3_day_test_table
-) t
-group by user_id,date_sub(login_date,t.rn)
-having count(1)&gt;=3;</code></pre>
+) as t
+group by user_id,date_sub(login_date,interval t.rn day)
+having count(1)&gt;=3</code></pre>
 <p>两者的区别就是在计算login_date-t.rn时，SQL Server中要使用DATEADD函数，且语法为：<strong>DATEADD(D,-t.rn,login_date)</strong>，而Mysql中直接使用<strong>date_sub(login_date,t.rn)</strong>即可实现日期减去指定的时间间隔</p>
 <h1 id="其他解法与延展"><a href="#其他解法与延展" class="headerlink" title="其他解法与延展"></a>其他解法与延展</h1><p>附上另外的一种解法供参考，基于SQL server:</p>
 <pre><code class="sql">select
