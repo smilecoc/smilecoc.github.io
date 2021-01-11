@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta name="baidu-site-verification" content="y0z4MO0APm">
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  
+  <title itemprop="name">Python骚操作之使用python做个视频 | Smilecoc&#39;s Blog</title>
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+SerifMerriweather|Merriweather+Sans|Source+Code+Pro|Ubuntu:400,700|Noto+Serif+SC" media="all">
+  <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+  <link rel="stylesheet" id="saukra_css-css" href="/css/style.css" type="text/css" media="all">
+  <link rel="stylesheet" href="/css/lib.min.css" media="all">
+  <link rel="stylesheet" href="/css/font.css" media="all">
+  <link rel="stylesheet" href="/css/insight.css" media="all">
+  <link rel="stylesheet" href="/css/jquery.fancybox.min.css" media="all">
+  <link rel="stylesheet" href="/css/zoom.css" media="all">
+  <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<!--   <link rel="stylesheet" id="saukra_css-css" href="https://2heng.xin/wp-content/cache/autoptimize/css/autoptimize_ad42a61f4c7d4bdd9f91afcff6b5dda5.css
+" type="text/css" media="all"> -->
+  <script>
+  /*Initial Variables*/
+  var mashiro_option = new Object();
+  var mashiro_global = new Object();
+  mashiro_option.NProgressON = true;
+  /* 
+   * 邮箱信息之类的东西可以填在这里，这些js变量基本都作用于sakura-app.js
+   * 这样的设置仅是为了方便在基于PHP开发的主题中设置js变量，既然移植到了Node上，我想或许可以精简这一逻辑吧
+   */
+  mashiro_option.email_domain = "";
+  mashiro_option.email_name = "";
+  mashiro_option.cookie_version_control = "";
+  mashiro_option.qzone_autocomplete = false;
+  mashiro_option.site_name = "君の名はSmilecoc";
+  mashiro_option.author_name = "Smilecoc";
+  mashiro_option.site_url = "https://smilecoc.github.io/";
+  mashiro_option.v_appId = "Hm83GoGeDX3sGPDh3Q50lSMz-gzGzoHsz";
+  mashiro_option.v_appKey = "mXIVaYaFj1DNyH6yBicfUS0w";
+  mashiro_option.mathjax = "0";
+  mashiro_option.qq_api_url = "https://api.mashiro.top/qqinfo/"; 
+  mashiro_option.qq_avatar_api_url = "https://api.mashiro.top/qqinfo/";
+
+  // mashiro_option.jsdelivr_css_src = "https://cdn.jsdelivr.net/gh/moezx/cdn@3.4.5/css/lib.min.css";
+  // mashiro_option.float_player_on = true;
+
+  /*End of Initial Variables*/
+  </script>
+  <script type="text/javascript">
+  var bg = "https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/1.jpg,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/2.jpg,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/3.jpg,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/4.jpg,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/5.webp,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/6.jpg,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/7.webp,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/8.jpg".split(",");
+  var bgindex = Math.floor(Math.random()*bg.length);
+  if (!!window.ActiveXObject || "ActiveXObject" in window) { //is IE?
+    alert('朋友，IE浏览器未适配哦~');
+  }
+  </script>
+  <style type="text/css">
+  .hljs-ln{border-collapse:collapse}.hljs-ln td{padding:0}.hljs-ln-n:before{content:attr(data-line-number)}
+  </style>
+  <style type="text/css">.site-top .lower nav{display:block !important;}.author-profile i,.post-like a,.post-share .show-share,.sub-text,.we-info a,span.sitename,.post-more i:hover,#pagination a:hover,.post-content a:hover,.float-content i:hover{color:#FE9600}.feature i,.download,.navigator i:hover,.links ul li:before,.ar-time i,span.ar-circle,.object,.comment .comment-reply-link,.siren-checkbox-radio:checked + .siren-checkbox-radioInput:after{background:#FE9600}::-webkit-scrollbar-thumb{background:#FE9600}.download,.navigator i:hover,.link-title,.links ul li:hover,#pagination a:hover,.comment-respond input[type='submit']:hover{border-color:#FE9600}.entry-content a:hover,.site-info a:hover,.comment h4 a,#comments-navi a.prev,#comments-navi a.next,.comment h4 a:hover,.site-top ul li a:hover,.entry-title a:hover,#archives-temp h3,span.page-numbers.current,.sorry li a:hover,.site-title a:hover,i.iconfont.js-toggle-search.iconsearch:hover,.comment-respond input[type='submit']:hover{color:#FE9600}.comments .comments-main{display:block !important;}.comments .comments-hidden{display:none !important;}background-position:center center;background-attachment:inherit;}
+  </style>
+<link rel="alternate" href="/atom.xml" title="Smilecoc's Blog" type="application/atom+xml">
+</head>
+</html>
+<body class="page-template page-template-user page-template-page-analytics page-template-userpage-analytics-php page page-id-1297 chinese-font serif isWebKit">
+  <div class="skin-menu no-select" id="mainskin" style="position: fixed"> 
+    <div class="theme-controls row-container">
+          <p style="text-align:center;font-family:'Monaco';font-weight:bold;color:#444"><i style="color:grey" class="fa fa-chevron-left"></i> background <i style="color:grey" class="fa fa-chevron-right"></i></p>
+        <ul class="menu-list"> <li id="white-bg"> 
+            <i class="fa fa-television" aria-hidden="true">
+            </i>
+            </li> 
+            <li id="sakura-bg"> 
+                <i class="iconfont icon-sakura">
+                </i>
+            </li>
+            <li id="gribs-bg">
+                <i class="fa fa-slack" aria-hidden="true">
+                </i>
+            </li>
+            <li id="KAdots-bg">
+                <i class="iconfont icon-dots">
+                </i>
+            </li>
+            <li id="totem-bg">
+                <i class="fa fa-optin-monster" aria-hidden="true">
+                </i>
+            </li>
+            <li id="pixiv-bg">
+                <i class="iconfont icon-pixiv">
+                </i>
+            </li>
+            <li id="bing-bg">
+                <i class="iconfont icon-bing">
+                </i>
+            </li>
+            <li id="dark-bg">
+                <i class="fa fa-moon-o" aria-hidden="true">
+                </i>
+            </li>
+        </ul>
+    </div>
+    <canvas id="night-mode-cover">
+    </canvas>
+</div>
+ 
+  <div class="changeSkin-gear no-select"> 
+    <div class="keys" id="setbtn"> 
+        <span id="open-skinMenu"> 
+            SCHEME TOOL | 主题工具 &nbsp;
+            <i class="iconfont icon-gear inline-block rotating">
+            </i> 
+        </span>
+    </div> 
+</div>
+
+  <div class="scrollbar" id="bar">
+  </div>
+  <a href="#" class="cd-top faa-float animated"></a>
+  <section id="main-container">
+    <div class="headertop ">
+  <div id="banner_wave_1"></div>
+  <div id="banner_wave_2"></div>
+  <figure id="centerbg" class="centerbg">
+    <div class="focusinfo no-select">
+      <div class="header-tou">
+        <a href="https://smilecoc.github.io/">
+          <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/favicon.ico">
+        </a>
+      </div>
+      <div class="header-info">
+        <p>今でもあなたはわたしの光  时至今日，你仍是我的光</p>
+        <div class="top-social_v2">
+          <li id="bg-pre">
+            <img class="flipx" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/next-b.svg">
+          </li>
+          
+            
+              
+                <li>
+                  <a href="http://github.com/smilecoc" target="_blank" class="social-github" title="github">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/social/github.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="https://weibo.com/p/1005057275339401/home?from=page_100505&amp;mod=TAB#place" target="_blank" class="social-github" title="sina">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/social/sina.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="https://music.163.com/#/user/home?id=615928150" target="_blank" class="social-github" title="wangyiyun">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/social/wangyiyun.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="https://www.zhihu.com/people/lai-10086tou-su-4/activities" target="_blank" class="social-github" title="zhihu">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/social/zhihu.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="http://github.com/smilecoc" target="_blank" class="social-github" title="email">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/social/email.svg">
+                  </a>
+                </li>
+              
+            
+              
+                <li class="wechat">
+                  <a href="/#">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/social/wechat.png">
+                  </a>
+                  <div class="wechatInner">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/wechat.jfif">
+                  </div>
+                </li>
+              
+            
+          
+          <li id="bg-next">
+            <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/next-b.svg">
+          </li>
+        </div>
+      </div>
+    </div>
+  </figure>
+  <div id="video-container" style="">
+    <video style="object-fit: fill" id="bgvideo" class="video" video-name="" src="" width="auto" preload="auto">
+    </video>
+    <div id="video-btn" class="loadvideo videolive">
+    </div>
+    <div id="video-add">
+    </div>
+    <div class="video-stu">
+    </div>
+  </div>
+  <div class="headertop-down faa-float animated" onclick="headertop_down()">
+    <span>
+      <i class="fa fa-chevron-down" aria-hidden="true">
+      </i>
+    </span>
+  </div>
+</div>
+    <div id="page" class="site wrapper">
+      <header class="site-header no-select gizle sabit" role="banner">
+  <div class="site-top">
+    <div class="site-branding">
+      <span class="site-title">
+        <span class="logolink moe-mashiro">
+          <a href="/">
+            <span class="sakurasono">君の名は</span>
+            <span class="shironeko">Smilecoc</span>
+          </a>
+        </span>
+      </span>
+    </div>
+    <div class="searchbox search-form-submit">
+      <i class="iconfont js-toggle-search iconsearch icon-search">
+      </i>
+    </div>
+    <div id="show-nav" class="showNav mobile-fit">
+      <div class="line line1">
+      </div>
+      <div class="line line2">
+      </div>
+      <div class="line line3">
+      </div>
+    </div>
+    <div class="lower-cantiner">
+      <div class="lower">
+        <nav class="mobile-fit-control hide">
+          <ul id="menu-new" class="menu">
+            
+              <li>
+                <a href="/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-fort-awesome faa-shake" aria-hidden="true"></i>
+                    首页
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-archive faa-shake" aria-hidden="true"></i>
+                    归档
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/categories/技术/">
+                          <i class="fa fa-code" aria-hidden="true"></i>
+                          技术
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/笔记/">
+                          <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                          笔记
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/资源/">
+                          <i class="fa fa-cloud-download" aria-hidden="true"></i>
+                          资源
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/随想/">
+                          <i class="fa fa-commenting-o" aria-hidden="true"></i>
+                          随想
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/转载/">
+                          <i class="fa fa-book" aria-hidden="true"></i>
+                          转载
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="javascript:;">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-list-ul faa-vertical" aria-hidden="true"></i>
+                    清单
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/tags/悦读/">
+                          <i class="fa fa-th-list faa-bounce" aria-hidden="true"></i>
+                          书单
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/bangumi/">
+                          <i class="fa fa-film faa-vertical" aria-hidden="true"></i>
+                          番组
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/music/">
+                          <i class="fa fa-headphones" aria-hidden="true"></i>
+                          歌单
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/tags/图集/">
+                          <i class="fa fa-photo" aria-hidden="true"></i>
+                          图集
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="/comment/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-pencil-square-o faa-tada" aria-hidden="true"></i>
+                    留言板
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/links/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-link faa-shake" aria-hidden="true"></i>
+                    友人帐
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/donate/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-heart faa-pulse" aria-hidden="true"></i>
+                    赞赏
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-leaf faa-wrench" aria-hidden="true"></i>
+                    关于
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/about/">
+                          <i class="fa fa-meetup" aria-hidden="true"></i>
+                          我？
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/lab/">
+                          <i class="fa fa-cogs" aria-hidden="true"></i>
+                          Lab
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="/client/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-android faa-vertical" aria-hidden="true"></i>
+                    客户端
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/atom.xml">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-rss faa-pulse" aria-hidden="true"></i>
+                    RSS
+                  </span>
+                </a>
+                
+              </li>
+            
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<div class="pattern-center-blank"></div>
+
+  <div class="pattern-center single-center">
+    <!-- 有配图默认渲染第一张 -->
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.5/images/article/python_codevideo2020520.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.5/images/article/python_codevideo2020520.jpg">
+    </div>
+    <header class="pattern-header single-header">
+      <h1 class="entry-title">
+      Python骚操作之使用python做个视频</h1>
+      <p class="entry-census">
+        <span>
+          <a href="http://smilecoc.vip/">
+            <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico">
+          </a>
+        </span>
+        <span>
+          <a href="http://smilecoc.vip/">smilecoc</a>
+        </span>
+        <span class="bull">
+        ·</span>
+        2020-5-20<span class="bull">
+        ·</span>
+      <span id="busuanzi_value_page_pv"></span>次阅读</p>
+    </header>
+  </div>
+
+<div id="content" class="site-content">
+  <div id="primary" class="content-area">
+    <main id="main" class="site-main" role="main">
+      <article id="post-1" class="post-1 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+        <div class="toc"></div>
+        <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
+        
+        <div class="entry-content">
+          <p>在这篇文章中，我们将使用Python下载视频，并将普通的视频转化为的代码版本的视频，效果如下：</p>
+<p>首先我们需要获取网页上的视频。一般情况下通过APP或者网页上的视频下载的问题有：<br>1.没有提供下载按钮导致无法下载<br>2.下载后的格式一般为.flv格式，或者是有自己的格式无法解析（例如B站）</p>
+<p>针对第一个问题,我们的解决办法就是Python中的you_get库.You-Get 只需要一行代码就可以便利的下载网络上的媒体信息</p>
+<h2 id="you-get下载视频"><a href="#you-get下载视频" class="headerlink" title="you_get下载视频"></a>you_get下载视频</h2><p>you_get主页:<a href="https://github.com/soimort/you-get" target="_blank" rel="noopener">https://github.com/soimort/you-get</a><br>中文说明文档:<a href="https://github.com/soimort/you-get/wiki/%E4%B8%AD%E6%96%87%E8%AF%B4%E6%98%8E" target="_blank" rel="noopener">https://github.com/soimort/you-get/wiki/%E4%B8%AD%E6%96%87%E8%AF%B4%E6%98%8E</a></p>
+<p>首先依旧是需要安装you-get库,同时还需要安装<a href="https://ffmpeg.zeranoe.com/builds/" target="_blank" rel="noopener">FFmpeg</a>,这个工具是you-get库的必要依赖，同时也会在其他的地方用到。本篇文章提供的FFmpeg地址为解压免安装版本，下载后解压并记一下文件路径。其他</p>
+<p>安装完成后如果想下载某个网页的视频,,只需要一句简单的 you-get+网址即可下载视频.</p>
+<pre><code>$ you-get http://www.fsf.org/blogs/rms/20140407-geneva-tedx-talk-free-software-free-society
+Site:       fsf.org
+Title:      TEDxGE2014_Stallman05_LQ
+Type:       WebM video (video/webm)
+Size:       27.12 MiB (28435804 Bytes)
+
+Downloading TEDxGE2014_Stallman05_LQ.webm ...
+100.0% ( 27.1/27.1 MB) ├████████████████████████████████████████┤[1/1]   12 MB/s</code></pre><p>需要注意一点,上述例子you_get的基本命令是在cmd中输入的命令行,如果我们使用IDE时需要使用os.system()方法来执行cmd命令</p>
+<pre><code class="python">import os
+os.system(&#39;you-get  http://www.fsf.org/blogs/rms/20140407-geneva-tedx-talk-free-software-free-society&#39;)</code></pre>
+<p>在一下的you_get示例中，所有的代码均为cmd的代码，所以使用IDE的同学记得要在代码前加入os.system()函数以保证正确运行。</p>
+<p>在下载前可以使用 –info/-i 以查看所有可用画质与格式：</p>
+<pre><code>$ you-get -i &#39;https://www.youtube.com/watch?v=jNQXAC9IVRw&#39;
+site:                YouTube
+title:               Me at the zoo
+streams:             # Available quality and codecs
+    [ DEFAULT ] _________________________________
+    - itag:          43
+      container:     webm
+      quality:       medium
+      size:          0.5 MiB (564215 bytes)
+    # download-with: you-get --itag=43 [URL]
+
+    - itag:          18
+      container:     mp4
+      quality:       medium
+    # download-with: you-get --itag=18 [URL]
+
+    - itag:          5
+      container:     flv
+      quality:       small
+    # download-with: you-get --itag=5 [URL]
+
+    - itag:          36
+      container:     3gp
+      quality:       small
+    # download-with: you-get --itag=36 [URL]
+
+    - itag:          17
+      container:     3gp
+      quality:       small
+    # download-with: you-get --itag=17 [URL]</code></pre><p>标有DEFAULT 为默认画质。使用上述下载语句即可开始下载默认画质的视频</p>
+<p>如果希望下载其他格式或画质的视频，使用提示中出现的 # download-with: 选项即可。例如我想下载上述示例中的MP4格式的视屏：</p>
+<pre><code>$ you-get --itag=18 &#39;https://www.youtube.com/watch?v=jNQXAC9IVRw&#39;</code></pre><p>当下载视频遇到问题时：</p>
+<ul>
+<li>一是排除网络问题；</li>
+<li>二是确保you-get更新到最新版本；</li>
+<li>三是检查目标视频是否已经确认无法爬取。</li>
+<li>四–debug参数进行调试</li>
+</ul>
+<p>同时可以使用–output-dir/-o 设定路径, –output-filename/-O 设定输出文件名:</p>
+<pre><code>$ you-get -o ~/Videos -O zoo.webm &#39;https://www.youtube.com/watch?v=jNQXAC9IVRw&#39;</code></pre><p>这样从网页上下载视频的问题就解决了！</p>
+<h2 id="视频格式转化"><a href="#视频格式转化" class="headerlink" title="视频格式转化"></a>视频格式转化</h2><p>第二个问题就是从网页上下载视频的视频很只有flv格式，不利于预览和处理。因此需要转化视频格式，比如转化成MP4格式。但是一般在线频转化要么有视频大小的限制，要么需要下载app或者会员。这时候就要用到上面我们下载的FFmpeg处理视频</p>
+<p>FFmpeg 是视频处理最常用的开源软件。它功能强大，用途广泛，大量用于视频网站和商业软件（比如 Youtube 和 iTunes），也是许多音频和视频格式的标准编码/解码实现。使用FFmpeg 命令行处理视频，比桌面视频处理软件更简洁高效。</p>
+<p>例如我们想把所有的flv文件转化为mp4文件：<br>（本部分涉及cmd命令与FFmpeg 命令行，如有疑问可以先搜一下Windows cmd命令的用法和FFmpeg 命令行的用法）</p>
+<ul>
+<li>1.解压后打开bin，把三个可执行文件复制到C:\Windows\system32</li>
+<li>2.打开CMD，cd 到指定文件夹</li>
+<li>3.执行cmd命令：<code>for %i in (*.flv) do ffmpeg -i “%i” -c copy “%~ni.mp4”</code></li>
+</ul>
+<p>之后就可以发现所有的flv格式视频全部转化为了MP4格式。</p>
+<h2 id="转化代码版视频"><a href="#转化代码版视频" class="headerlink" title="转化代码版视频"></a>转化代码版视频</h2><p>之后就可以将普通的视频转化为代码版视频了。这里使用的代码原作者文章：<a href="https://www.cnblogs.com/TurboWay/p/9748535.html" target="_blank" rel="noopener">https://www.cnblogs.com/TurboWay/p/9748535.html</a></p>
+<p>使用方法：<br>一、环境准备</p>
+<p>  1.需要安装opencv，直接安装 pip install opencv-python</p>
+<p>  2.需要安装ffmpeg （上述步骤中已下载解压的可跳过），直接解压免安装，<a href="https://ffmpeg.zeranoe.com/builds/" target="_blank" rel="noopener">下载传送门</a>；<br>  3.将 ffmpeg.exe 的路径复制，替换代码开头的  ffmpeg = r’G:\ffmpeg\bin\ffmpeg.exe’</p>
+<p> 二、如何使用：</p>
+<p>  1.替换主函数里的vedio视频地址</p>
+<p>  2.运行程序即可</p>
+<p>  注意对存储空间的要求较高，请保证有足够的存储空间</p>
+<p>代码如下：</p>
+<pre><code class="python"># -*- coding:utf-8 -*-
+# coding:utf-8
+import os, cv2, subprocess, shutil
+from cv2 import VideoWriter, VideoWriter_fourcc, imread, resize
+from PIL import Image, ImageFont, ImageDraw
+
+ffmpeg = r&#39;D:\ffmpeg\bin\ffmpeg.exe&#39;
+code_color = (169,169,169) # 颜色RGB 默认灰色 ，&#39;&#39; 则彩色
+
+# 像素对应ascii码
+#ascii_char = list(&quot;$@B%8&amp;WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~&lt;&gt;i!lI;:oa+&gt;!:+. &quot;)
+#ascii_char = [&#39;.&#39;,&#39;,&#39;,&#39;:&#39;,&#39;;&#39;,&#39;+&#39;,&#39;*&#39;,&#39;?&#39;,&#39;%&#39;,&#39;S&#39;,&#39;#&#39;,&#39;@&#39;][::-1]
+#ascii_char = list(&quot;MNHQ$OC67+&gt;!:-. &quot;)
+ascii_char = list(&quot;MNHQ$OC67)oa+&gt;!:+. &quot;)
+
+# 将像素转换为ascii码
+def get_char(r, g, b, alpha=256):
+    if alpha == 0:
+        return &#39;&#39;
+    length = len(ascii_char)
+    gray = int(0.2126 * r + 0.7152 * g + 0.0722 * b)
+    unit = (256.0 + 1) / length
+    return ascii_char[int(gray / unit)]
+
+# 将txt转换为图片
+def txt2image(file_name):
+    im = Image.open(file_name).convert(&#39;RGB&#39;)
+    # gif拆分后的图像，需要转换，否则报错，由于gif分割后保存的是索引颜色
+    raw_width = im.width
+    raw_height = im.height
+    width = int(raw_width / 6)
+    height = int(raw_height / 15)
+    im = im.resize((width, height), Image.NEAREST)
+
+    txt = &quot;&quot;
+    colors = []
+    for i in range(height):
+        for j in range(width):
+            pixel = im.getpixel((j, i))
+            colors.append((pixel[0], pixel[1], pixel[2]))
+            if (len(pixel) == 4):
+                txt += get_char(pixel[0], pixel[1], pixel[2], pixel[3])
+            else:
+                txt += get_char(pixel[0], pixel[1], pixel[2])
+        txt += &#39;\n&#39;
+        colors.append((255, 255, 255))
+
+    im_txt = Image.new(&quot;RGB&quot;, (raw_width, raw_height), (255, 255, 255))
+    dr = ImageDraw.Draw(im_txt)
+    # font = ImageFont.truetype(os.path.join(&quot;fonts&quot;,&quot;汉仪楷体简.ttf&quot;),18)
+    font = ImageFont.load_default().font
+    x = y = 0
+    # 获取字体的宽高
+    font_w, font_h = font.getsize(txt[1])
+    font_h *= 1.37  # 调整后更佳
+    # ImageDraw为每个ascii码进行上色
+    for i in range(len(txt)):
+        if (txt[i] == &#39;\n&#39;):
+            x += font_h
+            y = -font_w
+            # self, xy, text, fill = None, font = None, anchor = None,
+            # *args, ** kwargs
+        if code_color:
+            dr.text((y, x), txt[i], fill=code_color) # fill=colors[i]彩色
+        else:
+            dr.text((y, x), txt[i], fill=colors[i])  # fill=colors[i]彩色
+        # dr.text((y, x), txt[i], font=font, fill=colors[i])
+        y += font_w
+
+    name = file_name
+    # print(name + &#39; changed&#39;)
+    im_txt.save(name)
+
+# 将视频拆分成图片
+def video2txt_jpg(file_name):
+    vc = cv2.VideoCapture(file_name)
+    c = 1
+    if vc.isOpened():
+        r, frame = vc.read()
+        if not os.path.exists(&#39;Cache&#39;):
+            os.mkdir(&#39;Cache&#39;)
+        os.chdir(&#39;Cache&#39;)
+    else:
+        r = False
+    while r:
+        cv2.imwrite(str(c) + &#39;.jpg&#39;, frame)
+        txt2image(str(c) + &#39;.jpg&#39;)  # 同时转换为ascii图
+        r, frame = vc.read()
+        c += 1
+    os.chdir(&#39;..&#39;)
+    return vc
+
+# 将图片合成视频
+def jpg2video(outfile_name, fps):
+    fourcc = VideoWriter_fourcc(*&quot;MJPG&quot;)
+    images = os.listdir(&#39;Cache&#39;)
+    im = Image.open(&#39;Cache/&#39; + images[0])
+    vw = cv2.VideoWriter(outfile_name, fourcc, fps, im.size)
+
+    os.chdir(&#39;Cache&#39;)
+    for image in range(len(images)):
+        # Image.open(str(image)+&#39;.jpg&#39;).convert(&quot;RGB&quot;).save(str(image)+&#39;.jpg&#39;)
+        frame = cv2.imread(str(image + 1) + &#39;.jpg&#39;)
+        vw.write(frame)
+        # print(str(image + 1) + &#39;.jpg&#39; + &#39; finished&#39;)
+    os.chdir(&#39;..&#39;)
+    vw.release()
+
+# 调用ffmpeg获取mp3音频文件
+def video2mp3(file_name, outfile_name):
+    cmdstr = &quot; -i {0} -f mp3 {1} -y&quot;.format(file_name, outfile_name)
+    cmd(cmdstr)
+
+# 合成音频和视频文件
+def video_add_mp3(file_name, mp3_file,outfile_name):
+    cmdstr = &quot; -i {0} -i {1} -strict -2 -f mp4 {2} -y&quot;.format(file_name, mp3_file, outfile_name)
+    cmd(cmdstr)
+
+# 视频截取
+def vediocut(file_name, outfile_name, start, end):
+    cmdstr = &quot; -i {0} -vcodec copy -acodec copy -ss {1} -to {2} {3} -y&quot;.format(file_name,start,end,outfile_name)
+    cmd(cmdstr)
+
+# 执行脚本命令
+def cmd(cmdstr):
+    cmdstr = ffmpeg + cmdstr
+    response = subprocess.call(cmdstr, shell=True, creationflags=0x08000000)
+    if response == 1:
+        print(&quot;ffmpeg脚本执行失败,请尝试手动执行:{0}&quot;.format(cmdstr))
+
+# 主函数
+def main(vedio, save=False, iscut=False, start=&#39;00:00:00&#39;, end=&#39;00:00:14&#39;):
+    &quot;&quot;&quot;
+    :param vedio: 原视频文件地址
+    :param save: 是否保存临时文件 默认不保存
+    :param iscut: 是否先对原视频做截取处理 默认不截取
+    :param start: 视频截取开始时间点 仅当iscut=True时有效
+    :param end: 视频截取结束时间点 仅当iscut=True时有效
+    :return: 输出目标视频文件 vedio.split(&#39;.&#39;)[0] + &#39;-code.mp4&#39;
+    &quot;&quot;&quot;
+    file_cut = vedio.split(&#39;.&#39;)[0] + &#39;_cut.mp4&#39;
+    file_mp3 = vedio.split(&#39;.&#39;)[0] + &#39;.mp3&#39;
+    file_temp_avi = vedio.split(&#39;.&#39;)[0] + &#39;_temp.avi&#39;
+    outfile_name = vedio.split(&#39;.&#39;)[0] + &#39;-code.mp4&#39;
+    print(&quot;开始生成...&quot;)
+    if iscut:
+        print(&quot;正在截取视频...&quot;)
+        vediocut(vedio, file_cut, start, end)
+        vedio = file_cut
+    print(&quot;正在转换代码图片...&quot;)
+    vc = video2txt_jpg(vedio) # 视频转图片，图片转代码图片
+    FPS = vc.get(cv2.CAP_PROP_FPS)  # 获取帧率
+    vc.release()
+    print(&quot;正在分离音频...&quot;)
+    video2mp3(vedio, file_mp3)  # 从原视频分离出 音频mp3
+    print(&quot;正在转换代码视频...&quot;)
+    jpg2video(file_temp_avi, FPS)  #代码图片转视频
+    print(&quot;正在合成目标视频...&quot;)
+    video_add_mp3(file_temp_avi, file_mp3, outfile_name) # 将音频合成到代码视频
+    if (not save): # 移除临时文件
+        print(&quot;正在移除临时文件...&quot;)
+        shutil.rmtree(&quot;Cache&quot;)
+        for file in [file_cut, file_mp3, file_temp_avi]:
+            if os.path.exists(file):
+                os.remove(file)
+    print(&quot;生成成功：{0}&quot;.format(outfile_name))
+
+if __name__ == &#39;__main__&#39;:
+    vedio = r&quot;test.mp4&quot;
+    main(vedio, save=False, iscut=False, start=&#39;00:00:00&#39;, end=&#39;00:00:14&#39;)</code></pre>
+<p>这样就可以将一个视频转化为代码版的视频了！</p>
+
+        </div>
+        <!-- .entry-content -->
+        <div class="single-reward">
+          <div class="reward-open">赏<div class="reward-main">
+              <ul class="reward-row">
+                <li class="alipay-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/AliPayQR.jpg"></li>
+                <li class="wechat-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/wechatpayQR.jpg"></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
+        <footer class="post-footer">
+          <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
+          <div class="post-tags">
+          </div>
+          <div class="post-share">
+            <div class="social-share sharehidden share-component"></div>
+            <i class="iconfont show-share icon-forward"></i>
+          </div>
+        </footer><!-- .entry-footer -->
+      </article>
+      <!-- #post-## -->
+      <div class="toc" style="background: none;"></div>
+      <section class="post-squares nextprev">
+        
+          
+            <div class="post-nepre half previous">
+          
+            <a href="/2020/05/31/方差、标准差和均方根误差的区别总结/" rel="prev">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6 .3/images/article/variance_RMSE20200927.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6 .3/images/article/variance_RMSE20200927.jpg">
+              </div>
+              <span class="label">
+              Previous Post</span>
+              <div class="info">
+                <h3>
+                方差、标准差和均方根误差的区别总结</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+        
+          
+            <div class="post-nepre half next">
+          
+            <a href="/2020/04/12/实用网站汇总/" rel="next">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.4/images/article/websitezl20200412.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.4/images/article/websitezl20200412.jpg">
+              </div>
+              <span class="label">
+              Next Post</span>
+              <div class="info">
+                <h3>
+                实用网站资源整理汇总</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+      </section>
+      
+<div id="vcomments"></div>
+<script>
+  window.onload = function(){
+      var valine = new Valine();
+      valine.init({
+        el: '#vcomments',
+        appId: "Hm83GoGeDX3sGPDh3Q50lSMz-gzGzoHsz",
+        appKey: "mXIVaYaFj1DNyH6yBicfUS0w",
+        path: window.location.pathname,
+        placeholder: "你是我一生只会遇见一次的惊喜 ..."
+      })
+  }
+</script>
+
+      <section class="author-profile">
+        <div class="info" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <a href="http://smilecoc.vip/" class="profile gravatar"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico" itemprop="image" alt="smilecoc" height="70" width="70"></a>
+          <div class="meta">
+            <span class="title">Author</span>
+            <h3 itemprop="name">
+            <a href="http://smilecoc.vip/" itemprop="url" rel="author">smilecoc</a>
+            </h3>
+          </div>
+        </div>
+        <hr>
+        <p><i class="iconfont icon-write"></i></p>
+      </section>
+    </main><!-- #main -->
+  </div><!-- #primary -->
+</div>
+
+
+
+    </div>    
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="请输入关键词..."/>
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            // PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+    <!-- <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Smilecoc<br>
+      powered_by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer> -->
+<footer id="colophon" class="site-footer" role="contentinfo">
+  <div class="site-info">
+    <div class="footertext">
+      <div class="img-preload">
+        <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/wordpress-rotating-ball-o.svg">
+        <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/disqus-preloader.svg">
+      </div>
+      <p style="color: #666666;">&copy 2018</p>
+    </div>
+    <div class="footer-device">
+    <p style="font-family: 'Ubuntu', sans-serif;">
+        <span style="color: #b9b9b9;">Theme <a href="https://github.com/honjun/hexo-theme-sakura" target="_blank" style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">Sakura</a> <i class="iconfont icon-sakura rotating" style="color: #ffc0cb;display:inline-block"></i> by <a href="https://2heng.xin/" target="_blank" style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">Mashiro</a>&<a href="https://www.hojun.cn/" target="_blank" style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">Hojun</a>, Powered by Hexo, Hosted by Coding Pages</a>
+        </span>
+      </p>
+    </div>
+  </div><!-- .site-info -->
+</footer>
+
+
+
+<!-- <script src="/js/tocbot.js"></script> -->
+<script type="text/javascript" src="/js/lib.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script type="text/javascript" src="/js/InsightSearch.js"></script>
+<script type="text/javascript" src="/js/jquery.fancybox.min.js"></script>
+<script type="text/javascript" src="/js/zoom.min.js"></script>
+<script type="text/javascript" src="/js/sakura-app.js"></script>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/ctz45562/cdn@2.0.2/js/volantis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+<script src="https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget/autoload.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/yremp/yremp-js@1.5/sakura.js"></script>
+<!-- 不蒜子 网页计数器 -->
+<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script> -->
+<script type="text/javascript">
+/* <![CDATA[ */
+if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+  var Poi = {"pjax":"1","movies":{"url": "https://cdn.jsdelivr.net/gh/honjun/hojun@1.2/Unbroken.mp4","name":"ThreeBody","live":"close"},"windowheight":"fixed","codelamp":"close","ajaxurl":"","order":"asc","formpostion":"bottom"};
+} else {
+  var Poi = {"pjax":"1","movies":{"url": "https://cdn.jsdelivr.net/gh/honjun/hojun@1.2/Unbroken.mp4","name":"ThreeBody","live":"open"},"windowheight":"auto","codelamp":"close","ajaxurl":"","order":"asc","formpostion":"bottom"};
+}
+/* ]]> */
+
+</script>
+<script>
+$(document).ready(function() {
+  if ($(".toc").length > 0 && document.body.clientWidth > 1200) {
+    if ($(".pattern-center").length > 0) { //有图的情况
+      tocbot.init({
+          // Where to render the table of contents.
+          tocSelector: '.toc', // 放置目录的容器
+          // Where to grab the headings to build the table of contents.
+          contentSelector: '.entry-content', // 正文内容所在
+          // Which headings to grab inside of the contentSelector element.
+          scrollSmooth: true,
+          headingSelector: 'h1, h2, h3, h4, h5', // 需要索引的标题级别
+          headingsOffset: -400,
+          scrollSmoothOffset: -85
+      });
+    } else {
+      tocbot.init({
+          // Where to render the table of contents.
+          tocSelector: '.toc', // 放置目录的容器
+          // Where to grab the headings to build the table of contents.
+          contentSelector: '.entry-content', // 正文内容所在
+          // Which headings to grab inside of the contentSelector element.
+          scrollSmooth: true,
+          headingSelector: 'h1, h2, h3, h4, h5', // 需要索引的标题级别
+          headingsOffset: -85,
+          scrollSmoothOffset: -85
+      });
+    }
+    var offsetTop = $('.toc').offset().top - 95;
+    window.onscroll = function() {
+      var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+      if (scrollTop >= offsetTop) {
+        $('.toc').addClass('toc-fixed');
+      } else {
+        $('.toc').removeClass('toc-fixed');
+      }
+    }
+  }
+});
+</script>
+
+    <div class="openNav no-select" style="height: 50px;">
+      <div class="iconflat no-select" style="width: 50px; height: 50px;">
+        <div class="icon"></div>
+      </div>
+      <div class="site-branding search-form-submit">
+        <i class="iconfont js-toggle-search iconsearch icon-search"></i>
+      </div>
+    </div>
+  </section>
+  <div id="mo-nav" class="">
+  <div class="m-avatar">
+    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/favicon.ico">
+  </div>
+  <p style="text-align: center; color: #333; font-weight: 900; font-family: 'Ubuntu', sans-serif; letter-spacing: 1.5px">君の名はSmilecoc</p>
+  <p style="text-align: center; word-spacing: 20px;">
+    
+      
+        <a href="http://github.com/smilecoc" class="fa fa-github" target="_blank" style="color: #333; margin-left:20px"></a>
+      
+        <a href="https://weibo.com/p/1005057275339401/home?from=page_100505&mod=TAB#place" class="fa fa-weibo" target="_blank" style="color: #dd4b39; margin-left:20px"></a>
+      
+        <a href="http://github.com/smilecoc" class="fa fa-qq" target="_blank" style="color: #25c6fe; margin-left:20px"></a>
+      
+    
+  </p>
+  <ul id="menu-new-1" class="menu">
+    
+      <li>
+        <a href="/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-fort-awesome faa-shake" aria-hidden="true"></i>
+            首页
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/archives">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-archive faa-shake" aria-hidden="true"></i>
+            归档
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/categories/技术/">
+                  <i class="fa fa-code" aria-hidden="true"></i>
+                  技术
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/笔记/">
+                  <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                  笔记
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/资源/">
+                  <i class="fa fa-cloud-download" aria-hidden="true"></i>
+                  资源
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/随想/">
+                  <i class="fa fa-commenting-o" aria-hidden="true"></i>
+                  随想
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/转载/">
+                  <i class="fa fa-book" aria-hidden="true"></i>
+                  转载
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="javascript:;">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-list-ul faa-vertical" aria-hidden="true"></i>
+            清单
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/tags/悦读/">
+                  <i class="fa fa-th-list faa-bounce" aria-hidden="true"></i>
+                  书单
+                </a>
+              </li>
+            
+              <li>
+                <a href="/bangumi/">
+                  <i class="fa fa-film faa-vertical" aria-hidden="true"></i>
+                  番组
+                </a>
+              </li>
+            
+              <li>
+                <a href="/music/">
+                  <i class="fa fa-headphones" aria-hidden="true"></i>
+                  歌单
+                </a>
+              </li>
+            
+              <li>
+                <a href="/tags/图集/">
+                  <i class="fa fa-photo" aria-hidden="true"></i>
+                  图集
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="/comment/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-pencil-square-o faa-tada" aria-hidden="true"></i>
+            留言板
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/links/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-link faa-shake" aria-hidden="true"></i>
+            友人帐
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/donate/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-heart faa-pulse" aria-hidden="true"></i>
+            赞赏
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-leaf faa-wrench" aria-hidden="true"></i>
+            关于
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/about/">
+                  <i class="fa fa-meetup" aria-hidden="true"></i>
+                  我？
+                </a>
+              </li>
+            
+              <li>
+                <a href="/lab/">
+                  <i class="fa fa-cogs" aria-hidden="true"></i>
+                  Lab
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="/client/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-android faa-vertical" aria-hidden="true"></i>
+            客户端
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/atom.xml">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-rss faa-pulse" aria-hidden="true"></i>
+            RSS
+          </span>
+        </a>
+        
+      </li>
+    
+  </ul>
+  <p style="text-align: center; font-size: 13px; color: #b9b9b9;">&copy 2019 hexo-sakura</p>
+</div>
+<button onclick="topFunction()" class="mobile-cd-top" id="moblieGoTop" title="Go to top" style="display: none;"><i class="fa fa-chevron-up" aria-hidden="true"></i></button>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+<style>
+  .aplayer .aplayer-lrc {
+    height: 35px;
+  }
+  .aplayer .aplayer-lrc p{
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 18px !important;
+  }
+  .aplayer .aplayer-lrc p.aplayer-lrc-current{
+    color: #FF1493;
+  }
+  .aplayer.aplayer-narrow .aplayer-body{
+    left: -66px !important;
+  }
+  .aplayer.aplayer-fixed .aplayer-lrc {
+    display: none;
+  }
+  .aplayer .aplayer-lrc.aplayer-lrc-hide {
+      display:none !important;
+  }
+  .aplayer.aplayer-fixed .lrc-show {
+    display: block;
+    background: rgba(255, 255, 255, 0.8);
+  }
+</style>
+<div class="aplayer"
+
+    data-id="953999592"
+
+    data-server="netease"
+
+    data-type="playlist"
+
+    data-fixed="true"
+
+    data-autoplay="false"
+
+    data-loop="all"
+
+    data-order="random"
+
+    data-preload="true"
+
+    data-volume="0.7"
+
+    data-mutex="true"
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script>
+<script>
+  $(function(){
+    $('body').on('click', '.aplayer', function(){
+      if($('.aplayer-button').hasClass('aplayer-play')) {
+        $('.aplayer-lrc').removeClass('lrc-show');
+      } else {
+        $('.aplayer-lrc').addClass('lrc-show');
+      }
+    })
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta name="baidu-site-verification" content="y0z4MO0APm">
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  
+  <title itemprop="name">一张图彻底搞懂 MySQL 的锁机制 | Smilecoc&#39;s Blog</title>
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+SerifMerriweather|Merriweather+Sans|Source+Code+Pro|Ubuntu:400,700|Noto+Serif+SC" media="all">
+  <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+  <link rel="stylesheet" id="saukra_css-css" href="/css/style.css" type="text/css" media="all">
+  <link rel="stylesheet" href="/css/lib.min.css" media="all">
+  <link rel="stylesheet" href="/css/font.css" media="all">
+  <link rel="stylesheet" href="/css/insight.css" media="all">
+  <link rel="stylesheet" href="/css/jquery.fancybox.min.css" media="all">
+  <link rel="stylesheet" href="/css/zoom.css" media="all">
+  <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<!--   <link rel="stylesheet" id="saukra_css-css" href="https://2heng.xin/wp-content/cache/autoptimize/css/autoptimize_ad42a61f4c7d4bdd9f91afcff6b5dda5.css
+" type="text/css" media="all"> -->
+  <script>
+  /*Initial Variables*/
+  var mashiro_option = new Object();
+  var mashiro_global = new Object();
+  mashiro_option.NProgressON = true;
+  /* 
+   * 邮箱信息之类的东西可以填在这里，这些js变量基本都作用于sakura-app.js
+   * 这样的设置仅是为了方便在基于PHP开发的主题中设置js变量，既然移植到了Node上，我想或许可以精简这一逻辑吧
+   */
+  mashiro_option.email_domain = "";
+  mashiro_option.email_name = "";
+  mashiro_option.cookie_version_control = "";
+  mashiro_option.qzone_autocomplete = false;
+  mashiro_option.site_name = "君の名はSmilecoc";
+  mashiro_option.author_name = "Smilecoc";
+  mashiro_option.site_url = "https://smilecoc.github.io/";
+  mashiro_option.v_appId = "Hm83GoGeDX3sGPDh3Q50lSMz-gzGzoHsz";
+  mashiro_option.v_appKey = "mXIVaYaFj1DNyH6yBicfUS0w";
+  mashiro_option.mathjax = "0";
+  mashiro_option.qq_api_url = "https://api.mashiro.top/qqinfo/"; 
+  mashiro_option.qq_avatar_api_url = "https://api.mashiro.top/qqinfo/";
+
+  // mashiro_option.jsdelivr_css_src = "https://cdn.jsdelivr.net/gh/moezx/cdn@3.4.5/css/lib.min.css";
+  // mashiro_option.float_player_on = true;
+
+  /*End of Initial Variables*/
+  </script>
+  <script type="text/javascript">
+  var bg = "https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/1.jpg,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/2.jpg,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/3.jpg,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/4.jpg,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/5.webp,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/6.jpg,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/7.webp,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/8.jpg".split(",");
+  var bgindex = Math.floor(Math.random()*bg.length);
+  if (!!window.ActiveXObject || "ActiveXObject" in window) { //is IE?
+    alert('朋友，IE浏览器未适配哦~');
+  }
+  </script>
+  <style type="text/css">
+  .hljs-ln{border-collapse:collapse}.hljs-ln td{padding:0}.hljs-ln-n:before{content:attr(data-line-number)}
+  </style>
+  <style type="text/css">.site-top .lower nav{display:block !important;}.author-profile i,.post-like a,.post-share .show-share,.sub-text,.we-info a,span.sitename,.post-more i:hover,#pagination a:hover,.post-content a:hover,.float-content i:hover{color:#FE9600}.feature i,.download,.navigator i:hover,.links ul li:before,.ar-time i,span.ar-circle,.object,.comment .comment-reply-link,.siren-checkbox-radio:checked + .siren-checkbox-radioInput:after{background:#FE9600}::-webkit-scrollbar-thumb{background:#FE9600}.download,.navigator i:hover,.link-title,.links ul li:hover,#pagination a:hover,.comment-respond input[type='submit']:hover{border-color:#FE9600}.entry-content a:hover,.site-info a:hover,.comment h4 a,#comments-navi a.prev,#comments-navi a.next,.comment h4 a:hover,.site-top ul li a:hover,.entry-title a:hover,#archives-temp h3,span.page-numbers.current,.sorry li a:hover,.site-title a:hover,i.iconfont.js-toggle-search.iconsearch:hover,.comment-respond input[type='submit']:hover{color:#FE9600}.comments .comments-main{display:block !important;}.comments .comments-hidden{display:none !important;}background-position:center center;background-attachment:inherit;}
+  </style>
+<link rel="alternate" href="/atom.xml" title="Smilecoc's Blog" type="application/atom+xml">
+</head>
+</html>
+<body class="page-template page-template-user page-template-page-analytics page-template-userpage-analytics-php page page-id-1297 chinese-font serif isWebKit">
+  <div class="skin-menu no-select" id="mainskin" style="position: fixed"> 
+    <div class="theme-controls row-container">
+          <p style="text-align:center;font-family:'Monaco';font-weight:bold;color:#444"><i style="color:grey" class="fa fa-chevron-left"></i> background <i style="color:grey" class="fa fa-chevron-right"></i></p>
+        <ul class="menu-list"> <li id="white-bg"> 
+            <i class="fa fa-television" aria-hidden="true">
+            </i>
+            </li> 
+            <li id="sakura-bg"> 
+                <i class="iconfont icon-sakura">
+                </i>
+            </li>
+            <li id="gribs-bg">
+                <i class="fa fa-slack" aria-hidden="true">
+                </i>
+            </li>
+            <li id="KAdots-bg">
+                <i class="iconfont icon-dots">
+                </i>
+            </li>
+            <li id="totem-bg">
+                <i class="fa fa-optin-monster" aria-hidden="true">
+                </i>
+            </li>
+            <li id="pixiv-bg">
+                <i class="iconfont icon-pixiv">
+                </i>
+            </li>
+            <li id="bing-bg">
+                <i class="iconfont icon-bing">
+                </i>
+            </li>
+            <li id="dark-bg">
+                <i class="fa fa-moon-o" aria-hidden="true">
+                </i>
+            </li>
+        </ul>
+    </div>
+    <canvas id="night-mode-cover">
+    </canvas>
+</div>
+ 
+  <div class="changeSkin-gear no-select"> 
+    <div class="keys" id="setbtn"> 
+        <span id="open-skinMenu"> 
+            SCHEME TOOL | 主题工具 &nbsp;
+            <i class="iconfont icon-gear inline-block rotating">
+            </i> 
+        </span>
+    </div> 
+</div>
+
+  <div class="scrollbar" id="bar">
+  </div>
+  <a href="#" class="cd-top faa-float animated"></a>
+  <section id="main-container">
+    <div class="headertop ">
+  <div id="banner_wave_1"></div>
+  <div id="banner_wave_2"></div>
+  <figure id="centerbg" class="centerbg">
+    <div class="focusinfo no-select">
+      <div class="header-tou">
+        <a href="https://smilecoc.github.io/">
+          <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/favicon.ico">
+        </a>
+      </div>
+      <div class="header-info">
+        <p>今でもあなたはわたしの光  时至今日，你仍是我的光</p>
+        <div class="top-social_v2">
+          <li id="bg-pre">
+            <img class="flipx" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/next-b.svg">
+          </li>
+          
+            
+              
+                <li>
+                  <a href="http://github.com/smilecoc" target="_blank" class="social-github" title="github">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/social/github.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="https://weibo.com/p/1005057275339401/home?from=page_100505&amp;mod=TAB#place" target="_blank" class="social-github" title="sina">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/social/sina.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="https://music.163.com/#/user/home?id=615928150" target="_blank" class="social-github" title="wangyiyun">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/social/wangyiyun.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="https://www.zhihu.com/people/lai-10086tou-su-4/activities" target="_blank" class="social-github" title="zhihu">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/social/zhihu.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="http://github.com/smilecoc" target="_blank" class="social-github" title="email">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/social/email.svg">
+                  </a>
+                </li>
+              
+            
+              
+                <li class="wechat">
+                  <a href="/#">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/social/wechat.png">
+                  </a>
+                  <div class="wechatInner">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/wechat.jfif">
+                  </div>
+                </li>
+              
+            
+          
+          <li id="bg-next">
+            <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/next-b.svg">
+          </li>
+        </div>
+      </div>
+    </div>
+  </figure>
+  <div id="video-container" style="">
+    <video style="object-fit: fill" id="bgvideo" class="video" video-name="" src="" width="auto" preload="auto">
+    </video>
+    <div id="video-btn" class="loadvideo videolive">
+    </div>
+    <div id="video-add">
+    </div>
+    <div class="video-stu">
+    </div>
+  </div>
+  <div class="headertop-down faa-float animated" onclick="headertop_down()">
+    <span>
+      <i class="fa fa-chevron-down" aria-hidden="true">
+      </i>
+    </span>
+  </div>
+</div>
+    <div id="page" class="site wrapper">
+      <header class="site-header no-select gizle sabit" role="banner">
+  <div class="site-top">
+    <div class="site-branding">
+      <span class="site-title">
+        <span class="logolink moe-mashiro">
+          <a href="/">
+            <span class="sakurasono">君の名は</span>
+            <span class="shironeko">Smilecoc</span>
+          </a>
+        </span>
+      </span>
+    </div>
+    <div class="searchbox search-form-submit">
+      <i class="iconfont js-toggle-search iconsearch icon-search">
+      </i>
+    </div>
+    <div id="show-nav" class="showNav mobile-fit">
+      <div class="line line1">
+      </div>
+      <div class="line line2">
+      </div>
+      <div class="line line3">
+      </div>
+    </div>
+    <div class="lower-cantiner">
+      <div class="lower">
+        <nav class="mobile-fit-control hide">
+          <ul id="menu-new" class="menu">
+            
+              <li>
+                <a href="/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-fort-awesome faa-shake" aria-hidden="true"></i>
+                    首页
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-archive faa-shake" aria-hidden="true"></i>
+                    归档
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/categories/技术/">
+                          <i class="fa fa-code" aria-hidden="true"></i>
+                          技术
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/笔记/">
+                          <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                          笔记
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/资源/">
+                          <i class="fa fa-cloud-download" aria-hidden="true"></i>
+                          资源
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/随想/">
+                          <i class="fa fa-commenting-o" aria-hidden="true"></i>
+                          随想
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/转载/">
+                          <i class="fa fa-book" aria-hidden="true"></i>
+                          转载
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="javascript:;">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-list-ul faa-vertical" aria-hidden="true"></i>
+                    清单
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/tags/悦读/">
+                          <i class="fa fa-th-list faa-bounce" aria-hidden="true"></i>
+                          书单
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/bangumi/">
+                          <i class="fa fa-film faa-vertical" aria-hidden="true"></i>
+                          番组
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/music/">
+                          <i class="fa fa-headphones" aria-hidden="true"></i>
+                          歌单
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/tags/图集/">
+                          <i class="fa fa-photo" aria-hidden="true"></i>
+                          图集
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="/comment/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-pencil-square-o faa-tada" aria-hidden="true"></i>
+                    留言板
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/links/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-link faa-shake" aria-hidden="true"></i>
+                    友人帐
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/donate/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-heart faa-pulse" aria-hidden="true"></i>
+                    赞赏
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-leaf faa-wrench" aria-hidden="true"></i>
+                    关于
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/about/">
+                          <i class="fa fa-meetup" aria-hidden="true"></i>
+                          我？
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/lab/">
+                          <i class="fa fa-cogs" aria-hidden="true"></i>
+                          Lab
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="/client/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-android faa-vertical" aria-hidden="true"></i>
+                    客户端
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/atom.xml">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-rss faa-pulse" aria-hidden="true"></i>
+                    RSS
+                  </span>
+                </a>
+                
+              </li>
+            
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<div class="pattern-center-blank"></div>
+
+  <div class="pattern-center single-center">
+    <!-- 有配图默认渲染第一张 -->
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.7/images/article/sqllock20200709.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.7/images/article/sqllock20200709.jpg">
+    </div>
+    <header class="pattern-header single-header">
+      <h1 class="entry-title">
+      一张图彻底搞懂 MySQL 的锁机制</h1>
+      <p class="entry-census">
+        <span>
+          <a href="http://smilecoc.vip/">
+            <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico">
+          </a>
+        </span>
+        <span>
+          <a href="http://smilecoc.vip/">smilecoc</a>
+        </span>
+        <span class="bull">
+        ·</span>
+        2020-7-9<span class="bull">
+        ·</span>
+      <span id="busuanzi_value_page_pv"></span>次阅读</p>
+    </header>
+  </div>
+
+<div id="content" class="site-content">
+  <div id="primary" class="content-area">
+    <main id="main" class="site-main" role="main">
+      <article id="post-1" class="post-1 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+        <div class="toc"></div>
+        <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
+        
+        <div class="entry-content">
+          <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>锁在MySQL中是非常重要的一部分，锁对MySQL的数据访问并发有着举足轻重的影响。锁涉及到的知识篇幅也很多，所以要啃完并消化到自己的肚子里，是需要静下心好好反反复复几遍地细细品味。本文是对锁的一个大概的整理，一些相关深入的细节，还是需要找到相关书籍来继续夯实。</p>
+<h1 id="一张图了解-MySQL-锁"><a href="#一张图了解-MySQL-锁" class="headerlink" title="一张图了解 MySQL 锁"></a>一张图了解 MySQL 锁</h1><p><img src="https://img-blog.csdnimg.cn/20200708161102941.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h1 id="锁的认识"><a href="#锁的认识" class="headerlink" title="锁的认识"></a>锁的认识</h1><h2 id="1-1-锁的解释"><a href="#1-1-锁的解释" class="headerlink" title="1.1 锁的解释"></a>1.1 锁的解释</h2><p>计算机协调多个进程或线程并发访问某一资源的机制。</p>
+<h2 id="1-2-锁的重要性"><a href="#1-2-锁的重要性" class="headerlink" title="1.2 锁的重要性"></a>1.2 锁的重要性</h2><p>在数据库中，除传统计算资源（CPU、RAM、I\O等）的争抢，数据也是一种供多用户共享的资源。<br>如何保证数据并发访问的一致性，有效性，是所有数据库必须要解决的问题。<br>锁冲突也是影响数据库并发访问性能的一个重要因素，因此锁对数据库尤其重要。</p>
+<h2 id="1-3-锁的缺点"><a href="#1-3-锁的缺点" class="headerlink" title="1.3 锁的缺点"></a>1.3 锁的缺点</h2><p>加锁是消耗资源的，锁的各种操作，包括获得锁、检测锁是否已解除、释放锁等 ，都会增加系统的开销。</p>
+<h2 id="1-4-简单的例子"><a href="#1-4-简单的例子" class="headerlink" title="1.4 简单的例子"></a>1.4 简单的例子</h2><p>现如今网购已经特别普遍了，比如淘宝双十一活动，当天的人流量是千万及亿级别的，但商家的库存是有限的。<br>系统为了保证商家的商品库存不发生超卖现象，会对商品的库存进行锁控制。当有用户正在下单某款商品最后一件时，<br>系统会立马对该件商品进行锁定，防止其他用户也重复下单，直到支付动作完成才会释放（支付成功则立即减库存售罄，支付失败则立即释放）。</p>
+<h1 id="锁的类型"><a href="#锁的类型" class="headerlink" title="锁的类型"></a>锁的类型</h1><h2 id="2-1-表锁"><a href="#2-1-表锁" class="headerlink" title="2.1 表锁"></a>2.1 表锁</h2><h3 id="种类"><a href="#种类" class="headerlink" title="种类"></a>种类</h3><ol>
+<li>读锁（read lock），也叫共享锁（shared lock）。针对同一份数据，多个读操作可以同时进行而不会互相影响（select）</li>
+<li>写锁（write lock），也叫排他锁（exclusive lock）。当前操作没完成之前，会阻塞其它读和写操作（update、insert、delete）</li>
+</ol>
+<h3 id="存储引擎默认锁"><a href="#存储引擎默认锁" class="headerlink" title="存储引擎默认锁"></a>存储引擎默认锁</h3><p>MyISAM</p>
+<h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><ol>
+<li>对整张表加锁</li>
+<li>开销小</li>
+<li>加锁快</li>
+<li>无死锁</li>
+<li>锁粒度大，发生锁冲突概率大，并发性低</li>
+</ol>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><ol>
+<li>读锁会阻塞写操作，不会阻塞读操作</li>
+<li>写锁会阻塞读和写操作</li>
+</ol>
+<h3 id="建议"><a href="#建议" class="headerlink" title="建议"></a>建议</h3><p>MyISAM的读写锁调度是写优先，这也是MyISAM不适合做写为主表的引擎，因为写锁以后，其它线程不能做任何操作，大量的更新使查询很难得到锁，从而造成永远阻塞。</p>
+<h2 id="2-2-行锁"><a href="#2-2-行锁" class="headerlink" title="2.2 行锁"></a>2.2 行锁</h2><h3 id="种类-1"><a href="#种类-1" class="headerlink" title="种类"></a>种类</h3><ol>
+<li>读锁（read lock），也叫共享锁（shared lock）。允许一个事务去读一行，阻止其他事务获得相同数据集的排他锁</li>
+<li>写锁（write lock），也叫排他锁（exclusive lock）。允许获得排他锁的事务更新数据，阻止其他事务取得相同数据集的共享锁和排他锁</li>
+<li>意向共享锁（IS），一个事务给一个数据行加共享锁时，必须先获得表的IS锁</li>
+<li>意向排它锁（IX），一个事务给一个数据行加排他锁时，必须先获得该表的IX锁</li>
+</ol>
+<h3 id="存储引擎默认锁-1"><a href="#存储引擎默认锁-1" class="headerlink" title="存储引擎默认锁"></a>存储引擎默认锁</h3><p>InnoDB</p>
+<h3 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h3><ol>
+<li>对一行数据加锁</li>
+<li>开销大</li>
+<li>加锁慢</li>
+<li>会出现死锁</li>
+<li>锁粒度小，发生锁冲突概率最低，并发性高</li>
+</ol>
+<h3 id="事务并发带来的问题"><a href="#事务并发带来的问题" class="headerlink" title="事务并发带来的问题"></a>事务并发带来的问题</h3><ol>
+<li>更新丢失<br>解决：让事务变成串行操作，而不是并发的操作，即对每个事务开始—对读取记录加排他锁</li>
+<li>脏读<br>解决：隔离级别为Read uncommitted</li>
+<li>不可重读<br>解决：使用Next-Key Lock算法来避免</li>
+<li>幻读<br>解决：间隙锁（Gap Lock）</li>
+</ol>
+<h2 id="2-3-页锁"><a href="#2-3-页锁" class="headerlink" title="2.3 页锁"></a>2.3 页锁</h2><p>开销、加锁时间和锁粒度介于表锁和行锁之间，会出现死锁，并发处理能力一般（此锁不做多介绍）</p>
+<h1 id="如何上锁？"><a href="#如何上锁？" class="headerlink" title="如何上锁？"></a>如何上锁？</h1><h2 id="3-1-表锁"><a href="#3-1-表锁" class="headerlink" title="3.1 表锁"></a>3.1 表锁</h2><h3 id="隐式上锁（默认，自动加锁自动释放）"><a href="#隐式上锁（默认，自动加锁自动释放）" class="headerlink" title="隐式上锁（默认，自动加锁自动释放）"></a>隐式上锁（默认，自动加锁自动释放）</h3><p>select //上读锁<br>insert、update、delete //上写锁</p>
+<h3 id="显式上锁（手动）"><a href="#显式上锁（手动）" class="headerlink" title="显式上锁（手动）"></a>显式上锁（手动）</h3><pre><code>lock table tableName read;//读锁
+lock table tableName write;//写锁</code></pre><h3 id="解锁（手动）"><a href="#解锁（手动）" class="headerlink" title="解锁（手动）"></a>解锁（手动）</h3><pre><code>unlock tables;//所有锁表</code></pre><table>
+<thead>
+<tr>
+<th>session01</th>
+<th>session02</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>lock table teacher read;//上读锁</td>
+<td></td>
+</tr>
+<tr>
+<td>select * from teacher; //可以正常读取</td>
+<td>select * from teacher;//可以正常读取</td>
+</tr>
+<tr>
+<td>update teacher set name = 3 where id =2;//报错因被上读锁不能写操作</td>
+<td>update teacher set name = 3 where id =2;//被阻塞</td>
+</tr>
+<tr>
+<td>unlock tables;//解锁</td>
+<td></td>
+</tr>
+<tr>
+<td>-</td>
+<td>update teacher set name = 3 where id =2;//更新操作成功</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>session01</th>
+<th>session02</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>lock table teacher write;//上写锁</td>
+<td></td>
+</tr>
+<tr>
+<td>select * from teacher; //可以正常读取</td>
+<td>select * from teacher;//被阻塞</td>
+</tr>
+<tr>
+<td>update teacher set name = 3 where id =2;//可以正常更新操作</td>
+<td>update teacher set name = 4 where id =2;//被阻塞</td>
+</tr>
+<tr>
+<td>unlock tables;//解锁</td>
+<td></td>
+</tr>
+<tr>
+<td>&ensp;</td>
+<td>select * from teacher;//读取成功</td>
+</tr>
+<tr>
+<td>&ensp;</td>
+<td>update teacher set name = 4 where id =2;//更新操作成功</td>
+</tr>
+</tbody></table>
+<h2 id="3-2-行锁"><a href="#3-2-行锁" class="headerlink" title="3.2 行锁"></a>3.2 行锁</h2><h3 id="隐式上锁（默认，自动加锁自动释放）-1"><a href="#隐式上锁（默认，自动加锁自动释放）-1" class="headerlink" title="隐式上锁（默认，自动加锁自动释放）"></a>隐式上锁（默认，自动加锁自动释放）</h3><p>select //不会上锁<br>insert、update、delete //上写锁</p>
+<h3 id="显式上锁（手动）-1"><a href="#显式上锁（手动）-1" class="headerlink" title="显式上锁（手动）"></a>显式上锁（手动）</h3><pre><code>select * from tableName lock in share mode;//读锁
+select * from tableName for update;//写锁</code></pre><h3 id="解锁（手动）-1"><a href="#解锁（手动）-1" class="headerlink" title="解锁（手动）"></a>解锁（手动）</h3><ol>
+<li>提交事务（commit）</li>
+<li>回滚事务（rollback）</li>
+<li>kill 阻塞进程</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>session01</th>
+<th>session02</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>begin;</td>
+<td></td>
+</tr>
+<tr>
+<td>select * from teacher where id = 2 lock in share mode;//上读锁</td>
+<td></td>
+</tr>
+<tr>
+<td>&ensp;</td>
+<td>select * from teacher where id = 2;//可以正常读取</td>
+</tr>
+<tr>
+<td>update teacher set name = 3 where id =2;// 可以更新操作</td>
+<td>update teacher set name = 5 where id =2;//被阻塞</td>
+</tr>
+<tr>
+<td>commit;</td>
+<td></td>
+</tr>
+<tr>
+<td>&ensp;</td>
+<td>update teacher set name = 5 where id =2;//更新操作成功</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>session01</th>
+<th>session02</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>begin;</td>
+<td></td>
+</tr>
+<tr>
+<td>select * from teacher where id = 2 for update;//上写锁</td>
+<td></td>
+</tr>
+<tr>
+<td>&ensp;</td>
+<td>select * from teacher where id = 2;//可以正常读取</td>
+</tr>
+<tr>
+<td>update teacher set name = 3 where id =2;// 可以更新操作</td>
+<td>update teacher set name = 5 where id =2;//被阻塞</td>
+</tr>
+<tr>
+<td>rollback;</td>
+<td></td>
+</tr>
+<tr>
+<td>&ensp;</td>
+<td>update teacher set name = 5 where id =2;//更新操作成功</td>
+</tr>
+</tbody></table>
+<ul>
+<li>为什么上了写锁，别的事务还可以读操作？因为InnoDB有MVCC机制（多版本并发控制），可以使用快照读，而不会被阻塞。</li>
+</ul>
+<h1 id="行锁的实现算法"><a href="#行锁的实现算法" class="headerlink" title="行锁的实现算法"></a>行锁的实现算法</h1><h2 id="4-1-Record-Lock锁"><a href="#4-1-Record-Lock锁" class="headerlink" title="4.1 Record Lock锁"></a>4.1 Record Lock锁</h2><p>单个行记录上的锁<br>Record Lock总是会去锁住索引记录，如果InnoDB存储引擎表建立的时候没有设置任何一个索引，这时InnoDB存储引擎会使用隐式的主键来进行锁定</p>
+<h2 id="4-2-Gap-Lock锁"><a href="#4-2-Gap-Lock锁" class="headerlink" title="4.2 Gap Lock锁"></a>4.2 Gap Lock锁</h2><p>当我们用范围条件而不是相等条件检索数据，并请求共享或排他锁时，InnoDB会给符合条件的已有数据记录的索引加锁，对于键值在条件范围内但并不存在的记录。</p>
+<p>优点：解决了事务并发的幻读问题<br>不足：因为query执行过程中通过范围查找的话，他会锁定争个范围内所有的索引键值，即使这个键值并不存在。</p>
+<p>间隙锁有一个致命的弱点，就是当锁定一个范围键值之后，即使某些不存在的键值也会被无辜的锁定，而造成锁定的时候无法插入锁定键值范围内任何数据。在某些场景下这可能会对性能造成很大的危害。</p>
+<h2 id="4-3-Next-key-Lock锁"><a href="#4-3-Next-key-Lock锁" class="headerlink" title="4.3 Next-key Lock锁"></a>4.3 Next-key Lock锁</h2><p>同时锁住数据+间隙锁<br>在Repeatable Read隔离级别下，Next-key Lock 算法是默认的行记录锁定算法。</p>
+<h2 id="4-4-行锁的注意点"><a href="#4-4-行锁的注意点" class="headerlink" title="4.4 行锁的注意点"></a>4.4 行锁的注意点</h2><ol>
+<li>只有通过索引条件检索数据时，InnoDB才会使用行级锁，否则会使用表级锁(索引失效，行锁变表锁)</li>
+<li>即使是访问不同行的记录，如果使用的是相同的索引键，会发生锁冲突</li>
+<li>如果数据表建有多个索引时，可以通过不同的索引锁定不同的行</li>
+</ol>
+<h1 id="如何排查锁？"><a href="#如何排查锁？" class="headerlink" title="如何排查锁？"></a>如何排查锁？</h1><h2 id="5-1-表锁"><a href="#5-1-表锁" class="headerlink" title="5.1 表锁"></a>5.1 表锁</h2><h3 id="查看表锁情况"><a href="#查看表锁情况" class="headerlink" title="查看表锁情况"></a>查看表锁情况</h3><pre><code>show open tables;</code></pre><p><img src="https://img-blog.csdnimg.cn/20200708172144793.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="一张图彻底搞懂 MySQL 的锁机制"></p>
+<h3 id="表锁分析"><a href="#表锁分析" class="headerlink" title="表锁分析"></a>表锁分析</h3><pre><code>show status like &#39;table%&#39;;</code></pre><p><img src="https://img-blog.csdnimg.cn/20200708172234239.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<ol>
+<li>table_locks_waited<br>出现表级锁定争用而发生等待的次数（不能立即获取锁的次数，每等待一次值加1），此值高说明存在着较严重的表级锁争用情况</li>
+<li>table_locks_immediate<br>产生表级锁定次数，不是可以立即获取锁的查询次数，每立即获取锁加1</li>
+</ol>
+<h2 id="5-2-行锁"><a href="#5-2-行锁" class="headerlink" title="5.2 行锁"></a>5.2 行锁</h2><h3 id="行锁分析"><a href="#行锁分析" class="headerlink" title="行锁分析"></a>行锁分析</h3><pre><code>show status like &#39;innodb_row_lock%&#39;;</code></pre><p><img src="https://img-blog.csdnimg.cn/20200708172342577.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<ol>
+<li>innodb_row_lock_current_waits //当前正在等待锁定的数量</li>
+<li>innodb_row_lock_time //从系统启动到现在锁定总时间长度</li>
+<li>innodb_row_lock_time_avg //每次等待所花平均时间</li>
+<li>innodb_row_lock_time_max //从系统启动到现在等待最长的一次所花时间</li>
+<li>innodb_row_lock_waits //系统启动后到现在总共等待的次数</li>
+</ol>
+<h3 id="information-schema库"><a href="#information-schema库" class="headerlink" title="information_schema库"></a>information_schema库</h3><ol>
+<li>innodb_lock_waits表</li>
+<li>innodb_locks表</li>
+<li>innodb_trx表</li>
+</ol>
+<h3 id="优化建议"><a href="#优化建议" class="headerlink" title="优化建议"></a>优化建议</h3><ol>
+<li>尽可能让所有数据检索都通过索引来完成，避免无索引行锁升级为表锁</li>
+<li>合理设计索引，尽量缩小锁的范围</li>
+<li>尽可能较少检索条件，避免间隙锁</li>
+<li>尽量控制事务大小，减少锁定资源量和时间长度</li>
+<li>尽可能低级别事务隔离</li>
+</ol>
+<h1 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h1><h2 id="6-1-解释"><a href="#6-1-解释" class="headerlink" title="6.1 解释"></a>6.1 解释</h2><p>指两个或者多个事务在同一资源上相互占用，并请求锁定对方占用的资源，从而导致恶性循环的现象</p>
+<h2 id="6-2-产生的条件"><a href="#6-2-产生的条件" class="headerlink" title="6.2 产生的条件"></a>6.2 产生的条件</h2><ol>
+<li>互斥条件：一个资源每次只能被一个进程使用</li>
+<li>请求与保持条件：一个进程因请求资源而阻塞时，对已获得的资源保持不放</li>
+<li>不剥夺条件：进程已获得的资源，在没有使用完之前，不能强行剥夺</li>
+<li>循环等待条件：多个进程之间形成的一种互相循环等待的资源的关系</li>
+</ol>
+<h2 id="6-3-解决"><a href="#6-3-解决" class="headerlink" title="6.3 解决"></a>6.3 解决</h2><ol>
+<li>查看死锁：show engine innodb status \G</li>
+<li>自动检测机制，超时自动回滚代价较小的事务（innodb_lock_wait_timeout 默认50s）</li>
+<li>人为解决，kill阻塞进程（show processlist）</li>
+<li>wait for graph 等待图（主动检测）</li>
+</ol>
+<h2 id="6-4-如何避免"><a href="#6-4-如何避免" class="headerlink" title="6.4 如何避免"></a>6.4 如何避免</h2><ol>
+<li>加锁顺序一致，尽可能一次性锁定所需的数据行</li>
+<li>尽量基于primary（主键）或unique key更新数据</li>
+<li>单次操作数据量不宜过多，涉及表尽量少</li>
+<li>减少表上索引，减少锁定资源</li>
+<li>尽量使用较低的隔离级别</li>
+<li>尽量使用相同条件访问数据，这样可以避免间隙锁对并发的插入影响</li>
+<li>精心设计索引，尽量使用索引访问数据</li>
+<li>借助相关工具：pt-deadlock-logger</li>
+</ol>
+<h1 id="乐观锁与悲观锁"><a href="#乐观锁与悲观锁" class="headerlink" title="乐观锁与悲观锁"></a>乐观锁与悲观锁</h1><p><img src="https://img-blog.csdnimg.cn/20200708172548187.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2 id="7-1-悲观锁"><a href="#7-1-悲观锁" class="headerlink" title="7.1 悲观锁"></a>7.1 悲观锁</h2><h3 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h3><p>假定会发生并发冲突，屏蔽一切可能违反数据完整性的操作</p>
+<h3 id="实现机制"><a href="#实现机制" class="headerlink" title="实现机制"></a>实现机制</h3><p>表锁、行锁等</p>
+<h3 id="实现层面"><a href="#实现层面" class="headerlink" title="实现层面"></a>实现层面</h3><p>数据库本身</p>
+<h3 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h3><p>并发量大</p>
+<h2 id="7-2-乐观锁"><a href="#7-2-乐观锁" class="headerlink" title="7.2 乐观锁"></a>7.2 乐观锁</h2><h3 id="解释-1"><a href="#解释-1" class="headerlink" title="解释"></a>解释</h3><p>假设不会发生并发冲突，只在提交操作时检查是否违反数据完整性</p>
+<h3 id="实现机制-1"><a href="#实现机制-1" class="headerlink" title="实现机制"></a>实现机制</h3><p>提交更新时检查版本号或者时间戳是否符合</p>
+<h3 id="实现层面-1"><a href="#实现层面-1" class="headerlink" title="实现层面"></a>实现层面</h3><p>业务代码</p>
+<h3 id="适用场景-1"><a href="#适用场景-1" class="headerlink" title="适用场景"></a>适用场景</h3><p>并发量小</p>
+<p>原文地址：<a href="https://developer.aliyun.com/article/741811" target="_blank" rel="noopener">https://developer.aliyun.com/article/741811</a></p>
+
+        </div>
+        <!-- .entry-content -->
+        <div class="single-reward">
+          <div class="reward-open">赏<div class="reward-main">
+              <ul class="reward-row">
+                <li class="alipay-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/AliPayQR.jpg"></li>
+                <li class="wechat-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/wechatpayQR.jpg"></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
+        <footer class="post-footer">
+          <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
+          <div class="post-tags">
+          </div>
+          <div class="post-share">
+            <div class="social-share sharehidden share-component"></div>
+            <i class="iconfont show-share icon-forward"></i>
+          </div>
+        </footer><!-- .entry-footer -->
+      </article>
+      <!-- #post-## -->
+      <div class="toc" style="background: none;"></div>
+      <section class="post-squares nextprev">
+        
+          
+            <div class="post-nepre half previous">
+          
+            <a href="/2020/07/13/removebg库/" rel="prev">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.8/images/article/removebg20200720.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.8/images/article/removebg20200720.jpg">
+              </div>
+              <span class="label">
+              Previous Post</span>
+              <div class="info">
+                <h3>
+                removebg库：一键抠图&amp;换证件照底色</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+        
+          
+            <div class="post-nepre half next">
+          
+            <a href="/2020/06/23/SQL  server中的模式架构schema详解/" rel="next">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.6/images/article/sql_schema20200622.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.6/images/article/sql_schema20200622.jpg">
+              </div>
+              <span class="label">
+              Next Post</span>
+              <div class="info">
+                <h3>
+                SQL server中的模式架构schema详解</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+      </section>
+      
+<div id="vcomments"></div>
+<script>
+  window.onload = function(){
+      var valine = new Valine();
+      valine.init({
+        el: '#vcomments',
+        appId: "Hm83GoGeDX3sGPDh3Q50lSMz-gzGzoHsz",
+        appKey: "mXIVaYaFj1DNyH6yBicfUS0w",
+        path: window.location.pathname,
+        placeholder: "你是我一生只会遇见一次的惊喜 ..."
+      })
+  }
+</script>
+
+      <section class="author-profile">
+        <div class="info" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <a href="http://smilecoc.vip/" class="profile gravatar"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico" itemprop="image" alt="smilecoc" height="70" width="70"></a>
+          <div class="meta">
+            <span class="title">Author</span>
+            <h3 itemprop="name">
+            <a href="http://smilecoc.vip/" itemprop="url" rel="author">smilecoc</a>
+            </h3>
+          </div>
+        </div>
+        <hr>
+        <p><i class="iconfont icon-write"></i></p>
+      </section>
+    </main><!-- #main -->
+  </div><!-- #primary -->
+</div>
+
+
+
+    </div>    
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="请输入关键词..."/>
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            // PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+    <!-- <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Smilecoc<br>
+      powered_by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer> -->
+<footer id="colophon" class="site-footer" role="contentinfo">
+  <div class="site-info">
+    <div class="footertext">
+      <div class="img-preload">
+        <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/wordpress-rotating-ball-o.svg">
+        <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/disqus-preloader.svg">
+      </div>
+      <p style="color: #666666;">&copy 2018</p>
+    </div>
+    <div class="footer-device">
+    <p style="font-family: 'Ubuntu', sans-serif;">
+        <span style="color: #b9b9b9;">Theme <a href="https://github.com/honjun/hexo-theme-sakura" target="_blank" style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">Sakura</a> <i class="iconfont icon-sakura rotating" style="color: #ffc0cb;display:inline-block"></i> by <a href="https://2heng.xin/" target="_blank" style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">Mashiro</a>&<a href="https://www.hojun.cn/" target="_blank" style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">Hojun</a>, Powered by Hexo, Hosted by Coding Pages</a>
+        </span>
+      </p>
+    </div>
+  </div><!-- .site-info -->
+</footer>
+
+
+
+<!-- <script src="/js/tocbot.js"></script> -->
+<script type="text/javascript" src="/js/lib.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script type="text/javascript" src="/js/InsightSearch.js"></script>
+<script type="text/javascript" src="/js/jquery.fancybox.min.js"></script>
+<script type="text/javascript" src="/js/zoom.min.js"></script>
+<script type="text/javascript" src="/js/sakura-app.js"></script>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/ctz45562/cdn@2.0.2/js/volantis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+<script src="https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget/autoload.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/yremp/yremp-js@1.5/sakura.js"></script>
+<!-- 不蒜子 网页计数器 -->
+<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script> -->
+<script type="text/javascript">
+/* <![CDATA[ */
+if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+  var Poi = {"pjax":"1","movies":{"url": "https://cdn.jsdelivr.net/gh/honjun/hojun@1.2/Unbroken.mp4","name":"ThreeBody","live":"close"},"windowheight":"fixed","codelamp":"close","ajaxurl":"","order":"asc","formpostion":"bottom"};
+} else {
+  var Poi = {"pjax":"1","movies":{"url": "https://cdn.jsdelivr.net/gh/honjun/hojun@1.2/Unbroken.mp4","name":"ThreeBody","live":"open"},"windowheight":"auto","codelamp":"close","ajaxurl":"","order":"asc","formpostion":"bottom"};
+}
+/* ]]> */
+
+</script>
+<script>
+$(document).ready(function() {
+  if ($(".toc").length > 0 && document.body.clientWidth > 1200) {
+    if ($(".pattern-center").length > 0) { //有图的情况
+      tocbot.init({
+          // Where to render the table of contents.
+          tocSelector: '.toc', // 放置目录的容器
+          // Where to grab the headings to build the table of contents.
+          contentSelector: '.entry-content', // 正文内容所在
+          // Which headings to grab inside of the contentSelector element.
+          scrollSmooth: true,
+          headingSelector: 'h1, h2, h3, h4, h5', // 需要索引的标题级别
+          headingsOffset: -400,
+          scrollSmoothOffset: -85
+      });
+    } else {
+      tocbot.init({
+          // Where to render the table of contents.
+          tocSelector: '.toc', // 放置目录的容器
+          // Where to grab the headings to build the table of contents.
+          contentSelector: '.entry-content', // 正文内容所在
+          // Which headings to grab inside of the contentSelector element.
+          scrollSmooth: true,
+          headingSelector: 'h1, h2, h3, h4, h5', // 需要索引的标题级别
+          headingsOffset: -85,
+          scrollSmoothOffset: -85
+      });
+    }
+    var offsetTop = $('.toc').offset().top - 95;
+    window.onscroll = function() {
+      var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+      if (scrollTop >= offsetTop) {
+        $('.toc').addClass('toc-fixed');
+      } else {
+        $('.toc').removeClass('toc-fixed');
+      }
+    }
+  }
+});
+</script>
+
+    <div class="openNav no-select" style="height: 50px;">
+      <div class="iconflat no-select" style="width: 50px; height: 50px;">
+        <div class="icon"></div>
+      </div>
+      <div class="site-branding search-form-submit">
+        <i class="iconfont js-toggle-search iconsearch icon-search"></i>
+      </div>
+    </div>
+  </section>
+  <div id="mo-nav" class="">
+  <div class="m-avatar">
+    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/favicon.ico">
+  </div>
+  <p style="text-align: center; color: #333; font-weight: 900; font-family: 'Ubuntu', sans-serif; letter-spacing: 1.5px">君の名はSmilecoc</p>
+  <p style="text-align: center; word-spacing: 20px;">
+    
+      
+        <a href="http://github.com/smilecoc" class="fa fa-github" target="_blank" style="color: #333; margin-left:20px"></a>
+      
+        <a href="https://weibo.com/p/1005057275339401/home?from=page_100505&mod=TAB#place" class="fa fa-weibo" target="_blank" style="color: #dd4b39; margin-left:20px"></a>
+      
+        <a href="http://github.com/smilecoc" class="fa fa-qq" target="_blank" style="color: #25c6fe; margin-left:20px"></a>
+      
+    
+  </p>
+  <ul id="menu-new-1" class="menu">
+    
+      <li>
+        <a href="/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-fort-awesome faa-shake" aria-hidden="true"></i>
+            首页
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/archives">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-archive faa-shake" aria-hidden="true"></i>
+            归档
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/categories/技术/">
+                  <i class="fa fa-code" aria-hidden="true"></i>
+                  技术
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/笔记/">
+                  <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                  笔记
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/资源/">
+                  <i class="fa fa-cloud-download" aria-hidden="true"></i>
+                  资源
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/随想/">
+                  <i class="fa fa-commenting-o" aria-hidden="true"></i>
+                  随想
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/转载/">
+                  <i class="fa fa-book" aria-hidden="true"></i>
+                  转载
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="javascript:;">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-list-ul faa-vertical" aria-hidden="true"></i>
+            清单
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/tags/悦读/">
+                  <i class="fa fa-th-list faa-bounce" aria-hidden="true"></i>
+                  书单
+                </a>
+              </li>
+            
+              <li>
+                <a href="/bangumi/">
+                  <i class="fa fa-film faa-vertical" aria-hidden="true"></i>
+                  番组
+                </a>
+              </li>
+            
+              <li>
+                <a href="/music/">
+                  <i class="fa fa-headphones" aria-hidden="true"></i>
+                  歌单
+                </a>
+              </li>
+            
+              <li>
+                <a href="/tags/图集/">
+                  <i class="fa fa-photo" aria-hidden="true"></i>
+                  图集
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="/comment/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-pencil-square-o faa-tada" aria-hidden="true"></i>
+            留言板
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/links/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-link faa-shake" aria-hidden="true"></i>
+            友人帐
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/donate/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-heart faa-pulse" aria-hidden="true"></i>
+            赞赏
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-leaf faa-wrench" aria-hidden="true"></i>
+            关于
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/about/">
+                  <i class="fa fa-meetup" aria-hidden="true"></i>
+                  我？
+                </a>
+              </li>
+            
+              <li>
+                <a href="/lab/">
+                  <i class="fa fa-cogs" aria-hidden="true"></i>
+                  Lab
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="/client/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-android faa-vertical" aria-hidden="true"></i>
+            客户端
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/atom.xml">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-rss faa-pulse" aria-hidden="true"></i>
+            RSS
+          </span>
+        </a>
+        
+      </li>
+    
+  </ul>
+  <p style="text-align: center; font-size: 13px; color: #b9b9b9;">&copy 2019 hexo-sakura</p>
+</div>
+<button onclick="topFunction()" class="mobile-cd-top" id="moblieGoTop" title="Go to top" style="display: none;"><i class="fa fa-chevron-up" aria-hidden="true"></i></button>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+<style>
+  .aplayer .aplayer-lrc {
+    height: 35px;
+  }
+  .aplayer .aplayer-lrc p{
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 18px !important;
+  }
+  .aplayer .aplayer-lrc p.aplayer-lrc-current{
+    color: #FF1493;
+  }
+  .aplayer.aplayer-narrow .aplayer-body{
+    left: -66px !important;
+  }
+  .aplayer.aplayer-fixed .aplayer-lrc {
+    display: none;
+  }
+  .aplayer .aplayer-lrc.aplayer-lrc-hide {
+      display:none !important;
+  }
+  .aplayer.aplayer-fixed .lrc-show {
+    display: block;
+    background: rgba(255, 255, 255, 0.8);
+  }
+</style>
+<div class="aplayer"
+
+    data-id="953999592"
+
+    data-server="netease"
+
+    data-type="playlist"
+
+    data-fixed="true"
+
+    data-autoplay="false"
+
+    data-loop="all"
+
+    data-order="random"
+
+    data-preload="true"
+
+    data-volume="0.7"
+
+    data-mutex="true"
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script>
+<script>
+  $(function(){
+    $('body').on('click', '.aplayer', function(){
+      if($('.aplayer-button').hasClass('aplayer-play')) {
+        $('.aplayer-lrc').removeClass('lrc-show');
+      } else {
+        $('.aplayer-lrc').addClass('lrc-show');
+      }
+    })
+  });
+</script>
+</body>
+</html>

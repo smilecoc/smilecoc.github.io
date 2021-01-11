@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta name="baidu-site-verification" content="y0z4MO0APm">
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  
+  <title itemprop="name">如何从0开始建立数据库(五)：数据库系统的实现 | Smilecoc&#39;s Blog</title>
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+SerifMerriweather|Merriweather+Sans|Source+Code+Pro|Ubuntu:400,700|Noto+Serif+SC" media="all">
+  <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+  <link rel="stylesheet" id="saukra_css-css" href="/css/style.css" type="text/css" media="all">
+  <link rel="stylesheet" href="/css/lib.min.css" media="all">
+  <link rel="stylesheet" href="/css/font.css" media="all">
+  <link rel="stylesheet" href="/css/insight.css" media="all">
+  <link rel="stylesheet" href="/css/jquery.fancybox.min.css" media="all">
+  <link rel="stylesheet" href="/css/zoom.css" media="all">
+  <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<!--   <link rel="stylesheet" id="saukra_css-css" href="https://2heng.xin/wp-content/cache/autoptimize/css/autoptimize_ad42a61f4c7d4bdd9f91afcff6b5dda5.css
+" type="text/css" media="all"> -->
+  <script>
+  /*Initial Variables*/
+  var mashiro_option = new Object();
+  var mashiro_global = new Object();
+  mashiro_option.NProgressON = true;
+  /* 
+   * 邮箱信息之类的东西可以填在这里，这些js变量基本都作用于sakura-app.js
+   * 这样的设置仅是为了方便在基于PHP开发的主题中设置js变量，既然移植到了Node上，我想或许可以精简这一逻辑吧
+   */
+  mashiro_option.email_domain = "";
+  mashiro_option.email_name = "";
+  mashiro_option.cookie_version_control = "";
+  mashiro_option.qzone_autocomplete = false;
+  mashiro_option.site_name = "君の名はSmilecoc";
+  mashiro_option.author_name = "Smilecoc";
+  mashiro_option.site_url = "https://smilecoc.github.io/";
+  mashiro_option.v_appId = "Hm83GoGeDX3sGPDh3Q50lSMz-gzGzoHsz";
+  mashiro_option.v_appKey = "mXIVaYaFj1DNyH6yBicfUS0w";
+  mashiro_option.mathjax = "0";
+  mashiro_option.qq_api_url = "https://api.mashiro.top/qqinfo/"; 
+  mashiro_option.qq_avatar_api_url = "https://api.mashiro.top/qqinfo/";
+
+  // mashiro_option.jsdelivr_css_src = "https://cdn.jsdelivr.net/gh/moezx/cdn@3.4.5/css/lib.min.css";
+  // mashiro_option.float_player_on = true;
+
+  /*End of Initial Variables*/
+  </script>
+  <script type="text/javascript">
+  var bg = "https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/1.jpg,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/2.jpg,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/3.jpg,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/4.jpg,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/5.webp,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/6.jpg,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/7.webp,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/8.jpg".split(",");
+  var bgindex = Math.floor(Math.random()*bg.length);
+  if (!!window.ActiveXObject || "ActiveXObject" in window) { //is IE?
+    alert('朋友，IE浏览器未适配哦~');
+  }
+  </script>
+  <style type="text/css">
+  .hljs-ln{border-collapse:collapse}.hljs-ln td{padding:0}.hljs-ln-n:before{content:attr(data-line-number)}
+  </style>
+  <style type="text/css">.site-top .lower nav{display:block !important;}.author-profile i,.post-like a,.post-share .show-share,.sub-text,.we-info a,span.sitename,.post-more i:hover,#pagination a:hover,.post-content a:hover,.float-content i:hover{color:#FE9600}.feature i,.download,.navigator i:hover,.links ul li:before,.ar-time i,span.ar-circle,.object,.comment .comment-reply-link,.siren-checkbox-radio:checked + .siren-checkbox-radioInput:after{background:#FE9600}::-webkit-scrollbar-thumb{background:#FE9600}.download,.navigator i:hover,.link-title,.links ul li:hover,#pagination a:hover,.comment-respond input[type='submit']:hover{border-color:#FE9600}.entry-content a:hover,.site-info a:hover,.comment h4 a,#comments-navi a.prev,#comments-navi a.next,.comment h4 a:hover,.site-top ul li a:hover,.entry-title a:hover,#archives-temp h3,span.page-numbers.current,.sorry li a:hover,.site-title a:hover,i.iconfont.js-toggle-search.iconsearch:hover,.comment-respond input[type='submit']:hover{color:#FE9600}.comments .comments-main{display:block !important;}.comments .comments-hidden{display:none !important;}background-position:center center;background-attachment:inherit;}
+  </style>
+<link rel="alternate" href="/atom.xml" title="Smilecoc's Blog" type="application/atom+xml">
+</head>
+</html>
+<body class="page-template page-template-user page-template-page-analytics page-template-userpage-analytics-php page page-id-1297 chinese-font serif isWebKit">
+  <div class="skin-menu no-select" id="mainskin" style="position: fixed"> 
+    <div class="theme-controls row-container">
+          <p style="text-align:center;font-family:'Monaco';font-weight:bold;color:#444"><i style="color:grey" class="fa fa-chevron-left"></i> background <i style="color:grey" class="fa fa-chevron-right"></i></p>
+        <ul class="menu-list"> <li id="white-bg"> 
+            <i class="fa fa-television" aria-hidden="true">
+            </i>
+            </li> 
+            <li id="sakura-bg"> 
+                <i class="iconfont icon-sakura">
+                </i>
+            </li>
+            <li id="gribs-bg">
+                <i class="fa fa-slack" aria-hidden="true">
+                </i>
+            </li>
+            <li id="KAdots-bg">
+                <i class="iconfont icon-dots">
+                </i>
+            </li>
+            <li id="totem-bg">
+                <i class="fa fa-optin-monster" aria-hidden="true">
+                </i>
+            </li>
+            <li id="pixiv-bg">
+                <i class="iconfont icon-pixiv">
+                </i>
+            </li>
+            <li id="bing-bg">
+                <i class="iconfont icon-bing">
+                </i>
+            </li>
+            <li id="dark-bg">
+                <i class="fa fa-moon-o" aria-hidden="true">
+                </i>
+            </li>
+        </ul>
+    </div>
+    <canvas id="night-mode-cover">
+    </canvas>
+</div>
+ 
+  <div class="changeSkin-gear no-select"> 
+    <div class="keys" id="setbtn"> 
+        <span id="open-skinMenu"> 
+            SCHEME TOOL | 主题工具 &nbsp;
+            <i class="iconfont icon-gear inline-block rotating">
+            </i> 
+        </span>
+    </div> 
+</div>
+
+  <div class="scrollbar" id="bar">
+  </div>
+  <a href="#" class="cd-top faa-float animated"></a>
+  <section id="main-container">
+    <div class="headertop ">
+  <div id="banner_wave_1"></div>
+  <div id="banner_wave_2"></div>
+  <figure id="centerbg" class="centerbg">
+    <div class="focusinfo no-select">
+      <div class="header-tou">
+        <a href="https://smilecoc.github.io/">
+          <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/favicon.ico">
+        </a>
+      </div>
+      <div class="header-info">
+        <p>今でもあなたはわたしの光  时至今日，你仍是我的光</p>
+        <div class="top-social_v2">
+          <li id="bg-pre">
+            <img class="flipx" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/next-b.svg">
+          </li>
+          
+            
+              
+                <li>
+                  <a href="http://github.com/smilecoc" target="_blank" class="social-github" title="github">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/social/github.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="https://weibo.com/p/1005057275339401/home?from=page_100505&amp;mod=TAB#place" target="_blank" class="social-github" title="sina">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/social/sina.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="https://music.163.com/#/user/home?id=615928150" target="_blank" class="social-github" title="wangyiyun">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/social/wangyiyun.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="https://www.zhihu.com/people/lai-10086tou-su-4/activities" target="_blank" class="social-github" title="zhihu">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/social/zhihu.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="http://github.com/smilecoc" target="_blank" class="social-github" title="email">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/social/email.svg">
+                  </a>
+                </li>
+              
+            
+              
+                <li class="wechat">
+                  <a href="/#">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/social/wechat.png">
+                  </a>
+                  <div class="wechatInner">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/wechat.jfif">
+                  </div>
+                </li>
+              
+            
+          
+          <li id="bg-next">
+            <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/next-b.svg">
+          </li>
+        </div>
+      </div>
+    </div>
+  </figure>
+  <div id="video-container" style="">
+    <video style="object-fit: fill" id="bgvideo" class="video" video-name="" src="" width="auto" preload="auto">
+    </video>
+    <div id="video-btn" class="loadvideo videolive">
+    </div>
+    <div id="video-add">
+    </div>
+    <div class="video-stu">
+    </div>
+  </div>
+  <div class="headertop-down faa-float animated" onclick="headertop_down()">
+    <span>
+      <i class="fa fa-chevron-down" aria-hidden="true">
+      </i>
+    </span>
+  </div>
+</div>
+    <div id="page" class="site wrapper">
+      <header class="site-header no-select gizle sabit" role="banner">
+  <div class="site-top">
+    <div class="site-branding">
+      <span class="site-title">
+        <span class="logolink moe-mashiro">
+          <a href="/">
+            <span class="sakurasono">君の名は</span>
+            <span class="shironeko">Smilecoc</span>
+          </a>
+        </span>
+      </span>
+    </div>
+    <div class="searchbox search-form-submit">
+      <i class="iconfont js-toggle-search iconsearch icon-search">
+      </i>
+    </div>
+    <div id="show-nav" class="showNav mobile-fit">
+      <div class="line line1">
+      </div>
+      <div class="line line2">
+      </div>
+      <div class="line line3">
+      </div>
+    </div>
+    <div class="lower-cantiner">
+      <div class="lower">
+        <nav class="mobile-fit-control hide">
+          <ul id="menu-new" class="menu">
+            
+              <li>
+                <a href="/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-fort-awesome faa-shake" aria-hidden="true"></i>
+                    首页
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-archive faa-shake" aria-hidden="true"></i>
+                    归档
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/categories/技术/">
+                          <i class="fa fa-code" aria-hidden="true"></i>
+                          技术
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/笔记/">
+                          <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                          笔记
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/资源/">
+                          <i class="fa fa-cloud-download" aria-hidden="true"></i>
+                          资源
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/随想/">
+                          <i class="fa fa-commenting-o" aria-hidden="true"></i>
+                          随想
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/转载/">
+                          <i class="fa fa-book" aria-hidden="true"></i>
+                          转载
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="javascript:;">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-list-ul faa-vertical" aria-hidden="true"></i>
+                    清单
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/tags/悦读/">
+                          <i class="fa fa-th-list faa-bounce" aria-hidden="true"></i>
+                          书单
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/bangumi/">
+                          <i class="fa fa-film faa-vertical" aria-hidden="true"></i>
+                          番组
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/music/">
+                          <i class="fa fa-headphones" aria-hidden="true"></i>
+                          歌单
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/tags/图集/">
+                          <i class="fa fa-photo" aria-hidden="true"></i>
+                          图集
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="/comment/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-pencil-square-o faa-tada" aria-hidden="true"></i>
+                    留言板
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/links/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-link faa-shake" aria-hidden="true"></i>
+                    友人帐
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/donate/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-heart faa-pulse" aria-hidden="true"></i>
+                    赞赏
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-leaf faa-wrench" aria-hidden="true"></i>
+                    关于
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/about/">
+                          <i class="fa fa-meetup" aria-hidden="true"></i>
+                          我？
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/lab/">
+                          <i class="fa fa-cogs" aria-hidden="true"></i>
+                          Lab
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="/client/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-android faa-vertical" aria-hidden="true"></i>
+                    客户端
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/atom.xml">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-rss faa-pulse" aria-hidden="true"></i>
+                    RSS
+                  </span>
+                </a>
+                
+              </li>
+            
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<div class="pattern-center-blank"></div>
+
+  <div class="pattern-center single-center">
+    <!-- 有配图默认渲染第一张 -->
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part520200811.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part520200811.jpg">
+    </div>
+    <header class="pattern-header single-header">
+      <h1 class="entry-title">
+      如何从0开始建立数据库(五)：数据库系统的实现</h1>
+      <p class="entry-census">
+        <span>
+          <a href="http://smilecoc.vip/">
+            <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico">
+          </a>
+        </span>
+        <span>
+          <a href="http://smilecoc.vip/">smilecoc</a>
+        </span>
+        <span class="bull">
+        ·</span>
+        2020-8-11<span class="bull">
+        ·</span>
+      <span id="busuanzi_value_page_pv"></span>次阅读</p>
+    </header>
+  </div>
+
+<div id="content" class="site-content">
+  <div id="primary" class="content-area">
+    <main id="main" class="site-main" role="main">
+      <article id="post-1" class="post-1 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+        <div class="toc"></div>
+        <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
+        
+        <div class="entry-content">
+          <p>本文转载于<a href="https://www.cnblogs.com/muchen/p/5291325.html，仅做学习参考使用，侵删" target="_blank" rel="noopener">https://www.cnblogs.com/muchen/p/5291325.html，仅做学习参考使用，侵删</a></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>前面的文章中，主要都是在围绕关系数据库理论进行研究，没有涉及到数据库系统的具体实现。</p>
+<p>虽说数据库系统的具体实现因业务环境，RDBMS等因素而异，但总体开发流程，以及开发过程中所涉及到的一些问题，也具有不少统一的套路、标准。</p>
+<p>本文主要讨论数据库系统实现过程中的重点环节、基本开发流程、数据库管理以及数据质量工程等话题。</p>
+<h2 id="参照完整性约束对更新删除操作的影响"><a href="#参照完整性约束对更新删除操作的影响" class="headerlink" title="参照完整性约束对更新删除操作的影响"></a>参照完整性约束对更新删除操作的影响</h2><p>在第三篇中，我们已经讨论过，关系设计的目的就是为了减少冗余消除更新异常。但当时也留下一个问题：外码本身是冗余的，那么涉及到外码的更新时怎么办呢？</p>
+<p> 关系数据库理论将这个问题交给了RDBMS，让它来解决涉及外码的更新异常。下面先来看一下，涉及外码的更新异常到底长什么样子。</p>
+<p>在下面的这个关系中：<br><img src="https://img-blog.csdnimg.cn/20200806190858429.png" alt="在这里插入图片描述"></p>
+<p>关系EMPLOYEE中的Dept属性是一个外码，它对应DEPARTMENT关系的主码。如果对该属性进行更新或者删除，那么这个外码就找不到它对应的主码，两个关系的联系就被破坏了。针对这个问题，RDBMS的解决方案有四个，下面以删除异常为例进行说明：<br><img src="https://img-blog.csdnimg.cn/20200806190921281.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<ol>
+<li><p>限制删除<br>限制删除是指如果某记录主码被另一个记录外码对应，则该记录不允许被删除。如上面示例DEPARTMENT关系中的记录在删除的时候有可能被RDBMS禁止。</p>
+</li>
+<li><p>级联删除</p>
+<pre><code> 级联删除是指如果某个记录的主码被另一个记录的外码对应，那么这两个记录将一起被删除。</code></pre></li>
+<li><p>设置为空</p>
+<pre><code> 是指如果某个记录的主码被另一个记录的外码对应，那么在删除这个记录后，另外那个记录的外码字段置为空。</code></pre><ol start="4">
+<li>设置默认值<br> 同3，不过是将置为空改为设置成一个默认值。<br> 更新情况和删除一样，要注意的是所有处理都发生在对外码映射中的非外码关系进行操作时发生。这些处理主要是对外码关系进行附加操作，如级联删除，置空，置默认值，或者报错。</li>
+</ol>
+</li>
+</ol>
+<h2 id="索引机制"><a href="#索引机制" class="headerlink" title="索引机制"></a>索引机制</h2><p>索引(index)机制的本质是一种检索加速机制，本文将从索引的逻辑意义上对它进行解析，至于其在各RDBMS里的物理实现细节则不做介绍。事实上若非数据库维护管理人员，也没必要知道。在下面这张客户关系表中：<br><img src="https://img-blog.csdnimg.cn/20200806194013844.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p> id是按顺序排列的，因此如果要检索某id对应记录，则由于记录已按id排好序，可使用多种查找算法提高检索效率，如二分查找等。但关系中某一列排好序以后，其他列必然是乱序的，那怎么办？在RDBMS中，这种情况可以通过新建一个只包含两列的附加表来实现：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200806194025483.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>  索引表中其中一列为索引字段，另一列则包含一个指针指向原纪录。这样在对索引列进行查询的时候，RDBMS会先对索引表进行操作，完了再映射到原表并返回结果。</p>
+<p>从本质上来说，这是一种牺牲空间换取时间的办法，索引建立不单耗费存储资源，而且会降低更新、删除等操作的效率。因此不是说建的索引越多就越好，具体建立何种索引，建立多少索引，则要取决于计算资源，RDBMS，业务场景等因素。</p>
+<h2 id="触发器机制"><a href="#触发器机制" class="headerlink" title="触发器机制"></a>触发器机制</h2><p>触发器是一种规则，当关系中删除、插入、修改一条记录的时候执行。它的应用场景很多，故几乎所有RDBMS都提供了该功能。如下代码是在MYSQL中编写的触发器，它施加于student关系的insert操作上：每次insert一条学生记录后，都会更新关系中的记录数，如果记录数超过10，则不为新的学生分配导师：</p>
+<pre><code class="sql">CREATE TRIGER studentinserttrigger
+    BEFORE INSERT ON student
+FOR EACH ROW
+BEGIN
+    DECLARE totaladvised INT DEFAULT 0;
+    SELECT COUNT(*) INTO totaladvised
+    FROM student
+    WHERE advisorid = NEW.advisorid;
+    IF (totaladvised &gt;= 10) THEN
+        SET NEW.advisorid = NULL;
+    END IF
+END;</code></pre>
+<p>　　注意这段代码不是标准SQL代码，不必细究。触发器实现代码的语法规则取决于RDBMS，需要时再有针对性的参考手册即可。</p>
+<h2 id="数据库系统开发流程"><a href="#数据库系统开发流程" class="headerlink" title="数据库系统开发流程"></a>数据库系统开发流程</h2><p>所谓数据库系统(database system)，就是指让用户和数据库信息之间进行有效交互的计算机系统。其典型的框架如下图所示：<br><img src="https://img-blog.csdnimg.cn/20200806194119791.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p> 可见，  数据库系统的三大主要成分分别是：数据库，数据库管理软件RDBMS，还有前端应用程序(网站，APP等)。数据库是数据库系统的核心，负责存放所有数据。而数据库对外的所有交互，均通过RDBMS来进行。一般用户通过前端应用程序使用RDBMS，而比较专业的用户也可直接使用RDBMS操纵数据库。</p>
+<p>举例来说，某人通过APP订购商品，那么这个APP就是前端应用程序。而当他有一个具体行为，比如付款的时候，前段应用程序就会和RDBMS通信，让RDBMS完成扣款并返回操作执行结果。</p>
+<p> 数据库系统的总体开发流程，可以总体划分为以下步骤：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200806194132256.png" alt="在这里插入图片描述"></p>
+<ol>
+<li><p>数据库需求</p>
+<pre><code> 需求搜集是所有环节中最重要的一步，吃透了用户需求，往往就成功了大半。这些需求将指导后面如需求建模、实现、以及前端应用程序开发等。通常来说，需求都会通过ER图来表示(参考本系列第一篇)，并和各业务方讨论搜集得到，最终整理成文档。
+ 要特别强调的一点是数据库系统开发需求阶段过程是循环迭代式的，一开始的需求集并不大，但随着项目的进展，需求会越来越多。而且不论是以上哪个阶段发生了需求变动，整个流程都需要重新走一遍，决不允许隐式变更需求。</code></pre></li>
+<li><p>数据库建模</p>
+<pre><code> 也就是逻辑模型建模，在本系列第二篇有过详细讲解，这里不再赘述。</code></pre></li>
+<li><p>数据库实现</p>
+<pre><code>这一步的本质就是在空的RDBMS里实现2中创建的关系模型，一般通过使用SQL或者RDBMS提供的前端工具实现。</code></pre></li>
+<li><p>开发前端应用程序</p>
+<pre><code> 前端应用开发在需求搜集好了之后就开始进行，主要有网站、APP等前端形式。另外前端程序的实际实现涉及到和数据库之间交互，因此这一步的最终完成在数据库建模之后。</code></pre></li>
+<li><p>数据库部署</p>
+<pre><code> 顾名思义，这一步就是部署数据库系统的软硬件环境。笔者这里插一个故事，以前在A公司工作时，一哥们自告奋勇到某政府秘密部门部署私有云环境。那地方很偏僻，不允许外网，U盘都不能用，只能光盘安装。而A公司的云平台部署是一件非常复杂的活，于是那哥们就在那里呆了一个多月，回来后据说是瘦了7斤......
+ 回到正题，数据库部署往往还包含将初始数据填入数据库中的意思。对于云数据仓库，这一步就叫&quot;数据上云&quot;。</code></pre><ol start="6">
+<li>数据库使用<br>  这一步没啥多讲的，就再讲一个有关的故事吧。同样是在A公司，有一次某政企私有云项目完成后，我们有人被派去给他们培训如何使用。结果去的人回来后说政企意见很大，认为让他们学习SQL以外的东西都不行。拒绝用Python写UDF，更拒绝MR编程接口，只要SQL和图形界面操作方式。一开始我对政企的这种行为有点看不起，但后来我想，就是因为有这群挑剔的用户，才使得A公司云产品的易用性如此强大，从而占领国内云计算的大部分市场。用户的需求才是技术的唯一试金石。</li>
+</ol>
+</li>
+<li><p>数据库管理和维护</p>
+<pre><code> 严格来讲，这部分不算开发流程，属于数据库系统开发完成后的工作。接下来本文将围绕这个话题进行讲解。</code></pre></li>
+</ol>
+<h2 id="数据库系统管理"><a href="#数据库系统管理" class="headerlink" title="数据库系统管理"></a>数据库系统管理</h2><p> 数据库系统发行后，控制权便从数据库设计、实现、部署的团队移交给了数据库管理员(database administrator, DBA)，并由他们来对系统进行管理。</p>
+<p>数据库管理涵盖了确保一个已经部署的数据库系统正确运行的各种行为。为了实现这一目标，数据库管理具体包含以下范畴：<br><img src="https://img-blog.csdnimg.cn/20200806194244705.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>这部分工作的涉及面相当广而深，应由专业的DBA团队去完成。本文主要针对人群是数据科学家，因此仅对这些工作做一个简明的介绍。</p>
+<ol>
+<li><p>数据库系统监测与维护</p>
+<pre><code> 监测工作可以让DBA掌握数据库系统的运行情况，并针对发现的问题进行维护。比如发现存储资源不够用了，则要分配给数据库系统更多存储空间等。
+ 同时，监测工作也可以让DBA知道关系数据库中各关系的具体使用情况，从而进行优化。比如某两个表被大群用户频繁使用，并只用来重复创建相同的报表。这时候DBA就可以考虑建议数据库开发团队反规范化设计的将这两个表合并到一起。
+ 维护工作是指DBA在监测到了问题后，采取的修复行为。比如上面提到的分配更多存储空间，向数据系统加入新的关系(注: 数据库开发设计人员决定是否加入关系，DBA负责建议加入和具体执行)，都属于维护范畴。</code></pre><ol start="2">
+<li>数据库安全保障<br>  数据库安全保障工作可以说是数据库系统管理工作中的首要任务，该任务需要DBA对数据的存取过程严加控制。<br>  具体点来说，就是要求DBA做好数据库访问人员的认证工作，并对所有用户进行权限划分。<br>  此外，对于特别敏感的数据，还应进行加密处理。这部分功能一些商业数据库做得很好，比如Oracle。</li>
+</ol>
+</li>
+<li><p>数据库备份与恢复</p>
+<pre><code> 这里简要说明一下数据库备份与恢复的原理。我们知道，数据库的数据，是存放到磁盘里的。而计算机对数据的处理过程，都是先把数据从硬盘转移到内存，处理完后再放回去。
+ 而如果数据在内存中进行处理，还没有将数据转移回磁盘的时候，数据库挂了的话就将导致数据丢失。因此RDBMS采用恢复日志(recovery log)机制，先记录更新操作要做的事情，比如那个数据被更新，更新前后的值，更新请求的用户等，然后再做具体的更新操作。在更新日志中可以设置&quot;检查点&quot;，之后DBA可使用它进行周期性副本备份。失效事件发生之后，DBA可以利用&quot;检查点&quot;进行系统恢复：回滚(Roll Back)至指定检查点状态。
+ 对于那种彻底性毁坏的情况，比如发生火灾、地震等，可在多个不同物理站点上保留完全镜像备份(complete mirrored backup)。这些副本需持续更新保证与数据库系统一致。</code></pre></li>
+<li><p>数据库性能优化</p>
+<pre><code> 性能优化工作包括设置索引，逆规范化，SQL优化等等。通常有QPS(query per second)等指标来衡量数据库系统的优化效果。
+ 这部分工作内容很多也比较杂，主要通过DBA管理RDBMS的查询优化器完成。但对于数据库的开发员和使用者来说，也多多少少要知道一点，比如写Hive语句的时候需要灵活设置分区，避免数据倾斜等。这些具体环境的优化方案，本文篇幅有限就不一一讲解了。</code></pre></li>
+<li><p>数据库标准制定</p>
+<pre><code> 这部分工作包括数据库中字段命名规范，SQL编码规范的制定等。除了这些开发标准，还有使用标准，比如使用数据库的人需要遵守哪些有益于数据库系统健康的行为规范。</code></pre></li>
+</ol>
+<h2 id="数据质量体系"><a href="#数据质量体系" class="headerlink" title="数据质量体系"></a>数据质量体系</h2><p> 数据库系统，以及接下一个系列要讲的数据仓库系统，都需要始终重视数据质量问题。用一句话概括，数据质量就是衡量数据能否真实、及时反映客观世界的指标。</p>
+<p>具体来说，数据质量包含以下几大指标：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200806194351806.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<ol>
+<li><p>准确性</p>
+<pre><code>准确性要求数据能够正确描述客观世界。比如某用户姓名拼音mu chen错误的录入成了muc hen，就应该弹出警告语；</code></pre></li>
+<li><p>唯一性</p>
+<pre><code>唯一性要求数据不能被重复录入，或者不能有两个几乎相同的关系。比如张三李四在不同业务环境下分别建立了近乎相同的关系，这时应将这两个关系合并；</code></pre></li>
+</ol>
+<ol start="3">
+<li><p>完整性</p>
+<pre><code> 完整性要求进行数据搜集时，需求数据的被描述程度要高。比如一个用户的购买记录中，必然要有支付金额这个属性；</code></pre><ol start="4">
+<li>一致性<br>  一致性要求不同关系、或者同一关系不同字段的数据意义不发生冲突。比如某关系中昨天存货量字段+当天进货量字段-当天销售量字段不等于当天存活量，否则就可能是数据质量有问题；</li>
+</ol>
+</li>
+<li><p>及时性</p>
+<pre><code> 及时性要求数据库系统中的数据&quot;保鲜&quot;。比如当天的购买记录当天就要入库；</code></pre></li>
+<li><p>统一性</p>
+<pre><code> 统一性要求数据格式统一。比如nike这个品牌，不能有的字段描述为&quot;耐克&quot;，而有的字段又是&quot;奈克&quot;；</code></pre></li>
+</ol>
+<p>数据质量和数据具体意义有很大相关性，因此无法单凭数据库理论来保证。且由于具体业务及真实世界的复杂性，数据质量问题必然会存在，不可能完全预防得了。因此很多RDBMS或第三方公司都提供了数据质量工程服务/软件，用来识别和校正数据库系统中的各种数据质量问题。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>本篇作为数据库系列的终篇，主要围绕数据库系统实现所涉及到的方方面面进行讲解。想必读者看完本文后会和我一样，感受到一个完整而优秀的数据库系统实现并不简单，甚至可以说是比较繁琐。虽说实际项目中每个人只需要专门负责其中一个或者几个模块，不过笔者认为作为一名优秀的数据库开发人员，也必须对全局有一定的认识，这也是本文意义所在。</p>
+<p>最后谈点题外话吧。笔者本人是一名数据挖掘工程师，看到很多朋友把精力完全投到研究数据挖掘算法和实现上，私以为这样做是很不科学的。因为一个优秀的数据挖掘引擎，必然架构在一个优秀的数据库/数据仓库系统之上。而一个数据挖掘工程师80%的工作都是在利用这些系统进行数据清洗、特征提取等，深入思考算法模型的时间并不多(除非您是在特别牛的平台性算法团队工作)。因此在深入学习数据挖掘算法之前，一定要有良好的数据基础知识，不能好高骛远。</p>
+
+        </div>
+        <!-- .entry-content -->
+        <div class="single-reward">
+          <div class="reward-open">赏<div class="reward-main">
+              <ul class="reward-row">
+                <li class="alipay-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/AliPayQR.jpg"></li>
+                <li class="wechat-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/wechatpayQR.jpg"></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
+        <footer class="post-footer">
+          <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
+          <div class="post-tags">
+          </div>
+          <div class="post-share">
+            <div class="social-share sharehidden share-component"></div>
+            <i class="iconfont show-share icon-forward"></i>
+          </div>
+        </footer><!-- .entry-footer -->
+      </article>
+      <!-- #post-## -->
+      <div class="toc" style="background: none;"></div>
+      <section class="post-squares nextprev">
+        
+          
+            <div class="post-nepre half previous">
+          
+            <a href="/2020/08/12/如何从0开始建立数据库(六)数据库建表SQL索引规范/" rel="prev">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.2/images/article/builddb_part620200812.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.2/images/article/builddb_part620200812.jpg">
+              </div>
+              <span class="label">
+              Previous Post</span>
+              <div class="info">
+                <h3>
+                如何从0开始建立数据库(六)：数据库建表/SQL/索引规范</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+        
+          
+            <div class="post-nepre half next">
+          
+            <a href="/2020/08/11/如何从0开始建立数据库(四)：SQL/" rel="next">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part420200811.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part420200811.jpg">
+              </div>
+              <span class="label">
+              Next Post</span>
+              <div class="info">
+                <h3>
+                如何从0开始建立数据库(四)：SQL</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+      </section>
+      
+<div id="vcomments"></div>
+<script>
+  window.onload = function(){
+      var valine = new Valine();
+      valine.init({
+        el: '#vcomments',
+        appId: "Hm83GoGeDX3sGPDh3Q50lSMz-gzGzoHsz",
+        appKey: "mXIVaYaFj1DNyH6yBicfUS0w",
+        path: window.location.pathname,
+        placeholder: "你是我一生只会遇见一次的惊喜 ..."
+      })
+  }
+</script>
+
+      <section class="author-profile">
+        <div class="info" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <a href="http://smilecoc.vip/" class="profile gravatar"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico" itemprop="image" alt="smilecoc" height="70" width="70"></a>
+          <div class="meta">
+            <span class="title">Author</span>
+            <h3 itemprop="name">
+            <a href="http://smilecoc.vip/" itemprop="url" rel="author">smilecoc</a>
+            </h3>
+          </div>
+        </div>
+        <hr>
+        <p><i class="iconfont icon-write"></i></p>
+      </section>
+    </main><!-- #main -->
+  </div><!-- #primary -->
+</div>
+
+
+
+    </div>    
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="请输入关键词..."/>
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            // PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+    <!-- <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Smilecoc<br>
+      powered_by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer> -->
+<footer id="colophon" class="site-footer" role="contentinfo">
+  <div class="site-info">
+    <div class="footertext">
+      <div class="img-preload">
+        <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/wordpress-rotating-ball-o.svg">
+        <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/disqus-preloader.svg">
+      </div>
+      <p style="color: #666666;">&copy 2018</p>
+    </div>
+    <div class="footer-device">
+    <p style="font-family: 'Ubuntu', sans-serif;">
+        <span style="color: #b9b9b9;">Theme <a href="https://github.com/honjun/hexo-theme-sakura" target="_blank" style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">Sakura</a> <i class="iconfont icon-sakura rotating" style="color: #ffc0cb;display:inline-block"></i> by <a href="https://2heng.xin/" target="_blank" style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">Mashiro</a>&<a href="https://www.hojun.cn/" target="_blank" style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">Hojun</a>, Powered by Hexo, Hosted by Coding Pages</a>
+        </span>
+      </p>
+    </div>
+  </div><!-- .site-info -->
+</footer>
+
+
+
+<!-- <script src="/js/tocbot.js"></script> -->
+<script type="text/javascript" src="/js/lib.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script type="text/javascript" src="/js/InsightSearch.js"></script>
+<script type="text/javascript" src="/js/jquery.fancybox.min.js"></script>
+<script type="text/javascript" src="/js/zoom.min.js"></script>
+<script type="text/javascript" src="/js/sakura-app.js"></script>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/ctz45562/cdn@2.0.2/js/volantis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+<script src="https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget/autoload.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/yremp/yremp-js@1.5/sakura.js"></script>
+<!-- 不蒜子 网页计数器 -->
+<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script> -->
+<script type="text/javascript">
+/* <![CDATA[ */
+if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+  var Poi = {"pjax":"1","movies":{"url": "https://cdn.jsdelivr.net/gh/honjun/hojun@1.2/Unbroken.mp4","name":"ThreeBody","live":"close"},"windowheight":"fixed","codelamp":"close","ajaxurl":"","order":"asc","formpostion":"bottom"};
+} else {
+  var Poi = {"pjax":"1","movies":{"url": "https://cdn.jsdelivr.net/gh/honjun/hojun@1.2/Unbroken.mp4","name":"ThreeBody","live":"open"},"windowheight":"auto","codelamp":"close","ajaxurl":"","order":"asc","formpostion":"bottom"};
+}
+/* ]]> */
+
+</script>
+<script>
+$(document).ready(function() {
+  if ($(".toc").length > 0 && document.body.clientWidth > 1200) {
+    if ($(".pattern-center").length > 0) { //有图的情况
+      tocbot.init({
+          // Where to render the table of contents.
+          tocSelector: '.toc', // 放置目录的容器
+          // Where to grab the headings to build the table of contents.
+          contentSelector: '.entry-content', // 正文内容所在
+          // Which headings to grab inside of the contentSelector element.
+          scrollSmooth: true,
+          headingSelector: 'h1, h2, h3, h4, h5', // 需要索引的标题级别
+          headingsOffset: -400,
+          scrollSmoothOffset: -85
+      });
+    } else {
+      tocbot.init({
+          // Where to render the table of contents.
+          tocSelector: '.toc', // 放置目录的容器
+          // Where to grab the headings to build the table of contents.
+          contentSelector: '.entry-content', // 正文内容所在
+          // Which headings to grab inside of the contentSelector element.
+          scrollSmooth: true,
+          headingSelector: 'h1, h2, h3, h4, h5', // 需要索引的标题级别
+          headingsOffset: -85,
+          scrollSmoothOffset: -85
+      });
+    }
+    var offsetTop = $('.toc').offset().top - 95;
+    window.onscroll = function() {
+      var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+      if (scrollTop >= offsetTop) {
+        $('.toc').addClass('toc-fixed');
+      } else {
+        $('.toc').removeClass('toc-fixed');
+      }
+    }
+  }
+});
+</script>
+
+    <div class="openNav no-select" style="height: 50px;">
+      <div class="iconflat no-select" style="width: 50px; height: 50px;">
+        <div class="icon"></div>
+      </div>
+      <div class="site-branding search-form-submit">
+        <i class="iconfont js-toggle-search iconsearch icon-search"></i>
+      </div>
+    </div>
+  </section>
+  <div id="mo-nav" class="">
+  <div class="m-avatar">
+    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/favicon.ico">
+  </div>
+  <p style="text-align: center; color: #333; font-weight: 900; font-family: 'Ubuntu', sans-serif; letter-spacing: 1.5px">君の名はSmilecoc</p>
+  <p style="text-align: center; word-spacing: 20px;">
+    
+      
+        <a href="http://github.com/smilecoc" class="fa fa-github" target="_blank" style="color: #333; margin-left:20px"></a>
+      
+        <a href="https://weibo.com/p/1005057275339401/home?from=page_100505&mod=TAB#place" class="fa fa-weibo" target="_blank" style="color: #dd4b39; margin-left:20px"></a>
+      
+        <a href="http://github.com/smilecoc" class="fa fa-qq" target="_blank" style="color: #25c6fe; margin-left:20px"></a>
+      
+    
+  </p>
+  <ul id="menu-new-1" class="menu">
+    
+      <li>
+        <a href="/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-fort-awesome faa-shake" aria-hidden="true"></i>
+            首页
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/archives">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-archive faa-shake" aria-hidden="true"></i>
+            归档
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/categories/技术/">
+                  <i class="fa fa-code" aria-hidden="true"></i>
+                  技术
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/笔记/">
+                  <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                  笔记
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/资源/">
+                  <i class="fa fa-cloud-download" aria-hidden="true"></i>
+                  资源
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/随想/">
+                  <i class="fa fa-commenting-o" aria-hidden="true"></i>
+                  随想
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/转载/">
+                  <i class="fa fa-book" aria-hidden="true"></i>
+                  转载
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="javascript:;">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-list-ul faa-vertical" aria-hidden="true"></i>
+            清单
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/tags/悦读/">
+                  <i class="fa fa-th-list faa-bounce" aria-hidden="true"></i>
+                  书单
+                </a>
+              </li>
+            
+              <li>
+                <a href="/bangumi/">
+                  <i class="fa fa-film faa-vertical" aria-hidden="true"></i>
+                  番组
+                </a>
+              </li>
+            
+              <li>
+                <a href="/music/">
+                  <i class="fa fa-headphones" aria-hidden="true"></i>
+                  歌单
+                </a>
+              </li>
+            
+              <li>
+                <a href="/tags/图集/">
+                  <i class="fa fa-photo" aria-hidden="true"></i>
+                  图集
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="/comment/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-pencil-square-o faa-tada" aria-hidden="true"></i>
+            留言板
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/links/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-link faa-shake" aria-hidden="true"></i>
+            友人帐
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/donate/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-heart faa-pulse" aria-hidden="true"></i>
+            赞赏
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-leaf faa-wrench" aria-hidden="true"></i>
+            关于
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/about/">
+                  <i class="fa fa-meetup" aria-hidden="true"></i>
+                  我？
+                </a>
+              </li>
+            
+              <li>
+                <a href="/lab/">
+                  <i class="fa fa-cogs" aria-hidden="true"></i>
+                  Lab
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="/client/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-android faa-vertical" aria-hidden="true"></i>
+            客户端
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/atom.xml">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-rss faa-pulse" aria-hidden="true"></i>
+            RSS
+          </span>
+        </a>
+        
+      </li>
+    
+  </ul>
+  <p style="text-align: center; font-size: 13px; color: #b9b9b9;">&copy 2019 hexo-sakura</p>
+</div>
+<button onclick="topFunction()" class="mobile-cd-top" id="moblieGoTop" title="Go to top" style="display: none;"><i class="fa fa-chevron-up" aria-hidden="true"></i></button>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+<style>
+  .aplayer .aplayer-lrc {
+    height: 35px;
+  }
+  .aplayer .aplayer-lrc p{
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 18px !important;
+  }
+  .aplayer .aplayer-lrc p.aplayer-lrc-current{
+    color: #FF1493;
+  }
+  .aplayer.aplayer-narrow .aplayer-body{
+    left: -66px !important;
+  }
+  .aplayer.aplayer-fixed .aplayer-lrc {
+    display: none;
+  }
+  .aplayer .aplayer-lrc.aplayer-lrc-hide {
+      display:none !important;
+  }
+  .aplayer.aplayer-fixed .lrc-show {
+    display: block;
+    background: rgba(255, 255, 255, 0.8);
+  }
+</style>
+<div class="aplayer"
+
+    data-id="953999592"
+
+    data-server="netease"
+
+    data-type="playlist"
+
+    data-fixed="true"
+
+    data-autoplay="false"
+
+    data-loop="all"
+
+    data-order="random"
+
+    data-preload="true"
+
+    data-volume="0.7"
+
+    data-mutex="true"
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script>
+<script>
+  $(function(){
+    $('body').on('click', '.aplayer', function(){
+      if($('.aplayer-button').hasClass('aplayer-play')) {
+        $('.aplayer-lrc').removeClass('lrc-show');
+      } else {
+        $('.aplayer-lrc').addClass('lrc-show');
+      }
+    })
+  });
+</script>
+</body>
+</html>

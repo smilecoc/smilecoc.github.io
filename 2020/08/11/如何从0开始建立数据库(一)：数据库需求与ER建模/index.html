@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta name="baidu-site-verification" content="y0z4MO0APm">
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  
+  <title itemprop="name">如何从0开始建立数据库(一)：数据库需求与ER建模 | Smilecoc&#39;s Blog</title>
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+SerifMerriweather|Merriweather+Sans|Source+Code+Pro|Ubuntu:400,700|Noto+Serif+SC" media="all">
+  <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+  <link rel="stylesheet" id="saukra_css-css" href="/css/style.css" type="text/css" media="all">
+  <link rel="stylesheet" href="/css/lib.min.css" media="all">
+  <link rel="stylesheet" href="/css/font.css" media="all">
+  <link rel="stylesheet" href="/css/insight.css" media="all">
+  <link rel="stylesheet" href="/css/jquery.fancybox.min.css" media="all">
+  <link rel="stylesheet" href="/css/zoom.css" media="all">
+  <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<!--   <link rel="stylesheet" id="saukra_css-css" href="https://2heng.xin/wp-content/cache/autoptimize/css/autoptimize_ad42a61f4c7d4bdd9f91afcff6b5dda5.css
+" type="text/css" media="all"> -->
+  <script>
+  /*Initial Variables*/
+  var mashiro_option = new Object();
+  var mashiro_global = new Object();
+  mashiro_option.NProgressON = true;
+  /* 
+   * 邮箱信息之类的东西可以填在这里，这些js变量基本都作用于sakura-app.js
+   * 这样的设置仅是为了方便在基于PHP开发的主题中设置js变量，既然移植到了Node上，我想或许可以精简这一逻辑吧
+   */
+  mashiro_option.email_domain = "";
+  mashiro_option.email_name = "";
+  mashiro_option.cookie_version_control = "";
+  mashiro_option.qzone_autocomplete = false;
+  mashiro_option.site_name = "君の名はSmilecoc";
+  mashiro_option.author_name = "Smilecoc";
+  mashiro_option.site_url = "https://smilecoc.github.io/";
+  mashiro_option.v_appId = "Hm83GoGeDX3sGPDh3Q50lSMz-gzGzoHsz";
+  mashiro_option.v_appKey = "mXIVaYaFj1DNyH6yBicfUS0w";
+  mashiro_option.mathjax = "0";
+  mashiro_option.qq_api_url = "https://api.mashiro.top/qqinfo/"; 
+  mashiro_option.qq_avatar_api_url = "https://api.mashiro.top/qqinfo/";
+
+  // mashiro_option.jsdelivr_css_src = "https://cdn.jsdelivr.net/gh/moezx/cdn@3.4.5/css/lib.min.css";
+  // mashiro_option.float_player_on = true;
+
+  /*End of Initial Variables*/
+  </script>
+  <script type="text/javascript">
+  var bg = "https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/1.jpg,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/2.jpg,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/3.jpg,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/4.jpg,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/5.webp,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/6.jpg,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/7.webp,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/8.jpg".split(",");
+  var bgindex = Math.floor(Math.random()*bg.length);
+  if (!!window.ActiveXObject || "ActiveXObject" in window) { //is IE?
+    alert('朋友，IE浏览器未适配哦~');
+  }
+  </script>
+  <style type="text/css">
+  .hljs-ln{border-collapse:collapse}.hljs-ln td{padding:0}.hljs-ln-n:before{content:attr(data-line-number)}
+  </style>
+  <style type="text/css">.site-top .lower nav{display:block !important;}.author-profile i,.post-like a,.post-share .show-share,.sub-text,.we-info a,span.sitename,.post-more i:hover,#pagination a:hover,.post-content a:hover,.float-content i:hover{color:#FE9600}.feature i,.download,.navigator i:hover,.links ul li:before,.ar-time i,span.ar-circle,.object,.comment .comment-reply-link,.siren-checkbox-radio:checked + .siren-checkbox-radioInput:after{background:#FE9600}::-webkit-scrollbar-thumb{background:#FE9600}.download,.navigator i:hover,.link-title,.links ul li:hover,#pagination a:hover,.comment-respond input[type='submit']:hover{border-color:#FE9600}.entry-content a:hover,.site-info a:hover,.comment h4 a,#comments-navi a.prev,#comments-navi a.next,.comment h4 a:hover,.site-top ul li a:hover,.entry-title a:hover,#archives-temp h3,span.page-numbers.current,.sorry li a:hover,.site-title a:hover,i.iconfont.js-toggle-search.iconsearch:hover,.comment-respond input[type='submit']:hover{color:#FE9600}.comments .comments-main{display:block !important;}.comments .comments-hidden{display:none !important;}background-position:center center;background-attachment:inherit;}
+  </style>
+<link rel="alternate" href="/atom.xml" title="Smilecoc's Blog" type="application/atom+xml">
+</head>
+</html>
+<body class="page-template page-template-user page-template-page-analytics page-template-userpage-analytics-php page page-id-1297 chinese-font serif isWebKit">
+  <div class="skin-menu no-select" id="mainskin" style="position: fixed"> 
+    <div class="theme-controls row-container">
+          <p style="text-align:center;font-family:'Monaco';font-weight:bold;color:#444"><i style="color:grey" class="fa fa-chevron-left"></i> background <i style="color:grey" class="fa fa-chevron-right"></i></p>
+        <ul class="menu-list"> <li id="white-bg"> 
+            <i class="fa fa-television" aria-hidden="true">
+            </i>
+            </li> 
+            <li id="sakura-bg"> 
+                <i class="iconfont icon-sakura">
+                </i>
+            </li>
+            <li id="gribs-bg">
+                <i class="fa fa-slack" aria-hidden="true">
+                </i>
+            </li>
+            <li id="KAdots-bg">
+                <i class="iconfont icon-dots">
+                </i>
+            </li>
+            <li id="totem-bg">
+                <i class="fa fa-optin-monster" aria-hidden="true">
+                </i>
+            </li>
+            <li id="pixiv-bg">
+                <i class="iconfont icon-pixiv">
+                </i>
+            </li>
+            <li id="bing-bg">
+                <i class="iconfont icon-bing">
+                </i>
+            </li>
+            <li id="dark-bg">
+                <i class="fa fa-moon-o" aria-hidden="true">
+                </i>
+            </li>
+        </ul>
+    </div>
+    <canvas id="night-mode-cover">
+    </canvas>
+</div>
+ 
+  <div class="changeSkin-gear no-select"> 
+    <div class="keys" id="setbtn"> 
+        <span id="open-skinMenu"> 
+            SCHEME TOOL | 主题工具 &nbsp;
+            <i class="iconfont icon-gear inline-block rotating">
+            </i> 
+        </span>
+    </div> 
+</div>
+
+  <div class="scrollbar" id="bar">
+  </div>
+  <a href="#" class="cd-top faa-float animated"></a>
+  <section id="main-container">
+    <div class="headertop ">
+  <div id="banner_wave_1"></div>
+  <div id="banner_wave_2"></div>
+  <figure id="centerbg" class="centerbg">
+    <div class="focusinfo no-select">
+      <div class="header-tou">
+        <a href="https://smilecoc.github.io/">
+          <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/favicon.ico">
+        </a>
+      </div>
+      <div class="header-info">
+        <p>今でもあなたはわたしの光  时至今日，你仍是我的光</p>
+        <div class="top-social_v2">
+          <li id="bg-pre">
+            <img class="flipx" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/next-b.svg">
+          </li>
+          
+            
+              
+                <li>
+                  <a href="http://github.com/smilecoc" target="_blank" class="social-github" title="github">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/social/github.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="https://weibo.com/p/1005057275339401/home?from=page_100505&amp;mod=TAB#place" target="_blank" class="social-github" title="sina">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/social/sina.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="https://music.163.com/#/user/home?id=615928150" target="_blank" class="social-github" title="wangyiyun">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/social/wangyiyun.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="https://www.zhihu.com/people/lai-10086tou-su-4/activities" target="_blank" class="social-github" title="zhihu">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/social/zhihu.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="http://github.com/smilecoc" target="_blank" class="social-github" title="email">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/social/email.svg">
+                  </a>
+                </li>
+              
+            
+              
+                <li class="wechat">
+                  <a href="/#">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/social/wechat.png">
+                  </a>
+                  <div class="wechatInner">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/wechat.jfif">
+                  </div>
+                </li>
+              
+            
+          
+          <li id="bg-next">
+            <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/next-b.svg">
+          </li>
+        </div>
+      </div>
+    </div>
+  </figure>
+  <div id="video-container" style="">
+    <video style="object-fit: fill" id="bgvideo" class="video" video-name="" src="" width="auto" preload="auto">
+    </video>
+    <div id="video-btn" class="loadvideo videolive">
+    </div>
+    <div id="video-add">
+    </div>
+    <div class="video-stu">
+    </div>
+  </div>
+  <div class="headertop-down faa-float animated" onclick="headertop_down()">
+    <span>
+      <i class="fa fa-chevron-down" aria-hidden="true">
+      </i>
+    </span>
+  </div>
+</div>
+    <div id="page" class="site wrapper">
+      <header class="site-header no-select gizle sabit" role="banner">
+  <div class="site-top">
+    <div class="site-branding">
+      <span class="site-title">
+        <span class="logolink moe-mashiro">
+          <a href="/">
+            <span class="sakurasono">君の名は</span>
+            <span class="shironeko">Smilecoc</span>
+          </a>
+        </span>
+      </span>
+    </div>
+    <div class="searchbox search-form-submit">
+      <i class="iconfont js-toggle-search iconsearch icon-search">
+      </i>
+    </div>
+    <div id="show-nav" class="showNav mobile-fit">
+      <div class="line line1">
+      </div>
+      <div class="line line2">
+      </div>
+      <div class="line line3">
+      </div>
+    </div>
+    <div class="lower-cantiner">
+      <div class="lower">
+        <nav class="mobile-fit-control hide">
+          <ul id="menu-new" class="menu">
+            
+              <li>
+                <a href="/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-fort-awesome faa-shake" aria-hidden="true"></i>
+                    首页
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-archive faa-shake" aria-hidden="true"></i>
+                    归档
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/categories/技术/">
+                          <i class="fa fa-code" aria-hidden="true"></i>
+                          技术
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/笔记/">
+                          <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                          笔记
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/资源/">
+                          <i class="fa fa-cloud-download" aria-hidden="true"></i>
+                          资源
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/随想/">
+                          <i class="fa fa-commenting-o" aria-hidden="true"></i>
+                          随想
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/转载/">
+                          <i class="fa fa-book" aria-hidden="true"></i>
+                          转载
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="javascript:;">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-list-ul faa-vertical" aria-hidden="true"></i>
+                    清单
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/tags/悦读/">
+                          <i class="fa fa-th-list faa-bounce" aria-hidden="true"></i>
+                          书单
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/bangumi/">
+                          <i class="fa fa-film faa-vertical" aria-hidden="true"></i>
+                          番组
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/music/">
+                          <i class="fa fa-headphones" aria-hidden="true"></i>
+                          歌单
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/tags/图集/">
+                          <i class="fa fa-photo" aria-hidden="true"></i>
+                          图集
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="/comment/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-pencil-square-o faa-tada" aria-hidden="true"></i>
+                    留言板
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/links/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-link faa-shake" aria-hidden="true"></i>
+                    友人帐
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/donate/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-heart faa-pulse" aria-hidden="true"></i>
+                    赞赏
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-leaf faa-wrench" aria-hidden="true"></i>
+                    关于
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/about/">
+                          <i class="fa fa-meetup" aria-hidden="true"></i>
+                          我？
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/lab/">
+                          <i class="fa fa-cogs" aria-hidden="true"></i>
+                          Lab
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="/client/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-android faa-vertical" aria-hidden="true"></i>
+                    客户端
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/atom.xml">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-rss faa-pulse" aria-hidden="true"></i>
+                    RSS
+                  </span>
+                </a>
+                
+              </li>
+            
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<div class="pattern-center-blank"></div>
+
+  <div class="pattern-center single-center">
+    <!-- 有配图默认渲染第一张 -->
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part120200811.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part120200811.jpg">
+    </div>
+    <header class="pattern-header single-header">
+      <h1 class="entry-title">
+      如何从0开始建立数据库(一)：数据库需求与ER建模</h1>
+      <p class="entry-census">
+        <span>
+          <a href="http://smilecoc.vip/">
+            <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico">
+          </a>
+        </span>
+        <span>
+          <a href="http://smilecoc.vip/">smilecoc</a>
+        </span>
+        <span class="bull">
+        ·</span>
+        2020-8-11<span class="bull">
+        ·</span>
+      <span id="busuanzi_value_page_pv"></span>次阅读</p>
+    </header>
+  </div>
+
+<div id="content" class="site-content">
+  <div id="primary" class="content-area">
+    <main id="main" class="site-main" role="main">
+      <article id="post-1" class="post-1 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+        <div class="toc"></div>
+        <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
+        
+        <div class="entry-content">
+          <p>本文转载于<a href="https://www.cnblogs.com/muchen/p/5258197.html，仅做学习参考使用，侵删" target="_blank" rel="noopener">https://www.cnblogs.com/muchen/p/5258197.html，仅做学习参考使用，侵删</a></p>
+<h1 id="数据库需求与ER建模"><a href="#数据库需求与ER建模" class="headerlink" title="数据库需求与ER建模"></a>数据库需求与ER建模</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在数据库建设过程中，哪一步最重要？绝大多数资料会告诉你，是需求分析阶段。这一步的好坏甚至直接决定数据库项目的成败。</p>
+<p> 需求分析阶段，也被称为ER建模(entity-relationship modeling)阶段，也常被称为需求可视化，概念建模等。这一阶段数据库系统开发人员将协同需求方以ER图的方式对业务需求进行可视化展现。</p>
+<p>首先我们详细介绍ER符号体系，并在其中穿插一些具体实例讲解。</p>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h3 id="实体-entity"><a href="#实体-entity" class="headerlink" title="实体(entity)"></a>实体(entity)</h3><p>实体表示客观世界中的众多概念，比如：人，地点，事件等。</p>
+<p>每个实体本身包含多个实体成员，比如实体人可能包含张三，李四王五等。</p>
+<p>在ER图中，实体通常用矩形表示，并在矩形中写上实体名称，比如学生，专业等。如下所示：<br><img src="https://img-blog.csdnimg.cn/20200805162757641.png" alt="在这里插入图片描述"></p>
+<h3 id="属性-attribute"><a href="#属性-attribute" class="headerlink" title="属性(attribute)"></a>属性(attribute)</h3><p>每个实体都有属性，用椭圆表示并用来描述实体各个特征。 比如顾客的特征可能有顾客ID，顾客姓名，顾客性别，顾客年龄等，如下图所示：<br><img src="https://img-blog.csdnimg.cn/20200805162930635.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p> 此外，每个实体至少要有一个唯一属性，用下划线标记，如上图中的id字段。</p>
+<h3 id="联系-relation"><a href="#联系-relation" class="headerlink" title="联系(relation)"></a>联系(relation)</h3><p>实体与实体之间通常具有某种关联，在ER图中用菱形表示。比如某职员向某主管汇报，如下图所示：<br><img src="https://img-blog.csdnimg.cn/20200805163222611.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>细心的读者相必发现了，实体间连线的两端，写有一些符号。这些符号被称为基数约束(cardinality constraint)，用来表示实体可以有多少实例与另一实体的实例存在联系。</p>
+<p>基数约束共有四种形态：<br><img src="https://img-blog.csdnimg.cn/20200805163309971.png" alt="在这里插入图片描述"><br>此为形态一，即强制多个对应，表示一个实体A对应多个实体B。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200805163326461.png" alt="在这里插入图片描述"></p>
+<p> 此为形态二，即可选多个对应，表示一个实体A对应0个或多个实体B。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200805163333934.png" alt="在这里插入图片描述"></p>
+<p>此为形态三，即强制单个对应，表示一个实体A对应一个实体B。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200805163342791.png" alt="在这里插入图片描述"></p>
+<p>此为形态四，即可选单个对应，表示一个实体A对应0个或1个实体B。</p>
+<p>我们知道联系是双向的，所以实际ER建模中常见的版本长这样：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200805172919506.png" alt="在这里插入图片描述"></p>
+<p>理解这个联系的方法是从两个方向进行解读，“实体A对应0个或1个实体B，实体B对应一个或多个实体A”。</p>
+<h2 id="扩展概念"><a href="#扩展概念" class="headerlink" title="扩展概念"></a>扩展概念</h2><p>使用前面介绍的这些概念，已经能完成基础ER建模了。然而，为了更为细致的刻画出用户需求，又有了下面这些建模规则。</p>
+<h3 id="复合属性-composite-attribute"><a href="#复合属性-composite-attribute" class="headerlink" title="复合属性(composite attribute)"></a>复合属性(composite attribute)</h3><p>   部分属性具有复合的特点，比如地址属性。地址可能包含了省份，城市，街道等子属性。</p>
+<p>ER图上这类属性的属性名应当标记圆括号，然后扩展为多个子属性。可参考下面这个商店实体定义：</p>
+<p><img src="https://img-blog.csdnimg.cn/2020080517301896.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h3 id="多值属性-multivalued-attribute"><a href="#多值属性-multivalued-attribute" class="headerlink" title="多值属性(multivalued attribute)"></a>多值属性(multivalued attribute)</h3><p>部分属性具有多值的特点，比如一个职工可能有多个电话号码。</p>
+<p>ER图上这类属性用双层椭圆标识，可参考下面这个职工实体定义：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200805173151632.png" alt="在这里插入图片描述"></p>
+<h3 id="派生属性-derives-attribute"><a href="#派生属性-derives-attribute" class="headerlink" title="派生属性(derives attribute)"></a>派生属性(derives attribute)</h3><p>部分属性可从其他属性或者其他数据(如当前日期)派生出来，这类属性在ER图上用虚线椭圆标识。</p>
+<p>可参考下面这个士多店实体定义：<br><img src="https://img-blog.csdnimg.cn/20200805173213521.png" alt="在这里插入图片描述"></p>
+<p>上图中士多店的YearsInBusiness属性表示店铺开张了多少年，这个属性可以结合当前日期与OpeningDate属性算到，因此用虚线椭圆标识。</p>
+<h3 id="可选属性-optional-attribute"><a href="#可选属性-optional-attribute" class="headerlink" title="可选属性(optional attribute)"></a>可选属性(optional attribute)</h3><p>部分属性可能有也可能没有取值，比如说职工奖金。</p>
+<p>ER图上这类属性通过在属性名后面添加(0)标识，可参考下面这个职工实体定义：<br><img src="https://img-blog.csdnimg.cn/20200805173248860.png" alt="在这里插入图片描述"></p>
+<h3 id="联系的进一步描述"><a href="#联系的进一步描述" class="headerlink" title="联系的进一步描述"></a>联系的进一步描述</h3><p>a. 可以在联系中表明联系中的最大最小基数，如下图所示：</p>
+<p><img src="https://img-blog.csdnimg.cn/2020080517331553.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>在上面这个例子中，每个学生具体对应到了2-6间教室；同时每间教室对应到了5-40名学生。</p>
+<p> b. 也可以在联系中说明联系中的角色。这在一元联系中尤为常见，如下图所示：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200805173357574.png" alt="在这里插入图片描述"><br>每个人只能送给其他人一份礼物，但可以收到0或多份礼物。</p>
+<h3 id="关联实体-associated-entity"><a href="#关联实体-associated-entity" class="headerlink" title="关联实体(associated entity)"></a>关联实体(associated entity)</h3><p>关联实体示用于描述M：N联系的一个替代方式，用一个内部有菱形的矩形表示，它没有唯一属性也没有部分唯一属性，且通常来说没有任何属性。</p>
+<p>如下两个图可以说是等价的：<br><img src="https://img-blog.csdnimg.cn/20200805173842659.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20200805173847290.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>关联实体基本都是在多元联系的场景下用到，后面的高级话题部分会讲。</p>
+<h3 id="弱实体-week-entity"><a href="#弱实体-week-entity" class="headerlink" title="弱实体(week entity)"></a>弱实体(week entity)</h3><p>通常来说，实体至少要有一个唯一属性。因为这样才能精确定位到需要处理的记录。但在ER建模这一层，也并非总是如此。</p>
+<p>举例来说，假如现在需要为某个连锁酒店管理系统进行ER建模。该公司在全国各地都开有酒店。现在需要记录下各地酒店的房间使用情况。</p>
+<p>可以将房间使用相关信息作为酒店的建模一个多值复合属性，如下图所示：<br><img src="https://img-blog.csdnimg.cn/20200805175650418.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br> 这样做算是对的，但是并没有体现出部分码地位，也就是说各RoomID在各Building的唯一性。同时，很多时候需要将房间实体化与其他实体相联系。比如每个房间对应的清洁工。</p>
+<p>引入弱实体机制后，便可顺利解决这两个问题。如下图所示：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200805175706224.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>两个地方要注意一下，一是弱实体的“主码”称为部分码，码名下方用虚线标记；</p>
+<p>再一个就是弱实体必须至少有一个属主实体，它们之间的联系需用双框菱形标识。弱实体部分码同其属主实体候选码的组合可以唯一定位到任何一个弱实体记录。</p>
+<h2 id="高级话题"><a href="#高级话题" class="headerlink" title="高级话题"></a>高级话题</h2><h3 id="1-相同实体之间具有多个M-N关系"><a href="#1-相同实体之间具有多个M-N关系" class="headerlink" title="1. 相同实体之间具有多个M:N关系"></a>1. 相同实体之间具有多个M:N关系</h3><p> 某人为一个学生选课系统进行ER建模，得到如下结果：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200805180209571.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p> 假如需求中有说明：一个同学一门课只能选一次，那这样的设计没问题。可是如果需求中说明，一个同学可以选一门课几次(可能是挂了好几次)，这样的设计就有问题了。</p>
+<p> 对此，正确的做法之一是使用有两个属主实体的弱实体：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200805180758887.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>或者为每次预定生成一个唯一的id，如下图所示：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200805180819920.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h3 id="2-三元-或更多-关系"><a href="#2-三元-或更多-关系" class="headerlink" title="2. 三元(或更多)关系"></a>2. 三元(或更多)关系</h3><p>在ER图中，联系一般是将两个实体关联起来，又或者自己关联自己。但是也有些时候，需求方需要同时将多个实体联系起来。这怎么办呢？要知道表示联系的菱形有且只有两个接口。</p>
+<p>答曰：使用关联实体。下面这个ER图中，使用了关联实体描述了某工厂的供货商，生产产品，零件三方联系：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200805180948891.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>但如果现在需求又变更了，需要给关联增加某些属性，比如说供货商每次提供的货物量，这个ER图就不能用了。</p>
+<p>因为这样就没办法区分同一家供应商为同一产品提供等数量的同一零件的不同实例了。解决的办法是把关联实体改成一般的实体，并增设一个唯一标识符：</p>
+<p><img src="https://img-blog.csdnimg.cn/2020080518094417.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2 id="其他说明"><a href="#其他说明" class="headerlink" title="其他说明"></a>其他说明</h2><ol>
+<li>本文实体名全大写，属性和关系名则用首字母大写的驼峰法，同时尽量保证所有命名都全局唯一；<ol start="2">
+<li>用户的更多个性需求应当以注释，标签等方式一并标记在ER图中；</li>
+<li>建模工具可使用PowerDesigner，Workbench等。不过笔者在这里推荐一款轻量级的在线数据库建模工具，网址是<a href="https://erdplus.com/#" target="_blank" rel="noopener">https://erdplus.com/#</a>；</li>
+</ol>
+</li>
+</ol>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>需求分析，ER建模是贯穿整个数据库生命周期的工作。这部分工作要求开发人员和业务方，数据库的使用者，公司领导等方面协同好需求，并将需求以ER图的模式可视化展现出来。</p>
+<p> 只有绘制好ER图之后，才能顺利进入到接下来的关系表设计阶段。这也是下篇要讲解的内容</p>
+
+        </div>
+        <!-- .entry-content -->
+        <div class="single-reward">
+          <div class="reward-open">赏<div class="reward-main">
+              <ul class="reward-row">
+                <li class="alipay-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/AliPayQR.jpg"></li>
+                <li class="wechat-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/wechatpayQR.jpg"></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
+        <footer class="post-footer">
+          <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
+          <div class="post-tags">
+          </div>
+          <div class="post-share">
+            <div class="social-share sharehidden share-component"></div>
+            <i class="iconfont show-share icon-forward"></i>
+          </div>
+        </footer><!-- .entry-footer -->
+      </article>
+      <!-- #post-## -->
+      <div class="toc" style="background: none;"></div>
+      <section class="post-squares nextprev">
+        
+          
+            <div class="post-nepre half previous">
+          
+            <a href="/2020/08/11/如何从0开始建立数据库(二)：数据库关系建模/" rel="prev">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part220200811.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part220200811.jpg">
+              </div>
+              <span class="label">
+              Previous Post</span>
+              <div class="info">
+                <h3>
+                如何从0开始建立数据库(二)：数据库关系建模</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+        
+          
+            <div class="post-nepre half next">
+          
+            <a href="/2020/07/27/sweetviz/" rel="next">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.8/images/article/sweetviz20200727.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.8/images/article/sweetviz20200727.jpg">
+              </div>
+              <span class="label">
+              Next Post</span>
+              <div class="info">
+                <h3>
+                sweetviz库：快速可视化和数据集EDA</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+      </section>
+      
+<div id="vcomments"></div>
+<script>
+  window.onload = function(){
+      var valine = new Valine();
+      valine.init({
+        el: '#vcomments',
+        appId: "Hm83GoGeDX3sGPDh3Q50lSMz-gzGzoHsz",
+        appKey: "mXIVaYaFj1DNyH6yBicfUS0w",
+        path: window.location.pathname,
+        placeholder: "你是我一生只会遇见一次的惊喜 ..."
+      })
+  }
+</script>
+
+      <section class="author-profile">
+        <div class="info" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <a href="http://smilecoc.vip/" class="profile gravatar"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico" itemprop="image" alt="smilecoc" height="70" width="70"></a>
+          <div class="meta">
+            <span class="title">Author</span>
+            <h3 itemprop="name">
+            <a href="http://smilecoc.vip/" itemprop="url" rel="author">smilecoc</a>
+            </h3>
+          </div>
+        </div>
+        <hr>
+        <p><i class="iconfont icon-write"></i></p>
+      </section>
+    </main><!-- #main -->
+  </div><!-- #primary -->
+</div>
+
+
+
+    </div>    
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="请输入关键词..."/>
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            // PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+    <!-- <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Smilecoc<br>
+      powered_by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer> -->
+<footer id="colophon" class="site-footer" role="contentinfo">
+  <div class="site-info">
+    <div class="footertext">
+      <div class="img-preload">
+        <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/wordpress-rotating-ball-o.svg">
+        <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/disqus-preloader.svg">
+      </div>
+      <p style="color: #666666;">&copy 2018</p>
+    </div>
+    <div class="footer-device">
+    <p style="font-family: 'Ubuntu', sans-serif;">
+        <span style="color: #b9b9b9;">Theme <a href="https://github.com/honjun/hexo-theme-sakura" target="_blank" style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">Sakura</a> <i class="iconfont icon-sakura rotating" style="color: #ffc0cb;display:inline-block"></i> by <a href="https://2heng.xin/" target="_blank" style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">Mashiro</a>&<a href="https://www.hojun.cn/" target="_blank" style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">Hojun</a>, Powered by Hexo, Hosted by Coding Pages</a>
+        </span>
+      </p>
+    </div>
+  </div><!-- .site-info -->
+</footer>
+
+
+
+<!-- <script src="/js/tocbot.js"></script> -->
+<script type="text/javascript" src="/js/lib.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script type="text/javascript" src="/js/InsightSearch.js"></script>
+<script type="text/javascript" src="/js/jquery.fancybox.min.js"></script>
+<script type="text/javascript" src="/js/zoom.min.js"></script>
+<script type="text/javascript" src="/js/sakura-app.js"></script>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/ctz45562/cdn@2.0.2/js/volantis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+<script src="https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget/autoload.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/yremp/yremp-js@1.5/sakura.js"></script>
+<!-- 不蒜子 网页计数器 -->
+<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script> -->
+<script type="text/javascript">
+/* <![CDATA[ */
+if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+  var Poi = {"pjax":"1","movies":{"url": "https://cdn.jsdelivr.net/gh/honjun/hojun@1.2/Unbroken.mp4","name":"ThreeBody","live":"close"},"windowheight":"fixed","codelamp":"close","ajaxurl":"","order":"asc","formpostion":"bottom"};
+} else {
+  var Poi = {"pjax":"1","movies":{"url": "https://cdn.jsdelivr.net/gh/honjun/hojun@1.2/Unbroken.mp4","name":"ThreeBody","live":"open"},"windowheight":"auto","codelamp":"close","ajaxurl":"","order":"asc","formpostion":"bottom"};
+}
+/* ]]> */
+
+</script>
+<script>
+$(document).ready(function() {
+  if ($(".toc").length > 0 && document.body.clientWidth > 1200) {
+    if ($(".pattern-center").length > 0) { //有图的情况
+      tocbot.init({
+          // Where to render the table of contents.
+          tocSelector: '.toc', // 放置目录的容器
+          // Where to grab the headings to build the table of contents.
+          contentSelector: '.entry-content', // 正文内容所在
+          // Which headings to grab inside of the contentSelector element.
+          scrollSmooth: true,
+          headingSelector: 'h1, h2, h3, h4, h5', // 需要索引的标题级别
+          headingsOffset: -400,
+          scrollSmoothOffset: -85
+      });
+    } else {
+      tocbot.init({
+          // Where to render the table of contents.
+          tocSelector: '.toc', // 放置目录的容器
+          // Where to grab the headings to build the table of contents.
+          contentSelector: '.entry-content', // 正文内容所在
+          // Which headings to grab inside of the contentSelector element.
+          scrollSmooth: true,
+          headingSelector: 'h1, h2, h3, h4, h5', // 需要索引的标题级别
+          headingsOffset: -85,
+          scrollSmoothOffset: -85
+      });
+    }
+    var offsetTop = $('.toc').offset().top - 95;
+    window.onscroll = function() {
+      var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+      if (scrollTop >= offsetTop) {
+        $('.toc').addClass('toc-fixed');
+      } else {
+        $('.toc').removeClass('toc-fixed');
+      }
+    }
+  }
+});
+</script>
+
+    <div class="openNav no-select" style="height: 50px;">
+      <div class="iconflat no-select" style="width: 50px; height: 50px;">
+        <div class="icon"></div>
+      </div>
+      <div class="site-branding search-form-submit">
+        <i class="iconfont js-toggle-search iconsearch icon-search"></i>
+      </div>
+    </div>
+  </section>
+  <div id="mo-nav" class="">
+  <div class="m-avatar">
+    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/favicon.ico">
+  </div>
+  <p style="text-align: center; color: #333; font-weight: 900; font-family: 'Ubuntu', sans-serif; letter-spacing: 1.5px">君の名はSmilecoc</p>
+  <p style="text-align: center; word-spacing: 20px;">
+    
+      
+        <a href="http://github.com/smilecoc" class="fa fa-github" target="_blank" style="color: #333; margin-left:20px"></a>
+      
+        <a href="https://weibo.com/p/1005057275339401/home?from=page_100505&mod=TAB#place" class="fa fa-weibo" target="_blank" style="color: #dd4b39; margin-left:20px"></a>
+      
+        <a href="http://github.com/smilecoc" class="fa fa-qq" target="_blank" style="color: #25c6fe; margin-left:20px"></a>
+      
+    
+  </p>
+  <ul id="menu-new-1" class="menu">
+    
+      <li>
+        <a href="/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-fort-awesome faa-shake" aria-hidden="true"></i>
+            首页
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/archives">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-archive faa-shake" aria-hidden="true"></i>
+            归档
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/categories/技术/">
+                  <i class="fa fa-code" aria-hidden="true"></i>
+                  技术
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/笔记/">
+                  <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                  笔记
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/资源/">
+                  <i class="fa fa-cloud-download" aria-hidden="true"></i>
+                  资源
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/随想/">
+                  <i class="fa fa-commenting-o" aria-hidden="true"></i>
+                  随想
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/转载/">
+                  <i class="fa fa-book" aria-hidden="true"></i>
+                  转载
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="javascript:;">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-list-ul faa-vertical" aria-hidden="true"></i>
+            清单
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/tags/悦读/">
+                  <i class="fa fa-th-list faa-bounce" aria-hidden="true"></i>
+                  书单
+                </a>
+              </li>
+            
+              <li>
+                <a href="/bangumi/">
+                  <i class="fa fa-film faa-vertical" aria-hidden="true"></i>
+                  番组
+                </a>
+              </li>
+            
+              <li>
+                <a href="/music/">
+                  <i class="fa fa-headphones" aria-hidden="true"></i>
+                  歌单
+                </a>
+              </li>
+            
+              <li>
+                <a href="/tags/图集/">
+                  <i class="fa fa-photo" aria-hidden="true"></i>
+                  图集
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="/comment/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-pencil-square-o faa-tada" aria-hidden="true"></i>
+            留言板
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/links/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-link faa-shake" aria-hidden="true"></i>
+            友人帐
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/donate/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-heart faa-pulse" aria-hidden="true"></i>
+            赞赏
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-leaf faa-wrench" aria-hidden="true"></i>
+            关于
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/about/">
+                  <i class="fa fa-meetup" aria-hidden="true"></i>
+                  我？
+                </a>
+              </li>
+            
+              <li>
+                <a href="/lab/">
+                  <i class="fa fa-cogs" aria-hidden="true"></i>
+                  Lab
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="/client/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-android faa-vertical" aria-hidden="true"></i>
+            客户端
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/atom.xml">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-rss faa-pulse" aria-hidden="true"></i>
+            RSS
+          </span>
+        </a>
+        
+      </li>
+    
+  </ul>
+  <p style="text-align: center; font-size: 13px; color: #b9b9b9;">&copy 2019 hexo-sakura</p>
+</div>
+<button onclick="topFunction()" class="mobile-cd-top" id="moblieGoTop" title="Go to top" style="display: none;"><i class="fa fa-chevron-up" aria-hidden="true"></i></button>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+<style>
+  .aplayer .aplayer-lrc {
+    height: 35px;
+  }
+  .aplayer .aplayer-lrc p{
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 18px !important;
+  }
+  .aplayer .aplayer-lrc p.aplayer-lrc-current{
+    color: #FF1493;
+  }
+  .aplayer.aplayer-narrow .aplayer-body{
+    left: -66px !important;
+  }
+  .aplayer.aplayer-fixed .aplayer-lrc {
+    display: none;
+  }
+  .aplayer .aplayer-lrc.aplayer-lrc-hide {
+      display:none !important;
+  }
+  .aplayer.aplayer-fixed .lrc-show {
+    display: block;
+    background: rgba(255, 255, 255, 0.8);
+  }
+</style>
+<div class="aplayer"
+
+    data-id="953999592"
+
+    data-server="netease"
+
+    data-type="playlist"
+
+    data-fixed="true"
+
+    data-autoplay="false"
+
+    data-loop="all"
+
+    data-order="random"
+
+    data-preload="true"
+
+    data-volume="0.7"
+
+    data-mutex="true"
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script>
+<script>
+  $(function(){
+    $('body').on('click', '.aplayer', function(){
+      if($('.aplayer-button').hasClass('aplayer-play')) {
+        $('.aplayer-lrc').removeClass('lrc-show');
+      } else {
+        $('.aplayer-lrc').addClass('lrc-show');
+      }
+    })
+  });
+</script>
+</body>
+</html>

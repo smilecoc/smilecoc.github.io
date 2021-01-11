@@ -1,0 +1,1480 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta name="baidu-site-verification" content="y0z4MO0APm">
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  
+  <title itemprop="name">Markdown语法参考 | Smilecoc&#39;s Blog</title>
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+SerifMerriweather|Merriweather+Sans|Source+Code+Pro|Ubuntu:400,700|Noto+Serif+SC" media="all">
+  <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+  <link rel="stylesheet" id="saukra_css-css" href="/css/style.css" type="text/css" media="all">
+  <link rel="stylesheet" href="/css/lib.min.css" media="all">
+  <link rel="stylesheet" href="/css/font.css" media="all">
+  <link rel="stylesheet" href="/css/insight.css" media="all">
+  <link rel="stylesheet" href="/css/jquery.fancybox.min.css" media="all">
+  <link rel="stylesheet" href="/css/zoom.css" media="all">
+  <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<!--   <link rel="stylesheet" id="saukra_css-css" href="https://2heng.xin/wp-content/cache/autoptimize/css/autoptimize_ad42a61f4c7d4bdd9f91afcff6b5dda5.css
+" type="text/css" media="all"> -->
+  <script>
+  /*Initial Variables*/
+  var mashiro_option = new Object();
+  var mashiro_global = new Object();
+  mashiro_option.NProgressON = true;
+  /* 
+   * 邮箱信息之类的东西可以填在这里，这些js变量基本都作用于sakura-app.js
+   * 这样的设置仅是为了方便在基于PHP开发的主题中设置js变量，既然移植到了Node上，我想或许可以精简这一逻辑吧
+   */
+  mashiro_option.email_domain = "";
+  mashiro_option.email_name = "";
+  mashiro_option.cookie_version_control = "";
+  mashiro_option.qzone_autocomplete = false;
+  mashiro_option.site_name = "君の名はSmilecoc";
+  mashiro_option.author_name = "Smilecoc";
+  mashiro_option.site_url = "https://smilecoc.github.io/";
+  mashiro_option.v_appId = "Hm83GoGeDX3sGPDh3Q50lSMz-gzGzoHsz";
+  mashiro_option.v_appKey = "mXIVaYaFj1DNyH6yBicfUS0w";
+  mashiro_option.mathjax = "0";
+  mashiro_option.qq_api_url = "https://api.mashiro.top/qqinfo/"; 
+  mashiro_option.qq_avatar_api_url = "https://api.mashiro.top/qqinfo/";
+
+  // mashiro_option.jsdelivr_css_src = "https://cdn.jsdelivr.net/gh/moezx/cdn@3.4.5/css/lib.min.css";
+  // mashiro_option.float_player_on = true;
+
+  /*End of Initial Variables*/
+  </script>
+  <script type="text/javascript">
+  var bg = "https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/1.jpg,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/2.jpg,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/3.jpg,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/4.jpg,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/5.webp,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/6.jpg,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/7.webp,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/8.jpg".split(",");
+  var bgindex = Math.floor(Math.random()*bg.length);
+  if (!!window.ActiveXObject || "ActiveXObject" in window) { //is IE?
+    alert('朋友，IE浏览器未适配哦~');
+  }
+  </script>
+  <style type="text/css">
+  .hljs-ln{border-collapse:collapse}.hljs-ln td{padding:0}.hljs-ln-n:before{content:attr(data-line-number)}
+  </style>
+  <style type="text/css">.site-top .lower nav{display:block !important;}.author-profile i,.post-like a,.post-share .show-share,.sub-text,.we-info a,span.sitename,.post-more i:hover,#pagination a:hover,.post-content a:hover,.float-content i:hover{color:#FE9600}.feature i,.download,.navigator i:hover,.links ul li:before,.ar-time i,span.ar-circle,.object,.comment .comment-reply-link,.siren-checkbox-radio:checked + .siren-checkbox-radioInput:after{background:#FE9600}::-webkit-scrollbar-thumb{background:#FE9600}.download,.navigator i:hover,.link-title,.links ul li:hover,#pagination a:hover,.comment-respond input[type='submit']:hover{border-color:#FE9600}.entry-content a:hover,.site-info a:hover,.comment h4 a,#comments-navi a.prev,#comments-navi a.next,.comment h4 a:hover,.site-top ul li a:hover,.entry-title a:hover,#archives-temp h3,span.page-numbers.current,.sorry li a:hover,.site-title a:hover,i.iconfont.js-toggle-search.iconsearch:hover,.comment-respond input[type='submit']:hover{color:#FE9600}.comments .comments-main{display:block !important;}.comments .comments-hidden{display:none !important;}background-position:center center;background-attachment:inherit;}
+  </style>
+<link rel="alternate" href="/atom.xml" title="Smilecoc's Blog" type="application/atom+xml">
+</head>
+</html>
+<body class="page-template page-template-user page-template-page-analytics page-template-userpage-analytics-php page page-id-1297 chinese-font serif isWebKit">
+  <div class="skin-menu no-select" id="mainskin" style="position: fixed"> 
+    <div class="theme-controls row-container">
+          <p style="text-align:center;font-family:'Monaco';font-weight:bold;color:#444"><i style="color:grey" class="fa fa-chevron-left"></i> background <i style="color:grey" class="fa fa-chevron-right"></i></p>
+        <ul class="menu-list"> <li id="white-bg"> 
+            <i class="fa fa-television" aria-hidden="true">
+            </i>
+            </li> 
+            <li id="sakura-bg"> 
+                <i class="iconfont icon-sakura">
+                </i>
+            </li>
+            <li id="gribs-bg">
+                <i class="fa fa-slack" aria-hidden="true">
+                </i>
+            </li>
+            <li id="KAdots-bg">
+                <i class="iconfont icon-dots">
+                </i>
+            </li>
+            <li id="totem-bg">
+                <i class="fa fa-optin-monster" aria-hidden="true">
+                </i>
+            </li>
+            <li id="pixiv-bg">
+                <i class="iconfont icon-pixiv">
+                </i>
+            </li>
+            <li id="bing-bg">
+                <i class="iconfont icon-bing">
+                </i>
+            </li>
+            <li id="dark-bg">
+                <i class="fa fa-moon-o" aria-hidden="true">
+                </i>
+            </li>
+        </ul>
+    </div>
+    <canvas id="night-mode-cover">
+    </canvas>
+</div>
+ 
+  <div class="changeSkin-gear no-select"> 
+    <div class="keys" id="setbtn"> 
+        <span id="open-skinMenu"> 
+            SCHEME TOOL | 主题工具 &nbsp;
+            <i class="iconfont icon-gear inline-block rotating">
+            </i> 
+        </span>
+    </div> 
+</div>
+
+  <div class="scrollbar" id="bar">
+  </div>
+  <a href="#" class="cd-top faa-float animated"></a>
+  <section id="main-container">
+    <div class="headertop ">
+  <div id="banner_wave_1"></div>
+  <div id="banner_wave_2"></div>
+  <figure id="centerbg" class="centerbg">
+    <div class="focusinfo no-select">
+      <div class="header-tou">
+        <a href="https://smilecoc.github.io/">
+          <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/favicon.ico">
+        </a>
+      </div>
+      <div class="header-info">
+        <p>今でもあなたはわたしの光  时至今日，你仍是我的光</p>
+        <div class="top-social_v2">
+          <li id="bg-pre">
+            <img class="flipx" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/next-b.svg">
+          </li>
+          
+            
+              
+                <li>
+                  <a href="http://github.com/smilecoc" target="_blank" class="social-github" title="github">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/social/github.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="https://weibo.com/p/1005057275339401/home?from=page_100505&amp;mod=TAB#place" target="_blank" class="social-github" title="sina">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/social/sina.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="https://music.163.com/#/user/home?id=615928150" target="_blank" class="social-github" title="wangyiyun">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/social/wangyiyun.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="https://www.zhihu.com/people/lai-10086tou-su-4/activities" target="_blank" class="social-github" title="zhihu">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/social/zhihu.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="http://github.com/smilecoc" target="_blank" class="social-github" title="email">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/social/email.svg">
+                  </a>
+                </li>
+              
+            
+              
+                <li class="wechat">
+                  <a href="/#">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/social/wechat.png">
+                  </a>
+                  <div class="wechatInner">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/wechat.jfif">
+                  </div>
+                </li>
+              
+            
+          
+          <li id="bg-next">
+            <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/next-b.svg">
+          </li>
+        </div>
+      </div>
+    </div>
+  </figure>
+  <div id="video-container" style="">
+    <video style="object-fit: fill" id="bgvideo" class="video" video-name="" src="" width="auto" preload="auto">
+    </video>
+    <div id="video-btn" class="loadvideo videolive">
+    </div>
+    <div id="video-add">
+    </div>
+    <div class="video-stu">
+    </div>
+  </div>
+  <div class="headertop-down faa-float animated" onclick="headertop_down()">
+    <span>
+      <i class="fa fa-chevron-down" aria-hidden="true">
+      </i>
+    </span>
+  </div>
+</div>
+    <div id="page" class="site wrapper">
+      <header class="site-header no-select gizle sabit" role="banner">
+  <div class="site-top">
+    <div class="site-branding">
+      <span class="site-title">
+        <span class="logolink moe-mashiro">
+          <a href="/">
+            <span class="sakurasono">君の名は</span>
+            <span class="shironeko">Smilecoc</span>
+          </a>
+        </span>
+      </span>
+    </div>
+    <div class="searchbox search-form-submit">
+      <i class="iconfont js-toggle-search iconsearch icon-search">
+      </i>
+    </div>
+    <div id="show-nav" class="showNav mobile-fit">
+      <div class="line line1">
+      </div>
+      <div class="line line2">
+      </div>
+      <div class="line line3">
+      </div>
+    </div>
+    <div class="lower-cantiner">
+      <div class="lower">
+        <nav class="mobile-fit-control hide">
+          <ul id="menu-new" class="menu">
+            
+              <li>
+                <a href="/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-fort-awesome faa-shake" aria-hidden="true"></i>
+                    首页
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-archive faa-shake" aria-hidden="true"></i>
+                    归档
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/categories/技术/">
+                          <i class="fa fa-code" aria-hidden="true"></i>
+                          技术
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/笔记/">
+                          <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                          笔记
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/资源/">
+                          <i class="fa fa-cloud-download" aria-hidden="true"></i>
+                          资源
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/随想/">
+                          <i class="fa fa-commenting-o" aria-hidden="true"></i>
+                          随想
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/转载/">
+                          <i class="fa fa-book" aria-hidden="true"></i>
+                          转载
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="javascript:;">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-list-ul faa-vertical" aria-hidden="true"></i>
+                    清单
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/tags/悦读/">
+                          <i class="fa fa-th-list faa-bounce" aria-hidden="true"></i>
+                          书单
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/bangumi/">
+                          <i class="fa fa-film faa-vertical" aria-hidden="true"></i>
+                          番组
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/music/">
+                          <i class="fa fa-headphones" aria-hidden="true"></i>
+                          歌单
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/tags/图集/">
+                          <i class="fa fa-photo" aria-hidden="true"></i>
+                          图集
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="/comment/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-pencil-square-o faa-tada" aria-hidden="true"></i>
+                    留言板
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/links/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-link faa-shake" aria-hidden="true"></i>
+                    友人帐
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/donate/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-heart faa-pulse" aria-hidden="true"></i>
+                    赞赏
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-leaf faa-wrench" aria-hidden="true"></i>
+                    关于
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/about/">
+                          <i class="fa fa-meetup" aria-hidden="true"></i>
+                          我？
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/lab/">
+                          <i class="fa fa-cogs" aria-hidden="true"></i>
+                          Lab
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="/client/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-android faa-vertical" aria-hidden="true"></i>
+                    客户端
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/atom.xml">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-rss faa-pulse" aria-hidden="true"></i>
+                    RSS
+                  </span>
+                </a>
+                
+              </li>
+            
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<div class="pattern-center-blank"></div>
+
+  <div class="pattern-center single-center">
+    <!-- 有配图默认渲染第一张 -->
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.6/images/article/markdowm_guidance20200621.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.6/images/article/markdowm_guidance20200621.jpg">
+    </div>
+    <header class="pattern-header single-header">
+      <h1 class="entry-title">
+      Markdown语法参考</h1>
+      <p class="entry-census">
+        <span>
+          <a href="http://smilecoc.vip/">
+            <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico">
+          </a>
+        </span>
+        <span>
+          <a href="http://smilecoc.vip/">smilecoc</a>
+        </span>
+        <span class="bull">
+        ·</span>
+        2020-6-21<span class="bull">
+        ·</span>
+      <span id="busuanzi_value_page_pv"></span>次阅读</p>
+    </header>
+  </div>
+
+<div id="content" class="site-content">
+  <div id="primary" class="content-area">
+    <main id="main" class="site-main" role="main">
+      <article id="post-1" class="post-1 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+        <div class="toc"></div>
+        <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
+        
+        <div class="entry-content">
+          <p>Markdown 是一种轻量级标记语言,它允许人们“使用易读易写的纯文本格式编写文档，然后转换成有效的 XHTML（或者 HTML）文档”。被广泛应用于博客，网页与技术文档中</p>
+<h2 id="为什么选择-Markdown"><a href="#为什么选择-Markdown" class="headerlink" title="为什么选择 Markdown"></a>为什么选择 Markdown</h2><ul>
+<li>它基于纯文本，方便修改和共享；</li>
+<li>几乎可以在所有的文本编辑器中编写；</li>
+<li>有众多编程语言的实现，以及应用的相关扩展；</li>
+<li>在 GitHub 等网站中有很好的应用；</li>
+<li>很容易转换为 HTML 文档或其他格式；</li>
+<li>适合用来编写文档、记录笔记、撰写文章。</li>
+</ul>
+<h2 id="Markdown-语法"><a href="#Markdown-语法" class="headerlink" title="Markdown 语法"></a>Markdown 语法</h2><h3 id="段落与换行"><a href="#段落与换行" class="headerlink" title="段落与换行"></a>段落与换行</h3><ol>
+<li><p>段落的前后必须是空行：空行指的是行内什么都没有，或者只有空白符（空格或制表符).<strong>相邻两行文本，如果中间没有空行 会显示在一行中（换行符被转换为空格）</strong></p>
+</li>
+<li><p>如果需要在段落内加入换行（&lt;br&gt;）：可以在前一行的末尾加入至少两个空格,然后换行写其它的文字</p>
+</li>
+<li><p>Markdown 中的多数区块都需要在两个空行之间。</p>
+</li>
+</ol>
+<h3 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h3><p>一般用对称的 # 包括文本，或者只在左边使用 #。例如下面的语句：</p>
+<pre><code>#### 标题4 ####
+
+#####  标题5</code></pre><h4 id="标题4"><a href="#标题4" class="headerlink" title="标题4"></a>标题4</h4><h5 id="标题5"><a href="#标题5" class="headerlink" title="标题5"></a>标题5</h5><p>其中加几个#表示几级标题，在#符号内侧一般会加上空格</p>
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><h4 id="1-引用内容"><a href="#1-引用内容" class="headerlink" title="1. 引用内容"></a>1. 引用内容</h4><p>在段落或其他内容前使用 &gt; 符号，就可以将这段内容标记为 ‘引用’ 的内容：</p>
+<pre><code>&gt;引用内容</code></pre><blockquote>
+<p>引用内容</p>
+</blockquote>
+<h5 id="2-多行引用"><a href="#2-多行引用" class="headerlink" title="2. 多行引用"></a>2. 多行引用</h5><p>多行引用可以在每行前加 <code>&gt;</code>,也可以仅在第一行使用 <code>&gt;</code>，后面相邻的行即使省略 <code>&gt;</code>，也会变成引用内容。<br>如果引用内容需要换行，  可以在行尾添加两个空格，或者在引用内容中加一个空行，如下所示：</p>
+<pre><code>&gt;如果引用内容需要换行，  
+&gt;可以在行尾添加两个空格
+&gt;
+&gt;或者在引用内容中加一个空行</code></pre><h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><h4 id="无序列表"><a href="#无序列表" class="headerlink" title="无序列表"></a>无序列表</h4><pre><code>* 可以使用 `*` 作为标记
++ 也可以使用 `+`
+- 或者 `-`</code></pre><p>上述语句的渲染结果为：</p>
+<ul>
+<li>可以使用 <code>*</code> 作为标记</li>
+</ul>
+<ul>
+<li>也可以使用 <code>+</code></li>
+</ul>
+<ul>
+<li>或者 <code>-</code></li>
+</ul>
+<h4 id="有序列表"><a href="#有序列表" class="headerlink" title="有序列表"></a>有序列表</h4><pre><code>1. 有序列表以数字和 `.` 开始；
+3. 数字的序列并不会影响生成的列表序列；
+4. 但仍然推荐按照自然顺序（1.2.3...）编写。</code></pre><p>上述语句的渲染结果为：</p>
+<ol>
+<li>有序列表以数字和 <code>.</code> 开始；</li>
+<li>数字的序列并不会影响生成的列表序列；</li>
+<li>但仍然推荐按照自然顺序（1.2.3…）编写。</li>
+</ol>
+<h4 id="嵌套-多层-列表"><a href="#嵌套-多层-列表" class="headerlink" title="嵌套(多层)列表"></a>嵌套(多层)列表</h4><p>多层列表在符号或者序号前加上tab即可</p>
+<pre><code>1. 第一层
+  + 1-1
+  + 1-2
+2. 无序列表和有序列表可以随意相互嵌套
+  1. 2-1
+  2. 2-2</code></pre><ol>
+<li>第一层<ul>
+<li>1-1</li>
+<li>1-2</li>
+</ul>
+</li>
+<li>无序列表和有序列表可以随意相互嵌套<ol>
+<li>2-1</li>
+<li>2-2</li>
+</ol>
+</li>
+</ol>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><h4 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h4><p>可以使用缩进来插入代码块，但是一般我们使用 ``````来包含多行代码<br>```<br>   &lt;p&gt;code here&lt;/p&gt;<br>```<br>上述语句的渲染结果为：</p>
+<pre><code>&lt;p&gt;code here&lt;/p&gt;</code></pre><h4 id="代码高亮"><a href="#代码高亮" class="headerlink" title="代码高亮"></a>代码高亮</h4><p>在上面的代码块语法基础上，在第一组 ```之后添加代码的语言，如 ‘javascript’ 或 ‘js’，即可将代码标记为 JavaScript,同时可以将对应代码高亮<br>：<br>```js<br>window.addEventListener(‘load’, function() {<br>  console.log(‘window loaded’);<br>});<br>```</p>
+<pre><code class="js">window.addEventListener(&#39;load&#39;, function() {
+  console.log(&#39;window loaded&#39;);
+});</code></pre>
+<p> Markdown支持的语言与相应关键字有：</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>关键字</th>
+<th>调用的js</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>AppleScript</td>
+<td>applescript</td>
+<td>shBrushAppleScript.js</td>
+<td></td>
+</tr>
+<tr>
+<td>ActionScript 3.0</td>
+<td>actionscript3 , as3</td>
+<td>shBrushAS3.js</td>
+<td></td>
+</tr>
+<tr>
+<td>Shell</td>
+<td>bash , shell</td>
+<td>shBrushBash.js</td>
+<td></td>
+</tr>
+<tr>
+<td>ColdFusion</td>
+<td>coldfusion , cf</td>
+<td>shBrushColdFusion.js</td>
+<td></td>
+</tr>
+<tr>
+<td>C</td>
+<td>cpp , c</td>
+<td>shBrushCpp.js</td>
+<td></td>
+</tr>
+<tr>
+<td>C#</td>
+<td>c# , c-sharp , csharp</td>
+<td>shBrushCSharp.js</td>
+<td></td>
+</tr>
+<tr>
+<td>CSS</td>
+<td>css</td>
+<td>shBrushCss.js</td>
+<td></td>
+</tr>
+<tr>
+<td>Delphi</td>
+<td>delphi , pascal , pas</td>
+<td>shBrushDelphi.js</td>
+<td></td>
+</tr>
+<tr>
+<td>diff&amp;patch</td>
+<td>diff patch</td>
+<td>shBrushDiff.js</td>
+<td>用代码版本库时,遇到代码冲突,其语法就是这个.</td>
+</tr>
+<tr>
+<td>Erlang</td>
+<td>erl , erlang</td>
+<td>shBrushErlang.js</td>
+<td></td>
+</tr>
+<tr>
+<td>Groovy</td>
+<td>groovy</td>
+<td>shBrushGroovy.js</td>
+<td></td>
+</tr>
+<tr>
+<td>Java</td>
+<td>java</td>
+<td>shBrushJava.js</td>
+<td></td>
+</tr>
+<tr>
+<td>JavaFX</td>
+<td>jfx , javafx</td>
+<td>shBrushJavaFX.js</td>
+<td></td>
+</tr>
+<tr>
+<td>JavaScript</td>
+<td>js , jscript , javascript</td>
+<td>shBrushJScript.js</td>
+<td></td>
+</tr>
+<tr>
+<td>Perl</td>
+<td>perl , pl , Perl</td>
+<td>shBrushPerl.js</td>
+<td></td>
+</tr>
+<tr>
+<td>PHP</td>
+<td>php</td>
+<td>shBrushPhp.js</td>
+<td></td>
+</tr>
+<tr>
+<td>text</td>
+<td>text , plain</td>
+<td>shBrushPlain.js</td>
+<td>就是普通文本.</td>
+</tr>
+<tr>
+<td>Python</td>
+<td>py , python</td>
+<td>shBrushPython.js</td>
+<td></td>
+</tr>
+<tr>
+<td>Ruby</td>
+<td>ruby , rails , ror , rb</td>
+<td>shBrushRuby.js</td>
+<td></td>
+</tr>
+<tr>
+<td>SASS&amp;SCSS</td>
+<td>sass , scss</td>
+<td>shBrushSass.js</td>
+<td></td>
+</tr>
+<tr>
+<td>Scala</td>
+<td>scala</td>
+<td>shBrushScala.js</td>
+<td></td>
+</tr>
+<tr>
+<td>SQL</td>
+<td>sql</td>
+<td>shBrushSql.js</td>
+<td></td>
+</tr>
+<tr>
+<td>Visual Basic</td>
+<td>vb , vbnet</td>
+<td>shBrushVb.js</td>
+<td></td>
+</tr>
+<tr>
+<td>XML</td>
+<td>xml , xhtml , xslt , html</td>
+<td>shBrushXml.js</td>
+<td></td>
+</tr>
+<tr>
+<td>Objective C</td>
+<td>objc , obj-c</td>
+<td>shBrushObjectiveC.js</td>
+<td></td>
+</tr>
+<tr>
+<td>F#</td>
+<td>f# f-sharp , fsharp</td>
+<td>shBrushFSharp.js</td>
+<td></td>
+</tr>
+<tr>
+<td>R</td>
+<td>r , s , splus</td>
+<td>shBrushR.js</td>
+<td></td>
+</tr>
+<tr>
+<td>matlab</td>
+<td>matlab</td>
+<td>shBrushMatlab.js</td>
+<td></td>
+</tr>
+<tr>
+<td>swift</td>
+<td>swift</td>
+<td>shBrushSwift.js</td>
+<td></td>
+</tr>
+<tr>
+<td>GO</td>
+<td>go , golang</td>
+<td>shBrushGo.js</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>上述表格应该包括所有的常使用的代码语言，但肯定不包括所有的语言，如有缺失欢迎指出</p>
+<h3 id="分隔线"><a href="#分隔线" class="headerlink" title="分隔线"></a>分隔线</h3><p>可以在一行中使用三个或更多的 *、- 或 _ 来添加分隔线：</p>
+<pre><code>***
+------
+___</code></pre><hr>
+<h3 id="超链接"><a href="#超链接" class="headerlink" title="超链接"></a>超链接</h3><p>格式为[link text](URL ‘title text’)</p>
+<pre><code>[Google](http://www.google.com/)</code></pre><p>上述语句的渲染结果为：<br><a href="http://www.google.com/" target="_blank" rel="noopener">Google</a></p>
+<p>同时也可以创建指向本地文件的链接：</p>
+<pre><code>[icon.png](./images/icon.png)</code></pre><h3 id="图像"><a href="#图像" class="headerlink" title="图像"></a>图像</h3><p>插入图片的语法和插入超链接的语法基本一致，只是在最前面多一个 !.</p>
+<pre><code>![GitHub](https://avatars2.githubusercontent.com/u/3265208?v=3&amp;s=100 &quot;GitHub,Social Coding&quot;)</code></pre><p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9hdmF0YXJzMi5naXRodWJ1c2VyY29udGVudC5jb20vdS8zMjY1MjA4?x-oss-process=image/format,png" alt="GitHub"></p>
+<h3 id="强调"><a href="#强调" class="headerlink" title="强调"></a>强调</h3><ol>
+<li><p>使用 * * 或 _ _ 包括的文本会被转换为 &lt;em&gt;&lt;/em&gt; ，通常表现为斜体：</p>
+<pre><code>这是用来 *演示* 的 _文本_</code></pre><p>这是用来 <em>演示</em> 的 <em>文本</em></p>
+</li>
+<li><p>使用 ** ** 或 __ __ 包括的文本会被转换为 &lt;strong&gt;&lt;/strong&gt;，通常表现为加粗：</p>
+<pre><code>这是用来 **演示** 的 __文本__</code></pre><p>这是用来 <strong>演示</strong> 的 <strong>文本</strong></p>
+</li>
+<li><p>用来包括文本的 * 或 _ 内侧不能有空白，否则 * 和 _ 将不会被转换（不同的实现会有不同的表现）：</p>
+<pre><code>这是用来 * 演示* 的 _文本 _</code></pre><p>这是用来 * 演示* 的 _文本 _</p>
+</li>
+<li><p>如果需要在文本中显示成对的 * 或 _，可以在符号前加入 (转义字符) 即可：</p>
+<pre><code>这是用来 \*演示\* 的 \_文本\_</code></pre><p>这是用来 *演示* 的 _文本_</p>
+</li>
+<li><p><em>、*</em>、_ 和 __ 都必须 成对使用 。</p>
+</li>
+</ol>
+<h3 id="Markdown字符转义"><a href="#Markdown字符转义" class="headerlink" title="Markdown字符转义"></a>Markdown字符转义</h3><p>反斜线（\）用于插入在 Markdown 语法中有特殊作用的字符。</p>
+<pre><code>这是用来 *演示* 的 _文本_
+
+这是用来 \*演示\* 的 \_文本\_</code></pre><p>第一句结果出来的结果为：<br>这是用来 <em>演示</em> 的 <em>文本</em><br>而第二句的结果为:<br>这是用来 *演示* 的 _文本_</p>
+<p>这些需要转义的字符包括：</p>
+<pre><code>\
+`
+*
+_
+{}
+[]
+()
+#
++
+-
+.
+!</code></pre><h3 id="删除线"><a href="#删除线" class="headerlink" title="删除线"></a>删除线</h3><pre><code>这就是 ~~删除线~~</code></pre><p>这就是 <del>删除线</del></p>
+<h3 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h3><h4 id="单元格和表头"><a href="#单元格和表头" class="headerlink" title="单元格和表头"></a>单元格和表头</h4><p>使用 | 来分隔不同的单元格，使用 - 来分隔表头和其他行：</p>
+<pre><code>name | age
+---- | ---
+LearnShare | 12
+Mike |  32</code></pre><table>
+<thead>
+<tr>
+<th>name</th>
+<th>age</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>LearnShare</td>
+<td>12</td>
+</tr>
+<tr>
+<td>Mike</td>
+<td>32</td>
+</tr>
+</tbody></table>
+<p>为了美观，可以使用空格对齐不同行的单元格，并在左右两侧都使用 | 来标记单元格边界：</p>
+<pre><code>|    name    | age |
+| ---------- | --- |
+| LearnShare |  12 |
+| Mike       |  32 |</code></pre><table>
+<thead>
+<tr>
+<th>name</th>
+<th>age</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>LearnShare</td>
+<td>12</td>
+</tr>
+<tr>
+<td>Mike</td>
+<td>32</td>
+</tr>
+</tbody></table>
+<p>为了使 Markdown 更清晰，| 和 - 两侧需要至少有一个空格（最左侧和最右侧的 | 外就不需要了）。</p>
+<h4 id="对齐"><a href="#对齐" class="headerlink" title="对齐"></a>对齐</h4><p>在表头下方的分隔线标记中加入 :，即可标记下方单元格内容的对齐方式：</p>
+<ul>
+<li>:— 代表左对齐</li>
+<li>:–: 代表居中对齐</li>
+<li>—: 代表右对齐<pre><code>| left | center | right |
+| :--- | :----: | ----: |
+| aaaa | bbbbbb | ccccc |
+| a    | b      | c     |</code></pre><table>
+<thead>
+<tr>
+<th align="left">left</th>
+<th align="center">center</th>
+<th align="right">right</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">aaaa</td>
+<td align="center">bbbbbb</td>
+<td align="right">ccccc</td>
+</tr>
+<tr>
+<td align="left">a</td>
+<td align="center">b</td>
+<td align="right">c</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<p>如果不使用对齐标记，单元格中的内容默认左对齐；表头单元格中的内容会一直居中对齐（不同的实现可能会有不同表现）。</p>
+<h4 id="在表格单元格里换行"><a href="#在表格单元格里换行" class="headerlink" title="在表格单元格里换行"></a>在表格单元格里换行</h4><p>借助于 HTML 里的 <br> 实现。</p>
+<p>示例代码：</p>
+<pre><code>| Header1 | Header2                          |
+|---------|----------------------------------|
+| item 1  | 1. one&lt;br /&gt;2. two&lt;br /&gt;3. three |</code></pre><p>示例效果：</p>
+<table>
+<thead>
+<tr>
+<th>Header1</th>
+<th>Header2</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>item 1</td>
+<td>1. one<br>2. two<br>3. three</td>
+</tr>
+</tbody></table>
+<h4 id="在表格单元格里加入空格"><a href="#在表格单元格里加入空格" class="headerlink" title="在表格单元格里加入空格"></a>在表格单元格里加入空格</h4><p>直接在 Markdown 里用空格和 Tab 键缩进在渲染后会被忽略掉，需要借助 HTML 转义字符在行首添加空格来实现，&ensp; 代表半角空格，&emsp; 代表全角空格</p>
+<pre><code>| Header1 | Header2                          |
+|---------|----------------------------------|
+| &amp;ensp;   | one</code></pre><table>
+<thead>
+<tr>
+<th>Header1</th>
+<th>Header2</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&ensp;</td>
+<td>one</td>
+</tr>
+<tr>
+<td>同理，这个方法可以在任何需要添加空格和缩进的地方使用</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="任务清单"><a href="#任务清单" class="headerlink" title="任务清单"></a>任务清单</h3><pre><code>- [ ] Eat
+- [x] Code
+  - [x] HTML
+  - [x] CSS
+  - [x] JavaScript
+- [ ] Sleep</code></pre><ul>
+<li><input disabled type="checkbox"> Eat</li>
+<li><input checked disabled type="checkbox"> Code<ul>
+<li><input checked disabled type="checkbox"> HTML</li>
+<li><input checked disabled type="checkbox"> CSS</li>
+<li><input checked disabled type="checkbox"> JavaScript</li>
+</ul>
+</li>
+<li><input disabled type="checkbox"> Sleep</li>
+</ul>
+<h3 id="添加emoji"><a href="#添加emoji" class="headerlink" title="添加emoji"></a>添加emoji</h3><p>更多可用 Emoji 代码参见 <a href="[https://www.webpagefx.com/tools/emoji-cheat-sheet/">https://www.webpagefx.com/tools/emoji-cheat-sheet/</a></p>
+<pre><code>我和我的小伙伴们都笑了。:smile:</code></pre><p>我和我的小伙伴们都笑了。:smile:</p>
+<h3 id="图文混排"><a href="#图文混排" class="headerlink" title="图文混排"></a>图文混排</h3><p>使用 <img> 标签来贴图，然后指定 align 属性。</p>
+<p>示例代码：</p>
+<pre><code>&lt;img align=&quot;right&quot; src=&quot;https://avatars2.githubusercontent.com/u/3265208?v=3&amp;s=100 &quot;/&gt;
+
+这是一个示例图片。
+
+图片显示在 N 段文字的右边。
+
+N 与图片高度有关。
+
+刷屏行。
+
+刷屏行。
+
+到这里应该不会受影响了，本行应该延伸到了图片的正下方，所以我要足够长才能确保不同的屏幕下都看到效果。</code></pre><img align="right" src="https://avatars2.githubusercontent.com/u/3265208?v=3&s=100 ">
+
+<p>这是一个示例图片。</p>
+<p>图片显示在 N 段文字的右边。</p>
+<p>N 与图片高度有关。</p>
+<p>刷屏行。</p>
+<p>刷屏行。</p>
+<p>到这里应该不会受影响了，本行应该延伸到了图片的正下方，所以我要足够长才能确保不同的屏幕下都看到效果。</p>
+<h3 id="控制图片大小和位置"><a href="#控制图片大小和位置" class="headerlink" title="控制图片大小和位置"></a>控制图片大小和位置</h3><p>标准的 Markdown 图片标记 <img src alt> 无法指定图片的大小和位置，只能依赖默认的图片大小，默认居左。</p>
+<p>而有时候源图太大想要缩小一点，或者想将图片居中，就仍需要借助 HTML 的标签来实现了。图片居中可以使用 <div> 标签加 align 属性来控制，图片宽高则用 width 和 height 来控制。</div></p>
+<p>示例代码：</p>
+<pre><code>**图片默认显示效果：**
+
+![](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL216bG9naW4vbXpsb2dpbi5naXRodWIuaW8vbWFzdGVyL2ltYWdlcy9wb3N0cy9tYXJrZG93bi9kZW1vLnBuZw?x-oss-process=image/format,png)
+
+**加以控制后的效果：**
+
+&lt;div align=&quot;center&quot;&gt;&lt;img width=&quot;65&quot; height=&quot;75&quot; src=&quot;https://imgconvert.csdnimg.cn/aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL216bG9naW4vbXpsb2dpbi5naXRodWIuaW8vbWFzdGVyL2ltYWdlcy9wb3N0cy9tYXJrZG93bi9kZW1vLnBuZw?x-oss-process=image/format,png&quot;/&gt;&lt;/div&gt;</code></pre><p><strong>图片默认显示效果：</strong></p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL216bG9naW4vbXpsb2dpbi5naXRodWIuaW8vbWFzdGVyL2ltYWdlcy9wb3N0cy9tYXJrZG93bi9kZW1vLnBuZw?x-oss-process=image/format,png" alt></p>
+<p><strong>加以控制后的效果：</strong></p>
+<div align="center"><img width="65" height="75" src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL216bG9naW4vbXpsb2dpbi5naXRodWIuaW8vbWFzdGVyL2ltYWdlcy9wb3N0cy9tYXJrZG93bi9kZW1vLnBuZw?x-oss-process=image/format,png"></div>
+
+
+<h3 id="文字颜色、大小、字体设置"><a href="#文字颜色、大小、字体设置" class="headerlink" title="文字颜色、大小、字体设置"></a>文字颜色、大小、字体设置</h3><h4 id="颜色"><a href="#颜色" class="headerlink" title="颜色"></a>颜色</h4><pre><code>浅红色文字：&lt;font color=&quot;#dd0000&quot;&gt;浅红色文字：&lt;/font&gt;&lt;br /&gt; 
+深红色文字：&lt;font color=&quot;#660000&quot;&gt;深红色文字&lt;/font&gt;&lt;br /&gt; 
+浅绿色文字：&lt;font color=&quot;#00dd00&quot;&gt;浅绿色文字&lt;/font&gt;&lt;br /&gt; 
+深绿色文字：&lt;font color=&quot;#006600&quot;&gt;深绿色文字&lt;/font&gt;&lt;br /&gt; 
+浅蓝色文字：&lt;font color=&quot;#0000dd&quot;&gt;浅蓝色文字&lt;/font&gt;&lt;br /&gt; 
+深蓝色文字：&lt;font color=&quot;#000066&quot;&gt;深蓝色文字&lt;/font&gt;&lt;br /&gt; 
+浅黄色文字：&lt;font color=&quot;#dddd00&quot;&gt;浅黄色文字&lt;/font&gt;&lt;br /&gt; 
+深黄色文字：&lt;font color=&quot;#666600&quot;&gt;深黄色文字&lt;/font&gt;&lt;br /&gt; 
+浅青色文字：&lt;font color=&quot;#00dddd&quot;&gt;浅青色文字&lt;/font&gt;&lt;br /&gt; 
+深青色文字：&lt;font color=&quot;#006666&quot;&gt;深青色文字&lt;/font&gt;&lt;br /&gt; 
+浅紫色文字：&lt;font color=&quot;#dd00dd&quot;&gt;浅紫色文字&lt;/font&gt;&lt;br /&gt; 
+深紫色文字：&lt;font color=&quot;#660066&quot;&gt;深紫色文字&lt;/font&gt;&lt;br /&gt; </code></pre><p>浅红色文字：<font color="#dd0000">浅红色文字：</font><br><br>深红色文字：<font color="#660000">深红色文字</font><br><br>浅绿色文字：<font color="#00dd00">浅绿色文字</font><br><br>深绿色文字：<font color="#006600">深绿色文字</font><br><br>浅蓝色文字：<font color="#0000dd">浅蓝色文字</font><br><br>深蓝色文字：<font color="#000066">深蓝色文字</font><br><br>浅黄色文字：<font color="#dddd00">浅黄色文字</font><br><br>深黄色文字：<font color="#666600">深黄色文字</font><br><br>浅青色文字：<font color="#00dddd">浅青色文字</font><br><br>深青色文字：<font color="#006666">深青色文字</font><br><br>浅紫色文字：<font color="#dd00dd">浅紫色文字</font><br><br>深紫色文字：<font color="#660066">深紫色文字</font><br> </p>
+<p>采用的是RGB颜色<br>这里有个对照：<br><a href="http://www.114la.com/other/rgb.htm" target="_blank" rel="noopener">http://www.114la.com/other/rgb.htm</a><br>可以选择你想要的颜色对应的RGB值。</p>
+<h4 id="大小"><a href="#大小" class="headerlink" title="大小"></a>大小</h4><pre><code>size为1：&lt;font size=&quot;1&quot;&gt;size为1&lt;/font&gt;&lt;br /&gt; 
+size为2：&lt;font size=&quot;2&quot;&gt;size为2&lt;/font&gt;&lt;br /&gt; 
+size为3：&lt;font size=&quot;3&quot;&gt;size为3&lt;/font&gt;&lt;br /&gt; 
+size为4：&lt;font size=&quot;4&quot;&gt;size为4&lt;/font&gt;&lt;br /&gt; 
+size为10：&lt;font size=&quot;10&quot;&gt;size为10&lt;/font&gt;&lt;br /&gt; </code></pre><p>效果如下：</p>
+<p>size为1：<font size="1">size为1</font><br><br>size为2：<font size="2">size为2</font><br><br>size为3：<font size="3">size为3</font><br><br>size为4：<font size="4">size为4</font><br><br>size为10：<font size="10">size为10</font><br> </p>
+<h4 id="字体"><a href="#字体" class="headerlink" title="字体"></a>字体</h4><pre><code>&lt;font face=&quot;黑体&quot;&gt;我是黑体字&lt;/font&gt;
+&lt;font face=&quot;宋体&quot;&gt;我是宋体字&lt;/font&gt;
+&lt;font face=&quot;微软雅黑&quot;&gt;我是微软雅黑字&lt;/font&gt;
+&lt;font face=&quot;fantasy&quot;&gt;我是fantasy字&lt;/font&gt;
+&lt;font face=&quot;Helvetica&quot;&gt;我是Helvetica字&lt;/font&gt;</code></pre><p>效果如下：</p>
+<p><font face="黑体">我是黑体字</font><br><font face="宋体">我是宋体字</font><br><font face="微软雅黑">我是微软雅黑字</font><br><font face="fantasy">我是fantasy字</font><br><font face="Helvetica">我是Helvetica字</font></p>
+<h4 id="背景色"><a href="#背景色" class="headerlink" title="背景色"></a>背景色</h4><pre><code>&lt;table&gt;&lt;tr&gt;&lt;td bgcolor=#FF00FF&gt;背景色的设置是按照十六进制颜色值：#7FFFD4&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;table&gt;&lt;tr&gt;&lt;td bgcolor=#FF83FA&gt;背景色的设置是按照十六进制颜色值：#FF83FA&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;table&gt;&lt;tr&gt;&lt;td bgcolor=#D1EEEE&gt;背景色的设置是按照十六进制颜色值：#D1EEEE&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;table&gt;&lt;tr&gt;&lt;td bgcolor=#C0FF3E&gt;背景色的设置是按照十六进制颜色值：#C0FF3E&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;table&gt;&lt;tr&gt;&lt;td bgcolor=#54FF9F&gt;背景色的设置是按照十六进制颜色值：#54FF9F&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</code></pre><table><tr><td bgcolor="#FF00FF">背景色的设置是按照十六进制颜色值：#7FFFD4</td></tr></table>
+<table><tr><td bgcolor="#FF83FA">背景色的设置是按照十六进制颜色值：#FF83FA</td></tr></table>
+<table><tr><td bgcolor="#D1EEEE">背景色的设置是按照十六进制颜色值：#D1EEEE</td></tr></table>
+<table><tr><td bgcolor="#C0FF3E">背景色的设置是按照十六进制颜色值：#C0FF3E</td></tr></table>
+<table><tr><td bgcolor="#54FF9F">背景色的设置是按照十六进制颜色值：#54FF9F</td></tr></table>
+
+<h3 id="格式化表格"><a href="#格式化表格" class="headerlink" title="格式化表格"></a>格式化表格</h3><p>表格在渲染之后很整洁好看，但是在文件源码里却可能是这样的：</p>
+<pre><code>|Header1|Header2|
+|---|---|
+|a|a|
+|ab|ab|
+|abc|abc|</code></pre><p>推荐一个在线表格转化工具<a href="https://tableconvert.com/" target="_blank" rel="noopener">https://tableconvert.com/</a>，它能帮我自动将表格格式化成这样：</p>
+<pre><code>| Header1 | Header2 |
+|---------|---------|
+| a       | a       |
+| ab      | ab      |
+| abc     | abc     |</code></pre><p>是不是看着舒服多了？</p>
+<p>如果你不使用 Vim，也没有关系，比如 Atom 编辑器的 markdown-table-formatter 插件，Sublime Text 3 的 MarkdownTableFormatter 等等，都提供了类似的解决方案。</p>
+<h3 id="自动维护目录"><a href="#自动维护目录" class="headerlink" title="自动维护目录"></a>自动维护目录</h3><p>有时候维护一份比较长的文档，希望能够自动根据文档中的标题生成目录（Table of Contents），并且当标题有变化时自动更新目录，能减轻工作量，也不易出错。</p>
+<p>如果你使用 Vim 编辑器，那可以使用插件 vim-markdown-toc 来帮你完美地解决此事：</p>
+<p>插件地址：<a href="https://github.com/mzlogin/vim-markdown-toc" target="_blank" rel="noopener">https://github.com/mzlogin/vim-markdown-toc</a></p>
+<p>参考文档：<br><a href="https://mazhuang.org/2017/09/01/markdown-odd-skills/#%E5%9B%BE%E6%96%87%E6%B7%B7%E6%8E%92" target="_blank" rel="noopener">https://mazhuang.org/2017/09/01/markdown-odd-skills/#%E5%9B%BE%E6%96%87%E6%B7%B7%E6%8E%92</a><br><a href="http://xianbai.me/learn-md/index.html" target="_blank" rel="noopener">http://xianbai.me/learn-md/index.html</a></p>
+
+        </div>
+        <!-- .entry-content -->
+        <div class="single-reward">
+          <div class="reward-open">赏<div class="reward-main">
+              <ul class="reward-row">
+                <li class="alipay-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/AliPayQR.jpg"></li>
+                <li class="wechat-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/wechatpayQR.jpg"></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
+        <footer class="post-footer">
+          <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
+          <div class="post-tags">
+          </div>
+          <div class="post-share">
+            <div class="social-share sharehidden share-component"></div>
+            <i class="iconfont show-share icon-forward"></i>
+          </div>
+        </footer><!-- .entry-footer -->
+      </article>
+      <!-- #post-## -->
+      <div class="toc" style="background: none;"></div>
+      <section class="post-squares nextprev">
+        
+          
+            <div class="post-nepre half previous">
+          
+            <a href="/2020/06/23/SQL  server中的模式架构schema详解/" rel="prev">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.6/images/article/sql_schema20200622.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.6/images/article/sql_schema20200622.jpg">
+              </div>
+              <span class="label">
+              Previous Post</span>
+              <div class="info">
+                <h3>
+                SQL server中的模式架构schema详解</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+        
+          
+            <div class="post-nepre half next">
+          
+            <a href="/2020/06/20/VBA常用代码汇总/" rel="next">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.5/images/article/vba_code20200620.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.5/images/article/vba_code20200620.jpg">
+              </div>
+              <span class="label">
+              Next Post</span>
+              <div class="info">
+                <h3>
+                VBA常用代码汇总</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+      </section>
+      
+<div id="vcomments"></div>
+<script>
+  window.onload = function(){
+      var valine = new Valine();
+      valine.init({
+        el: '#vcomments',
+        appId: "Hm83GoGeDX3sGPDh3Q50lSMz-gzGzoHsz",
+        appKey: "mXIVaYaFj1DNyH6yBicfUS0w",
+        path: window.location.pathname,
+        placeholder: "你是我一生只会遇见一次的惊喜 ..."
+      })
+  }
+</script>
+
+      <section class="author-profile">
+        <div class="info" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <a href="http://smilecoc.vip/" class="profile gravatar"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico" itemprop="image" alt="smilecoc" height="70" width="70"></a>
+          <div class="meta">
+            <span class="title">Author</span>
+            <h3 itemprop="name">
+            <a href="http://smilecoc.vip/" itemprop="url" rel="author">smilecoc</a>
+            </h3>
+          </div>
+        </div>
+        <hr>
+        <p><i class="iconfont icon-write"></i></p>
+      </section>
+    </main><!-- #main -->
+  </div><!-- #primary -->
+</div>
+
+
+
+    </div>    
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="请输入关键词..."/>
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            // PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+    <!-- <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Smilecoc<br>
+      powered_by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer> -->
+<footer id="colophon" class="site-footer" role="contentinfo">
+  <div class="site-info">
+    <div class="footertext">
+      <div class="img-preload">
+        <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/wordpress-rotating-ball-o.svg">
+        <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/disqus-preloader.svg">
+      </div>
+      <p style="color: #666666;">&copy 2018</p>
+    </div>
+    <div class="footer-device">
+    <p style="font-family: 'Ubuntu', sans-serif;">
+        <span style="color: #b9b9b9;">Theme <a href="https://github.com/honjun/hexo-theme-sakura" target="_blank" style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">Sakura</a> <i class="iconfont icon-sakura rotating" style="color: #ffc0cb;display:inline-block"></i> by <a href="https://2heng.xin/" target="_blank" style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">Mashiro</a>&<a href="https://www.hojun.cn/" target="_blank" style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">Hojun</a>, Powered by Hexo, Hosted by Coding Pages</a>
+        </span>
+      </p>
+    </div>
+  </div><!-- .site-info -->
+</footer>
+
+
+
+<!-- <script src="/js/tocbot.js"></script> -->
+<script type="text/javascript" src="/js/lib.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script type="text/javascript" src="/js/InsightSearch.js"></script>
+<script type="text/javascript" src="/js/jquery.fancybox.min.js"></script>
+<script type="text/javascript" src="/js/zoom.min.js"></script>
+<script type="text/javascript" src="/js/sakura-app.js"></script>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/ctz45562/cdn@2.0.2/js/volantis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+<script src="https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget/autoload.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/yremp/yremp-js@1.5/sakura.js"></script>
+<!-- 不蒜子 网页计数器 -->
+<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script> -->
+<script type="text/javascript">
+/* <![CDATA[ */
+if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+  var Poi = {"pjax":"1","movies":{"url": "https://cdn.jsdelivr.net/gh/honjun/hojun@1.2/Unbroken.mp4","name":"ThreeBody","live":"close"},"windowheight":"fixed","codelamp":"close","ajaxurl":"","order":"asc","formpostion":"bottom"};
+} else {
+  var Poi = {"pjax":"1","movies":{"url": "https://cdn.jsdelivr.net/gh/honjun/hojun@1.2/Unbroken.mp4","name":"ThreeBody","live":"open"},"windowheight":"auto","codelamp":"close","ajaxurl":"","order":"asc","formpostion":"bottom"};
+}
+/* ]]> */
+
+</script>
+<script>
+$(document).ready(function() {
+  if ($(".toc").length > 0 && document.body.clientWidth > 1200) {
+    if ($(".pattern-center").length > 0) { //有图的情况
+      tocbot.init({
+          // Where to render the table of contents.
+          tocSelector: '.toc', // 放置目录的容器
+          // Where to grab the headings to build the table of contents.
+          contentSelector: '.entry-content', // 正文内容所在
+          // Which headings to grab inside of the contentSelector element.
+          scrollSmooth: true,
+          headingSelector: 'h1, h2, h3, h4, h5', // 需要索引的标题级别
+          headingsOffset: -400,
+          scrollSmoothOffset: -85
+      });
+    } else {
+      tocbot.init({
+          // Where to render the table of contents.
+          tocSelector: '.toc', // 放置目录的容器
+          // Where to grab the headings to build the table of contents.
+          contentSelector: '.entry-content', // 正文内容所在
+          // Which headings to grab inside of the contentSelector element.
+          scrollSmooth: true,
+          headingSelector: 'h1, h2, h3, h4, h5', // 需要索引的标题级别
+          headingsOffset: -85,
+          scrollSmoothOffset: -85
+      });
+    }
+    var offsetTop = $('.toc').offset().top - 95;
+    window.onscroll = function() {
+      var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+      if (scrollTop >= offsetTop) {
+        $('.toc').addClass('toc-fixed');
+      } else {
+        $('.toc').removeClass('toc-fixed');
+      }
+    }
+  }
+});
+</script>
+
+    <div class="openNav no-select" style="height: 50px;">
+      <div class="iconflat no-select" style="width: 50px; height: 50px;">
+        <div class="icon"></div>
+      </div>
+      <div class="site-branding search-form-submit">
+        <i class="iconfont js-toggle-search iconsearch icon-search"></i>
+      </div>
+    </div>
+  </section>
+  <div id="mo-nav" class="">
+  <div class="m-avatar">
+    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/favicon.ico">
+  </div>
+  <p style="text-align: center; color: #333; font-weight: 900; font-family: 'Ubuntu', sans-serif; letter-spacing: 1.5px">君の名はSmilecoc</p>
+  <p style="text-align: center; word-spacing: 20px;">
+    
+      
+        <a href="http://github.com/smilecoc" class="fa fa-github" target="_blank" style="color: #333; margin-left:20px"></a>
+      
+        <a href="https://weibo.com/p/1005057275339401/home?from=page_100505&mod=TAB#place" class="fa fa-weibo" target="_blank" style="color: #dd4b39; margin-left:20px"></a>
+      
+        <a href="http://github.com/smilecoc" class="fa fa-qq" target="_blank" style="color: #25c6fe; margin-left:20px"></a>
+      
+    
+  </p>
+  <ul id="menu-new-1" class="menu">
+    
+      <li>
+        <a href="/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-fort-awesome faa-shake" aria-hidden="true"></i>
+            首页
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/archives">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-archive faa-shake" aria-hidden="true"></i>
+            归档
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/categories/技术/">
+                  <i class="fa fa-code" aria-hidden="true"></i>
+                  技术
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/笔记/">
+                  <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                  笔记
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/资源/">
+                  <i class="fa fa-cloud-download" aria-hidden="true"></i>
+                  资源
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/随想/">
+                  <i class="fa fa-commenting-o" aria-hidden="true"></i>
+                  随想
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/转载/">
+                  <i class="fa fa-book" aria-hidden="true"></i>
+                  转载
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="javascript:;">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-list-ul faa-vertical" aria-hidden="true"></i>
+            清单
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/tags/悦读/">
+                  <i class="fa fa-th-list faa-bounce" aria-hidden="true"></i>
+                  书单
+                </a>
+              </li>
+            
+              <li>
+                <a href="/bangumi/">
+                  <i class="fa fa-film faa-vertical" aria-hidden="true"></i>
+                  番组
+                </a>
+              </li>
+            
+              <li>
+                <a href="/music/">
+                  <i class="fa fa-headphones" aria-hidden="true"></i>
+                  歌单
+                </a>
+              </li>
+            
+              <li>
+                <a href="/tags/图集/">
+                  <i class="fa fa-photo" aria-hidden="true"></i>
+                  图集
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="/comment/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-pencil-square-o faa-tada" aria-hidden="true"></i>
+            留言板
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/links/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-link faa-shake" aria-hidden="true"></i>
+            友人帐
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/donate/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-heart faa-pulse" aria-hidden="true"></i>
+            赞赏
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-leaf faa-wrench" aria-hidden="true"></i>
+            关于
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/about/">
+                  <i class="fa fa-meetup" aria-hidden="true"></i>
+                  我？
+                </a>
+              </li>
+            
+              <li>
+                <a href="/lab/">
+                  <i class="fa fa-cogs" aria-hidden="true"></i>
+                  Lab
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="/client/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-android faa-vertical" aria-hidden="true"></i>
+            客户端
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/atom.xml">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-rss faa-pulse" aria-hidden="true"></i>
+            RSS
+          </span>
+        </a>
+        
+      </li>
+    
+  </ul>
+  <p style="text-align: center; font-size: 13px; color: #b9b9b9;">&copy 2019 hexo-sakura</p>
+</div>
+<button onclick="topFunction()" class="mobile-cd-top" id="moblieGoTop" title="Go to top" style="display: none;"><i class="fa fa-chevron-up" aria-hidden="true"></i></button>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+<style>
+  .aplayer .aplayer-lrc {
+    height: 35px;
+  }
+  .aplayer .aplayer-lrc p{
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 18px !important;
+  }
+  .aplayer .aplayer-lrc p.aplayer-lrc-current{
+    color: #FF1493;
+  }
+  .aplayer.aplayer-narrow .aplayer-body{
+    left: -66px !important;
+  }
+  .aplayer.aplayer-fixed .aplayer-lrc {
+    display: none;
+  }
+  .aplayer .aplayer-lrc.aplayer-lrc-hide {
+      display:none !important;
+  }
+  .aplayer.aplayer-fixed .lrc-show {
+    display: block;
+    background: rgba(255, 255, 255, 0.8);
+  }
+</style>
+<div class="aplayer"
+
+    data-id="953999592"
+
+    data-server="netease"
+
+    data-type="playlist"
+
+    data-fixed="true"
+
+    data-autoplay="false"
+
+    data-loop="all"
+
+    data-order="random"
+
+    data-preload="true"
+
+    data-volume="0.7"
+
+    data-mutex="true"
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script>
+<script>
+  $(function(){
+    $('body').on('click', '.aplayer', function(){
+      if($('.aplayer-button').hasClass('aplayer-play')) {
+        $('.aplayer-lrc').removeClass('lrc-show');
+      } else {
+        $('.aplayer-lrc').addClass('lrc-show');
+      }
+    })
+  });
+</script>
+</body>
+</html>

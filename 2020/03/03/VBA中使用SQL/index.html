@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta name="baidu-site-verification" content="y0z4MO0APm">
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  
+  <title itemprop="name">在VBA中使用SQL | Smilecoc&#39;s Blog</title>
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+SerifMerriweather|Merriweather+Sans|Source+Code+Pro|Ubuntu:400,700|Noto+Serif+SC" media="all">
+  <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+  <link rel="stylesheet" id="saukra_css-css" href="/css/style.css" type="text/css" media="all">
+  <link rel="stylesheet" href="/css/lib.min.css" media="all">
+  <link rel="stylesheet" href="/css/font.css" media="all">
+  <link rel="stylesheet" href="/css/insight.css" media="all">
+  <link rel="stylesheet" href="/css/jquery.fancybox.min.css" media="all">
+  <link rel="stylesheet" href="/css/zoom.css" media="all">
+  <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<!--   <link rel="stylesheet" id="saukra_css-css" href="https://2heng.xin/wp-content/cache/autoptimize/css/autoptimize_ad42a61f4c7d4bdd9f91afcff6b5dda5.css
+" type="text/css" media="all"> -->
+  <script>
+  /*Initial Variables*/
+  var mashiro_option = new Object();
+  var mashiro_global = new Object();
+  mashiro_option.NProgressON = true;
+  /* 
+   * 邮箱信息之类的东西可以填在这里，这些js变量基本都作用于sakura-app.js
+   * 这样的设置仅是为了方便在基于PHP开发的主题中设置js变量，既然移植到了Node上，我想或许可以精简这一逻辑吧
+   */
+  mashiro_option.email_domain = "";
+  mashiro_option.email_name = "";
+  mashiro_option.cookie_version_control = "";
+  mashiro_option.qzone_autocomplete = false;
+  mashiro_option.site_name = "君の名はSmilecoc";
+  mashiro_option.author_name = "Smilecoc";
+  mashiro_option.site_url = "https://smilecoc.github.io/";
+  mashiro_option.v_appId = "Hm83GoGeDX3sGPDh3Q50lSMz-gzGzoHsz";
+  mashiro_option.v_appKey = "mXIVaYaFj1DNyH6yBicfUS0w";
+  mashiro_option.mathjax = "0";
+  mashiro_option.qq_api_url = "https://api.mashiro.top/qqinfo/"; 
+  mashiro_option.qq_avatar_api_url = "https://api.mashiro.top/qqinfo/";
+
+  // mashiro_option.jsdelivr_css_src = "https://cdn.jsdelivr.net/gh/moezx/cdn@3.4.5/css/lib.min.css";
+  // mashiro_option.float_player_on = true;
+
+  /*End of Initial Variables*/
+  </script>
+  <script type="text/javascript">
+  var bg = "https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/1.jpg,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/2.jpg,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/3.jpg,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/4.jpg,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/5.webp,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/6.jpg,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/7.webp,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/8.jpg".split(",");
+  var bgindex = Math.floor(Math.random()*bg.length);
+  if (!!window.ActiveXObject || "ActiveXObject" in window) { //is IE?
+    alert('朋友，IE浏览器未适配哦~');
+  }
+  </script>
+  <style type="text/css">
+  .hljs-ln{border-collapse:collapse}.hljs-ln td{padding:0}.hljs-ln-n:before{content:attr(data-line-number)}
+  </style>
+  <style type="text/css">.site-top .lower nav{display:block !important;}.author-profile i,.post-like a,.post-share .show-share,.sub-text,.we-info a,span.sitename,.post-more i:hover,#pagination a:hover,.post-content a:hover,.float-content i:hover{color:#FE9600}.feature i,.download,.navigator i:hover,.links ul li:before,.ar-time i,span.ar-circle,.object,.comment .comment-reply-link,.siren-checkbox-radio:checked + .siren-checkbox-radioInput:after{background:#FE9600}::-webkit-scrollbar-thumb{background:#FE9600}.download,.navigator i:hover,.link-title,.links ul li:hover,#pagination a:hover,.comment-respond input[type='submit']:hover{border-color:#FE9600}.entry-content a:hover,.site-info a:hover,.comment h4 a,#comments-navi a.prev,#comments-navi a.next,.comment h4 a:hover,.site-top ul li a:hover,.entry-title a:hover,#archives-temp h3,span.page-numbers.current,.sorry li a:hover,.site-title a:hover,i.iconfont.js-toggle-search.iconsearch:hover,.comment-respond input[type='submit']:hover{color:#FE9600}.comments .comments-main{display:block !important;}.comments .comments-hidden{display:none !important;}background-position:center center;background-attachment:inherit;}
+  </style>
+<link rel="alternate" href="/atom.xml" title="Smilecoc's Blog" type="application/atom+xml">
+</head>
+</html>
+<body class="page-template page-template-user page-template-page-analytics page-template-userpage-analytics-php page page-id-1297 chinese-font serif isWebKit">
+  <div class="skin-menu no-select" id="mainskin" style="position: fixed"> 
+    <div class="theme-controls row-container">
+          <p style="text-align:center;font-family:'Monaco';font-weight:bold;color:#444"><i style="color:grey" class="fa fa-chevron-left"></i> background <i style="color:grey" class="fa fa-chevron-right"></i></p>
+        <ul class="menu-list"> <li id="white-bg"> 
+            <i class="fa fa-television" aria-hidden="true">
+            </i>
+            </li> 
+            <li id="sakura-bg"> 
+                <i class="iconfont icon-sakura">
+                </i>
+            </li>
+            <li id="gribs-bg">
+                <i class="fa fa-slack" aria-hidden="true">
+                </i>
+            </li>
+            <li id="KAdots-bg">
+                <i class="iconfont icon-dots">
+                </i>
+            </li>
+            <li id="totem-bg">
+                <i class="fa fa-optin-monster" aria-hidden="true">
+                </i>
+            </li>
+            <li id="pixiv-bg">
+                <i class="iconfont icon-pixiv">
+                </i>
+            </li>
+            <li id="bing-bg">
+                <i class="iconfont icon-bing">
+                </i>
+            </li>
+            <li id="dark-bg">
+                <i class="fa fa-moon-o" aria-hidden="true">
+                </i>
+            </li>
+        </ul>
+    </div>
+    <canvas id="night-mode-cover">
+    </canvas>
+</div>
+ 
+  <div class="changeSkin-gear no-select"> 
+    <div class="keys" id="setbtn"> 
+        <span id="open-skinMenu"> 
+            SCHEME TOOL | 主题工具 &nbsp;
+            <i class="iconfont icon-gear inline-block rotating">
+            </i> 
+        </span>
+    </div> 
+</div>
+
+  <div class="scrollbar" id="bar">
+  </div>
+  <a href="#" class="cd-top faa-float animated"></a>
+  <section id="main-container">
+    <div class="headertop ">
+  <div id="banner_wave_1"></div>
+  <div id="banner_wave_2"></div>
+  <figure id="centerbg" class="centerbg">
+    <div class="focusinfo no-select">
+      <div class="header-tou">
+        <a href="https://smilecoc.github.io/">
+          <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/favicon.ico">
+        </a>
+      </div>
+      <div class="header-info">
+        <p>今でもあなたはわたしの光  时至今日，你仍是我的光</p>
+        <div class="top-social_v2">
+          <li id="bg-pre">
+            <img class="flipx" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/next-b.svg">
+          </li>
+          
+            
+              
+                <li>
+                  <a href="http://github.com/smilecoc" target="_blank" class="social-github" title="github">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/social/github.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="https://weibo.com/p/1005057275339401/home?from=page_100505&amp;mod=TAB#place" target="_blank" class="social-github" title="sina">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/social/sina.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="https://music.163.com/#/user/home?id=615928150" target="_blank" class="social-github" title="wangyiyun">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/social/wangyiyun.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="https://www.zhihu.com/people/lai-10086tou-su-4/activities" target="_blank" class="social-github" title="zhihu">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/social/zhihu.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="http://github.com/smilecoc" target="_blank" class="social-github" title="email">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/social/email.svg">
+                  </a>
+                </li>
+              
+            
+              
+                <li class="wechat">
+                  <a href="/#">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/social/wechat.png">
+                  </a>
+                  <div class="wechatInner">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/wechat.jfif">
+                  </div>
+                </li>
+              
+            
+          
+          <li id="bg-next">
+            <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/next-b.svg">
+          </li>
+        </div>
+      </div>
+    </div>
+  </figure>
+  <div id="video-container" style="">
+    <video style="object-fit: fill" id="bgvideo" class="video" video-name="" src="" width="auto" preload="auto">
+    </video>
+    <div id="video-btn" class="loadvideo videolive">
+    </div>
+    <div id="video-add">
+    </div>
+    <div class="video-stu">
+    </div>
+  </div>
+  <div class="headertop-down faa-float animated" onclick="headertop_down()">
+    <span>
+      <i class="fa fa-chevron-down" aria-hidden="true">
+      </i>
+    </span>
+  </div>
+</div>
+    <div id="page" class="site wrapper">
+      <header class="site-header no-select gizle sabit" role="banner">
+  <div class="site-top">
+    <div class="site-branding">
+      <span class="site-title">
+        <span class="logolink moe-mashiro">
+          <a href="/">
+            <span class="sakurasono">君の名は</span>
+            <span class="shironeko">Smilecoc</span>
+          </a>
+        </span>
+      </span>
+    </div>
+    <div class="searchbox search-form-submit">
+      <i class="iconfont js-toggle-search iconsearch icon-search">
+      </i>
+    </div>
+    <div id="show-nav" class="showNav mobile-fit">
+      <div class="line line1">
+      </div>
+      <div class="line line2">
+      </div>
+      <div class="line line3">
+      </div>
+    </div>
+    <div class="lower-cantiner">
+      <div class="lower">
+        <nav class="mobile-fit-control hide">
+          <ul id="menu-new" class="menu">
+            
+              <li>
+                <a href="/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-fort-awesome faa-shake" aria-hidden="true"></i>
+                    首页
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-archive faa-shake" aria-hidden="true"></i>
+                    归档
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/categories/技术/">
+                          <i class="fa fa-code" aria-hidden="true"></i>
+                          技术
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/笔记/">
+                          <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                          笔记
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/资源/">
+                          <i class="fa fa-cloud-download" aria-hidden="true"></i>
+                          资源
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/随想/">
+                          <i class="fa fa-commenting-o" aria-hidden="true"></i>
+                          随想
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/转载/">
+                          <i class="fa fa-book" aria-hidden="true"></i>
+                          转载
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="javascript:;">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-list-ul faa-vertical" aria-hidden="true"></i>
+                    清单
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/tags/悦读/">
+                          <i class="fa fa-th-list faa-bounce" aria-hidden="true"></i>
+                          书单
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/bangumi/">
+                          <i class="fa fa-film faa-vertical" aria-hidden="true"></i>
+                          番组
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/music/">
+                          <i class="fa fa-headphones" aria-hidden="true"></i>
+                          歌单
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/tags/图集/">
+                          <i class="fa fa-photo" aria-hidden="true"></i>
+                          图集
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="/comment/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-pencil-square-o faa-tada" aria-hidden="true"></i>
+                    留言板
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/links/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-link faa-shake" aria-hidden="true"></i>
+                    友人帐
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/donate/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-heart faa-pulse" aria-hidden="true"></i>
+                    赞赏
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-leaf faa-wrench" aria-hidden="true"></i>
+                    关于
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/about/">
+                          <i class="fa fa-meetup" aria-hidden="true"></i>
+                          我？
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/lab/">
+                          <i class="fa fa-cogs" aria-hidden="true"></i>
+                          Lab
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="/client/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-android faa-vertical" aria-hidden="true"></i>
+                    客户端
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/atom.xml">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-rss faa-pulse" aria-hidden="true"></i>
+                    RSS
+                  </span>
+                </a>
+                
+              </li>
+            
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<div class="pattern-center-blank"></div>
+
+  <div class="pattern-center single-center">
+    <!-- 有配图默认渲染第一张 -->
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.1/images/article/vbasql20200303.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.1/images/article/vbasql20200303.jpg">
+    </div>
+    <header class="pattern-header single-header">
+      <h1 class="entry-title">
+      在VBA中使用SQL</h1>
+      <p class="entry-census">
+        <span>
+          <a href="http://smilecoc.vip/">
+            <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico">
+          </a>
+        </span>
+        <span>
+          <a href="http://smilecoc.vip/">smilecoc</a>
+        </span>
+        <span class="bull">
+        ·</span>
+        2020-3-3<span class="bull">
+        ·</span>
+      <span id="busuanzi_value_page_pv"></span>次阅读</p>
+    </header>
+  </div>
+
+<div id="content" class="site-content">
+  <div id="primary" class="content-area">
+    <main id="main" class="site-main" role="main">
+      <article id="post-1" class="post-1 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+        <div class="toc"></div>
+        <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
+        
+        <div class="entry-content">
+          <p>VBA在处理大量的数据/计算时如果使用常规方法会比较慢，因此需要对其进行性能优化以提高运行速度，一般的方法是数组计算或者sql计算。SQL计算的速度最快，限制也是最多的，数组速度其次，灵活性也更高</p>
+<p>如果要在vba中调用sql处理数据基本可以遵循一个套路，只要修改其中的SQL语句即可</p>
+<p>调用sql处理数据VBA代码如下，其中’#####    #####中的地方是每次运行时要根据情况修改的：</p>
+<pre><code class="VBScript">Sub Sql_Query()
+
+ Dim Conn As Object, Rst As Object
+ Dim strConn As String, strSQL As String
+ Dim i As Integer, PathStr As String
+ Set Conn = CreateObject(&quot;ADODB.Connection&quot;)
+ Set Rst = CreateObject(&quot;ADODB.Recordset&quot;)
+ PathStr = ThisWorkbook.FullName &#39;设置工作簿的完整路径和名称
+ Select Case Application.Version * 1 &#39;设置连接字符串,根据版本创建连接(不同版本的excel连接是不同的)
+ Case Is &lt;= 11
+    strConn = &quot;Provider=Microsoft.Jet.Oledb.4.0;Extended Properties=excel 8.0;Data source=&quot; &amp; PathStr
+ Case Is &gt;= 12
+    strConn = &quot;Provider=Microsoft.ACE.OLEDB.12.0;Data Source=&quot; &amp; PathStr &amp; &quot;;Extended Properties=&quot;&quot;Excel 12.0;HDR=YES&quot;&quot;;&quot;&quot;&quot;
+ End Select
+
+ strSQL = &quot;Select * FROM [rawdata$]&quot;   &#39;####在这里改SQL查询语句####
+
+
+ Conn.Open strConn &#39;打开数据库链接
+ Set Rst = Conn.Execute(strSQL)     &#39;执行查询，并将结果输出到记录集对象
+ With ThisWorkbook.Sheets(&quot;sql data&quot;)     &#39;#####在这里更改输出的位置对应的表名####
+      .Cells.Clear
+      For i = 0 To Rst.Fields.Count - 1    &#39;填写标题
+        .Cells(1, i + 1) = Rst.Fields(i).Name    &#39;在第一行输出字段名
+      Next i
+      .Range(&quot;A2&quot;).CopyFromRecordset Rst     &#39;从A2单元格开始输出
+      .Cells.EntireColumn.AutoFit &#39;自动调整列宽
+ End With
+ Rst.Close  &#39;关闭数据库连接
+ Conn.Close
+ Set Conn = Nothing
+ Set Rst = Nothing
+
+End Sub</code></pre>
+<p>接下来，开始学习SQL语句语法</p>
+<h2 id="1-基于一张工作表的查询语法"><a href="#1-基于一张工作表的查询语法" class="headerlink" title="1.基于一张工作表的查询语法"></a><strong>1.基于一张工作表的查询语法</strong></h2><p>格式：  select [DISTINCT] [TOP&lt;数值&gt; [PERCENT] &lt;列标题&gt; [[as]] &lt;别名列标题&gt;] from &lt;表或查询1&gt;[AS]&lt;别名1&gt;],&lt;表或查询2&gt;[AS]&lt;别名2&gt;],[where&lt;筛选条件&gt;][order by&lt;排序项&gt;[asc ▏ desc]]                                </p>
+<p>说明：</p>
+<ul>
+<li>1、&lt;&gt;表示必选项，”[]”表示可选项，”▏”表示多选一。                                </li>
+<li>2、DISTINCT:消除取重复的行                        </li>
+<li>3、TOP 数值：显示前几条记录                        </li>
+<li>4、TOP 数值 percent：显示前面分之多少条记录                        </li>
+<li>5、&lt;列标题&gt;[[as]]&lt;别名列标题&gt;:给标题列重新命一个新名称                        </li>
+<li>6、where&lt;筛选条件&gt;：条件语句                        </li>
+<li>7、排序，如果要按两个或两个以上字段，那么字段与字段之间用豆号隔开，asc升序，为默认值，desc降序。</li>
+</ul>
+<h5 id="select关键字"><a href="#select关键字" class="headerlink" title="select关键字"></a>select关键字</h5><p>如果要显示显示所有字段的记录的语法结构如下：</p>
+<pre><code>SELECT 列字段名1,列字段名2,列字段名3 FROM [工作表名称$]</code></pre><pre><code class="SQL">select * from [sheet1$]
+--或者
+select ID,name,address,score from [sheet1$]</code></pre>
+<p>语句1中的*号是代表全部列，语句 2中，是写上全部列字段的名称,如果工作表没有列标题，用F1,F2,F3,F4…..这样代替</p>
+<h5 id="As关键字"><a href="#As关键字" class="headerlink" title="As关键字"></a>As关键字</h5><p>使用别名</p>
+<pre><code class="sql">SELECT 姓名 AS Name FROM [Sheet1$]</code></pre>
+<p><strong>注意事项：</strong><br><strong>1.在SQL语句中SQL语句英文不区分大小写，但标点符号必须是英文半角状态下输入，字段名也必须跟原来的一样。</strong><br><strong>2.使用SQL语句的时候，必须避免列字段中使用下面的特殊字符：<br>空格、双引号（”）、撇（’）、数字标记（#）、百分号(%)、大于号（&gt;）、小于号(&lt;)、叹号(!)、句号(.)、方括号（[或]）、星号（*）、美元符号($)、分号（;）、脱字号（^）、圆括号（（或））、加号（+）、反斜杠（\或/）。<br>如果在源数据表的列字段使用了这些特殊字符，那么在使用SQL语句列出各字段的数据时，就会发生错误。为了规范使用SQL语句，在对数据源字段命名时，尽量避免使用这些特殊字符。</strong></p>
+<h5 id="distinct关键字"><a href="#distinct关键字" class="headerlink" title="distinct关键字"></a>distinct关键字</h5><p>功能是去重复值只保留一条记录。语法结构为：</p>
+<pre><code>SELECT DISTINCT 要去重复值的字段1,要去重复值的字段2 FROM [工作表名$]</code></pre><pre><code class="sql">Select Distinct name,ID From [sheet1$]</code></pre>
+<h5 id="where关键字"><a href="#where关键字" class="headerlink" title="where关键字"></a>where关键字</h5><p>按条件筛选 使用SQL关键词 WHERE查询中的条件指定要满足什么标准信息，去掉不满足条件的数据（删除用户不要的数据）。<br>WHERE语句中可以有多个条件，条件之间可以用操作符AND 或者OR进行连接。<br>WHERE语句的语法结构如下：</p>
+<pre><code>SELECT 列字段名称 FROM [表名称$] WHERE 列字段名 运算符 值</code></pre><p>运算符包含大于、小于、等于、不等于、大于或等于、小于或等于、IN、 BETWEEN、AND等。</p>
+<pre><code class="sql">SELECT * FROM [Sheet1$] where 消费金额=100
+--提取消费金额等于100的数据</code></pre>
+<h5 id="order-by关键字"><a href="#order-by关键字" class="headerlink" title="order by关键字"></a>order by关键字</h5><p>ORDER BY的语句使用对于ORDER BY 语句而言，默认值是升序排列，通常是不指定它。但升序的关键词为ASC,降序为DESC。语法结构如下：</p>
+<pre><code>SELECT 列字段名 FROM [工作表名称$] ORDER BY 指定列字段名 升序(降序)</code></pre><p>按成绩进行升序排序的SQL语句如下：</p>
+<pre><code class="sql">Select * FROM [Sheet1$] ORDER BY 成绩 ASC</code></pre>
+<h5 id="Top关键字"><a href="#Top关键字" class="headerlink" title="Top关键字"></a>Top关键字</h5><p>TOP按顺序提取前n行的记录,语法结构如下：</p>
+<pre><code>SELECT TOP 3 * FROM [工作表名$]</code></pre><p>如提取成绩前三名的记录</p>
+<pre><code class="sql">Select top 3 * FROM [Sheet1$A1:C17]  ORDER BY score</code></pre>
+<p>其中 [Sheet1$A1:C17]这个表示工作表名Sheet1的工作表A1：C17的这个单元格区域，加上了指定的单元格区域为数据。可以根据自己的实际情况，来改变.<br>不在同一张表上显示结果，而且数据源规范，就可以直接用[工作表名$]。或者书写的时候写上列名不用星号（”*”）<br>这两个也是和标准sql之间差别较大的地方</p>
+<p>TOP 与 PERCENT 组合在SQL语句中的使用可以按照百分比提取数据,例如按成绩降序排列提取前30%</p>
+<pre><code class="sql">Select TOP 30 PERCENT * FROM [Sheet1$A1:C17]  ORDER BY 成绩 DESC</code></pre>
+<h5 id="聚合函数"><a href="#聚合函数" class="headerlink" title="聚合函数"></a>聚合函数</h5><p>SQL聚合函数包括sum,count,avg,max,min等，与excel的公式有同样的效果，但是在大数据量的情况下速度会提升很多，而且在多条件求和时会比使用sumifs简单，直观的多<br>多条件求和的语法结构为：</p>
+<pre><code>SELECT 分类字段1, 分类字段2 , SUM(统计字段) as 产品总数 From [Sheet1$] GROUP BY 分类字段1, 分类字段2</code></pre><p>例如按照日期和姓名汇总产品数：</p>
+<pre><code class="sql">SELECT 日期, 姓名, SUM(产品数) as 产品总数 From [Sheet1$] GROUP BY 日期, 姓名</code></pre>
+<h5 id="日期数据在SQL表达式中的应用"><a href="#日期数据在SQL表达式中的应用" class="headerlink" title="日期数据在SQL表达式中的应用"></a>日期数据在SQL表达式中的应用</h5><p>在SQL表达式运算符条件中，要查询日期和时间类型的数据，需要在数据值两端加上井字符号（#）以表示日期类型。<br>日期可以有多种表示方式，最符合中国人的习惯是“年-月-日”或“年/月/日”的表示方式。也就是说年月日之间的分隔符可以用“-”或“/”。<br>例如表示2013年10月1日<br>可以采用以下表达式：<br>年月日</p>
+<p>#2013-10-1#<br>年日月</p>
+<p>#2013-1-10#<br>年月日</p>
+<p>#2013/10/1#<br>日月年</p>
+<p>#1/10/2013/#<br>月日年</p>
+<p>#10/1/2013#<br>以表达式在系统无错识别最高的应该是<br>月/日/年</p>
+<p>#10/1/2013#</p>
+<h5 id="如何查询二个日期间的数据"><a href="#如何查询二个日期间的数据" class="headerlink" title="如何查询二个日期间的数据"></a>如何查询二个日期间的数据</h5><p>Where …. AND…语句，例如查找大于等于2013年10月1日，小于等于2013年10月7日的数据，的SQL表达式为：</p>
+<pre><code class="sql">SELECT * From [Sheet1$A:C] where 日期&gt;=#10/1/2013# And 日期&lt;=#10/7/2013#</code></pre>
+<p>还可以以单元为动态引用查询两个日期内的数据,如下图所示</p>
+<pre><code class="sql"> strSQL = &quot;SELECT * From [Sheet1$A:C] where 日期&gt;=#&quot; &amp; Range(&quot;J1&quot;) &amp; &quot;# And 日期&lt;=#&quot; &amp; Range(&quot;K1&quot;) &amp; &quot;#&quot;</code></pre>
+<p>![](/upload_image/blog 2003/4.png)</p>
+<h5 id="like关键字"><a href="#like关键字" class="headerlink" title="like关键字"></a>like关键字</h5><p>Like 操作符用于在 WHERE 子句中搜索列中的模糊匹配</p>
+<pre><code>Select 列字段名 From [工作表名$] Where 列字段 Like &#39;关键字&#39;</code></pre><p>可以加上通配符% （相当于函数公式中的通配符*）</p>
+<pre><code>strSQL = &quot;Select * from [Sheet1$] Where 姓名 like &#39;[AB]%&#39;&quot;</code></pre><p>这一语句表示匹配姓名以A开头或B开头的数据<br>同样的可以反向查询姓名不以A开头或B开头的数据</p>
+<pre><code>strSQL = &quot;Select * from [Sheet1$] Where 姓名 like &#39;[!AB]%&#39;&quot;
+--or
+strSQL = &quot;Select * from [Sheet1$] Where not 姓名 like &#39;[AB]%&#39;&quot;</code></pre><h5 id="in关键字"><a href="#in关键字" class="headerlink" title="in关键字"></a>in关键字</h5><p>In运算符允许 在 WHERE 子句中规定多个值,语法如下：</p>
+<pre><code>Select 字段 From [表名$] Where 字段 In(条件1, 条件2,条件3, ....)</code></pre><p>如果在In的条件中不是数值类型，一定要加上引号。<br>eg:</p>
+<pre><code>Select *  FROM [Sheet1$A:D] where 省份 in(&#39;广东&#39;,&#39;广西&#39;)</code></pre><h2 id="2-两表的上下拼接"><a href="#2-两表的上下拼接" class="headerlink" title="2.两表的上下拼接"></a><strong>2.两表的上下拼接</strong></h2><p>将两表连接起来的语句一般是UNION和UNION ALL<br>UNION ALL是查询所有记录（直接连接，可以重复），UNION只查询不重复（指整条记录不重复，取唯一）的记录，两种语句如果有重复记录，则查询结果就不一样。<br>在数据库中，UNION和UNION ALL关键字都是将两个结果集合并为一个，但这两者从使用和效率上来说都有所不同。<br>UNION在运行时先取出几个表的结果，再用排序空间进行排序删除重复的记录，最后返回结果集，如果表数据量大的话可能会导致用磁盘进行排序。<br>而UNION ALL只是简单的将两个结果合并后就返回。这样，如果返回的两个结果集中有重复的数据，那么返回的结从效率上说，UNION ALL 要比UNION快很多，所以，如果可以确认合并的两个结果集中不包含重复的数据的话，那么就使用UNION ALL。<br>例如将sheet1与sheet2中的数据连接起来：</p>
+<pre><code class="sql">SELECT 日期,姓名,产品数 From [Sheet1$] UNION SELECT 日期,姓名,产品数 From [Sheet2$]</code></pre>
+<p>这个是在两张表的格式一样的情况下直接连接，但是有些情况下两表的格式并不一样，这个时候可以使用下列语句：<br>例如sheet1中有日期，姓名两个字段，而sheet2中有姓名，产品数两个字段，需要上下连接两个表格：</p>
+<pre><code class="sql">SELECT 日期,姓名,null as 产品数 From [Sheet1$] UNION SELECT null as 日期,姓名,产品数 From [Sheet2$]</code></pre>
+<p>即使用null加列拼成格式相同的两个表格再连接</p>
+<h2 id="3-两表的左右拼接"><a href="#3-两表的左右拼接" class="headerlink" title="3.两表的左右拼接"></a><strong>3.两表的左右拼接</strong></h2><p>两表的左右拼接即是join关键字<br>SQL代替Vlookup 精确查找（左连接 “Left Outer JOIN” 用法），语法结构为：</p>
+<pre><code>Select 表名 .字段1,表名 .字段2,表名 .字段3,表名 .字段4 FROM 查询表 AS 别名1  Left Outer JOIN 被查询表 AS 别名2 ON  别名1.字段名=别名2.字段名</code></pre><p>例如：</p>
+<pre><code class="sql">SELECT A.姓名,B.性别,B.部门 FROM [Sheet2$] AS A Left Outer JOIN [Sheet1$] AS B ON A.姓名=B.姓名
+--简写为
+SELECT A.姓名,性别,部门 FROM [Sheet2$]A Left JOIN [Sheet1$]B ON A.姓名=B.姓名</code></pre>
+<p>join除了left join外还有right join，inner join等，之间的区别与sql语句都是一致的。<strong>注意VBA中的SQL是不支持outer join连接的</strong></p>
+<h2 id="4-三表连接"><a href="#4-三表连接" class="headerlink" title="4.三表连接"></a><strong>4.三表连接</strong></h2><p>注意语句中的括号，在VBA  SQL中不使用括号会导致错误</p>
+<pre><code class="sql">select b.Impression,b.Click,c.Visits,c.DemandClick,c.Bounce_Rate,c.PD_Page_View,c.Add_to_Cart,c.Cart_Additions,c.My_Account_Registration,c.Average_Time_Spent,c.Checkout_Starts,c.Total_Orders from ([database template$] as a left JOIN [Raw$] as b on b.SPID=a.placement_id) left JOIN [Raw_Om$] as c on c.key=a.key&quot;</code></pre>
+<h2 id="3-数据透视表"><a href="#3-数据透视表" class="headerlink" title="3.数据透视表"></a><strong>3.数据透视表</strong></h2><p>TRANSFORM语句可以实现像透视表一样的显示结果，语法结构为：</p>
+<pre><code>TRANSFORM 汇总方式  SELECT 行标签 from 表名 group by 行字段 PIVOT 列标签</code></pre><p>这一语句是非常常用的方法，要注意TRANSFORM后的汇总方式为一个聚合函数(一般为sum),同时后续的SELECT语句中不要加入a字段/b字段或者having语句，否则会导致语句错误无法运行<br>eg:</p>
+<pre><code>TRANSFORM Sum(数量) Select 产品名称 from [Sheet1$] group by 产品名称 PIVOT 款号</code></pre><p>TRANSFORM语句话还可以加入一些自定义的设置：</p>
+<pre><code>TRANSFORM 汇总方式  SELECT 行标签 from 表名 group by 行字段 PIVOT 列标签 in [列标签值1，列标签值2，列标签值3.....]</code></pre><p>使用in可以限制列标签的内容，同时可以规定列字段值的展示顺序</p>
+<h2 id="4-一些其他SQL语句的补充"><a href="#4-一些其他SQL语句的补充" class="headerlink" title="4.一些其他SQL语句的补充"></a><strong>4.一些其他SQL语句的补充</strong></h2><p>在SQL中使用广泛的case关键字在VBA　SQL中的实现方式为IIF，IIF的语法为：<br>IIf(Logical EXPression, Numeric Expression1, Numeric Expression2)<br>如果 Logical Expression 取值为 TRUE，则此函数返回 Numeric Expression1，否则，返回 Numeric Expression2。</p>
+<p>例如：<br>当site列填NA时，将if_address设为N，否则设为Y</p>
+<pre><code>select name,iif([site]=&#39;NA&#39;,&#39;N&#39;,&#39;Y&#39;) as if_address form [student$]</code></pre><p>同理，Logical Expression可以使用isnull,数字等值判断语句等</p>
+<p>同时iif语句对符合条件的数据进行计算。例如如果是赠送的，实际的花费为0,否则为原价购买计算花费</p>
+<pre><code>select 客户,sum(iif(buying_type=&#39;赠送&#39;,price,0)) as cost  from  [order$]</code></pre>
+        </div>
+        <!-- .entry-content -->
+        <div class="single-reward">
+          <div class="reward-open">赏<div class="reward-main">
+              <ul class="reward-row">
+                <li class="alipay-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/AliPayQR.jpg"></li>
+                <li class="wechat-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/wechatpayQR.jpg"></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
+        <footer class="post-footer">
+          <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
+          <div class="post-tags">
+          </div>
+          <div class="post-share">
+            <div class="social-share sharehidden share-component"></div>
+            <i class="iconfont show-share icon-forward"></i>
+          </div>
+        </footer><!-- .entry-footer -->
+      </article>
+      <!-- #post-## -->
+      <div class="toc" style="background: none;"></div>
+      <section class="post-squares nextprev">
+        
+          
+            <div class="post-nepre half previous">
+          
+            <a href="/2020/03/07/使用Python调用百度地图Api获取两地距离/" rel="prev">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.1/images/article/baidumap20200306.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.1/images/article/baidumap20200306.jpg">
+              </div>
+              <span class="label">
+              Previous Post</span>
+              <div class="info">
+                <h3>
+                使用Python调用百度地图Api获取两地距离并打包为可执行程序</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+        
+          
+            <div class="post-nepre half next">
+          
+            <a href="/2020/03/02/京东商品评论爬虫/" rel="next">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.1/images/article/jdcommentspider20200302.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.1/images/article/jdcommentspider20200302.jpg">
+              </div>
+              <span class="label">
+              Next Post</span>
+              <div class="info">
+                <h3>
+                京东商品评论爬虫</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+      </section>
+      
+<div id="vcomments"></div>
+<script>
+  window.onload = function(){
+      var valine = new Valine();
+      valine.init({
+        el: '#vcomments',
+        appId: "Hm83GoGeDX3sGPDh3Q50lSMz-gzGzoHsz",
+        appKey: "mXIVaYaFj1DNyH6yBicfUS0w",
+        path: window.location.pathname,
+        placeholder: "你是我一生只会遇见一次的惊喜 ..."
+      })
+  }
+</script>
+
+      <section class="author-profile">
+        <div class="info" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <a href="http://smilecoc.vip/" class="profile gravatar"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico" itemprop="image" alt="smilecoc" height="70" width="70"></a>
+          <div class="meta">
+            <span class="title">Author</span>
+            <h3 itemprop="name">
+            <a href="http://smilecoc.vip/" itemprop="url" rel="author">smilecoc</a>
+            </h3>
+          </div>
+        </div>
+        <hr>
+        <p><i class="iconfont icon-write"></i></p>
+      </section>
+    </main><!-- #main -->
+  </div><!-- #primary -->
+</div>
+
+
+
+    </div>    
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="请输入关键词..."/>
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            // PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+    <!-- <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Smilecoc<br>
+      powered_by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer> -->
+<footer id="colophon" class="site-footer" role="contentinfo">
+  <div class="site-info">
+    <div class="footertext">
+      <div class="img-preload">
+        <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/wordpress-rotating-ball-o.svg">
+        <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/disqus-preloader.svg">
+      </div>
+      <p style="color: #666666;">&copy 2018</p>
+    </div>
+    <div class="footer-device">
+    <p style="font-family: 'Ubuntu', sans-serif;">
+        <span style="color: #b9b9b9;">Theme <a href="https://github.com/honjun/hexo-theme-sakura" target="_blank" style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">Sakura</a> <i class="iconfont icon-sakura rotating" style="color: #ffc0cb;display:inline-block"></i> by <a href="https://2heng.xin/" target="_blank" style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">Mashiro</a>&<a href="https://www.hojun.cn/" target="_blank" style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">Hojun</a>, Powered by Hexo, Hosted by Coding Pages</a>
+        </span>
+      </p>
+    </div>
+  </div><!-- .site-info -->
+</footer>
+
+
+
+<!-- <script src="/js/tocbot.js"></script> -->
+<script type="text/javascript" src="/js/lib.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script type="text/javascript" src="/js/InsightSearch.js"></script>
+<script type="text/javascript" src="/js/jquery.fancybox.min.js"></script>
+<script type="text/javascript" src="/js/zoom.min.js"></script>
+<script type="text/javascript" src="/js/sakura-app.js"></script>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/ctz45562/cdn@2.0.2/js/volantis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+<script src="https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget/autoload.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/yremp/yremp-js@1.5/sakura.js"></script>
+<!-- 不蒜子 网页计数器 -->
+<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script> -->
+<script type="text/javascript">
+/* <![CDATA[ */
+if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+  var Poi = {"pjax":"1","movies":{"url": "https://cdn.jsdelivr.net/gh/honjun/hojun@1.2/Unbroken.mp4","name":"ThreeBody","live":"close"},"windowheight":"fixed","codelamp":"close","ajaxurl":"","order":"asc","formpostion":"bottom"};
+} else {
+  var Poi = {"pjax":"1","movies":{"url": "https://cdn.jsdelivr.net/gh/honjun/hojun@1.2/Unbroken.mp4","name":"ThreeBody","live":"open"},"windowheight":"auto","codelamp":"close","ajaxurl":"","order":"asc","formpostion":"bottom"};
+}
+/* ]]> */
+
+</script>
+<script>
+$(document).ready(function() {
+  if ($(".toc").length > 0 && document.body.clientWidth > 1200) {
+    if ($(".pattern-center").length > 0) { //有图的情况
+      tocbot.init({
+          // Where to render the table of contents.
+          tocSelector: '.toc', // 放置目录的容器
+          // Where to grab the headings to build the table of contents.
+          contentSelector: '.entry-content', // 正文内容所在
+          // Which headings to grab inside of the contentSelector element.
+          scrollSmooth: true,
+          headingSelector: 'h1, h2, h3, h4, h5', // 需要索引的标题级别
+          headingsOffset: -400,
+          scrollSmoothOffset: -85
+      });
+    } else {
+      tocbot.init({
+          // Where to render the table of contents.
+          tocSelector: '.toc', // 放置目录的容器
+          // Where to grab the headings to build the table of contents.
+          contentSelector: '.entry-content', // 正文内容所在
+          // Which headings to grab inside of the contentSelector element.
+          scrollSmooth: true,
+          headingSelector: 'h1, h2, h3, h4, h5', // 需要索引的标题级别
+          headingsOffset: -85,
+          scrollSmoothOffset: -85
+      });
+    }
+    var offsetTop = $('.toc').offset().top - 95;
+    window.onscroll = function() {
+      var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+      if (scrollTop >= offsetTop) {
+        $('.toc').addClass('toc-fixed');
+      } else {
+        $('.toc').removeClass('toc-fixed');
+      }
+    }
+  }
+});
+</script>
+
+    <div class="openNav no-select" style="height: 50px;">
+      <div class="iconflat no-select" style="width: 50px; height: 50px;">
+        <div class="icon"></div>
+      </div>
+      <div class="site-branding search-form-submit">
+        <i class="iconfont js-toggle-search iconsearch icon-search"></i>
+      </div>
+    </div>
+  </section>
+  <div id="mo-nav" class="">
+  <div class="m-avatar">
+    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/favicon.ico">
+  </div>
+  <p style="text-align: center; color: #333; font-weight: 900; font-family: 'Ubuntu', sans-serif; letter-spacing: 1.5px">君の名はSmilecoc</p>
+  <p style="text-align: center; word-spacing: 20px;">
+    
+      
+        <a href="http://github.com/smilecoc" class="fa fa-github" target="_blank" style="color: #333; margin-left:20px"></a>
+      
+        <a href="https://weibo.com/p/1005057275339401/home?from=page_100505&mod=TAB#place" class="fa fa-weibo" target="_blank" style="color: #dd4b39; margin-left:20px"></a>
+      
+        <a href="http://github.com/smilecoc" class="fa fa-qq" target="_blank" style="color: #25c6fe; margin-left:20px"></a>
+      
+    
+  </p>
+  <ul id="menu-new-1" class="menu">
+    
+      <li>
+        <a href="/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-fort-awesome faa-shake" aria-hidden="true"></i>
+            首页
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/archives">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-archive faa-shake" aria-hidden="true"></i>
+            归档
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/categories/技术/">
+                  <i class="fa fa-code" aria-hidden="true"></i>
+                  技术
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/笔记/">
+                  <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                  笔记
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/资源/">
+                  <i class="fa fa-cloud-download" aria-hidden="true"></i>
+                  资源
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/随想/">
+                  <i class="fa fa-commenting-o" aria-hidden="true"></i>
+                  随想
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/转载/">
+                  <i class="fa fa-book" aria-hidden="true"></i>
+                  转载
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="javascript:;">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-list-ul faa-vertical" aria-hidden="true"></i>
+            清单
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/tags/悦读/">
+                  <i class="fa fa-th-list faa-bounce" aria-hidden="true"></i>
+                  书单
+                </a>
+              </li>
+            
+              <li>
+                <a href="/bangumi/">
+                  <i class="fa fa-film faa-vertical" aria-hidden="true"></i>
+                  番组
+                </a>
+              </li>
+            
+              <li>
+                <a href="/music/">
+                  <i class="fa fa-headphones" aria-hidden="true"></i>
+                  歌单
+                </a>
+              </li>
+            
+              <li>
+                <a href="/tags/图集/">
+                  <i class="fa fa-photo" aria-hidden="true"></i>
+                  图集
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="/comment/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-pencil-square-o faa-tada" aria-hidden="true"></i>
+            留言板
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/links/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-link faa-shake" aria-hidden="true"></i>
+            友人帐
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/donate/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-heart faa-pulse" aria-hidden="true"></i>
+            赞赏
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-leaf faa-wrench" aria-hidden="true"></i>
+            关于
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/about/">
+                  <i class="fa fa-meetup" aria-hidden="true"></i>
+                  我？
+                </a>
+              </li>
+            
+              <li>
+                <a href="/lab/">
+                  <i class="fa fa-cogs" aria-hidden="true"></i>
+                  Lab
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="/client/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-android faa-vertical" aria-hidden="true"></i>
+            客户端
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/atom.xml">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-rss faa-pulse" aria-hidden="true"></i>
+            RSS
+          </span>
+        </a>
+        
+      </li>
+    
+  </ul>
+  <p style="text-align: center; font-size: 13px; color: #b9b9b9;">&copy 2019 hexo-sakura</p>
+</div>
+<button onclick="topFunction()" class="mobile-cd-top" id="moblieGoTop" title="Go to top" style="display: none;"><i class="fa fa-chevron-up" aria-hidden="true"></i></button>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+<style>
+  .aplayer .aplayer-lrc {
+    height: 35px;
+  }
+  .aplayer .aplayer-lrc p{
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 18px !important;
+  }
+  .aplayer .aplayer-lrc p.aplayer-lrc-current{
+    color: #FF1493;
+  }
+  .aplayer.aplayer-narrow .aplayer-body{
+    left: -66px !important;
+  }
+  .aplayer.aplayer-fixed .aplayer-lrc {
+    display: none;
+  }
+  .aplayer .aplayer-lrc.aplayer-lrc-hide {
+      display:none !important;
+  }
+  .aplayer.aplayer-fixed .lrc-show {
+    display: block;
+    background: rgba(255, 255, 255, 0.8);
+  }
+</style>
+<div class="aplayer"
+
+    data-id="953999592"
+
+    data-server="netease"
+
+    data-type="playlist"
+
+    data-fixed="true"
+
+    data-autoplay="false"
+
+    data-loop="all"
+
+    data-order="random"
+
+    data-preload="true"
+
+    data-volume="0.7"
+
+    data-mutex="true"
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script>
+<script>
+  $(function(){
+    $('body').on('click', '.aplayer', function(){
+      if($('.aplayer-button').hasClass('aplayer-play')) {
+        $('.aplayer-lrc').removeClass('lrc-show');
+      } else {
+        $('.aplayer-lrc').addClass('lrc-show');
+      }
+    })
+  });
+</script>
+</body>
+</html>

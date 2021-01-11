@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta name="baidu-site-verification" content="y0z4MO0APm">
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  
+  <title itemprop="name">Faker库：快速生成测试数据 | Smilecoc&#39;s Blog</title>
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+SerifMerriweather|Merriweather+Sans|Source+Code+Pro|Ubuntu:400,700|Noto+Serif+SC" media="all">
+  <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+  <link rel="stylesheet" id="saukra_css-css" href="/css/style.css" type="text/css" media="all">
+  <link rel="stylesheet" href="/css/lib.min.css" media="all">
+  <link rel="stylesheet" href="/css/font.css" media="all">
+  <link rel="stylesheet" href="/css/insight.css" media="all">
+  <link rel="stylesheet" href="/css/jquery.fancybox.min.css" media="all">
+  <link rel="stylesheet" href="/css/zoom.css" media="all">
+  <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<!--   <link rel="stylesheet" id="saukra_css-css" href="https://2heng.xin/wp-content/cache/autoptimize/css/autoptimize_ad42a61f4c7d4bdd9f91afcff6b5dda5.css
+" type="text/css" media="all"> -->
+  <script>
+  /*Initial Variables*/
+  var mashiro_option = new Object();
+  var mashiro_global = new Object();
+  mashiro_option.NProgressON = true;
+  /* 
+   * 邮箱信息之类的东西可以填在这里，这些js变量基本都作用于sakura-app.js
+   * 这样的设置仅是为了方便在基于PHP开发的主题中设置js变量，既然移植到了Node上，我想或许可以精简这一逻辑吧
+   */
+  mashiro_option.email_domain = "";
+  mashiro_option.email_name = "";
+  mashiro_option.cookie_version_control = "";
+  mashiro_option.qzone_autocomplete = false;
+  mashiro_option.site_name = "君の名はSmilecoc";
+  mashiro_option.author_name = "Smilecoc";
+  mashiro_option.site_url = "https://smilecoc.github.io/";
+  mashiro_option.v_appId = "Hm83GoGeDX3sGPDh3Q50lSMz-gzGzoHsz";
+  mashiro_option.v_appKey = "mXIVaYaFj1DNyH6yBicfUS0w";
+  mashiro_option.mathjax = "0";
+  mashiro_option.qq_api_url = "https://api.mashiro.top/qqinfo/"; 
+  mashiro_option.qq_avatar_api_url = "https://api.mashiro.top/qqinfo/";
+
+  // mashiro_option.jsdelivr_css_src = "https://cdn.jsdelivr.net/gh/moezx/cdn@3.4.5/css/lib.min.css";
+  // mashiro_option.float_player_on = true;
+
+  /*End of Initial Variables*/
+  </script>
+  <script type="text/javascript">
+  var bg = "https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/1.jpg,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/2.jpg,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/3.jpg,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/4.jpg,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/5.webp,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/6.jpg,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/7.webp,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/8.jpg".split(",");
+  var bgindex = Math.floor(Math.random()*bg.length);
+  if (!!window.ActiveXObject || "ActiveXObject" in window) { //is IE?
+    alert('朋友，IE浏览器未适配哦~');
+  }
+  </script>
+  <style type="text/css">
+  .hljs-ln{border-collapse:collapse}.hljs-ln td{padding:0}.hljs-ln-n:before{content:attr(data-line-number)}
+  </style>
+  <style type="text/css">.site-top .lower nav{display:block !important;}.author-profile i,.post-like a,.post-share .show-share,.sub-text,.we-info a,span.sitename,.post-more i:hover,#pagination a:hover,.post-content a:hover,.float-content i:hover{color:#FE9600}.feature i,.download,.navigator i:hover,.links ul li:before,.ar-time i,span.ar-circle,.object,.comment .comment-reply-link,.siren-checkbox-radio:checked + .siren-checkbox-radioInput:after{background:#FE9600}::-webkit-scrollbar-thumb{background:#FE9600}.download,.navigator i:hover,.link-title,.links ul li:hover,#pagination a:hover,.comment-respond input[type='submit']:hover{border-color:#FE9600}.entry-content a:hover,.site-info a:hover,.comment h4 a,#comments-navi a.prev,#comments-navi a.next,.comment h4 a:hover,.site-top ul li a:hover,.entry-title a:hover,#archives-temp h3,span.page-numbers.current,.sorry li a:hover,.site-title a:hover,i.iconfont.js-toggle-search.iconsearch:hover,.comment-respond input[type='submit']:hover{color:#FE9600}.comments .comments-main{display:block !important;}.comments .comments-hidden{display:none !important;}background-position:center center;background-attachment:inherit;}
+  </style>
+<link rel="alternate" href="/atom.xml" title="Smilecoc's Blog" type="application/atom+xml">
+</head>
+</html>
+<body class="page-template page-template-user page-template-page-analytics page-template-userpage-analytics-php page page-id-1297 chinese-font serif isWebKit">
+  <div class="skin-menu no-select" id="mainskin" style="position: fixed"> 
+    <div class="theme-controls row-container">
+          <p style="text-align:center;font-family:'Monaco';font-weight:bold;color:#444"><i style="color:grey" class="fa fa-chevron-left"></i> background <i style="color:grey" class="fa fa-chevron-right"></i></p>
+        <ul class="menu-list"> <li id="white-bg"> 
+            <i class="fa fa-television" aria-hidden="true">
+            </i>
+            </li> 
+            <li id="sakura-bg"> 
+                <i class="iconfont icon-sakura">
+                </i>
+            </li>
+            <li id="gribs-bg">
+                <i class="fa fa-slack" aria-hidden="true">
+                </i>
+            </li>
+            <li id="KAdots-bg">
+                <i class="iconfont icon-dots">
+                </i>
+            </li>
+            <li id="totem-bg">
+                <i class="fa fa-optin-monster" aria-hidden="true">
+                </i>
+            </li>
+            <li id="pixiv-bg">
+                <i class="iconfont icon-pixiv">
+                </i>
+            </li>
+            <li id="bing-bg">
+                <i class="iconfont icon-bing">
+                </i>
+            </li>
+            <li id="dark-bg">
+                <i class="fa fa-moon-o" aria-hidden="true">
+                </i>
+            </li>
+        </ul>
+    </div>
+    <canvas id="night-mode-cover">
+    </canvas>
+</div>
+ 
+  <div class="changeSkin-gear no-select"> 
+    <div class="keys" id="setbtn"> 
+        <span id="open-skinMenu"> 
+            SCHEME TOOL | 主题工具 &nbsp;
+            <i class="iconfont icon-gear inline-block rotating">
+            </i> 
+        </span>
+    </div> 
+</div>
+
+  <div class="scrollbar" id="bar">
+  </div>
+  <a href="#" class="cd-top faa-float animated"></a>
+  <section id="main-container">
+    <div class="headertop ">
+  <div id="banner_wave_1"></div>
+  <div id="banner_wave_2"></div>
+  <figure id="centerbg" class="centerbg">
+    <div class="focusinfo no-select">
+      <div class="header-tou">
+        <a href="https://smilecoc.github.io/">
+          <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/favicon.ico">
+        </a>
+      </div>
+      <div class="header-info">
+        <p>今でもあなたはわたしの光  时至今日，你仍是我的光</p>
+        <div class="top-social_v2">
+          <li id="bg-pre">
+            <img class="flipx" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/next-b.svg">
+          </li>
+          
+            
+              
+                <li>
+                  <a href="http://github.com/smilecoc" target="_blank" class="social-github" title="github">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/social/github.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="https://weibo.com/p/1005057275339401/home?from=page_100505&amp;mod=TAB#place" target="_blank" class="social-github" title="sina">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/social/sina.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="https://music.163.com/#/user/home?id=615928150" target="_blank" class="social-github" title="wangyiyun">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/social/wangyiyun.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="https://www.zhihu.com/people/lai-10086tou-su-4/activities" target="_blank" class="social-github" title="zhihu">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/social/zhihu.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="http://github.com/smilecoc" target="_blank" class="social-github" title="email">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/social/email.svg">
+                  </a>
+                </li>
+              
+            
+              
+                <li class="wechat">
+                  <a href="/#">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/social/wechat.png">
+                  </a>
+                  <div class="wechatInner">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/wechat.jfif">
+                  </div>
+                </li>
+              
+            
+          
+          <li id="bg-next">
+            <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/next-b.svg">
+          </li>
+        </div>
+      </div>
+    </div>
+  </figure>
+  <div id="video-container" style="">
+    <video style="object-fit: fill" id="bgvideo" class="video" video-name="" src="" width="auto" preload="auto">
+    </video>
+    <div id="video-btn" class="loadvideo videolive">
+    </div>
+    <div id="video-add">
+    </div>
+    <div class="video-stu">
+    </div>
+  </div>
+  <div class="headertop-down faa-float animated" onclick="headertop_down()">
+    <span>
+      <i class="fa fa-chevron-down" aria-hidden="true">
+      </i>
+    </span>
+  </div>
+</div>
+    <div id="page" class="site wrapper">
+      <header class="site-header no-select gizle sabit" role="banner">
+  <div class="site-top">
+    <div class="site-branding">
+      <span class="site-title">
+        <span class="logolink moe-mashiro">
+          <a href="/">
+            <span class="sakurasono">君の名は</span>
+            <span class="shironeko">Smilecoc</span>
+          </a>
+        </span>
+      </span>
+    </div>
+    <div class="searchbox search-form-submit">
+      <i class="iconfont js-toggle-search iconsearch icon-search">
+      </i>
+    </div>
+    <div id="show-nav" class="showNav mobile-fit">
+      <div class="line line1">
+      </div>
+      <div class="line line2">
+      </div>
+      <div class="line line3">
+      </div>
+    </div>
+    <div class="lower-cantiner">
+      <div class="lower">
+        <nav class="mobile-fit-control hide">
+          <ul id="menu-new" class="menu">
+            
+              <li>
+                <a href="/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-fort-awesome faa-shake" aria-hidden="true"></i>
+                    首页
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-archive faa-shake" aria-hidden="true"></i>
+                    归档
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/categories/技术/">
+                          <i class="fa fa-code" aria-hidden="true"></i>
+                          技术
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/笔记/">
+                          <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                          笔记
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/资源/">
+                          <i class="fa fa-cloud-download" aria-hidden="true"></i>
+                          资源
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/随想/">
+                          <i class="fa fa-commenting-o" aria-hidden="true"></i>
+                          随想
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/转载/">
+                          <i class="fa fa-book" aria-hidden="true"></i>
+                          转载
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="javascript:;">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-list-ul faa-vertical" aria-hidden="true"></i>
+                    清单
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/tags/悦读/">
+                          <i class="fa fa-th-list faa-bounce" aria-hidden="true"></i>
+                          书单
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/bangumi/">
+                          <i class="fa fa-film faa-vertical" aria-hidden="true"></i>
+                          番组
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/music/">
+                          <i class="fa fa-headphones" aria-hidden="true"></i>
+                          歌单
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/tags/图集/">
+                          <i class="fa fa-photo" aria-hidden="true"></i>
+                          图集
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="/comment/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-pencil-square-o faa-tada" aria-hidden="true"></i>
+                    留言板
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/links/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-link faa-shake" aria-hidden="true"></i>
+                    友人帐
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/donate/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-heart faa-pulse" aria-hidden="true"></i>
+                    赞赏
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-leaf faa-wrench" aria-hidden="true"></i>
+                    关于
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/about/">
+                          <i class="fa fa-meetup" aria-hidden="true"></i>
+                          我？
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/lab/">
+                          <i class="fa fa-cogs" aria-hidden="true"></i>
+                          Lab
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="/client/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-android faa-vertical" aria-hidden="true"></i>
+                    客户端
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/atom.xml">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-rss faa-pulse" aria-hidden="true"></i>
+                    RSS
+                  </span>
+                </a>
+                
+              </li>
+            
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<div class="pattern-center-blank"></div>
+
+  <div class="pattern-center single-center">
+    <!-- 有配图默认渲染第一张 -->
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.8/images/article/faker20200715.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.8/images/article/faker20200715.jpg">
+    </div>
+    <header class="pattern-header single-header">
+      <h1 class="entry-title">
+      Faker库：快速生成测试数据</h1>
+      <p class="entry-census">
+        <span>
+          <a href="http://smilecoc.vip/">
+            <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico">
+          </a>
+        </span>
+        <span>
+          <a href="http://smilecoc.vip/">smilecoc</a>
+        </span>
+        <span class="bull">
+        ·</span>
+        2020-7-20<span class="bull">
+        ·</span>
+      <span id="busuanzi_value_page_pv"></span>次阅读</p>
+    </header>
+  </div>
+
+<div id="content" class="site-content">
+  <div id="primary" class="content-area">
+    <main id="main" class="site-main" role="main">
+      <article id="post-1" class="post-1 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+        <div class="toc"></div>
+        <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
+        
+        <div class="entry-content">
+          <p>在做程序开发的时候，我们经常会用到一些测试数据.在 Python 中有个神库，叫做 Faker，它可以自动帮我们来生成各种各样的看起来很真的”假“数据，让我们来看看吧！</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>首先让我们来看看这个库的安装方法，实际上装起来非常简单，使用 pip 安装即可，Python3 版本的安装命令如下：</p>
+<pre><code class="python">pip3 install faker</code></pre>
+<p>安装好了之后，我们使用最简单的例子来生成几个假数据试试：</p>
+<pre><code class="python">from faker import Faker
+
+faker = Faker()
+print(&#39;name:&#39;, faker.name())
+print(&#39;address:&#39;, faker.address())
+print(&#39;text:&#39;, faker.text())</code></pre>
+<p>首先我们从 faker 这个包里面导入一个 Faker 类，然后将其实例化为 faker 对象，依次调用它的 name、address、text 方法，看下运行效果：</p>
+<pre><code>name: Nicholas Wilson
+address: 70561 Simmons Road Apt. 893
+Lake Raymondville, HI 35240
+text: Both begin bring federal space.
+Official start idea specific. Able under young fire.
+Who show line traditional easy people. Until economic lead event case. Technology college his director style.</code></pre><p>看到这里给我们生成了看起来很真的英文姓名、地址、长文本。</p>
+<p>但我们是中国人，我们肯定想要生成中文的吧，不用担心，这个库对非常多的语言都有支持，当然也包括中文了，具体的支持的语言列表可以见：<a href="https://faker.readthedocs.io/en/master/locales.html" target="_blank" rel="noopener">https://faker.readthedocs.io/en/master/locales.html</a>。</p>
+<p>这里几个比较常见的语言代号列一下：</p>
+<pre><code>简体中文：zh_CN
+繁体中文：zh_TW
+美国英文：en_US
+英国英文：en_GB
+德文：de_DE
+日文：ja_JP
+韩文：ko_KR
+法文：fr_FR</code></pre><p>那么如果要生成中文，只需要在 Faker 类的第一个参数传入对应的语言代号即可，例如简体中文就传入 zh_CN，所以上面的代码改写如下：</p>
+<pre><code>from faker import Faker
+
+faker = Faker(&#39;zh_CN&#39;)
+print(&#39;name:&#39;, faker.name())
+print(&#39;address:&#39;, faker.address())
+print(&#39;text:&#39;, faker.text())</code></pre><p>运行结果如下：</p>
+<pre><code>name: 何琳
+address: 宁夏回族自治区六盘水县南溪北镇街f座 912311
+text: 经营软件积分开始次数专业.美国留言一种管理人民解决两个.支持只有地方一切.
+文化目前东西的是不过所以.系统觉得这种为什一下他们.时候以及这样继续是一状态威望.
+网站密码情况.问题一点那个还是.其实过程详细.
+中国历史环境电话规定.经验上海控制不要生活.朋友运行项目我们.
+以后今天那些使用免费国家加入但是.内容简介空间次数最大一个.日期通过得到日本北京.</code></pre><p>可以看到一段中文的姓名、地址、长文本便生成了。看起来地址是省份、地级市、县级市、街道是随机组合的，文本也是一些随机的词组合而成的，但其实这样已经比文章一开头列的测试数据强太多了。</p>
+<p>上面的代码每次运行得到的结果都是不同的，因为生成的结果都是随机组合而成的。</p>
+<h1 id="Provider"><a href="#Provider" class="headerlink" title="Provider"></a>Provider</h1><p>接下来让我们详细看下 faker 可以都生成什么类型的数据，具体的可用 API 可以看 <a href="https://faker.readthedocs.io/en/master/locales/zh_CN.html，这里面列出来了可用的所有方法。" target="_blank" rel="noopener">https://faker.readthedocs.io/en/master/locales/zh_CN.html，这里面列出来了可用的所有方法。</a></p>
+<p>但打开之后可以发现，这里面多了一个 Provider 对象，那么这个 Provider 是怎么一回事呢？</p>
+<p>实际上这个 faker 库在设计上，为了解耦，将 Provider 对象做成了 Faker 对象的”插件“。Faker 可以添加一个个 Provider 对象，Provider 对象为 Faker 对象提供了生成某项数据的核心实现。就相当于 Faker 对象是一个生成器，它的生成功能依赖于什么呢？依赖于 Provider，是 Provider 提供给了 Faker 对象生成某项数据的能力。</p>
+<p>正是因为 Faker 对象内置了一些 Provider 对象，Faker 对象才可以生成刚才所要求的姓名、地址和文本。</p>
+<p>那么这时候我们肯定就很好奇了，既然 Faker 对象有生成数据的能力，那么它一定内置了一些默认的 Provider 对象，下面我们来打印看一下：</p>
+<pre><code class="py">from faker import Faker
+
+faker = Faker(&#39;zh_CN&#39;)
+print(faker.providers)</code></pre>
+<p>运行结果如下：</p>
+<pre><code>[&lt;faker.providers.user_agent.Provider object at 0x10249de48&gt;, &lt;faker.providers.ssn.zh_CN.Provider object at 0x10249dc18&gt;, &lt;faker.providers.python.Provider object at 0x10249dd68&gt;, &lt;faker.providers.profile.Provider object at 0x10249dcc0&gt;, &lt;faker.providers.phone_number.zh_CN.Provider object at 0x10249dc88&gt;, &lt;faker.providers.person.zh_CN.Provider object at 0x10249de80&gt;, &lt;faker.providers.misc.Provider object at 0x10249df60&gt;, &lt;faker.providers.lorem.zh_CN.Provider object at 0x10249dc50&gt;, &lt;faker.providers.job.zh_CN.Provider object at 0x10249de10&gt;, &lt;faker.providers.isbn.Provider object at 0x10249c6d8&gt;, &lt;faker.providers.internet.zh_CN.Provider object at 0x10249c828&gt;, &lt;faker.providers.geo.en_US.Provider object at 0x102484748&gt;, &lt;faker.providers.file.Provider object at 0x102484828&gt;, &lt;faker.providers.date_time.en_US.Provider object at 0x1023789e8&gt;, &lt;faker.providers.currency.Provider object at 0x102484780&gt;, &lt;faker.providers.credit_card.Provider object at 0x1024845f8&gt;, &lt;faker.providers.company.zh_CN.Provider object at 0x102499ef0&gt;, &lt;faker.providers.color.en_US.Provider object at 0x1023532e8&gt;, &lt;faker.providers.barcode.Provider object at 0x101cb6d30&gt;, &lt;faker.providers.bank.en_GB.Provider object at 0x102378f98&gt;, &lt;faker.providers.automotive.en_US.Provider object at 0x1017a5c50&gt;, &lt;faker.providers.address.zh_CN.Provider object at 0x101787c18&gt;]</code></pre><p>还真不少，通过名字可以看到有 user_agent、phone_number、isbn、credit_card 等 Provider，其中具有语言差异化的 Provider 还单独区分了语言，比如 phone_number 代表电话号码，这个不同语言的不同，所以这里就又分了一层 zh_CN，作了语言的区分。</p>
+<p>这样一来，通用的 Provider 就直接处在某个 Provider 类别的模块中，具有语言差异的 Provider 就又根据不同的语言进一步划分了模块，设计上非常科学，易扩展又不冗余。</p>
+<p>知道了 Faker 具有这么多 Provider 之后，我们来看看刚才调用的 name、address 等方法又和 Provider 有什么关系呢？</p>
+<p>我们将 name、address、text 等方法打印一下看看：</p>
+<pre><code class="py">from faker import Faker
+
+faker = Faker(&#39;zh_CN&#39;)
+print(&#39;name:&#39;, faker.name)
+print(&#39;address:&#39;, faker.address)
+print(&#39;text:&#39;, faker.text)</code></pre>
+<p>注意这里没有调用，而是直接打印了这三个方法，这样可以直接输出方法的对象形式的描述，结果如下：</p>
+<pre><code>name: &lt;bound method Provider.name of &lt;faker.providers.person.zh_CN.Provider object at 0x10f6dea58&gt;&gt;
+address: &lt;bound method Provider.address of &lt;faker.providers.address.zh_CN.Provider object at 0x10e9e6cf8&gt;&gt;
+text: &lt;bound method Provider.text of &lt;faker.providers.lorem.zh_CN.Provider object at 0x10f6dfda0&gt;&gt;</code></pre><p>恍然大悟，原来我们调用的方法就是 Faker 对象调用的 Provider 里面的对应方法，比如 name 就是 faker.providers.person.zh_CN.Provider 里面的 name 方法，二者是一致的，我们扒一扒源码验证下，源码在：<a href="https://github.com/joke2k/faker/blob/master/faker/providers/person/__init__.py" target="_blank" rel="noopener">https://github.com/joke2k/faker/blob/master/faker/providers/person/_<em>init_</em>.py</a>，果不其然，里面定义了 name 方法，然后 Faker 动态地将这个方法引入进来了，就可以使用了。</p>
+<h1 id="方法列举"><a href="#方法列举" class="headerlink" title="方法列举"></a>方法列举</h1><p>既然有这么多 Provider，下面我们再详细地看看还有哪些常用的方法吧，下面进行一部分简单的梳理，参考来源文档地址为：<a href="https://faker.readthedocs.io/en/master/providers.html。" target="_blank" rel="noopener">https://faker.readthedocs.io/en/master/providers.html。</a></p>
+<h2 id="Address"><a href="#Address" class="headerlink" title="Address"></a>Address</h2><p>Address，用于生成一些和地址相关的数据，如地址、城市、邮政编码、街道等内容， 用法如下：</p>
+<pre><code class="py">faker.address()
+# &#39;新疆维吾尔自治区杰县南湖武汉街D座 253105&#39;
+faker.building_number()
+# &#39;B座&#39;
+faker.city()
+# &#39;璐县&#39;
+faker.city_name()
+# &#39;贵阳&#39;
+faker.city_suffix()
+# &#39;县&#39;
+faker.country()
+# &#39;阿拉斯加&#39;
+faker.country_code(representation=&quot;alpha-2&quot;)
+# &#39;CR&#39;
+faker.district()
+# &#39;西峰&#39;
+faker.postcode()
+# &#39;726749&#39;
+faker.province()
+# &#39;福建省&#39;
+faker.street_address()
+# &#39;余路N座&#39;
+faker.street_name()
+# &#39;李路&#39;
+faker.street_suffix()
+# &#39;路&#39;</code></pre>
+<h2 id="Color"><a href="#Color" class="headerlink" title="Color"></a>Color</h2><p>Color，用于生成和颜色相关的数据，如 HEX、RGB、RGBA 等格式的颜色，用法如下：</p>
+<pre><code class="py">faker.color_name()
+# &#39;DarkKhaki&#39;
+faker.hex_color()
+# &#39;#97d14e&#39;
+faker.rgb_color()
+# &#39;107,179,51&#39;
+faker.rgb_css_color()
+# &#39;rgb(20,46,70)&#39;
+faker.safe_color_name()
+# &#39;navy&#39;
+faker.safe_hex_color()
+# &#39;#dd2200&#39;</code></pre>
+<h2 id="Company"><a href="#Company" class="headerlink" title="Company"></a>Company</h2><p>Company，用于生成公司相关数据，如公司名、公司前缀、公司后缀等内容，用法如下：</p>
+<pre><code class="py">faker.bs()
+# &#39;grow rich initiatives&#39;
+faker.catch_phrase()
+# &#39;Self-enabling encompassing function&#39;
+faker.company()
+# &#39;恒聪百汇网络有限公司&#39;
+faker.company_prefix()
+# &#39;晖来计算机&#39;
+faker.company_suffix()
+# &#39;信息有限公司&#39;
+Credit Card
+
+Credit Card，用于生成信用卡相关数据，如过期时间、银行卡号、安全码等内容，用法如下：
+
+faker.credit_card_expire(start=&quot;now&quot;, end=&quot;+10y&quot;, date_format=&quot;%m/%y&quot;)
+# &#39;08/20&#39;
+faker.credit_card_full(card_type=None)
+# &#39;Mastercard\n玉兰 范\n5183689713096897 01/25\nCVV: 012\n&#39;
+faker.credit_card_number(card_type=None)
+# &#39;4009911097184929918&#39;
+faker.credit_card_provider(card_type=None)
+# &#39;JCB 15 digit&#39;
+faker.credit_card_security_code(card_type=None)
+# &#39;259&#39;</code></pre>
+<h2 id="Date-Time"><a href="#Date-Time" class="headerlink" title="Date Time"></a>Date Time</h2><p>Date Time，用于生成时间相关数据，如年份、月份、星期、出生日期等内容，可以返回 datetime 类型的数据，用法如下：</p>
+<pre><code class="py">faker.am_pm()
+# &#39;AM&#39;
+faker.century()
+# &#39;X&#39;
+faker.date(pattern=&quot;%Y-%m-%d&quot;, end_datetime=None)
+# &#39;1997-06-16&#39;
+faker.date_between(start_date=&quot;-30y&quot;, end_date=&quot;today&quot;)
+# datetime.date(2000, 8, 30)
+faker.date_between_dates(date_start=None, date_end=None)
+# datetime.date(2019, 7, 30)
+faker.date_object(end_datetime=None)
+# datetime.date(1978, 3, 12)
+faker.date_of_birth(tzinfo=None, minimum_age=0, maximum_age=115)
+# datetime.date(2012, 6, 3)
+faker.date_this_century(before_today=True, after_today=False)
+# datetime.date(2011, 6, 12)
+faker.date_this_decade(before_today=True, after_today=False)
+# datetime.date(2011, 8, 22)
+faker.date_this_month(before_today=True, after_today=False)
+# datetime.date(2019, 7, 25)
+faker.date_this_year(before_today=True, after_today=False)
+# datetime.date(2019, 7, 22)
+faker.date_time(tzinfo=None, end_datetime=None)
+# datetime.datetime(2018, 8, 11, 22, 3, 34)
+faker.date_time_ad(tzinfo=None, end_datetime=None, start_datetime=None)
+# datetime.datetime(1566, 8, 26, 16, 25, 30)
+faker.date_time_between(start_date=&quot;-30y&quot;, end_date=&quot;now&quot;, tzinfo=None)
+# datetime.datetime(2015, 1, 31, 4, 14, 10)
+faker.date_time_between_dates(datetime_start=None, datetime_end=None, tzinfo=None)
+# datetime.datetime(2019, 7, 30, 17, 51, 44)
+faker.date_time_this_century(before_now=True, after_now=False, tzinfo=None)
+# datetime.datetime(2002, 9, 25, 23, 59, 49)
+faker.date_time_this_decade(before_now=True, after_now=False, tzinfo=None)
+# datetime.datetime(2010, 5, 25, 20, 20, 52)
+faker.date_time_this_month(before_now=True, after_now=False, tzinfo=None)
+# datetime.datetime(2019, 7, 19, 18, 4, 6)
+faker.date_time_this_year(before_now=True, after_now=False, tzinfo=None)
+# datetime.datetime(2019, 3, 15, 11, 4, 18)
+faker.day_of_month()
+# &#39;04&#39;
+faker.day_of_week()
+# &#39;Monday&#39;
+faker.future_date(end_date=&quot;+30d&quot;, tzinfo=None)
+# datetime.date(2019, 8, 12)
+faker.future_datetime(end_date=&quot;+30d&quot;, tzinfo=None)
+# datetime.datetime(2019, 8, 24, 2, 59, 4)
+faker.iso8601(tzinfo=None, end_datetime=None)
+# &#39;1987-07-01T18:33:56&#39;
+faker.month()
+# &#39;11&#39;
+faker.month_name()
+# &#39;August&#39;
+faker.past_date(start_date=&quot;-30d&quot;, tzinfo=None)
+# datetime.date(2019, 7, 25)
+faker.past_datetime(start_date=&quot;-30d&quot;, tzinfo=None)
+# datetime.datetime(2019, 7, 18, 22, 46, 51)
+faker.time(pattern=&quot;%H:%M:%S&quot;, end_datetime=None)
+# &#39;16:22:30&#39;
+faker.time_delta(end_datetime=None)
+# datetime.timedelta(0)
+faker.time_object(end_datetime=None)
+# datetime.time(22, 12, 15)
+faker.time_series(start_date=&quot;-30d&quot;, end_date=&quot;now&quot;, precision=None, distrib=None, tzinfo=None)
+# &lt;generator object Provider.time_series at 0x7fcbce0604f8&gt;
+faker.timezone()
+# &#39;Indian/Comoro&#39;
+faker.unix_time(end_datetime=None, start_datetime=None)
+# 1182857626
+faker.year()
+# &#39;1970&#39;</code></pre>
+<h2 id="File"><a href="#File" class="headerlink" title="File"></a>File</h2><p>File，用于生成文件和文件路径相关的数据，包括文件扩展名、文件路径、MIME_TYPE、磁盘分区等内容，用法如下：</p>
+<pre><code class="py">faker.file_extension(category=None)
+# &#39;flac&#39;
+faker.file_name(category=None, extension=None)
+# &#39;然后.numbers&#39;
+faker.file_path(depth=1, category=None, extension=None)
+# &#39;/关系/科技.mov&#39;
+faker.mime_type(category=None)
+# &#39;video/ogg&#39;
+faker.unix_device(prefix=None)
+# &#39;/dev/sdd&#39;
+faker.unix_partition(prefix=None)
+# &#39;/dev/xvds3&#39;</code></pre>
+<h2 id="Geo"><a href="#Geo" class="headerlink" title="Geo"></a>Geo</h2><p>Geo，用于生成和地理位置相关的数据，包括经纬度，时区等等信息，用法如下：</p>
+<pre><code class="py">faker.coordinate(center=None, radius=0.001)
+# Decimal(&#39;-114.420686&#39;)
+faker.latitude()
+# Decimal(&#39;-9.772541&#39;)
+faker.latlng()
+# (Decimal(&#39;-27.0730915&#39;), Decimal(&#39;-5.919460&#39;))
+faker.local_latlng(country_code=&quot;US&quot;, coords_only=False)
+# (&#39;41.47892&#39;, &#39;-87.45476&#39;, &#39;Schererville&#39;, &#39;US&#39;, &#39;America/Chicago&#39;)
+faker.location_on_land(coords_only=False)
+# (&#39;12.74482&#39;, &#39;4.52514&#39;, &#39;Argungu&#39;, &#39;NG&#39;, &#39;Africa/Lagos&#39;)
+faker.longitude()
+# Decimal(&#39;40.885895&#39;)</code></pre>
+<h2 id="Internet"><a href="#Internet" class="headerlink" title="Internet"></a>Internet</h2><p>Internet，用于生成和互联网相关的数据，包括随机电子邮箱、域名、IP 地址、URL、用户名、后缀名等内容，用法如下：</p>
+<pre><code class="py">faker.ascii_company_email(*args, **kwargs)
+# &#39;xuna@xiaqian.cn&#39;
+faker.ascii_email(*args, **kwargs)
+# &#39;min59@60.cn&#39;
+faker.ascii_free_email(*args, **kwargs)
+# &#39;min75@gmail.com&#39;
+faker.ascii_safe_email(*args, **kwargs)
+# &#39;cliu@example.com&#39;
+faker.company_email(*args, **kwargs)
+# &#39;ilong@99.cn&#39;
+faker.domain_name(levels=1)
+# &#39;xiulan.cn&#39;
+faker.domain_word(*args, **kwargs)
+# &#39;luo&#39;
+faker.email(*args, **kwargs)
+# &#39;maoxiulan@hotmail.com&#39;
+faker.free_email(*args, **kwargs)
+# &#39;yanshen@gmail.com&#39;
+faker.free_email_domain(*args, **kwargs)
+# &#39;yahoo.com&#39;
+faker.hostname(*args, **kwargs)
+# &#39;lt-18.pan.cn&#39;
+faker.image_url(width=None, height=None)
+# &#39;https://placekitten.com/51/201&#39;
+faker.ipv4(network=False, address_class=None, private=None)
+# &#39;192.233.68.5&#39;
+faker.ipv4_network_class()
+# &#39;a&#39;
+faker.ipv4_private(network=False, address_class=None)
+# &#39;10.9.97.93&#39;
+faker.ipv4_public(network=False, address_class=None)
+# &#39;192.51.22.7&#39;
+faker.ipv6(network=False)
+# &#39;de57:9c6f:a38c:9864:10ec:6442:775d:5f02&#39;
+faker.mac_address()
+# &#39;99:80:5c:ab:8c:a9&#39;
+faker.safe_email(*args, **kwargs)
+# &#39;tangjuan@example.net&#39;
+faker.slug(*args, **kwargs)
+# &#39;&#39;
+faker.tld()
+# &#39;cn&#39;
+faker.uri()
+# &#39;http://fangfan.org/app/tag/post/&#39;
+faker.uri_extension()
+# &#39;.php&#39;
+faker.uri_page()
+# &#39;about&#39;
+faker.uri_path(deep=None)
+# &#39;app&#39;
+faker.url(schemes=None)
+# &#39;http://mingli.cn/&#39;
+faker.user_name(*args, **kwargs)
+# &#39;jie54&#39;
+Job
+
+Job，用于生成和职业相关的数据，用法如下：
+
+faker.job()
+# &#39;烫工&#39;</code></pre>
+<h2 id="Lorem"><a href="#Lorem" class="headerlink" title="Lorem"></a>Lorem</h2><p>Lorem，用于生成一些假文字数据，包括句子、自然段、长文本、关键词等，另外可以传入不同的参数来控制生成的长度，用法如下：</p>
+<pre><code>faker.paragraph(nb_sentences=3, variable_nb_sentences=True, ext_word_list=None)
+# &#39;包括的是报告那些一点.图片地址基本全部.&#39;
+faker.paragraphs(nb=3, ext_word_list=None)
+# [   &#39;计划规定这样所以组织商品其中.参加成为不同发表地区.精华科技谢谢大家需要.一下手机上海中文工程.&#39;,
+#     &#39;非常相关是一就是一个一种文章发生.增加那些以及之后以下你的.&#39;,
+#     &#39;学生应该出来分析增加关系组织.评论来源朋友注册应该需要单位.感觉最后无法发现选择人民.&#39;]
+faker.sentence(nb_words=6, variable_nb_words=True, ext_word_list=None)
+# &#39;介绍结果自己解决处理.&#39;
+faker.sentences(nb=3, ext_word_list=None)
+# [&#39;查看其实一次学习登录浏览是一他们.&#39;, &#39;而且资源的人事情.&#39;, &#39;科技价格免费大学教育.&#39;]
+faker.text(max_nb_chars=200, ext_word_list=None)
+# (&#39;只是当前国内中文所以.威望系统在线虽然.\n&#39;
+#  &#39;图片人民非常合作这种谢谢更新.名称详细直接社会一直首页完全.\n&#39;
+#  &#39;重要更多只要市场.必须只是学生音乐.系统美国类别这些一切环境.\n&#39;
+#  &#39;但是的话人民美国关于.\n&#39;
+#  &#39;情况专业国际看到研究.音乐环境市场搜索发现.\n&#39;
+#  &#39;工具还是到了今天位置人民.留言作者品牌工程项目必须.上海精华现在我们新闻应该关系.\n&#39;
+#  &#39;更新经济能力全部资源如果.手机能够登录国内.&#39;)
+faker.texts(nb_texts=3, max_nb_chars=200, ext_word_list=None)
+# [   &#39;成功可能推荐你的行业.地区而且推荐.\n&#39;
+#     &#39;网络不断是一主要必须.开始安全服务.\n&#39;
+#     &#39;应该网上通过以后通过大学.管理要求有关国际阅读当前.为了应该结果点击公司开始怎么.\n&#39;
+#     &#39;成功一次最大生产网站.这种加入她的地址有限.\n&#39;
+#     &#39;根据新闻汽车起来非常主题显示必须.有些建设来自作者电话支持.\n&#39;
+#     &#39;只是资源还是由于经济事情喜欢.为什中文大小得到服务.网络密码是否免费参加一次社区欢迎.&#39;,
+#     &#39;部门活动技术.商品影响发生行业密码完成.就是部门结果资料学习当然.或者帮助城市要求首页市场教育你们.\n&#39;
+#     &#39;专业完全分析处理城市大学什么.\n&#39;
+#     &#39;文件非常国际全部起来积分公司.资料的是电影没有.这是本站需要.\n&#39;
+#     &#39;合作重要没有现在市场开发空间.您的会员推荐成功教育进行中国.\n&#39;
+#     &#39;文件不是如果评论.因为经验设备规定.\n&#39;
+#     &#39;加入一起影响网上大家运行在线如果.工程企业这种以后.&#39;,
+#     &#39;空间市场出现必须基本电话.显示一个标准其他设计作品.工程不断新闻问题更多更新这么.\n&#39;
+#     &#39;一起简介网上内容不会.任何知道各种两个.类别事情经营那么投资市场.\n&#39;
+#     &#39;那些使用介绍公司朋友人民你们浏览.应该表示一点一般说明主要谢谢.电话回复起来经验一个来源加入.\n&#39;
+#     &#39;地区法律其他表示虽然.参加社会喜欢有限论坛一般发布.类别目前文化可以.\n&#39;
+#     &#39;报告质量工作主要.企业发布完全.得到名称作者等级两个论坛只要电话.&#39;]
+faker.word(ext_word_list=None)
+# &#39;注意&#39;
+faker.words(nb=3, ext_word_list=None, unique=False)
+# [&#39;责任&#39;, &#39;组织&#39;, &#39;以后&#39;]</code></pre><p>在这里每个方法的参数是不同的，具体的参数解释可以见源代码每个方法的注释：<a href="https://github.com/joke2k/faker/blob/master/faker/providers/lorem/__init\__.py，" target="_blank" rel="noopener">https://github.com/joke2k/faker/blob/master/faker/providers/lorem/__init\__.py，</a></p>
+<h2 id="Misc"><a href="#Misc" class="headerlink" title="Misc"></a>Misc</h2><p>Misc，用于生成生成一些混淆数据，比如密码、sha1、sha256、md5 等加密后的内容，用法如下：</p>
+<pre><code class="py">faker.boolean(chance_of_getting_true=50)
+# True
+faker.md5(raw_output=False)
+# &#39;3166fa26ffd3f2a33e020dfe11191ac6&#39;
+faker.null_boolean()
+# False
+faker.password(length=10, special_chars=True, digits=True, upper_case=True, lower_case=True)
+# &#39;W7Ln8La@%O&#39;
+faker.sha1(raw_output=False)
+# &#39;c8301a2a79445439ee5287f38053e4b3a05eac79&#39;
+faker.sha256(raw_output=False)
+# &#39;1e909d331e20cf241aaa2da894deae5a3a75e5cdc35c053422d9b8e7ccfa0402&#39;
+faker.uuid4(cast_to=&lt;class &#39;str&#39;&gt;)
+# &#39;6e6fe387-6877-48d9-94ea-4263c4c71aa5&#39;</code></pre>
+<h2 id="Person"><a href="#Person" class="headerlink" title="Person"></a>Person</h2><p>Person，用于生成和人名相关的数据，包括姓氏、名字、全名、英文名等内容，还能区分男女名字，用法如下：</p>
+<pre><code class="py">faker.first_name()
+# &#39;颖&#39;
+faker.first_name_female()
+# &#39;芳&#39;
+faker.first_name_male()
+# &#39;利&#39;
+faker.first_romanized_name()
+# &#39;Jing&#39;
+faker.last_name()
+# &#39;温&#39;
+faker.last_name_female()
+# &#39;寇&#39;
+faker.last_name_male()
+# &#39;陈&#39;
+faker.last_romanized_name()
+# &#39;Lei&#39;
+faker.name()
+# &#39;黄明&#39;
+faker.name_female()
+# &#39;张凯&#39;
+faker.name_male()
+# &#39;黄鹏&#39;</code></pre>
+<h2 id="User-Agent"><a href="#User-Agent" class="headerlink" title="User-Agent"></a>User-Agent</h2><p>User-Agent，用于生成和浏览器 User-Agent 相关的内容，可以定制各种浏览器，还可以传入版本信息来控制生成的内容，用法如下：</p>
+<pre><code class="py">faker.chrome(version_from=13, version_to=63, build_from=800, build_to=899)
+# (&#39;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/5332 (KHTML, like Gecko) &#39;
+#  &#39;Chrome/40.0.837.0 Safari/5332&#39;)
+faker.firefox()
+# (&#39;Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_8_9; rv:1.9.4.20) &#39;
+#  &#39;Gecko/2019-05-02 05:58:44 Firefox/3.6.19&#39;)
+faker.internet_explorer()
+# &#39;Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 5.2; Trident/3.0)&#39;
+faker.linux_platform_token()
+# &#39;X11; Linux i686&#39;
+faker.linux_processor()
+# &#39;x86_64&#39;
+faker.mac_platform_token()
+# &#39;Macintosh; U; PPC Mac OS X 10_12_5&#39;
+faker.mac_processor()
+# &#39;U; Intel&#39;
+faker.opera()
+# &#39;Opera/9.77.(Windows NT 4.0; vi-VN) Presto/2.9.182 Version/11.00&#39;
+faker.safari()
+# (&#39;Mozilla/5.0 (Macintosh; PPC Mac OS X 10_7_1 rv:5.0; or-IN) &#39;
+#  &#39;AppleWebKit/535.9.4 (KHTML, like Gecko) Version/5.0.2 Safari/535.9.4&#39;)
+faker.user_agent()
+# &#39;Opera/8.69.(X11; Linux i686; ml-IN) Presto/2.9.170 Version/11.00&#39;
+faker.windows_platform_token()
+# &#39;Windows NT 6.1&#39;</code></pre>
+<p>以上仅仅列了一部分，还有更多的功能大家可以查看官方文档的内容，链接为：<a href="https://faker.readthedocs.io/en/master/locales/zh_CN.html。" target="_blank" rel="noopener">https://faker.readthedocs.io/en/master/locales/zh_CN.html。</a></p>
+<h1 id="其他-Provider"><a href="#其他-Provider" class="headerlink" title="其他 Provider"></a>其他 Provider</h1><p>另外还有一些社区贡献的 Provider，如 WiFi、微服务相关的，大家可以查看文档的说明，另外需要额外安装这些扩展包并自行添加 Provider，文档见：<a href="https://faker.readthedocs.io/en/master/communityproviders.html。" target="_blank" rel="noopener">https://faker.readthedocs.io/en/master/communityproviders.html。</a></p>
+<p>添加 Provider 需要调用 add_provider 方法，用法示例如下：</p>
+<pre><code class="py">from faker import Faker
+from faker.providers import internet
+
+faker = Faker()
+faker.add_provider(internet)
+print(faker.ipv4_private())</code></pre>
+<p>还有更多的内容大家可以参考官方文档，链接：<a href="https://faker.readthedocs.io/。" target="_blank" rel="noopener">https://faker.readthedocs.io/。</a></p>
+
+        </div>
+        <!-- .entry-content -->
+        <div class="single-reward">
+          <div class="reward-open">赏<div class="reward-main">
+              <ul class="reward-row">
+                <li class="alipay-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/AliPayQR.jpg"></li>
+                <li class="wechat-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/wechatpayQR.jpg"></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
+        <footer class="post-footer">
+          <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
+          <div class="post-tags">
+          </div>
+          <div class="post-share">
+            <div class="social-share sharehidden share-component"></div>
+            <i class="iconfont show-share icon-forward"></i>
+          </div>
+        </footer><!-- .entry-footer -->
+      </article>
+      <!-- #post-## -->
+      <div class="toc" style="background: none;"></div>
+      <section class="post-squares nextprev">
+        
+          
+            <div class="post-nepre half previous">
+          
+            <a href="/2020/07/27/sweetviz/" rel="prev">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.8/images/article/sweetviz20200727.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.8/images/article/sweetviz20200727.jpg">
+              </div>
+              <span class="label">
+              Previous Post</span>
+              <div class="info">
+                <h3>
+                sweetviz库：快速可视化和数据集EDA</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+        
+          
+            <div class="post-nepre half next">
+          
+            <a href="/2020/07/15/With在Python中的实践原理/" rel="next">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.0/images/article/with_python_20200901.png" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.0/images/article/with_python_20200901.png">
+              </div>
+              <span class="label">
+              Next Post</span>
+              <div class="info">
+                <h3>
+                With在Python中的实践原理</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+      </section>
+      
+<div id="vcomments"></div>
+<script>
+  window.onload = function(){
+      var valine = new Valine();
+      valine.init({
+        el: '#vcomments',
+        appId: "Hm83GoGeDX3sGPDh3Q50lSMz-gzGzoHsz",
+        appKey: "mXIVaYaFj1DNyH6yBicfUS0w",
+        path: window.location.pathname,
+        placeholder: "你是我一生只会遇见一次的惊喜 ..."
+      })
+  }
+</script>
+
+      <section class="author-profile">
+        <div class="info" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <a href="http://smilecoc.vip/" class="profile gravatar"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico" itemprop="image" alt="smilecoc" height="70" width="70"></a>
+          <div class="meta">
+            <span class="title">Author</span>
+            <h3 itemprop="name">
+            <a href="http://smilecoc.vip/" itemprop="url" rel="author">smilecoc</a>
+            </h3>
+          </div>
+        </div>
+        <hr>
+        <p><i class="iconfont icon-write"></i></p>
+      </section>
+    </main><!-- #main -->
+  </div><!-- #primary -->
+</div>
+
+
+
+    </div>    
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="请输入关键词..."/>
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            // PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+    <!-- <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Smilecoc<br>
+      powered_by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer> -->
+<footer id="colophon" class="site-footer" role="contentinfo">
+  <div class="site-info">
+    <div class="footertext">
+      <div class="img-preload">
+        <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/wordpress-rotating-ball-o.svg">
+        <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/disqus-preloader.svg">
+      </div>
+      <p style="color: #666666;">&copy 2018</p>
+    </div>
+    <div class="footer-device">
+    <p style="font-family: 'Ubuntu', sans-serif;">
+        <span style="color: #b9b9b9;">Theme <a href="https://github.com/honjun/hexo-theme-sakura" target="_blank" style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">Sakura</a> <i class="iconfont icon-sakura rotating" style="color: #ffc0cb;display:inline-block"></i> by <a href="https://2heng.xin/" target="_blank" style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">Mashiro</a>&<a href="https://www.hojun.cn/" target="_blank" style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">Hojun</a>, Powered by Hexo, Hosted by Coding Pages</a>
+        </span>
+      </p>
+    </div>
+  </div><!-- .site-info -->
+</footer>
+
+
+
+<!-- <script src="/js/tocbot.js"></script> -->
+<script type="text/javascript" src="/js/lib.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script type="text/javascript" src="/js/InsightSearch.js"></script>
+<script type="text/javascript" src="/js/jquery.fancybox.min.js"></script>
+<script type="text/javascript" src="/js/zoom.min.js"></script>
+<script type="text/javascript" src="/js/sakura-app.js"></script>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/ctz45562/cdn@2.0.2/js/volantis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+<script src="https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget/autoload.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/yremp/yremp-js@1.5/sakura.js"></script>
+<!-- 不蒜子 网页计数器 -->
+<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script> -->
+<script type="text/javascript">
+/* <![CDATA[ */
+if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+  var Poi = {"pjax":"1","movies":{"url": "https://cdn.jsdelivr.net/gh/honjun/hojun@1.2/Unbroken.mp4","name":"ThreeBody","live":"close"},"windowheight":"fixed","codelamp":"close","ajaxurl":"","order":"asc","formpostion":"bottom"};
+} else {
+  var Poi = {"pjax":"1","movies":{"url": "https://cdn.jsdelivr.net/gh/honjun/hojun@1.2/Unbroken.mp4","name":"ThreeBody","live":"open"},"windowheight":"auto","codelamp":"close","ajaxurl":"","order":"asc","formpostion":"bottom"};
+}
+/* ]]> */
+
+</script>
+<script>
+$(document).ready(function() {
+  if ($(".toc").length > 0 && document.body.clientWidth > 1200) {
+    if ($(".pattern-center").length > 0) { //有图的情况
+      tocbot.init({
+          // Where to render the table of contents.
+          tocSelector: '.toc', // 放置目录的容器
+          // Where to grab the headings to build the table of contents.
+          contentSelector: '.entry-content', // 正文内容所在
+          // Which headings to grab inside of the contentSelector element.
+          scrollSmooth: true,
+          headingSelector: 'h1, h2, h3, h4, h5', // 需要索引的标题级别
+          headingsOffset: -400,
+          scrollSmoothOffset: -85
+      });
+    } else {
+      tocbot.init({
+          // Where to render the table of contents.
+          tocSelector: '.toc', // 放置目录的容器
+          // Where to grab the headings to build the table of contents.
+          contentSelector: '.entry-content', // 正文内容所在
+          // Which headings to grab inside of the contentSelector element.
+          scrollSmooth: true,
+          headingSelector: 'h1, h2, h3, h4, h5', // 需要索引的标题级别
+          headingsOffset: -85,
+          scrollSmoothOffset: -85
+      });
+    }
+    var offsetTop = $('.toc').offset().top - 95;
+    window.onscroll = function() {
+      var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+      if (scrollTop >= offsetTop) {
+        $('.toc').addClass('toc-fixed');
+      } else {
+        $('.toc').removeClass('toc-fixed');
+      }
+    }
+  }
+});
+</script>
+
+    <div class="openNav no-select" style="height: 50px;">
+      <div class="iconflat no-select" style="width: 50px; height: 50px;">
+        <div class="icon"></div>
+      </div>
+      <div class="site-branding search-form-submit">
+        <i class="iconfont js-toggle-search iconsearch icon-search"></i>
+      </div>
+    </div>
+  </section>
+  <div id="mo-nav" class="">
+  <div class="m-avatar">
+    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/favicon.ico">
+  </div>
+  <p style="text-align: center; color: #333; font-weight: 900; font-family: 'Ubuntu', sans-serif; letter-spacing: 1.5px">君の名はSmilecoc</p>
+  <p style="text-align: center; word-spacing: 20px;">
+    
+      
+        <a href="http://github.com/smilecoc" class="fa fa-github" target="_blank" style="color: #333; margin-left:20px"></a>
+      
+        <a href="https://weibo.com/p/1005057275339401/home?from=page_100505&mod=TAB#place" class="fa fa-weibo" target="_blank" style="color: #dd4b39; margin-left:20px"></a>
+      
+        <a href="http://github.com/smilecoc" class="fa fa-qq" target="_blank" style="color: #25c6fe; margin-left:20px"></a>
+      
+    
+  </p>
+  <ul id="menu-new-1" class="menu">
+    
+      <li>
+        <a href="/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-fort-awesome faa-shake" aria-hidden="true"></i>
+            首页
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/archives">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-archive faa-shake" aria-hidden="true"></i>
+            归档
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/categories/技术/">
+                  <i class="fa fa-code" aria-hidden="true"></i>
+                  技术
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/笔记/">
+                  <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                  笔记
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/资源/">
+                  <i class="fa fa-cloud-download" aria-hidden="true"></i>
+                  资源
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/随想/">
+                  <i class="fa fa-commenting-o" aria-hidden="true"></i>
+                  随想
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/转载/">
+                  <i class="fa fa-book" aria-hidden="true"></i>
+                  转载
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="javascript:;">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-list-ul faa-vertical" aria-hidden="true"></i>
+            清单
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/tags/悦读/">
+                  <i class="fa fa-th-list faa-bounce" aria-hidden="true"></i>
+                  书单
+                </a>
+              </li>
+            
+              <li>
+                <a href="/bangumi/">
+                  <i class="fa fa-film faa-vertical" aria-hidden="true"></i>
+                  番组
+                </a>
+              </li>
+            
+              <li>
+                <a href="/music/">
+                  <i class="fa fa-headphones" aria-hidden="true"></i>
+                  歌单
+                </a>
+              </li>
+            
+              <li>
+                <a href="/tags/图集/">
+                  <i class="fa fa-photo" aria-hidden="true"></i>
+                  图集
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="/comment/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-pencil-square-o faa-tada" aria-hidden="true"></i>
+            留言板
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/links/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-link faa-shake" aria-hidden="true"></i>
+            友人帐
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/donate/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-heart faa-pulse" aria-hidden="true"></i>
+            赞赏
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-leaf faa-wrench" aria-hidden="true"></i>
+            关于
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/about/">
+                  <i class="fa fa-meetup" aria-hidden="true"></i>
+                  我？
+                </a>
+              </li>
+            
+              <li>
+                <a href="/lab/">
+                  <i class="fa fa-cogs" aria-hidden="true"></i>
+                  Lab
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="/client/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-android faa-vertical" aria-hidden="true"></i>
+            客户端
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/atom.xml">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-rss faa-pulse" aria-hidden="true"></i>
+            RSS
+          </span>
+        </a>
+        
+      </li>
+    
+  </ul>
+  <p style="text-align: center; font-size: 13px; color: #b9b9b9;">&copy 2019 hexo-sakura</p>
+</div>
+<button onclick="topFunction()" class="mobile-cd-top" id="moblieGoTop" title="Go to top" style="display: none;"><i class="fa fa-chevron-up" aria-hidden="true"></i></button>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+<style>
+  .aplayer .aplayer-lrc {
+    height: 35px;
+  }
+  .aplayer .aplayer-lrc p{
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 18px !important;
+  }
+  .aplayer .aplayer-lrc p.aplayer-lrc-current{
+    color: #FF1493;
+  }
+  .aplayer.aplayer-narrow .aplayer-body{
+    left: -66px !important;
+  }
+  .aplayer.aplayer-fixed .aplayer-lrc {
+    display: none;
+  }
+  .aplayer .aplayer-lrc.aplayer-lrc-hide {
+      display:none !important;
+  }
+  .aplayer.aplayer-fixed .lrc-show {
+    display: block;
+    background: rgba(255, 255, 255, 0.8);
+  }
+</style>
+<div class="aplayer"
+
+    data-id="953999592"
+
+    data-server="netease"
+
+    data-type="playlist"
+
+    data-fixed="true"
+
+    data-autoplay="false"
+
+    data-loop="all"
+
+    data-order="random"
+
+    data-preload="true"
+
+    data-volume="0.7"
+
+    data-mutex="true"
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script>
+<script>
+  $(function(){
+    $('body').on('click', '.aplayer', function(){
+      if($('.aplayer-button').hasClass('aplayer-play')) {
+        $('.aplayer-lrc').removeClass('lrc-show');
+      } else {
+        $('.aplayer-lrc').addClass('lrc-show');
+      }
+    })
+  });
+</script>
+</body>
+</html>
