@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">Tag: Git | Smilecoc&#39;s Blog</title>
+  <title itemprop="name">时间序列（三）：ARIMA模型与Python实战 | Smilecoc&#39;s Blog</title>
   
     <link rel="shortcut icon" href="/images/favicon.ico">
   
@@ -429,97 +429,213 @@
   </div>
 </header>
 
-      
+      <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
 <div class="pattern-center-blank"></div>
-<div class="pattern-center ">
-  <div class="pattern-attachment-img">
-    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="Git.img" class="lazyload" onerror="imgError(this,3)" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+
+  <div class="pattern-center single-center">
+    <!-- 有配图默认渲染第一张 -->
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.5/images/article/time_series_part3_20210115.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.5/images/article/time_series_part3_20210115.jpg">
+    </div>
+    <header class="pattern-header single-header">
+      <h1 class="entry-title">
+      时间序列（三）：ARIMA模型与Python实战</h1>
+      <p class="entry-census">
+        <span>
+          <a href="http://smilecoc.vip/">
+            <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico">
+          </a>
+        </span>
+        <span>
+          <a href="http://smilecoc.vip/">smilecoc</a>
+        </span>
+        <span class="bull">
+        ·</span>
+        2021-1-15<span class="bull">
+        ·</span>
+      <span id="busuanzi_value_page_pv"></span>次阅读</p>
+    </header>
   </div>
-  <header class="pattern-header ">
-    <h1 class="cat-title">Git</h1>
-  </header>
-</div>
+
 <div id="content" class="site-content">
   <div id="primary" class="content-area">
     <main id="main" class="site-main" role="main">
+      <article id="post-1" class="post-1 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+        <div class="toc"></div>
+        <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
+        
+        <div class="entry-content">
+          <h1 id="什么是-ARIMA模型"><a href="#什么是-ARIMA模型" class="headerlink" title="什么是 ARIMA模型"></a>什么是 ARIMA模型</h1><p>ARIMA模型的全称叫做自回归移动平均模型，全称是(ARIMA, Autoregressive Integrated Moving Average Model)。也记作ARIMA(p,d,q)，是统计模型(statistic model)中最常见的一种用来进行时间序列预测的模型。</p>
+<p>ARIMA模型是一种自回归模型，只需要自变量即可预测后续的值。<strong>ARIMA模型要求时序数据是稳定的，或者经过差分处理后稳定</strong>，如果不稳定的数据，是无法捕捉到规律的。比如股票数据用ARIMA无法预测的原因就是股票数据是非稳定的，常常受政策和新闻的影响而波动。</p>
+<h1 id="ARIMA模型步骤"><a href="#ARIMA模型步骤" class="headerlink" title="ARIMA模型步骤"></a>ARIMA模型步骤</h1><ol>
+<li><strong>时间序列的获取与预处理</strong>：对于得到的时间序列数据，首先应该检查数据质量，例如是否有缺失，异常值的存在。确保数据无误后需要进行稳定性检验和白噪声检验。能够适用ARMA模型进行分析预测的时间序列必须满足的条件是平稳非白噪声序列。因此对数据的平稳性进行检验是时间序列分析的重要步骤。具体的检验方法可以查看上一篇文章 <a href>时间序列（二）：时间序列平稳性与白噪声检测</a></li>
+<li><strong>模型定阶</strong>: 确定模型的类型并确定模型的参数</li>
+<li><strong>建模预测</strong>：使用模型进行建模并进行相关预测。</li>
+<li><strong>模型的验证</strong>： 模型的验证主要是验证模型的拟合效果，之后对模型进行相关优化与应用</li>
+</ol>
+<h2 id="时间序列的获取与预处理"><a href="#时间序列的获取与预处理" class="headerlink" title="时间序列的获取与预处理"></a>时间序列的获取与预处理</h2><h3 id="导入数据"><a href="#导入数据" class="headerlink" title="导入数据"></a>导入数据</h3><p>在本文中我们使用2015/1/2-2015/2/6某餐厅的销售数据进行建模。数据文件可以在公众号：Romi的杂货铺</p>
+<p>首先读入数据并查看一下时序图</p>
+<pre><code class="lang-py">import pandas as pd
+
+discfile = &#39;arima_data.xls&#39;
+data = pd.read_excel(discfile, index_col = u&#39;日期&#39;)
+
+#时序图
+import matplotlib.pyplot as plt
+plt.rcParams[&#39;font.sans-serif&#39;] = [&#39;SimHei&#39;] #用来正常显示中文标签
+plt.rcParams[&#39;axes.unicode_minus&#39;] = False #用来正常显示负号
+data.plot()
+plt.show()
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20201214233037767.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h3 id="平稳性检验"><a href="#平稳性检验" class="headerlink" title="平稳性检验"></a>平稳性检验</h3><p>从上述时序图中我们可以看到序列有明显的上升趋势，基本可以确定不是平稳序列了。<br>再通过自相关图检验一下：</p>
+<pre><code class="lang-py">#自相关图
+from statsmodels.graphics.tsaplots import plot_acf
+plot_acf(data).show()
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/2020121423421367.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>从自相关图从右向左看，时间序列随着阶数的递增，自相关系数缓慢衰减至0，不符合平稳序列的要求。<br>之后再对序列进行ADF检验，</p>
+<pre><code class="lang-py">from statsmodels.tsa.stattools import adfuller as ADF
+
+print(u&#39;原始序列的ADF检验结果为：&#39;, ADF(data[u&#39;销量&#39;]))
+</code></pre>
+<p>单位根检验统计量对应的p值显著大于0.05, 最终将该序列判断为非平稳序列</p>
+<h3 id="利用差分平稳数据"><a href="#利用差分平稳数据" class="headerlink" title="利用差分平稳数据"></a>利用差分平稳数据</h3><p>首先我们对时间序列数据进行一阶差分（一般情况下差分的阶数不会超过两阶，如果差分阶数过高会导致信息丢失较多导致预测误差较大）.代码如下所示：</p>
+<pre><code class="lang-py">#一阶 差分
+D_data = data.diff().dropna()
+D_data.columns = [u&#39;销量差分&#39;]
+D_data.plot() #时序图
+plt.show()
+</code></pre>
+<p>之后我们再次对差分后的序列进行平稳性检测：</p>
+<pre><code class="lang-py">plot_acf(D_data).show() #自相关图
+
+from statsmodels.graphics.tsaplots import plot_pacf
+plot_pacf(D_data).show() #偏自相关图
+
+print(u&#39;差分序列的ADF检验结果为：&#39;, ADF(D_data[u&#39;销量差分&#39;])) #ADF检测
+</code></pre>
+<p>从检验结果来看在一阶差分后已经是平稳序列，符合后续建模要求</p>
+<h2 id="模型定阶"><a href="#模型定阶" class="headerlink" title="模型定阶"></a>模型定阶</h2><p>再对数据进行预处理后得到平稳时间序列后我们就可以确定ARIMA模型相关的参数。<br>ARIMA有三个参数，可表示为ARIMA(p, d, q)。p为自回归阶数，也就是我们需要用前多少个时间段的数据去做自回归。d为时间成为平稳时所做的差分次数，q为移动平均阶数。在之前的平稳性变化中我们做了一阶差分，那么对应d=1,那么另外两个参数ARMA(p, q)如何确定呢？</p>
+<h3 id="通过自相关图或者偏相关图"><a href="#通过自相关图或者偏相关图" class="headerlink" title="通过自相关图或者偏相关图"></a>通过自相关图或者偏相关图</h3><p>在上述的平稳性检验的过程中问我们得到了相关的自相关图和偏自相关图：<br><img src="https://img-blog.csdnimg.cn/20210102140503277.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20210102140519659.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>上面两幅图中，阴影部分为置信区间。<br><img src="https://img-blog.csdnimg.cn/20210102231751840.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>其中截尾表示落在置信区间内（95%的点都符合该规则）.<br>根据上述自相关图与偏自相关图，我们有以下模型可以供选择：</p>
+<ol>
+<li>ARMA(0,1)模型：即自相关图在滞后1阶之后缩小为0，且偏自相关缩小至0，则是一个阶数q=1的移动平均模型；</li>
+<li>ARMA(3,0)模型：即偏自相关图在滞后3阶之后缩小为0，且自相关缩小至0，则是一个阶层p=3的自回归模型；</li>
+<li>ARMA(3,1)模型：即使得自相关和偏自相关都缩小至零。则是一个混合模型。</li>
+</ol>
+<p>针对这三种模型，我们后续可以通过建立模型预测后并利用测试数据检验哪个模型更好同，时我们也可以通过查看三种模型的AIC,BIC等信息来确定哪个模型更好。AIC,BIC都是判断模型的标准，其值越小表示模型越好。</p>
+<p>AIC ：赤池信息量 ，公式为：$AIC= 2 k-2 ln(L)$<br>BIC：贝叶斯信息量，公式为：$BIC=ln(n)*k-2 ln(L)$<br>其中k为模型参数个数，n为样本数量，L为似然函数</p>
+<p>例如我们通过BIC判断相关模型的好坏的相关代码为：</p>
+<pre><code class="lang-py">print(ARIMA(data, (p,1,q)).fit().bic)
+</code></pre>
+<h3 id="通过遍历获取"><a href="#通过遍历获取" class="headerlink" title="通过遍历获取"></a>通过遍历获取</h3><p>在上述通过自相关图与偏自相关图确定p,q的方法里，我们可以看到确定的参数不止一种，因此我们可以通过遍历各个p，q参数获取对应的AIC,BIC等信息确定参数。</p>
+<pre><code class="lang-py">#遍历
+from statsmodels.tsa.arima_model import ARIMA
+
+data[u&#39;销量&#39;] = data[u&#39;销量&#39;].astype(float)
+#定阶
+pmax = int(len(D_data)/10) #一般阶数不超过length/10
+qmax = int(len(D_data)/10) #一般阶数不超过length/10
+bic_matrix = [] #bic矩阵
+for p in range(pmax+1):
+  tmp = []
+  for q in range(qmax+1):
+    try: #存在部分报错，所以用try来跳过报错。
+      tmp.append(ARIMA(data, (p,1,q)).fit().bic)
+    except:
+      tmp.append(None)
+  bic_matrix.append(tmp)
+
+#输出BIC结果矩阵
+bic_matrix = pd.DataFrame(bic_matrix) #从中可以找出最小值
+print(bic_matrix)
+</code></pre>
+<p>结果中对应BIC最小的p值和q值为：0、1.</p>
+<h2 id="建模预测"><a href="#建模预测" class="headerlink" title="建模预测"></a>建模预测</h2><p> 在确定了最佳参数后，我们可以进行后续的建模与预测。</p>
+<pre><code class="lang-py">model = ARIMA(data, (0,1,1)).fit() #建立ARIMA(0, 1, 1)模型
+model.forecast(5) #作为期5天的预测
+</code></pre>
+<p>这样我们就得到了未来五天的预测数据。</p>
+
+        </div>
+        <!-- .entry-content -->
+        <div class="single-reward">
+          <div class="reward-open">赏<div class="reward-main">
+              <ul class="reward-row">
+                <li class="alipay-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/AliPayQR.jpg"></li>
+                <li class="wechat-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/wechatpayQR.jpg"></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
+        <footer class="post-footer">
+          <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
+          <div class="post-tags">
+          </div>
+          <div class="post-share">
+            <div class="social-share sharehidden share-component"></div>
+            <i class="iconfont show-share icon-forward"></i>
+          </div>
+        </footer><!-- .entry-footer -->
+      </article>
+      <!-- #post-## -->
+      <div class="toc" style="background: none;"></div>
+      <section class="post-squares nextprev">
+        
+        
+          
+            <div class="post-nepre full next">
+          
+            <a href="/2021/01/15/时间序列（二）：时间序列平稳性检测/" rel="next">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.5/images/article/time_series_part2_20210115.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.5/images/article/time_series_part2_20210115.jpg">
+              </div>
+              <span class="label">
+              Next Post</span>
+              <div class="info">
+                <h3>
+                时间序列（二）：时间序列平稳性检测</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+      </section>
       
-  <!-- 首页默认取最最新文章集 -->
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2021/01/05/时间序列（三）：ARIMA模型实战 - Copy/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.5/images/article/html_github_20210105.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2021/01/05/时间序列（三）：ARIMA模型实战 - Copy/">
-    通过Github Pages 将自己的Html文件发布到服务器上供远程访问</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2021-1-5</div>
-    <p>
-    通过Github Pages 将自己的Html文件发布到服务器上供远程访问</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2021/01/05/时间序列（三）：ARIMA模型实战 - Copy/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/03/12/Git语句大全/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.2/images/article/githz20200312.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/03/12/Git语句大全/">
-    Git语句大全</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-3-12</div>
-    <p>
-    Git 语句宝典</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/03/12/Git语句大全/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
+<div id="vcomments"></div>
+<script>
+  window.onload = function(){
+      var valine = new Valine();
+      valine.init({
+        el: '#vcomments',
+        appId: "Hm83GoGeDX3sGPDh3Q50lSMz-gzGzoHsz",
+        appKey: "mXIVaYaFj1DNyH6yBicfUS0w",
+        path: window.location.pathname,
+        placeholder: "你是我一生只会遇见一次的惊喜 ..."
+      })
+  }
+</script>
 
-
-      <div class="clearer">
-      </div>
-    </main>
-    <!--  -->
-    
-  </div>
+      <section class="author-profile">
+        <div class="info" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <a href="http://smilecoc.vip/" class="profile gravatar"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico" itemprop="image" alt="smilecoc" height="70" width="70"></a>
+          <div class="meta">
+            <span class="title">Author</span>
+            <h3 itemprop="name">
+            <a href="http://smilecoc.vip/" itemprop="url" rel="author">smilecoc</a>
+            </h3>
+          </div>
+        </div>
+        <hr>
+        <p><i class="iconfont icon-write"></i></p>
+      </section>
+    </main><!-- #main -->
+  </div><!-- #primary -->
 </div>
+
+
+
     </div>    
     <div class="ins-search">
     <div class="ins-search-mask"></div>

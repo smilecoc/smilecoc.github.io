@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">Tag: Git | Smilecoc&#39;s Blog</title>
+  <title itemprop="name">时间序列（一）：时间序列数据与时间序列预测模型 | Smilecoc&#39;s Blog</title>
   
     <link rel="shortcut icon" href="/images/favicon.ico">
   
@@ -429,97 +429,307 @@
   </div>
 </header>
 
-      
+      <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
 <div class="pattern-center-blank"></div>
-<div class="pattern-center ">
-  <div class="pattern-attachment-img">
-    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="Git.img" class="lazyload" onerror="imgError(this,3)" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+
+  <div class="pattern-center single-center">
+    <!-- 有配图默认渲染第一张 -->
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.5/images/article/time_series_part1_20210115.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.5/images/article/time_series_part1_20210115.jpg">
+    </div>
+    <header class="pattern-header single-header">
+      <h1 class="entry-title">
+      时间序列（一）：时间序列数据与时间序列预测模型</h1>
+      <p class="entry-census">
+        <span>
+          <a href="http://smilecoc.vip/">
+            <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico">
+          </a>
+        </span>
+        <span>
+          <a href="http://smilecoc.vip/">smilecoc</a>
+        </span>
+        <span class="bull">
+        ·</span>
+        2021-1-15<span class="bull">
+        ·</span>
+      <span id="busuanzi_value_page_pv"></span>次阅读</p>
+    </header>
   </div>
-  <header class="pattern-header ">
-    <h1 class="cat-title">Git</h1>
-  </header>
-</div>
+
 <div id="content" class="site-content">
   <div id="primary" class="content-area">
     <main id="main" class="site-main" role="main">
+      <article id="post-1" class="post-1 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+        <div class="toc"></div>
+        <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
+        
+        <div class="entry-content">
+          <p>时间序列及其预测是日常工作中建模，分析，预测的重要组成部分。本系列我们将从0开始介绍时间序列的含义，模型及其分析。本篇为第一部分，我们主要介绍时间序列，与其常用的预测模型。</p>
+<h1 id="时间序列定义："><a href="#时间序列定义：" class="headerlink" title="时间序列定义："></a>时间序列定义：</h1><p>时间序列是按照一定的时间间隔排列的一组数据，其时间间隔可以是任意的时间单位，如小时、日、周月等。比如，每天某产品的用户数量，每个月的销售额，这些数据形成了以一定时间间隔的数据。</p>
+<p>通过对这些时间序列的分析，从中发现和揭示现象发展变化的规律，并将这些知识和信息用于预测。比如销售量是上升还是下降，销售量是否与季节有关，是否可以通过现有的数据预测未来一年的销售额是多少等。</p>
+<p>对于时间序列的预测，由于很难确定它与其他变量之间的关系，这时我们就不能用回归去预测，而应使用时间序列方法进行预测。</p>
+<p>采用时间序列分析进行预测时需要一系列的模型，这种模型称为时间序列模型。</p>
+<h1 id="时间序列预测模型与方法"><a href="#时间序列预测模型与方法" class="headerlink" title="时间序列预测模型与方法"></a>时间序列预测模型与方法</h1><p>注：本部分只关注相关模型与分析的方法，模型的选择，调参与优化会放在后续文章中详细讲解</p>
+<h2 id="原始数据"><a href="#原始数据" class="headerlink" title="原始数据"></a>原始数据</h2><p>本文所使用原始数据与代码，可以在公众号：Smilecoc的杂货铺 中回复“时间序列”获取</p>
+<h2 id="朴素法"><a href="#朴素法" class="headerlink" title="朴素法"></a>朴素法</h2><p>朴素法就是预测值等于实际观察到的最后一个值。它假设数据是平稳且没有趋势性与季节性的。通俗来说就是以后的预测值都等于最后的值。</p>
+<p>这种方法很明显适用情况极少，所以我们重点通过这个方法来熟悉一下数据可视化与模型的评价及其相关代码。</p>
+<pre><code class="lang-py">#朴素法
+dd = np.asarray(train[&#39;Count&#39;])#训练组数据
+y_hat = test.copy()#测试组数据
+y_hat[&#39;naive&#39;] = dd[len(dd) - 1]#预测组数据
+
+#数据可视化
+plt.figure(figsize=(12, 8))
+plt.plot(train.index, train[&#39;Count&#39;], label=&#39;Train&#39;)
+plt.plot(test.index, test[&#39;Count&#39;], label=&#39;Test&#39;)
+plt.plot(y_hat.index, y_hat[&#39;naive&#39;], label=&#39;Naive Forecast&#39;)
+plt.legend(loc=&#39;best&#39;)
+plt.title(&quot;Naive Forecast&quot;)
+plt.show()
+</code></pre>
+<p>得到结果：<br><img src="https://img-blog.csdnimg.cn/202009202338285.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>我们通过计算均方根误差，检查模型在测试数据集上的准确率。<br>其中均方根误差（RMSE）是各数据偏离真实值的距离平方和的平均数的开方</p>
+<pre><code class="lang-py">#计算均方根误差RMSE
+from sklearn.metrics import mean_squared_error
+from math import sqrt
+
+# mean_squared_error求均方误差
+rmse = sqrt(mean_squared_error(test[&#39;Count&#39;], y_hat[&#39;naive&#39;]))
+print(rmse)
+</code></pre>
+<p>得到均方根误差为1053</p>
+<h2 id="简单平均法"><a href="#简单平均法" class="headerlink" title="简单平均法"></a>简单平均法</h2><p>简单平均法就是预测的值为之前过去所有值的平均.当然这不会很准确，但这种预测方法在某些情况下效果是最好的。</p>
+<pre><code class="lang-py">#简单平均法
+y_hat_avg = test.copy()
+y_hat_avg[&#39;avg_forecast&#39;] = train[&#39;Count&#39;].mean()
+</code></pre>
+<p>其后续可视化与模型效果评估方法与上述一致，这里不再赘述，需要详细代码可以查看相关源码。得到RMSE值为2637</p>
+<h2 id="移动平均法"><a href="#移动平均法" class="headerlink" title="移动平均法"></a>移动平均法</h2><p>我们经常会遇到这种数据集，比如价格或销售额某段时间大幅上升或下降。如果我们这时用之前的简单平均法，就得使用所有先前数据的平均值，但在这里使用之前的所有数据是说不通的，因为用开始阶段的价格值会大幅影响接下来日期的预测值。因此，我们只取最近几个时期的价格平均值。很明显这里的逻辑是只有最近的值最要紧。这种用某些窗口期计算平均值的预测方法就叫移动平均法。</p>
+<pre><code class="lang-py">#移动平均法
+y_hat_avg = test.copy()
+#利用时间窗函数rolling求平均值u
+y_hat_avg[&#39;moving_avg_forecast&#39;] = train[&#39;Count&#39;].rolling(60).mean().iloc[-1]
+</code></pre>
+<p>其后续可视化与模型效果评估方法与上述一致，这里不再赘述，需要详细代码可以查看相关源码。得到RMSE值为1121</p>
+<h2 id="指数平滑法"><a href="#指数平滑法" class="headerlink" title="指数平滑法"></a>指数平滑法</h2><p>在做时序预测时，一个显然的思路是：认为离着预测点越近的点，作用越大。比如我这个月体重100斤，去年某个月120斤，显然对于预测下个月体重而言，这个月的数据影响力更大些。假设随着时间变化权重以指数方式下降——最近为0.8，然后0.8*<em>2，0.8*</em>3…，最终年代久远的数据权重将接近于0。将权重按照指数级进行衰减，这就是指数平滑法的基本思想。</p>
+<p>指数平滑法有几种不同形式：一次指数平滑法针对<strong>没有趋势和季节性</strong>的序列，二次指数平滑法针对<strong>有趋势但没有季节性</strong>的序列，三次指数平滑法针对<strong>有趋势也有季节性</strong>的序列。“</p>
+<p>所有的指数平滑法都要更新上一时间步长的计算结果，并使用当前时间步长的数据中包含的新信息。它们通过”混合“新信息和旧信息来实现，而相关的新旧信息的权重由一个可调整的参数来控制。</p>
+<h3 id="一次指数平滑"><a href="#一次指数平滑" class="headerlink" title="一次指数平滑"></a>一次指数平滑</h3><p>一次指数平滑法的递推关系如下：</p>
+<p>$s_{i}=\alpha x_{i}+(1-\alpha)s_{i-1}，其中 0 \leq \alpha \leq 1$</p>
+<p>其中，$s_{i}$是时间步长i（理解为第i个时间点）上经过平滑后的值，$x_{i}$ 是这个时间步长上的实际数据。 $\alpha$可以是0和1之间的任意值，它控制着新旧信息之间的平衡：当 $\alpha$ 接近1，就只保留当前数据点；当$\alpha$ 接近0时，就只保留前面的平滑值(整个曲线都是平的)。我们展开它的递推关系式：</p>
+<p>我们展开它的递推关系式：<br>$\begin{aligned} s_{i}&amp;=\alpha x_{i}+(1-\alpha)s_{i-1} \\ &amp;=\alpha x_{i}+(1-\alpha)[\alpha x_{i-1}+(1-\alpha)s_{i-2}]\\ &amp;=\alpha x_{i}+(1-\alpha)[\alpha x_{i-1}+(1-\alpha)[\alpha x_{i-2}+(1-\alpha)s_{i-3}]]\\ &amp;=\alpha[x_{i}+(1-\alpha)x_{i-1}+(1-\alpha)^{2}x_{i-2}+(1-\alpha)^{3}s_{i-3}]\\ &amp;=… \\ &amp;=\alpha\sum_{j=0}^{i}(1-\alpha)^{j}x_{i-j} \end{aligned}$</p>
+<p>可以看出，在指数平滑法中，所有先前的观测值都对当前的平滑值产生了影响，但它们所起的作用随着参数 $\alpha$ 的幂的增大而逐渐减小。那些相对较早的观测值所起的作用相对较小。同时，称α为记忆衰减因子可能更合适——因为α的值越大，模型对历史数据“遗忘”的就越快。从某种程度来说，指数平滑法就像是拥有无限记忆（平滑窗口足够大）且权值呈指数级递减的移动平均法。一次指数平滑所得的计算结果可以在数据集及范围之外进行扩展，因此也就可以用来进行预测。预测方式为：</p>
+<p>$x_{i+h}=s_{i}$</p>
+<p>$s_{i}$是最后一个已经算出来的值。h等于1代表预测的下一个值。</p>
+<p>我们可以通过statsmodels中的时间序列模型进行指数平滑建模。官方文档地址为：<br><a href="https://www.statsmodels.org/stable/generated/statsmodels.tsa.holtwinters.SimpleExpSmoothing.html" target="_blank" rel="noopener">https://www.statsmodels.org/stable/generated/statsmodels.tsa.holtwinters.SimpleExpSmoothing.html</a><br>具体代码如下：</p>
+<pre><code class="lang-py">#一次指数平滑
+from statsmodels.tsa.api import SimpleExpSmoothing
+
+y_hat_avg = test.copy()
+fit = SimpleExpSmoothing(np.asarray(train[&#39;Count&#39;])).fit(smoothing_level=0.6, optimized=False)
+y_hat_avg[&#39;SES&#39;] = fit.forecast(len(test))
+</code></pre>
+<p>之后同样进行数据可视化并查看模型效果 </p>
+<pre><code class="lang-py">plt.figure(figsize=(16, 8))
+plt.plot(train[&#39;Count&#39;], label=&#39;Train&#39;)
+plt.plot(test[&#39;Count&#39;], label=&#39;Test&#39;)
+plt.plot(y_hat_avg[&#39;SES&#39;], label=&#39;SES&#39;)
+plt.legend(loc=&#39;best&#39;)
+plt.show()
+</code></pre>
+<p>可视化结果为：<br><img src="https://img-blog.csdnimg.cn/20201002144630712.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>RMSE结果为1040</p>
+<h2 id="二次指数平滑"><a href="#二次指数平滑" class="headerlink" title="二次指数平滑"></a>二次指数平滑</h2><p>在介绍二次指数平滑前介绍一下趋势的概念。</p>
+<p>趋势，或者说斜率的定义很简单：$b=Δy/Δx$，其中$Δx$为两点在x坐标轴的变化值，所以对于一个序列而言，相邻两个点的$Δx=1$，因此$b=Δy=y(x)-y(x-1)$。 除了用点的增长量表示，也可以用二者的比值表示趋势。比如可以说一个物品比另一个贵20块钱，等价地也可以说贵了5%，前者称为可加的（addtive），后者称为可乘的（multiplicative）。在实际应用中，可乘的模型预测稳定性更佳，但是为了便于理解，我们在这以可加的模型为例进行推导。<br>指数平滑考虑的是数据的baseline，二次指数平滑在此基础上将趋势作为一个额外考量，保留了趋势的详细信息。即我们保留并更新两个量的状态：平滑后的信号和平滑后的趋势。公式如下：<br>基准等式<br>$s_{i}=\alpha x_{i}+(1-\alpha)(s_{i-1}+t_{i-1})$<br>趋势等式<br>$t_{i}=\beta (s_{i}-s_{i-1})+(1-\beta)t_{i-1}$</p>
+<p>第二个等式描述了平滑后的趋势。当前趋势的未平滑“值”（ $t_{i}$ ）是当前平滑值（ $s_{i}$ ）和上一个平滑值（$s_{i-1}$）的差；也就是说，当前趋势告诉我们在上一个时间步长里平滑信号改变了多少。要想使趋势平滑，我们用一次指数平滑法对趋势进行处理，并使用参数 $\beta$ （理解：对 $t_{i}$ 的处理类似于一次平滑指数法中的 $s_{i}$ ，即对趋势也需要做一个平滑，临近的趋势权重大）。</p>
+<p>为获得平滑信号，我们像上次那样进行一次混合，但要同时考虑到上一个平滑信号及趋势。假设单个步长时间内保持着上一个趋势，那么第一个等式的最后那项就可以对当前平滑信号进行估计。</p>
+<p>若要利用该计算结果进行预测，就取最后那个平滑值，然后每增加一个时间步长就在该平滑值上增加一次最后那个平滑趋势：</p>
+<p>$x_{i+h}=s_{i}+ht_{i}$ </p>
+<p><img src="https://img-blog.csdnimg.cn/20201005153225313.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>之后使用二次指数平滑进行预测：</p>
+<pre><code class="lang-py">from statsmodels.tsa.api import Holt
+
+y_hat_avg = test.copy()
+
+fit = Holt(np.asarray(train[&#39;Count&#39;])).fit(smoothing_level=0.3, smoothing_slope=0.1)
+y_hat_avg[&#39;Holt_linear&#39;] = fit.forecast(len(test))
+</code></pre>
+<p>结果如图：<br><img src="https://img-blog.csdnimg.cn/20201005154835480.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>得到对应的RMSE为1033</p>
+<h2 id="三次指数平滑"><a href="#三次指数平滑" class="headerlink" title="三次指数平滑"></a>三次指数平滑</h2><p>在应用这种算法前，我们先介绍一个新术语。假如有家酒店坐落在半山腰上，夏季的时候生意很好，顾客很多，但每年其余时间顾客很少。因此，每年夏季的收入会远高于其它季节，而且每年都是这样，那么这种重复现象叫做“季节性”（Seasonality）。如果数据集在一定时间段内的固定区间内呈现相似的模式，那么该数据集就具有季节性。<br><img src="https://img-blog.csdnimg.cn/20201005161143290.png#pic_center" alt="在这里插入图片描述"><br>二次指数平滑考虑了序列的基数和趋势，三次就是在此基础上增加了一个季节分量。类似于趋势分量，对季节分量也要做指数平滑。比如预测下一个季节第3个点的季节分量时，需要指数平滑地考虑当前季节第3个点的季节分量、上个季节第3个点的季节分量…等等。详细的有下述公式(累加法)：</p>
+<script type="math/tex; mode=display">\begin{aligned}
+s_{i}&=\alpha (x_{i}-p_{i-k})+(1-\alpha)(s_{i-1}+t_{i-1}) \\ t_{i}
+&=\beta (s_{i}-s_{i-1})+(1-\beta)t_{i-1}\\ p_{i}&=\gamma (x_{i}-s_{i})+(1-\gamma)p_{i-k} 
+\end{aligned}</script><p>其中， $p_{i}$ 是指“周期性”部分。预测公式如下：</p>
+<p>$x_{i+h}=s_{i}+ht_{i}+p_{i-k+h}$</p>
+<p>k 是这个周期的长度。</p>
+<p>在使用二次平滑模型与三次平滑模型前，我们可以使用sm.tsa.seasonal_decompose分解时间序列，可以得到以下分解图形——从上到下依次是原始数据、趋势数据、周期性数据、随机变量（残差值）</p>
+<p><img src="https://img-blog.csdnimg.cn/20201206154401501.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>根据分析图形和数据可以确定对应的季节参数</p>
+<p>具体代码为：</p>
+<pre><code class="lang-py">#三次指数平滑
+from statsmodels.tsa.api import ExponentialSmoothing
+
+y_hat_avg = test.copy()
+fit1 = ExponentialSmoothing(np.asarray(train[&#39;Count&#39;]), seasonal_periods=7, trend=&#39;add&#39;, seasonal=&#39;add&#39;, ).fit()
+y_hat_avg[&#39;Holt_Winter&#39;] = fit1.forecast(len(test))
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/202010051613402.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>得到的RMSE为575。我们可以看到趋势和季节性的预测准确度都很高。你可以试着调整参数来优化这个模型。</p>
+<h1 id="AR模型"><a href="#AR模型" class="headerlink" title="AR模型"></a>AR模型</h1><p>AR(Auto Regressive Model)自回归模型是线性时间序列分析模型中最简单的模型。通过自身前面部分的数据与后面部分的数据之间的相关关系（自相关）来建立回归方程，从而可以进行预测或者分析。服从p阶的自回归方程表达式如下：</p>
+<p>$x_{t}=\phi_{1}x_{t-1}+\phi_{2}x_{t-2}+\cdots+\phi_{p}x_{t-p}+\mu_{t}$</p>
+<p>表示为$AR(p)$,。其中，$\mu_{t}$表示白噪声，是时间序列中的数值的随机波动，但是这些波动会相互抵消，最终是0。$\phi$表示自回归系数。</p>
+<p>所以当只有一个时间记录点时，称为一阶自回归过程，即AR(1)。其表达式为：<br>$x_{t}=\phi_{1}x_{t-1}+\mu_{t}$</p>
+<p>利用Python建立AR模型一般会用到我们之后会说到的ARIMA模型（AR模型中的p是ARIMA模型中的参数之一，只要将其他的参数设置为0即为AR模型）。您可以先阅读后续ARIMA模型的内容并参考文件中的代码查看具体的内容</p>
+<h1 id="MA模型"><a href="#MA模型" class="headerlink" title="MA模型"></a>MA模型</h1><p>MA(Moving Average Model)移动平均模型通过将一段时间序列中白噪声(误差)进行加权和，可以得到移动平均方程。如下模型为q阶移动平均过程，表示为MA(q)。</p>
+<p>$x_{t}=\mu+\mu_{t}+\theta_{1}\mu_{t-1}+\theta_{2}\mu_{t-2}+\cdots+\theta_{q}\mu_{t-q}$</p>
+<p>其中$x_{t}$表示t期的值，当期的值由前q期的误差值来决定，$μ$值是常数项，相当于普通回归中的截距项，$\mu_{t}$是当期的随机误差。MA模型的核心思想是每一期的随机误差都会影响当期值，把前q期的所有误差加起来就是对t期值的影响。</p>
+<p>同样，利用Python建立MA模型一般会用到我们之后会说到的ARIMA模型,您可以先阅读后续ARIMA模型的内容并参考文件中的代码查看具体的内容</p>
+<h1 id="ARMA模型"><a href="#ARMA模型" class="headerlink" title="ARMA模型"></a>ARMA模型</h1><p>ARMA(Auto Regressive and Moving Average Model)自回归移动平均模型是与自回归和移动平均模型两部分组成。所以可以表示为ARMA(p, q)。p是自回归阶数，q是移动平均阶数。</p>
+<p>$x_{t}=\phi_{1}x_{t-1}+\phi_{2}x_{t-2}+\cdots+\phi_{p}x_{t-p}+\mu_{t}+\theta_{1}\mu_{t-1}+\theta_{2}\mu_{t-2}+\cdots+\theta_{q}\mu_{t-q}$</p>
+<p>从式子中就可以看出，自回归模型结合了两个模型的特点，其中，AR可以解决当前数据与后期数据之间的关系，MA则可以解决随机变动也就是噪声的问题。</p>
+<h1 id="ARIMA模型"><a href="#ARIMA模型" class="headerlink" title="ARIMA模型"></a>ARIMA模型</h1><p>ARIMA(Auto Regressive Integrate Moving Average Model)差分自回归移动平均模型是在ARMA模型的基础上进行改造的，ARMA模型是针对t期值进行建模的，而ARIMA是针对t期与t-d期之间差值进行建模，我们把这种不同期之间做差称为差分，这里的d是几就是几阶差分。ARIMA模型也是基于平稳的时间序列的或者差分化后是稳定的，另外前面的几种模型都可以看作ARIMA的某种特殊形式。表示为ARIMA(p, d, q)。p为自回归阶数，q为移动平均阶数，d为时间成为平稳时所做的差分次数，也就是Integrate单词的在这里的意思。</p>
+<p>具体步骤如下：</p>
+<p>$x_{t}=\phi_{1}w_{t-1}+\phi_{2}w_{t-2}+\cdots+\phi_{p}w_{t-p}+\mu_{t}+\theta_{1}\mu_{t-1}+\theta_{2}\mu_{t-2}+\cdots+\theta_{q}\mu_{t-q}$</p>
+<p>上面公式中的$w_{t}$表示t期经过d阶差分以后的结果。我们可以看到ARIMA模型的形式基本与ARMA的形式是一致的，只不过把$X$换成了$w$</p>
+<p>使用ARIMA进行预测代码如下：</p>
+<pre><code class="lang-py">from statsmodels.tsa.arima_model import ARIMA
+
+ts_ARIMA= train[&#39;Count&#39;].astype(float)
+fit1 = ARIMA(ts_ARIMA, order=(7, 1, 4)).fit()
+y_hat_ARIMA = fit1.predict(start=&quot;2013-11-1&quot;, end=&quot;2013-12-31&quot;, dynamic=True)
+</code></pre>
+<p>并画出预测值与实际值图形：</p>
+<pre><code class="lang-py">plt.figure(figsize=(16, 8))
+plt.plot(train[&#39;Count&#39;], label=&#39;Train&#39;)
+plt.plot(test[&#39;Count&#39;], label=&#39;Test&#39;)
+plt.plot(y_hat_ARIMA, label=&#39;ARIMA&#39;)
+plt.legend(loc=&#39;best&#39;)
+plt.show()
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20201207225622100.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>并计算RMSE:</p>
+<pre><code class="lang-py">from sklearn.metrics import mean_squared_error
+from math import sqrt
+
+rmse = sqrt(mean_squared_error(test[&#39;Count&#39;],y_hat_ARIMA.to_frame()))
+print(rmse)
+</code></pre>
+<p>得到对应的RMSE为3723</p>
+<h1 id="SARIMA模型"><a href="#SARIMA模型" class="headerlink" title="SARIMA模型"></a>SARIMA模型</h1><p>SARIMA季节性自回归移动平均模型模型在ARIMA模型的基础上添加了季节性的影响，结构参数有七个：SARIMA(p,d,q)(P,D,Q,s)<br>其中p,d,q分别为之前ARIMA模型中我们所说的p:趋势的自回归阶数。d:趋势差分阶数。q:趋势的移动平均阶数。<br>P:季节性自回归阶数。<br>D:季节性差分阶数。<br>Q:季节性移动平均阶数。<br>s:单个季节性周期的时间步长数。</p>
+<pre><code class="lang-py">import statsmodels.api as sm
+y_hat_avg = test.copy()
+fit1 = sm.tsa.statespace.SARIMAX(train.Count, order=(2, 1, 4), seasonal_order=(0, 1, 1, 7)).fit()
+y_hat_avg[&#39;SARIMA&#39;] = fit1.predict(start=&quot;2013-11-1&quot;, end=&quot;2013-12-31&quot;, dynamic=True)
+</code></pre>
+<p>得到实际值与预测值如下：</p>
+<pre><code class="lang-py">plt.figure(figsize=(16, 8))
+plt.plot(train[&#39;Count&#39;], label=&#39;Train&#39;)
+plt.plot(test[&#39;Count&#39;], label=&#39;Test&#39;)
+plt.plot(y_hat_avg[&#39;SARIMA&#39;], label=&#39;SARIMA&#39;)
+plt.legend(loc=&#39;best&#39;)
+plt.show()
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20201208233835432.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>并计算RMSE：</p>
+<pre><code class="lang-py">from sklearn.metrics import mean_squared_error
+from math import sqrt
+rmse = sqrt(mean_squared_error(test[&#39;Count&#39;], y_hat_avg[&#39;SARIMA&#39;]))
+print(rmse)
+</code></pre>
+<p>结果为933</p>
+<p>其他时间序列预测的模型还有SARIMAX模型（在ARIMA模型上加了季节性的因素），Prophet模型，ARCH模型，LSTM神经网络模型等。</p>
+<p>参考文章：<br><a href="https://www.analyticsvidhya.com/blog/2018/02/time-series-forecasting-methods/" target="_blank" rel="noopener">https://www.analyticsvidhya.com/blog/2018/02/time-series-forecasting-methods/</a><br><a href="https://blog.csdn.net/anshuai_aw1/article/details/82499095" target="_blank" rel="noopener">https://blog.csdn.net/anshuai_aw1/article/details/82499095</a></p>
+
+        </div>
+        <!-- .entry-content -->
+        <div class="single-reward">
+          <div class="reward-open">赏<div class="reward-main">
+              <ul class="reward-row">
+                <li class="alipay-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/AliPayQR.jpg"></li>
+                <li class="wechat-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/donate/wechatpayQR.jpg"></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
+        <footer class="post-footer">
+          <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
+          <div class="post-tags">
+          </div>
+          <div class="post-share">
+            <div class="social-share sharehidden share-component"></div>
+            <i class="iconfont show-share icon-forward"></i>
+          </div>
+        </footer><!-- .entry-footer -->
+      </article>
+      <!-- #post-## -->
+      <div class="toc" style="background: none;"></div>
+      <section class="post-squares nextprev">
+        
+          
+            <div class="post-nepre half previous">
+          
+            <a href="/2021/01/15/时间序列（二）：时间序列平稳性检测/" rel="prev">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.5/images/article/time_series_part2_20210115.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.5/images/article/time_series_part2_20210115.jpg">
+              </div>
+              <span class="label">
+              Previous Post</span>
+              <div class="info">
+                <h3>
+                时间序列（二）：时间序列平稳性检测</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+        
+          
+            <div class="post-nepre half next">
+          
+            <a href="/2021/01/05/时间序列（三）：ARIMA模型实战 - Copy/" rel="next">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.5/images/article/html_github_20210105.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.5/images/article/html_github_20210105.jpg">
+              </div>
+              <span class="label">
+              Next Post</span>
+              <div class="info">
+                <h3>
+                通过Github Pages 将自己的Html文件发布到服务器上供远程访问</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+      </section>
       
-  <!-- 首页默认取最最新文章集 -->
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2021/01/05/时间序列（三）：ARIMA模型实战 - Copy/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.5/images/article/html_github_20210105.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2021/01/05/时间序列（三）：ARIMA模型实战 - Copy/">
-    通过Github Pages 将自己的Html文件发布到服务器上供远程访问</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2021-1-5</div>
-    <p>
-    通过Github Pages 将自己的Html文件发布到服务器上供远程访问</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2021/01/05/时间序列（三）：ARIMA模型实战 - Copy/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/03/12/Git语句大全/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.2/images/article/githz20200312.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/03/12/Git语句大全/">
-    Git语句大全</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-3-12</div>
-    <p>
-    Git 语句宝典</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/03/12/Git语句大全/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
+<div id="vcomments"></div>
+<script>
+  window.onload = function(){
+      var valine = new Valine();
+      valine.init({
+        el: '#vcomments',
+        appId: "Hm83GoGeDX3sGPDh3Q50lSMz-gzGzoHsz",
+        appKey: "mXIVaYaFj1DNyH6yBicfUS0w",
+        path: window.location.pathname,
+        placeholder: "你是我一生只会遇见一次的惊喜 ..."
+      })
+  }
+</script>
 
-
-      <div class="clearer">
-      </div>
-    </main>
-    <!--  -->
-    
-  </div>
+      <section class="author-profile">
+        <div class="info" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <a href="http://smilecoc.vip/" class="profile gravatar"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico" itemprop="image" alt="smilecoc" height="70" width="70"></a>
+          <div class="meta">
+            <span class="title">Author</span>
+            <h3 itemprop="name">
+            <a href="http://smilecoc.vip/" itemprop="url" rel="author">smilecoc</a>
+            </h3>
+          </div>
+        </div>
+        <hr>
+        <p><i class="iconfont icon-write"></i></p>
+      </section>
+    </main><!-- #main -->
+  </div><!-- #primary -->
 </div>
+
+
+
     </div>    
     <div class="ins-search">
     <div class="ins-search-mask"></div>

@@ -435,7 +435,7 @@
 
   <div class="pattern-center single-center">
     <!-- 有配图默认渲染第一张 -->
-    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.2/images/article/builddb_part620200812.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.2/images/article/builddb_part620200812.jpg">
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.5/images/article/builddb_part620200812.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.5/images/article/builddb_part620200812.jpg">
     </div>
     <header class="pattern-header single-header">
       <h1 class="entry-title">
@@ -479,7 +479,7 @@
 <p><strong>【建议】</strong>（11）在一些场景下，考虑使用TIMESTAMP代替DATETIME。<br><strong>解读：</strong> a、这两种类型的都能表达”yyyy-MM-dd HH:mm:ss”格式的时间，TIMESTAMP只需要占用4个字节的长度，可以存储的范围为(1970-2038)年，在各个时区，所展示的时间是不一样的；b、而DATETIME类型占用8个字节，对时区不敏感，可以存储的范围为(1001-9999)年。</p>
 <p><strong>【建议】</strong>（12）当心自动生成的Schema，建议所有的Schema手动编写。<br><strong>解读：</strong> 对于一些数据库客户端不要太过信任。</p>
 <h1 id="二、SQL规约"><a href="#二、SQL规约" class="headerlink" title="二、SQL规约"></a>二、SQL规约</h1><p><strong>【建议】</strong> (1) 为了充分利用缓存，不允许使用自定义函数、存储函数、用户变量。<br><strong>解读：</strong> 如果查询中包含任何用户自定义函数、存储函数、用户变量、临时表、Mysql库中的系统表，其查询结果都不会被缓存。比如函数NOW()或者CURRENT_DATE()会因为不同的查询时间，返回不同的查询结果。</p>
-<p><strong>【强制】</strong>（2）在查询中指定所需的列，而不是直接使用“ <em>”返回所有的列<br>*</em>解读：** a）读取不需要的列会增加CPU、IO、NET消耗 b）不能有效的利用覆盖索引</p>
+<p><strong>【强制】</strong>（2）在查询中指定所需的列，而不是直接使用“ <em>”返回所有的列<br><em>*解读：</em></em> a）读取不需要的列会增加CPU、IO、NET消耗 b）不能有效的利用覆盖索引</p>
 <p><strong>【强制】</strong>（3）不允许使用属性隐式转换<br><strong>解读：</strong> 假设我们在手机号列上添加了索引，然后执行下面的SQL会发生什么？explain SELECT user_name FROM parent WHERE phone=13812345678;很明显就是索引不生效，会全表扫描。</p>
 <p><strong>【建议】</strong>（4）在WHERE条件的属性上使用函数或者表达式<br><strong>解读：</strong> Mysql无法自动解析这种表达式，无法使用到索引。</p>
 <p><strong>【强制】</strong>（5）禁止使用外键与级联，一切外键概念必须在应用层解决。<br><strong>解读：</strong> 外键与级联更新适用于单机低并发，不适合分布式、高并发集群;级联更新是强阻塞，存在数据库更新风暴的风险；外键影响数据库的插入速度。</p>
