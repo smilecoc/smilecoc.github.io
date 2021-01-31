@@ -471,7 +471,7 @@
 <p>对于时间序列的预测，由于很难确定它与其他变量之间的关系，这时我们就不能用回归去预测，而应使用时间序列方法进行预测。</p>
 <p>采用时间序列分析进行预测时需要一系列的模型，这种模型称为时间序列模型。</p>
 <h1 id="时间序列预测模型与方法"><a href="#时间序列预测模型与方法" class="headerlink" title="时间序列预测模型与方法"></a>时间序列预测模型与方法</h1><p>注：本部分只关注相关模型与分析的方法，模型的选择，调参与优化会放在后续文章中详细讲解</p>
-<h2 id="原始数据"><a href="#原始数据" class="headerlink" title="原始数据"></a>原始数据</h2><p>本文所使用原始数据与代码，可以在公众号：Smilecoc的杂货铺 中回复“时间序列”获取</p>
+<h2 id="原始数据"><a href="#原始数据" class="headerlink" title="原始数据"></a>原始数据</h2><p>本文所使用原始数据与代码可在<a href="https://github.com/smilecoc/Data_analysis/tree/master/time_series" target="_blank" rel="noopener">我的GitHub</a>下载</p>
 <h2 id="朴素法"><a href="#朴素法" class="headerlink" title="朴素法"></a>朴素法</h2><p>朴素法就是预测值等于实际观察到的最后一个值。它假设数据是平稳且没有趋势性与季节性的。通俗来说就是以后的预测值都等于最后的值。</p>
 <p>这种方法很明显适用情况极少，所以我们重点通过这个方法来熟悉一下数据可视化与模型的评价及其相关代码。</p>
 <pre><code class="lang-py">#朴素法
@@ -538,7 +538,7 @@ plt.legend(loc=&#39;best&#39;)
 plt.show()
 </code></pre>
 <p>可视化结果为：<br><img src="https://img-blog.csdnimg.cn/20201002144630712.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>RMSE结果为1040</p>
-<h3 id="二次指数平滑"><a href="#二次指数平滑" class="headerlink" title="二次指数平滑"></a>二次指数平滑</h3><p>在介绍二次指数平滑前介绍一下趋势的概念。</p>
+<h2 id="二次指数平滑"><a href="#二次指数平滑" class="headerlink" title="二次指数平滑"></a>二次指数平滑</h2><p>在介绍二次指数平滑前介绍一下趋势的概念。</p>
 <p>趋势，或者说斜率的定义很简单：$b=Δy/Δx$，其中$Δx$为两点在x坐标轴的变化值，所以对于一个序列而言，相邻两个点的$Δx=1$，因此$b=Δy=y(x)-y(x-1)$。 除了用点的增长量表示，也可以用二者的比值表示趋势。比如可以说一个物品比另一个贵20块钱，等价地也可以说贵了5%，前者称为可加的（addtive），后者称为可乘的（multiplicative）。在实际应用中，可乘的模型预测稳定性更佳，但是为了便于理解，我们在这以可加的模型为例进行推导。<br>指数平滑考虑的是数据的baseline，二次指数平滑在此基础上将趋势作为一个额外考量，保留了趋势的详细信息。即我们保留并更新两个量的状态：平滑后的信号和平滑后的趋势。公式如下：<br>基准等式<br>$s_{i}=\alpha x_{i}+(1-\alpha)(s_{i-1}+t_{i-1})$<br>趋势等式<br>$t_{i}=\beta (s_{i}-s_{i-1})+(1-\beta)t_{i-1}$</p>
 <p>第二个等式描述了平滑后的趋势。当前趋势的未平滑“值”（ $t_{i}$ ）是当前平滑值（ $s_{i}$ ）和上一个平滑值（$s_{i-1}$）的差；也就是说，当前趋势告诉我们在上一个时间步长里平滑信号改变了多少。要想使趋势平滑，我们用一次指数平滑法对趋势进行处理，并使用参数 $\beta$ （理解：对 $t_{i}$ 的处理类似于一次平滑指数法中的 $s_{i}$ ，即对趋势也需要做一个平滑，临近的趋势权重大）。</p>
 <p>为获得平滑信号，我们像上次那样进行一次混合，但要同时考虑到上一个平滑信号及趋势。假设单个步长时间内保持着上一个趋势，那么第一个等式的最后那项就可以对当前平滑信号进行估计。</p>
@@ -553,7 +553,7 @@ fit = Holt(np.asarray(train[&#39;Count&#39;])).fit(smoothing_level=0.3, smoothin
 y_hat_avg[&#39;Holt_linear&#39;] = fit.forecast(len(test))
 </code></pre>
 <p>结果如图：<br><img src="https://img-blog.csdnimg.cn/20201005154835480.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>得到对应的RMSE为1033</p>
-<h3 id="三次指数平滑"><a href="#三次指数平滑" class="headerlink" title="三次指数平滑"></a>三次指数平滑</h3><p>在应用这种算法前，我们先介绍一个新术语。假如有家酒店坐落在半山腰上，夏季的时候生意很好，顾客很多，但每年其余时间顾客很少。因此，每年夏季的收入会远高于其它季节，而且每年都是这样，那么这种重复现象叫做“季节性”（Seasonality）。如果数据集在一定时间段内的固定区间内呈现相似的模式，那么该数据集就具有季节性。<br><img src="https://img-blog.csdnimg.cn/20201005161143290.png#pic_center" alt="在这里插入图片描述"><br>二次指数平滑考虑了序列的基数和趋势，三次就是在此基础上增加了一个季节分量。类似于趋势分量，对季节分量也要做指数平滑。比如预测下一个季节第3个点的季节分量时，需要指数平滑地考虑当前季节第3个点的季节分量、上个季节第3个点的季节分量…等等。详细的有下述公式(累加法)：</p>
+<h2 id="三次指数平滑"><a href="#三次指数平滑" class="headerlink" title="三次指数平滑"></a>三次指数平滑</h2><p>在应用这种算法前，我们先介绍一个新术语。假如有家酒店坐落在半山腰上，夏季的时候生意很好，顾客很多，但每年其余时间顾客很少。因此，每年夏季的收入会远高于其它季节，而且每年都是这样，那么这种重复现象叫做“季节性”（Seasonality）。如果数据集在一定时间段内的固定区间内呈现相似的模式，那么该数据集就具有季节性。<br><img src="https://img-blog.csdnimg.cn/20201005161143290.png#pic_center" alt="在这里插入图片描述"><br>二次指数平滑考虑了序列的基数和趋势，三次就是在此基础上增加了一个季节分量。类似于趋势分量，对季节分量也要做指数平滑。比如预测下一个季节第3个点的季节分量时，需要指数平滑地考虑当前季节第3个点的季节分量、上个季节第3个点的季节分量…等等。详细的有下述公式(累加法)：</p>
 <script type="math/tex; mode=display">\begin{aligned}
 s_{i}&=\alpha (x_{i}-p_{i-k})+(1-\alpha)(s_{i-1}+t_{i-1}) \\ t_{i}
 &=\beta (s_{i}-s_{i-1})+(1-\beta)t_{i-1}\\ p_{i}&=\gamma (x_{i}-s_{i})+(1-\gamma)p_{i-k} 
@@ -631,7 +631,8 @@ rmse = sqrt(mean_squared_error(test[&#39;Count&#39;], y_hat_avg[&#39;SARIMA&#39;
 print(rmse)
 </code></pre>
 <p>结果为933</p>
-<p>其他时间序列预测的模型还有SARIMAX模型（在ARIMA模型上加了季节性的因素），Prophet模型，ARCH模型，LSTM神经网络模型等。</p>
+<p>其他时间序列预测的模型还有SARIMAX模型（在ARIMA模型上加了季节性的因素），Prophet模型，ARCH模型，LSTM神经网络模型等。限于篇幅，感兴趣的同学可以自行查看相关模型资料</p>
+<p>在后续的文章中我们将讲解如何确定数据的平稳性与数据预处理，为后续时间序列的建模做准备</p>
 <p>参考文章：<br><a href="https://www.analyticsvidhya.com/blog/2018/02/time-series-forecasting-methods/" target="_blank" rel="noopener">https://www.analyticsvidhya.com/blog/2018/02/time-series-forecasting-methods/</a><br><a href="https://blog.csdn.net/anshuai_aw1/article/details/82499095" target="_blank" rel="noopener">https://blog.csdn.net/anshuai_aw1/article/details/82499095</a></p>
 
         </div>

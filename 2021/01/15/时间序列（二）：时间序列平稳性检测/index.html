@@ -465,12 +465,12 @@
         <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
         
         <div class="entry-content">
-          <p>在上一篇文章中我们介绍了时间序列及一些时间序列预测模型。我们可以看到在进行预测时有一些模型表现较好，而另一些模型的预测结果却不尽人意。这是因为不同的时间序列模型对原始数据的要求是不同的，例如之前提到的ARIMA模型，要求时间序列数据平稳，否则得出的预测结果就会相差较大。本篇文章我们介绍时间序列的平稳性、随机性检验及相关时间序列数据处理方法。</p>
+          <p>在上一篇文章<a href="http://smilecoc.vip/2021/01/15/%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E6%95%B0%E6%8D%AE%E4%B8%8E%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E9%A2%84%E6%B5%8B%E6%A8%A1%E5%9E%8B/">时间序列（一）：时间序列数据与时间序列预测模型</a>中我们介绍了时间序列及一些时间序列预测模型。我们可以看到在进行预测时有一些模型表现较好，而另一些模型的预测结果却不尽人意。这是因为不同的时间序列模型对原始数据的要求是不同的，例如之前提到的ARIMA模型，要求时间序列数据平稳，否则得出的预测结果就会相差较大。本篇文章我们介绍时间序列的平稳性、随机性检验及相关时间序列数据处理方法。</p>
 <h1 id="时间序列的平稳性、随机性检验"><a href="#时间序列的平稳性、随机性检验" class="headerlink" title="时间序列的平稳性、随机性检验"></a>时间序列的平稳性、随机性检验</h1><p>在拿到时间序列数据后，首先要对数据的随机性和平稳性进行检测， 这两个检测是时间序列预测的重要部分。根据不同检测结果需要采取不同的分析方法。</p>
 <p>为什么时间序列要求平稳性呢？平稳性就是要求由样本拟合出的曲线在未来一段时间内仍然能够以现有的形态和趋势发展下去，这样预测结果才会有意义。</p>
 <p>对于平稳声序列， 它的均值和方差是常数， 现已有一套非常成熟的平稳序列的建模方法。 通常是建立一个线性模型来拟合该序列的发展 借此提取该序列的有用信息。</p>
 <p>对于非平稳序列， 由于它的均值和方差不稳定， 处理方法一般是将其转变为平稳序列，这样就可以应用有关平稳时间序列的分析方法， 如建立 ARIMA模型来进行相应的研究，或者分解趋势与季节性等并根据情况应用指数平滑模型等。 </p>
-<p>对千纯随机序列， 又称为白噪声序列， 序列的各项之间没有任何相关关系， 序列在进行完全无序的随机波动， 可以终止对该序列的分析。 白噪声序列是没有信息可提取的平稳序列。</p>
+<p>对于纯随机序列， 又称为白噪声序列， 序列的各项之间没有任何相关关系， 序列在进行完全无序的随机波动， 可以终止对该序列的分析。 白噪声序列是没有信息可提取的平稳序列。</p>
 <p> 在讲解平稳性和随机性的定义之前，我们先介绍一下时间序列中常用的几个特征统计量。</p>
 <h2 id="时间序列的特征统计量"><a href="#时间序列的特征统计量" class="headerlink" title="时间序列的特征统计量"></a>时间序列的特征统计量</h2><p>对于一个时间序列任意时刻的序列值$\left\{ X _ { t } , t \in T \right\}$，任意时刻的序列值 $X _ { t }$都是一个随机变量，记其分布函数为$F _ { t } ( x )$,则其特征统计量均值、方差、自协方差函数、自相关系数的定义分别如下:</p>
 <p><strong>均值：</strong> 表示时间序列在各个时刻取值的平均值，其定义如下：<br>$\mu _ { t } = E X _ { t } = \int _ { - \infty } ^ { \infty } x \mathrm { d } F _ { t } ( x )$</p>
@@ -506,10 +506,10 @@
 <h3 id="统计检验"><a href="#统计检验" class="headerlink" title="统计检验"></a>统计检验</h3><p>可以利用统计检验来代替目视检验：比如单位根平稳检验。单位根表名给定序列的统计特性（均值，方差和协方差）不是时间的常数，这是平稳时间序列的先决条件。下面是它的数学解释：</p>
 <p>假设我们有一个时间序列：<br>$y_t=a<em>y_{t-1 }+ε_t$<br>其中$y_t$是t时刻的数据值，$ε_t$ 是误差项。<br>仙子我们需要利用$y_{t-1 }$的值来计算$y_t$，即：<br>$y_{t-1}=a</em>y_{t-2}+ε_{t-1}$<br>如果利用所有的观察值，$y_{t}$的值将是：<br>$y_{t}=a^n<em>y_{t-n}+ \sumε_{t-i}</em>a^i$</p>
 <p>假设在上述方程中a的值为1(单位)，则预测值将等于$y_{t-n}$ 和从$t-n$到$t$的所有误差之和，这意味着方差将随着时间的推移而增大，这就是时间序列中的单位根。众所周知，平稳时间序列的方差不能是时间的函数。单元根检验通过检查a=1的值来检查序列中是否存在单位根。以下是两个最常用的单位根平稳检测方法：</p>
-<h4 id="ADF（增补迪基-福勒）检验"><a href="#ADF（增补迪基-福勒）检验" class="headerlink" title="ADF（增补迪基-福勒）检验"></a>ADF（增补迪基-福勒）检验</h4><p>迪基-福勒（Dickey Fuller）检验是最流行的统计检验方法之一，可以用它来确定序列中单位根的存在，从而帮助判断序列是否是平稳。ADF检验是对DF检验的扩展。这一检验的原假设与备择假设如下：</p>
+<h4 id="ADF（增补迪基-福勒）检验"><a href="#ADF（增补迪基-福勒）检验" class="headerlink" title="ADF（增补迪基-福勒）检验"></a>ADF（增补迪基-福勒）检验</h4><p>迪基-福勒（Dickey Fuller）检验是最流行的统计检验方法之一，可以用它来确定序列中单位根的存在，从而帮助判断序列是否是平稳。ADF检验是对DF检验的扩展。这一检验的原假设与备选假设如下：</p>
 <ul>
 <li><strong>原假设：</strong> 序列有一个单位根(序列非平稳)</li>
-<li><strong>备择假设：</strong> 该序列没有单位根。（序列平稳）</li>
+<li><strong>备选假设：</strong> 该序列没有单位根。（序列平稳）</li>
 </ul>
 <p>单位根是什么呢？当一个自回归过程中： $y_{t} = by_{t-1} + a + \epsilon _{t}$，如果滞后项系数b为1，就称为单位根。当单位根存在时，自变量和因变量之间的关系具有欺骗性，因为残差序列的任何误差都不会随着样本量（即时期数）增大而衰减，也就是说模型中的残差的影响是永久的。这种回归又称作伪回归。如果单位根存在，这个过程就是一个随机漫步（random walk）。ADF检验就是判断序列是否存在单位根：如果序列平稳，就不存在单位根；否则，就会存在单位根.</p>
 <p>在Python中使用ADF检验可以在statsmodels中使用adfuller函数。在下面的代码中我们加上标题与输出值对应的名称：</p>
@@ -572,14 +572,14 @@ bpvalue:((optionsal), float or array) – 基于 Box-Pierce 的检验的p统计�
 bppvalue:((optional), float or array) – 基于卡方分布下的Box-Pierce检验的p统计量
 </code></pre><p>代码实现：</p>
 <pre><code class="lang-py">from statsmodels.stats.diagnostic import acorr_ljungbox
-acorr_ljungbox(b.salesVolume
+acorr_ljungbox(train[&#39;#Passengers&#39;])
 </code></pre>
-<p>输出检验结果中会返回两个值：lbvalue:测试的统计量和pvalue:基于卡方分布的p统计量。如果p-value&gt;0.05为判断为<br> 吧、白噪声序列</p>
-<h1 id="时间序列的平稳化"><a href="#时间序列的平稳化" class="headerlink" title="时间序列的平稳化"></a>时间序列的平稳化</h1><p>在熟悉了平稳性的概念及其不同的类型之后，接下来可以对序列进行平稳化操作。</p>
-<h2 id="差分化"><a href="#差分化" class="headerlink" title="差分化"></a>差分化</h2><p>在该方法中，计算序列中连续项的差值。执行差分操作通常是为了消除均值的变化。从数学角度，差分可以写成：</p>
+<p>输出检验结果中会返回两个值：<br><strong>lbvalue:</strong> 测试的统计量 和  <strong>pvalue:</strong> 基于卡方分布的p统计量。如果p-value&gt;0.05则可判断为白噪声序列</p>
+<h1 id="时间序列的平稳化"><a href="#时间序列的平稳化" class="headerlink" title="时间序列的平稳化"></a>时间序列的平稳化</h1><p>在熟悉了平稳性的概念及其不同的类型之后，接下来可以对序列进行平稳化操作。平稳化的方法有以下几种：</p>
+<h2 id="差分法"><a href="#差分法" class="headerlink" title="差分法"></a>差分法</h2><p>在该方法中，计算序列中连续项的差值。执行差分操作通常是为了消除均值的变化。从数学角度，差分可以写成：</p>
 <p>$y_t = y_t – y_{t-1}$</p>
-<p>其中$y_t$ 是t时刻的数值。</p>
-<p>对序列差分化后，绘制出结果：</p>
+<p>其中$y_t$ 是t时刻的数值。相减数值之间的间隔数即为阶数。例如上述公式即为一阶差分。</p>
+<p>我们可以直接相减对序列差分，并绘制出对应线图：</p>
 <pre><code class="lang-py">train[&#39;#Passengers_diff&#39;] = train[&#39;#Passengers&#39;] - train[&#39;#Passengers&#39;].shift(1)
 train[&#39;#Passengers_diff&#39;].dropna().plot()
 </code></pre>
@@ -593,13 +593,13 @@ train[&#39;#Passengers_diff2&#39;] = train[&#39;#Passengers_diff&#39;].diff(1)#�
 <pre><code class="lang-py">n=7
 train[&#39;#Passengers_diff&#39;] = train[&#39;#Passengers&#39;] - train[&#39;#Passengers&#39;].shift(n)
 </code></pre>
-<h3 id="变换"><a href="#变换" class="headerlink" title="变换"></a>变换</h3><p>变换用于对方差为非常数的序列进行平稳化。常用的变换方法包括幂变换、平方根变换和对数变换。<br>下面对飞机乘客数据集进行快速对数转换和差分：</p>
+<h3 id="变换"><a href="#变换" class="headerlink" title="变换"></a>变换</h3><p>变换用于对方差为非常数的序列进行平稳化。常用的变换方法包括幂变换、平方根变换和对数变换。</p>
 <pre><code class="lang-py">train[&#39;#Passengers_log&#39;] = np.log(train[&#39;#Passengers&#39;])
 train[&#39;#Passengers_log_diff&#39;] = train[&#39;#Passengers_log&#39;] - train[&#39;#Passengers_log&#39;].shift(1)
 train[&#39;#Passengers_log_diff&#39;].dropna().plot()
 </code></pre>
 <p><img src="https://img-blog.csdnimg.cn/20201108153530470.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<p>在上面的变化过程中，我们首先对原始数据取对数，主要有两个用处：（1）将指数增长转为线性增长<br>（2）可以平稳序列的方差。随后进行差分从而消除趋势的影响使序列平稳。</p>
+<p>在上面的变化过程中，我们首先对原始数据取对数，主要有两个用处：（1）将指数增长转为线性增长（2）可以平稳序列的方差。随后进行差分从而消除趋势的影响使序列平稳。</p>
 <h2 id="分解"><a href="#分解" class="headerlink" title="分解"></a>分解</h2><p>对于有明显趋势或者周期性的时间序列二，我们也可以对其进行分解。分解需要用到statsmodels.tsa.seasonal.seasonal_decompose函数，可以将时间序列的数据分解为趋势(trend),季节性(seasonality)和残差(residual)三部分。</p>
 <pre><code class="lang-py">from statsmodels.tsa.seasonal import seasonal_decompose
 decomposition = seasonal_decompose(train[&#39;#Passengers&#39;]).plot()#画出分解后时序图
