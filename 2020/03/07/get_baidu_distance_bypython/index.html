@@ -465,10 +465,10 @@
         <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
         
         <div class="entry-content">
-          <p>最近新接了一个需求需要获取两个地址间的步行距离，可以通过调用高德地图，百度地图的api接口实现这些功能，特此记录。</p>
-<h2 id="1-获取百度api接口"><a href="#1-获取百度api接口" class="headerlink" title="1.获取百度api接口"></a>1.获取百度api接口</h2><p>首先需要在百度的公众平台<a href="http://lbsyun.baidu.com/" target="_blank" rel="noopener">http://lbsyun.baidu.com/</a>上点击控制台，如果是新用户的话需要进行注册和验证。注册和验证完毕后可以点击创建应用，填写应用名称等相关信息，应用类型根据需要进行设置，有浏览器端和服务器端两种。在这里特别说明的是，在IP白名单框里最好设置为：0.0.0.0/0，因为有时候把自己己的IP地址输进去可能也不行。<br>创建应用完成后我们就可以得到刚刚创建的应用的密钥（AK）</p>
-<h2 id="2-获取起始地点的地理编码"><a href="#2-获取起始地点的地理编码" class="headerlink" title="2.获取起始地点的地理编码"></a>2.获取起始地点的地理编码</h2><p>首先是找到获取步行距离的官方文档<a href="http://lbsyun.baidu.com/index.php?title=webapi/directionlite-v1" target="_blank" rel="noopener">http://lbsyun.baidu.com/index.php?title=webapi/directionlite-v1</a>，但是发现对应的api接口里需要起始地点的地理编码，所以首先需要获取对应起始位置的地理编码<a href="http://lbsyun.baidu.com/index.php?title=webapi/guide/webservice-geocoding" target="_blank" rel="noopener">http://lbsyun.baidu.com/index.php?title=webapi/guide/webservice-geocoding</a>。如果有其他的需求，例如找路线规划等等都可以通过说明文档进行修改</p>
-<pre><code class="python">def getapiurl(myaddress):
+          <p>完整代码可以关注公众号：Smilecoc的杂货铺</p>
+<p>1.获取百度api接口<br>首先需要在百度的公众平台<a href="http://lbsyun.baidu.com/上点击控制台，如果是新用户的话需要进行注册和验证。注册和验证完毕后可以点击创建应用，填写应用名称等相关信息，应用类型根据需要进行设置，有浏览器端和服务器端两种。在这里特别说明的是，在IP白名单框里最好设置为：0.0.0.0/0，因为有时候把自己己的IP地址输进去可能也不行。" target="_blank" rel="noopener">http://lbsyun.baidu.com/上点击控制台，如果是新用户的话需要进行注册和验证。注册和验证完毕后可以点击创建应用，填写应用名称等相关信息，应用类型根据需要进行设置，有浏览器端和服务器端两种。在这里特别说明的是，在IP白名单框里最好设置为：0.0.0.0/0，因为有时候把自己己的IP地址输进去可能也不行。</a><br>创建应用完成后我们就可以得到刚刚创建的应用的密钥（AK）</p>
+<p>2.获取起始地点的地理编码<br>首先是找到获取步行距离的官方文档<a href="http://lbsyun.baidu.com/index.php?title=webapi/directionlite-v1，但是发现对应的api接口里需要起始地点的地理编码，所以首先需要获取对应起始位置的地理编码http://lbsyun.baidu.com/index.php?title=webapi/guide/webservice-geocoding。如果有其他的需求，例如找路线规划等等都可以通过说明文档进行修改" target="_blank" rel="noopener">http://lbsyun.baidu.com/index.php?title=webapi/directionlite-v1，但是发现对应的api接口里需要起始地点的地理编码，所以首先需要获取对应起始位置的地理编码http://lbsyun.baidu.com/index.php?title=webapi/guide/webservice-geocoding。如果有其他的需求，例如找路线规划等等都可以通过说明文档进行修改</a></p>
+<pre><code>def getapiurl(myaddress):
     url=r&quot;http://api.map.baidu.com/geocoding/v3/?address={}&amp;output=json&amp;ak={}&quot;.format(myaddress,myAK)#说明文档里给出的api接口
     print(url)
     return url
@@ -484,18 +484,19 @@ def getPosition(url):
     else:
         print(&quot;Error output!&quot;)
         return json_data[&#39;status&#39;]
-    return lat, lng</code></pre>
-<h2 id="3-获取起始地点的步行距离"><a href="#3-获取起始地点的步行距离" class="headerlink" title="3.获取起始地点的步行距离"></a>3.获取起始地点的步行距离</h2><pre><code class="python">def getdistance(startlat,startlng,endlat,endlng):
+    return lat, lng
+</code></pre><p>3.获取起始地点的步行距离</p>
+<pre><code>def getdistance(startlat,startlng,endlat,endlng):
     #{: .6f}保留小数点后六位
     distanceurl=r&quot;http://api.map.baidu.com/directionlite/v1/walking?origin={:.6f},{:.6f}&amp;destination={:.6f},{:.6f}&amp;ak={}&quot;.format(startlat,startlng,endlat,endlng,myAK)
     res = requests.get(distanceurl)
     dis_json_data = json.loads(res.text)
     if dis_json_data[&#39;status&#39;] == 0:
         distance=dis_json_data[&#39;result&#39;][&#39;routes&#39;][0][&#39;distance&#39;]
-        print(distance)</code></pre>
-<p>这里通过api获取的json文件中的结构与说明文档中的结构有一些出入，所以还是要按照实际的情况灵活修改呀。</p>
-<p>这样主体程序就完成了，接着加上读取数据和用户交互窗口</p>
-<h2 id="4-利用pandas读取并处理数据"><a href="#4-利用pandas读取并处理数据" class="headerlink" title="4.利用pandas读取并处理数据"></a>4.利用pandas读取并处理数据</h2><pre><code class="python">def get_address(file_path):
+        print(distance)
+</code></pre><p>这里通过api获取的json文件中的结构与说明文档中的结构有一些出入，所以还是要按照实际的情况灵活修改</p>
+<p>这样主体程序就完成了，接着加上读取数据和用户交互窗口<br>首先是利用pandas读取并处理数据：</p>
+<pre><code>def get_address(file_path):
     data=pd.read_excel(file_path)
     startaddress=data[&#39;地区&#39;]+data[&#39;出发行政区域&#39;]+data[&#39;出发地址&#39;]
     endaddress=data[&#39;地区&#39;]+data[&#39;到达行政区域&#39;]+data[&#39;到达地址&#39;]
@@ -511,9 +512,9 @@ def getPosition(url):
     result=pd.concat([data,dfdistance],axis=1)
     #更改列名称
     result.rename(columns={0: &#39;distance&#39;}, inplace=True)
-    result.to_excel(parent_path + &#39;/结果文件.xlsx&#39;,index=None)</code></pre>
-<p>这里因为api接口只能一个一个距离导入，所以首先将结果拼接成list再与之前的数组利用concat拼接。在使用pandas时很重要的一点是pandas的最小使用维度在一列数据中，所以只有比较好的数据结构时使用pandas才会比较方便</p>
-<h2 id="4-用户交互窗口"><a href="#4-用户交互窗口" class="headerlink" title="4.用户交互窗口"></a>4.用户交互窗口</h2><p>最后是利用tkinter实现用户交互窗口，实现一个窗口可以让用户选取文件并将生成的结果文件保存到同一文件夹下</p>
+    result.to_excel(parent_path + &#39;/结果文件.xlsx&#39;,index=None)
+</code></pre><p>这里因为api接口只能一个一个距离导入，所以首先将结果拼接成list再与之前的数组利用concat拼接。在使用pandas时很重要的一点是pandas的最小使用维度在一列数据中，所以只有比较好的数据结构时使用pandas才会比较方便</p>
+<p>最后是利用tkinter实现用户交互窗口，实现一个窗口可以让用户选取文件并将生成的结果文件保存到同一文件夹下</p>
 <pre><code>#获取文件路径
 def get_filename():
     root = tk.Tk()
@@ -521,11 +522,14 @@ def get_filename():
     #file_path为文件的路径，parent_path为文件所在的文件夹路径
     file_path = filedialog.askopenfilename()
     parent_path = os.path.dirname(file_path)
-    return file_path, parent_path</code></pre><p>实现的效果如下：<br>![](/upload_image/blog 2004/1.png)<br>这样整个程序就 完工了!</p>
-<p>接下来是将生成的数据打包为直接可执行的文件，因为一般用户不会自己装python和配置。<br>1.首先按下win+R键，输入cmd打开命令运行窗口，输入cd+文件路径进入指定的文件夹<br>![](/upload_image/blog 2004/2.png)<br>2.安装pyinstaller库：</p>
-<pre><code>pip install pyinstaller</code></pre><p>这里我之前已经安装过pyinstaller库，所以直接跳过这一步<br>如果已经安装过pyinstaller库，那么在上一步时就要进到pyinstaller库安装的那一个文件夹运行。</p>
+    return file_path, parent_path
+</code></pre><p>实现的效果如下：<br><img src="https://img-blog.csdnimg.cn/2020040922411934.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>这样整个程序就 完工了!</p>
+<p>接下来是将生成的数据打包为直接可执行的文件，因为一般用户不会自己装python和配置。<br>1.首先按下win+R键，输入cmd打开命令运行窗口，输入cd+文件路径进入指定的文件夹<br><img src="https://img-blog.csdnimg.cn/2020040922475268.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>2.安装pyinstaller库：</p>
+<pre><code>pip install pyinstaller
+</code></pre><p>这里我之前已经安装过pyinstaller库，所以直接跳过这一步<br>如果已经安装过pyinstaller库，那么在上一步时就要进到pyinstaller库安装的那一个文件夹运行。</p>
 <p>3.打包：</p>
-<pre><code>python pyinstaller.py -F baidu_map_distance.py</code></pre><p>这里要注意：<br>一是baidu_map_distance.py为要打包的程序名称。<br>第二是因为现在我的程序是放在安装 pyinstaller的文件夹下的，所以填的是相对路径，如果是要打包其他文件夹中的程序，需要使用绝对路径<br>三是F的含义为将原文件打包为exe文件，还有其他几个可选参数</p>
+<pre><code>python pyinstaller.py -F baidu_map_distance.py
+</code></pre><p>这里要注意：<br>一是baidu_map_distance.py为要打包的程序名称。<br>第二是因为现在我的程序是放在安装 pyinstaller的文件夹下的，所以填的是相对路径，如果是要打包其他文件夹中的程序，需要使用绝对路径<br>三是F的含义为将原文件打包为exe文件，还有其他几个可选参数</p>
 <ul>
 <li>-F的含义为将原文件打包为exe文件</li>
 <li>-D：创建一个目录，包含exe文件，但会依赖很多文件，这是默认选项</li>
@@ -533,9 +537,9 @@ def get_filename():
 <li>-w：使用窗口，无控制台</li>
 </ul>
 <p>使用-F的好处是会将所有的依赖文件打包到exe里，使用起来比较方便，只要给最终的exe文件就可以了。但是相应的坏处就是文件会比较大，比较慢。<br>而-D的话生成之后需要依赖文件夹里的其他文件，需要传输所有的文件给别人才能使用，只有一个exe文件的话就会无法运行。</p>
-<p>程序运行完成后的文件夹会多出三个文件夹<br>![](/upload_image/blog 2004/3.png)<br>在dist文件夹里就可以找到打包完的程序了<br>![](/upload_image/blog 2004/4.png)<br>其他两个文件夹为过程文件，可以不用管它了</p>
+<p>程序运行完成后的文件夹会多出三个文件夹<br><img src="https://img-blog.csdnimg.cn/20200409230411160.png" alt="在这里插入图片描述"><br>在dist文件夹里就可以找到打包完的程序了<br><img src="https://img-blog.csdnimg.cn/20200409230632129.png" alt="在这里插入图片描述"><br>其他两个文件夹为过程文件，可以不用管它了</p>
 <p>这样我们就大功告成了！</p>
-<p>最新文章更新在我的博客：<a href="http://smilecoc.vip/2020/03/07/%E4%BD%BF%E7%94%A8Python%E8%B0%83%E7%94%A8%E7%99%BE%E5%BA%A6%E5%9C%B0%E5%9B%BEApi%E8%8E%B7%E5%8F%96%E4%B8%A4%E5%9C%B0%E8%B7%9D%E7%A6%BB/" target="_blank" rel="noopener">http://smilecoc.vip/2020/03/07/%E4%BD%BF%E7%94%A8Python%E8%B0%83%E7%94%A8%E7%99%BE%E5%BA%A6%E5%9C%B0%E5%9B%BEApi%E8%8E%B7%E5%8F%96%E4%B8%A4%E5%9C%B0%E8%B7%9D%E7%A6%BB/</a><br>源码及使用的数据文件地址：<br><a href="https://github.com/smilecoc/baidumapapi_getdistance" target="_blank" rel="noopener">https://github.com/smilecoc/baidumapapi_getdistance</a></p>
+<p>最新文章更新在我的博客：<a href="http://smilecoc.vip/2020/03/07/%E4%BD%BF%E7%94%A8Python%E8%B0%83%E7%94%A8%E7%99%BE%E5%BA%A6%E5%9C%B0%E5%9B%BEApi%E8%8E%B7%E5%8F%96%E4%B8%A4%E5%9C%B0%E8%B7%9D%E7%A6%BB/">http://smilecoc.vip/2020/03/07/%E4%BD%BF%E7%94%A8Python%E8%B0%83%E7%94%A8%E7%99%BE%E5%BA%A6%E5%9C%B0%E5%9B%BEApi%E8%8E%B7%E5%8F%96%E4%B8%A4%E5%9C%B0%E8%B7%9D%E7%A6%BB/</a><br>源码及使用文件地址：<br><a href="https://github.com/smilecoc/baidumapapi_getdistance" target="_blank" rel="noopener">https://github.com/smilecoc/baidumapapi_getdistance</a></p>
 
         </div>
         <!-- .entry-content -->

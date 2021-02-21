@@ -475,11 +475,11 @@
 <p><strong>【强制】</strong>（7）禁止使用外键，如果有外键完整性约束，需要应用程序控制<br><strong>解读：</strong> 外键会导致表与表之间耦合，UPDATE与DELETE操作都会涉及相关联的表，十分影响SQL的性能，甚至会造成死锁。</p>
 <p><strong>【强制】</strong>（8）必须把字段定义为NOT NULL并且提供默认值<br><strong>解读：</strong> a、NULL的列使索引/索引统计/值比较都更加复杂，对MySQL来说更难优化 b、NULL这种类型Msql内部需要进行特殊处理，增加数据库处理记录的复杂性；同等条件下，表中有较多空字段的时候，数据库的处理性能会降低很多 c、NULL值需要更多的存储空，无论是表还是索引中每行中的NULL的列都需要额外的空间来标识</p>
 <p><strong>【强制】</strong>（9）禁用保留字，如DESC、RANGE、MARCH等，请参考Mysql官方保留字。</p>
-<p><strong>【强制】</strong>（ 10）如果存储的字符串长度几乎相等，使用CHAR定长字符串类型。<br><strong>解读：</strong> 能够减少空间碎片，节省存储空间。更多SQL技巧可搜索公号：SQL数据库开发</p>
+<p><strong>【强制】</strong>（ 10）如果存储的字符串长度几乎相等，使用CHAR定长字符串类型。<br><strong>解读：</strong> 能够减少空间碎片，节省存储空间。</p>
 <p><strong>【建议】</strong>（11）在一些场景下，考虑使用TIMESTAMP代替DATETIME。<br><strong>解读：</strong> a、这两种类型的都能表达”yyyy-MM-dd HH:mm:ss”格式的时间，TIMESTAMP只需要占用4个字节的长度，可以存储的范围为(1970-2038)年，在各个时区，所展示的时间是不一样的；b、而DATETIME类型占用8个字节，对时区不敏感，可以存储的范围为(1001-9999)年。</p>
 <p><strong>【建议】</strong>（12）当心自动生成的Schema，建议所有的Schema手动编写。<br><strong>解读：</strong> 对于一些数据库客户端不要太过信任。</p>
 <h1 id="二、SQL规约"><a href="#二、SQL规约" class="headerlink" title="二、SQL规约"></a>二、SQL规约</h1><p><strong>【建议】</strong> (1) 为了充分利用缓存，不允许使用自定义函数、存储函数、用户变量。<br><strong>解读：</strong> 如果查询中包含任何用户自定义函数、存储函数、用户变量、临时表、Mysql库中的系统表，其查询结果都不会被缓存。比如函数NOW()或者CURRENT_DATE()会因为不同的查询时间，返回不同的查询结果。</p>
-<p><strong>【强制】</strong>（2）在查询中指定所需的列，而不是直接使用“ <em>”返回所有的列<br><em>*解读：</em></em> a）读取不需要的列会增加CPU、IO、NET消耗 b）不能有效的利用覆盖索引</p>
+<p><strong>【强制】</strong>（2）在查询中指定所需的列，而不是直接使用“ <em> ”返回所有的列<br><em>*解读：</em></em> a）读取不需要的列会增加CPU、IO、NET消耗 b）不能有效的利用覆盖索引</p>
 <p><strong>【强制】</strong>（3）不允许使用属性隐式转换<br><strong>解读：</strong> 假设我们在手机号列上添加了索引，然后执行下面的SQL会发生什么？explain SELECT user_name FROM parent WHERE phone=13812345678;很明显就是索引不生效，会全表扫描。</p>
 <p><strong>【建议】</strong>（4）在WHERE条件的属性上使用函数或者表达式<br><strong>解读：</strong> Mysql无法自动解析这种表达式，无法使用到索引。</p>
 <p><strong>【强制】</strong>（5）禁止使用外键与级联，一切外键概念必须在应用层解决。<br><strong>解读：</strong> 外键与级联更新适用于单机低并发，不适合分布式、高并发集群;级联更新是强阻塞，存在数据库更新风暴的风险；外键影响数据库的插入速度。</p>
