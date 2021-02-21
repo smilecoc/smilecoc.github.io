@@ -466,8 +466,8 @@
         
         <div class="entry-content">
           <p>一些日常经常用到的VBA代码汇总</p>
-<h3 id="VBA中调用SQL处理数据"><a href="#VBA中调用SQL处理数据" class="headerlink" title="VBA中调用SQL处理数据"></a>VBA中调用SQL处理数据</h3><p>这里仅提供一个例子，更详细的介绍和使用可参阅<br><a href="http://smilecoc.vip/2020/03/03/VBA%E4%B8%AD%E4%BD%BF%E7%94%A8SQL/" target="_blank" rel="noopener">http://smilecoc.vip/2020/03/03/VBA%E4%B8%AD%E4%BD%BF%E7%94%A8SQL/</a></p>
-<pre><code class="vb">Sub Query()
+<h3 id="VBA中调用SQL处理数据"><a href="#VBA中调用SQL处理数据" class="headerlink" title="VBA中调用SQL处理数据"></a>VBA中调用SQL处理数据</h3><p>这里仅提供一个例子，更详细的介绍和使用可参阅<br><a href="http://smilecoc.vip/2020/03/03/VBA%E4%B8%AD%E4%BD%BF%E7%94%A8SQL/">http://smilecoc.vip/2020/03/03/VBA%E4%B8%AD%E4%BD%BF%E7%94%A8SQL/</a></p>
+<pre><code class="lang-vb">Sub Query()
 
  Dim Conn As Object, Rst As Object
  Dim strConn As String, strSQL As String
@@ -504,19 +504,22 @@ Conn.Close
 Set Conn = Nothing
 Set Rst = Nothing
 
-End Sub</code></pre>
+End Sub
+</code></pre>
 <h3 id="插入多行、多列"><a href="#插入多行、多列" class="headerlink" title="插入多行、多列"></a>插入多行、多列</h3><p>如下的三句vba代码都可以一次插入一行：</p>
-<pre><code class="vb">    Cells(2, 1).EntireRow.Insert
+<pre><code class="lang-vb">    Cells(2, 1).EntireRow.Insert
     Rows(2).Insert
-    Range(&quot;2:2&quot;).Insert</code></pre>
+    Range(&quot;2:2&quot;).Insert
+</code></pre>
 <p>插入多列，并添加Insert方法的参数</p>
-<pre><code class="VB"> thisworkbook.sheets(&quot;test&quot;).Columns(&quot;A:A&quot;).Resize(, 5).Insert Shift:=xlToRight, CopyOrigin:=xlFormatFromLeftOrAbove</code></pre>
+<pre><code class="lang-VB"> thisworkbook.sheets(&quot;test&quot;).Columns(&quot;A:A&quot;).Resize(, 5).Insert Shift:=xlToRight, CopyOrigin:=xlFormatFromLeftOrAbove
+</code></pre>
 <h3 id="VBA连接特定的数据库并取数"><a href="#VBA连接特定的数据库并取数" class="headerlink" title="VBA连接特定的数据库并取数"></a>VBA连接特定的数据库并取数</h3><p>需要注意的是</p>
 <ol>
 <li>Provider=sqloledb这一个参数数据库不同的情况下也是不一样的，这里我用的是sql server云数据库，其他的数据库可以另行查找</li>
 <li>Uid=用户名称;Pwd=数据库的密码  这两个参数都不是微软账户的名称和密码，否则会报错</li>
 </ol>
-<pre><code class="vb">Sub getdata_fromdb()
+<pre><code class="lang-vb">Sub getdata_fromdb()
 
  Dim Conn As Object, Rst As Object
  Dim strConn As String, strSQL As String
@@ -548,8 +551,9 @@ Set Rst = Nothing
 
 MsgBox &quot;数据已更新完成&quot;
 
-End Sub</code></pre>
-<h3 id="获取最前，后，左，右的行或列"><a href="#获取最前，后，左，右的行或列" class="headerlink" title="获取最前，后，左，右的行或列"></a>获取最前，后，左，右的行或列</h3><pre><code class="vb">&#39;从第一行向左查找到的第一个非空值单元格的列，即最左的一列的列数
+End Sub
+</code></pre>
+<h3 id="获取最前，后，左，右的行或列"><a href="#获取最前，后，左，右的行或列" class="headerlink" title="获取最前，后，左，右的行或列"></a>获取最前，后，左，右的行或列</h3><pre><code class="lang-vb">&#39;从第一行向左查找到的第一个非空值单元格的列，即最左的一列的列数
 Nextcol=Cells(1,columns.count).End(xlToLeft).Column 
 
 &#39;从第一列的最后一行向上查找到的第一个非空值单元格的行数.End(xlup)，可以简写为end（3）
@@ -562,16 +566,18 @@ Nextcol=Cells(1,1).End(xldown).row
 Nextcol=Cells(1,1).End(xlright).column
 
 &#39;获取当前使用区域的最后一行
-ActiveSheet.UsedRange.SpecialCells(xlCellTypeLastCell).Row</code></pre>
+ActiveSheet.UsedRange.SpecialCells(xlCellTypeLastCell).Row
+</code></pre>
 <h3 id="选择性粘贴"><a href="#选择性粘贴" class="headerlink" title="选择性粘贴"></a>选择性粘贴</h3><p>选择性粘贴的语法为： .PasteSpecial(Paste,Operation,SkipBlanks,Transpose)<br>比较常用的几个paste参数为：</p>
 <ol>
 <li>公式 xlPasteFormulas</li>
 <li>数值 xlPasteValues</li>
 <li>格式 xlPasteFormats</li>
 </ol>
-<pre><code class="VBScript">    sqldata.Range(&quot;A2:o&quot; &amp; sqllastrow).Copy
-    Summary.Range(&quot;B9&quot;).PasteSpecial Paste:=xlPasteValues &#39;添加值</code></pre>
-<h3 id="用户交互窗口–选择文件"><a href="#用户交互窗口–选择文件" class="headerlink" title="用户交互窗口–选择文件"></a>用户交互窗口–选择文件</h3><p>弹出用户交互窗口，让用户可以选择.xls;.xlsx;.xlsm格式的文件并打开选择文件</p>
+<pre><code class="lang-VBScript">    sqldata.Range(&quot;A2:o&quot; &amp; sqllastrow).Copy
+    Summary.Range(&quot;B9&quot;).PasteSpecial Paste:=xlPasteValues &#39;添加值
+</code></pre>
+<h3 id="用户交互窗口—选择文件"><a href="#用户交互窗口—选择文件" class="headerlink" title="用户交互窗口—选择文件"></a>用户交互窗口—选择文件</h3><p>弹出用户交互窗口，让用户可以选择.xls;.xlsx;.xlsm格式的文件并打开选择文件</p>
 <pre><code>Sub get_mzdata()
 
     MsgBox &quot;请选择输入文件&quot;
@@ -583,9 +589,11 @@ ActiveSheet.UsedRange.SpecialCells(xlCellTypeLastCell).Row</code></pre>
     End If
 
     Set tp = Workbooks.Open(nm)
-End Sub</code></pre><h3 id="替换-例如替换AB列里的"><a href="#替换-例如替换AB列里的" class="headerlink" title="替换,例如替换AB列里的-"></a>替换,例如替换AB列里的-</h3><pre><code>    Thisworkbook.sheets(&quot;test&quot;).Columns(&quot;AB:AB&quot;).Replace What:=&quot;-&quot;, Replacement:=&quot;/&quot;, LookAt:=xlPart, _
+End Sub
+</code></pre><h3 id="替换-例如替换AB列里的"><a href="#替换-例如替换AB列里的" class="headerlink" title="替换,例如替换AB列里的-"></a>替换,例如替换AB列里的-</h3><pre><code>    Thisworkbook.sheets(&quot;test&quot;).Columns(&quot;AB:AB&quot;).Replace What:=&quot;-&quot;, Replacement:=&quot;/&quot;, LookAt:=xlPart, _
         SearchOrder:=xlByRows, MatchCase:=False, SearchFormat:=False, _
-        ReplaceFormat:=False</code></pre><h3 id="代码分行-如果代码过长的话不利于查看，可以换行书写"><a href="#代码分行-如果代码过长的话不利于查看，可以换行书写" class="headerlink" title="代码分行:如果代码过长的话不利于查看，可以换行书写"></a>代码分行:如果代码过长的话不利于查看，可以换行书写</h3><pre><code>&#39;对于非sql  语句 可以使用 空格+ _换行，例如
+        ReplaceFormat:=False
+</code></pre><h3 id="代码分行-如果代码过长的话不利于查看，可以换行书写"><a href="#代码分行-如果代码过长的话不利于查看，可以换行书写" class="headerlink" title="代码分行:如果代码过长的话不利于查看，可以换行书写"></a>代码分行:如果代码过长的话不利于查看，可以换行书写</h3><pre><code>&#39;对于非sql  语句 可以使用 空格+ _换行，例如
 
 if MsgBox(&quot;您确认要清空文本框值吗?&quot;, vbOKCancel + vbInformation, &quot;提示&quot;) = vbOK Then
 
@@ -600,20 +608,25 @@ strsql = &quot;Select 采购订单表.状态, 采购订单表.采购订单号, �
 &#39;也可以这样写：
 
 a = &quot;Select 采购订单表.状态, 采购订单表.采购订单号, 采购订单表.采购日期, 采购订单表.供应商ID, 采购订单表.经办人&quot;
-a = a &amp; &quot; FROM 采购订单表;&quot;</code></pre><h3 id="去重"><a href="#去重" class="headerlink" title="去重"></a>去重</h3><p>单列去重</p>
-<pre><code>ActiveSheet.Range(&quot;G21:R36&quot;).RemoveDuplicates Columns:=12, Header:=xlYes</code></pre><p>多列去重</p>
-<pre><code>Thisworkbook.Sheets(&quot;test&quot;).Range(&quot;$A:$AL&quot;).RemoveDuplicates Columns:=Array(1, 2, 3, 4, 5, 6, 7, 8, 9), Header:=xlYes</code></pre><p>当然也可以用字典加数组以及SQL等方式实现去重，会更有效率，这里不在赘述</p>
+a = a &amp; &quot; FROM 采购订单表;&quot;
+</code></pre><h3 id="去重"><a href="#去重" class="headerlink" title="去重"></a>去重</h3><p>单列去重</p>
+<pre><code>ActiveSheet.Range(&quot;G21:R36&quot;).RemoveDuplicates Columns:=12, Header:=xlYes
+</code></pre><p>多列去重</p>
+<pre><code>Thisworkbook.Sheets(&quot;test&quot;).Range(&quot;$A:$AL&quot;).RemoveDuplicates Columns:=Array(1, 2, 3, 4, 5, 6, 7, 8, 9), Header:=xlYes
+</code></pre><p>当然也可以用字典加数组以及SQL等方式实现去重，会更有效率，这里不在赘述</p>
 <h3 id="VBA隐藏与取消隐藏"><a href="#VBA隐藏与取消隐藏" class="headerlink" title="VBA隐藏与取消隐藏"></a>VBA隐藏与取消隐藏</h3><pre><code>Set raw = ThisWorkbook.Sheets(&quot;raw data&quot;)
 &#39;取消工作表的全部隐藏
 raw.Columns.Hidden = False
 &#39;将ak到bk列隐藏
 raw.Columns(&quot;AK:BK&quot;).EntireColumn.Hidden = True
 
-&#39;将Columns换为rows即为对行操作</code></pre><h3 id="清除"><a href="#清除" class="headerlink" title="清除"></a>清除</h3><pre><code>Set raw = ThisWorkbook.Sheets(&quot;raw data&quot;)
+&#39;将Columns换为rows即为对行操作
+</code></pre><h3 id="清除"><a href="#清除" class="headerlink" title="清除"></a>清除</h3><pre><code>Set raw = ThisWorkbook.Sheets(&quot;raw data&quot;)
 
 raw.Range(&quot;A2:MM&quot; &amp; raw.Rows.Count).ClearContents&#39;清除内容
 raw.Range(&quot;A2:MM&quot; &amp; raw.Rows.Count).ClearFormats&#39;清除格式
-raw.cells.clear&#39;全部清除</code></pre><h3 id="选取文件夹"><a href="#选取文件夹" class="headerlink" title="选取文件夹"></a>选取文件夹</h3><p>可以让用户选取文件夹，并返回文件夹位置</p>
+raw.cells.clear&#39;全部清除
+</code></pre><h3 id="选取文件夹"><a href="#选取文件夹" class="headerlink" title="选取文件夹"></a>选取文件夹</h3><p>可以让用户选取文件夹，并返回文件夹位置</p>
 <pre><code>Sub SelectFolder()
     Dim Path As String
     With Application.FileDialog(msoFileDialogFolderPicker)
@@ -625,7 +638,7 @@ raw.cells.clear&#39;全部清除</code></pre><h3 id="选取文件夹"><a href="#
         End If
     End With
 End Sub
-</code></pre><h3 id="获取程序运行时间"><a href="#获取程序运行时间" class="headerlink" title="获取程序运行时间"></a>获取程序运行时间</h3><pre><code class="vb">t = Timer
+</code></pre><h3 id="获取程序运行时间"><a href="#获取程序运行时间" class="headerlink" title="获取程序运行时间"></a>获取程序运行时间</h3><pre><code class="lang-vb">t = Timer
 
 &#39;中间加入想计时的代码块，这里我随意加上几句代码测试
 Set raw = ThisWorkbook.Sheets(&quot;raw data&quot;)
@@ -633,27 +646,29 @@ raw.Range(&quot;A2:MM&quot; &amp; raw.Rows.Count).ClearContents
 raw.Range(&quot;A2:MM&quot; &amp; raw.Rows.Count).ClearFormats
 
 
-MsgBox Timer - t</code></pre>
+MsgBox Timer - t
+</code></pre>
 <h3 id="对指定列名进行操作"><a href="#对指定列名进行操作" class="headerlink" title="对指定列名进行操作"></a>对指定列名进行操作</h3><p>注意match函数是大小写敏感的</p>
-<pre><code class="vb">&#39;忽略错误语句，如果Match找不到指定的值也不会报错,可以继续往下运行
+<pre><code class="lang-vb">&#39;忽略错误语句，如果Match找不到指定的值也不会报错,可以继续往下运行
 On Error Resume Next 
 c = Application.Match(&quot;Date&quot;, Rows(1), 0) &#39;在第一行查找Date列
-If c &lt;&gt; &quot;&quot; then Columns(c).Format</code></pre>
-<h3 id="VBA中调用excel内置函数"><a href="#VBA中调用excel内置函数" class="headerlink" title="VBA中调用excel内置函数"></a>VBA中调用excel内置函数</h3><pre><code class="vb">&#39;调用min和max函数
+If c &lt;&gt; &quot;&quot; then Columns(c).Format
+</code></pre>
+<h3 id="VBA中调用excel内置函数"><a href="#VBA中调用excel内置函数" class="headerlink" title="VBA中调用excel内置函数"></a>VBA中调用excel内置函数</h3><pre><code class="lang-vb">&#39;调用min和max函数
 min_age = WorksheetFunction.Min(age.Columns(&quot;A&quot;))
 enddate = Format(WorksheetFunction.Max(rawclean.Columns(&quot;AA&quot;)), &quot;yyyy/mm/dd&quot;)
-
 </code></pre>
-<h3 id="调整数字格式"><a href="#调整数字格式" class="headerlink" title="调整数字格式"></a>调整数字格式</h3><pre><code class="vb">&#39;一般格式
+<h3 id="调整数字格式"><a href="#调整数字格式" class="headerlink" title="调整数字格式"></a>调整数字格式</h3><pre><code class="lang-vb">&#39;一般格式
     Columns(&quot;AA:AA&quot;).NumberFormat = &quot;General&quot;
 &#39;小数格式
     Columns(&quot;AA:AA&quot;).NumberFormat = &quot;0.00&quot;
 &#39;日期格式
     Columns(&quot;AA:AA&quot;).NumberFormat = &quot;m/d/yyyy&quot;
 &#39;百分比格式
-    Columns(&quot;AA:AA&quot;).NumberFormat = &quot;0.00%&quot;</code></pre>
+    Columns(&quot;AA:AA&quot;).NumberFormat = &quot;0.00%&quot;
+</code></pre>
 <h3 id="关闭、开启系统提醒，刷新等设置"><a href="#关闭、开启系统提醒，刷新等设置" class="headerlink" title="关闭、开启系统提醒，刷新等设置"></a>关闭、开启系统提醒，刷新等设置</h3><p>一般VBA中常用的关闭提示如下，其他的提示设置等暂不赘述</p>
-<pre><code class="vb">
+<pre><code class="lang-vb">
 Application.ScreenUpdating = False &#39;关闭屏幕更新
 Application.DisplayAlerts = False  &#39;关闭弹窗警告
 Application.AskToUpdateLinks = False &#39;关闭程序询问更新链接提示
@@ -662,7 +677,25 @@ Application.ScreenUpdating = True
 Application.DisplayAlerts = True
 Application.AskToUpdateLinks = True
 </code></pre>
-<h3 id="选择多个不连续的区域"><a href="#选择多个不连续的区域" class="headerlink" title="选择多个不连续的区域"></a>选择多个不连续的区域</h3><pre><code class="vb">&#39;两个或多个引用之间插入逗号，可使用 Range 属性引用多个区域
+<h3 id="选择数据区域"><a href="#选择数据区域" class="headerlink" title="选择数据区域"></a>选择数据区域</h3><pre><code class="lang-vb">&#39;选取指定的范围区域
+Sheets(1).Range(&quot;A1:D5&quot;).select 
+
+&#39;选择第一行
+Rows(1).select
+Range(&quot;1:1&quot;).select
+Rows(&quot;1:1&quot;).select
+
+&#39;选择第一列
+Columns(1).select
+Range(&quot;a:a&quot;).select
+
+&#39;选取包含当前单元格的所有连续的使用区域
+Sheets(1).Range(&quot;A1&quot;).CurrentRegion.Copy
+
+&#39;选取sheet1中所有已使用（编辑过的）单元格范围
+Worksheets(&quot;Sheet1&quot;).UsedRange.Select
+</code></pre>
+<h3 id="选择多个不连续的区域"><a href="#选择多个不连续的区域" class="headerlink" title="选择多个不连续的区域"></a>选择多个不连续的区域</h3><pre><code class="lang-vb">&#39;两个或多个引用之间插入逗号，可使用 Range 属性引用多个区域
 Worksheets(&quot;Sheet1&quot;).Range(&quot;C5:D9,G9:H16,B14:D18&quot;).ClearContents
 
 &#39;使用 Union 方法将多个区域合并为一个 Range
@@ -672,8 +705,9 @@ Sub MultipleRange()
  Set r2 = Sheets(&quot;Sheet1&quot;).Range(&quot;C3:D4&quot;) 
  Set myMultipleRange = Union(r1, r2) 
  myMultipleRange.Font.Bold = True 
-End Sub</code></pre>
-<h3 id="使用数组-字典方法实现Vlookup功能"><a href="#使用数组-字典方法实现Vlookup功能" class="headerlink" title="使用数组+字典方法实现Vlookup功能"></a>使用数组+字典方法实现Vlookup功能</h3><pre><code class="vb">
+End Sub
+</code></pre>
+<h3 id="使用数组-字典方法实现Vlookup功能"><a href="#使用数组-字典方法实现Vlookup功能" class="headerlink" title="使用数组+字典方法实现Vlookup功能"></a>使用数组+字典方法实现Vlookup功能</h3><pre><code class="lang-vb">
 Sub Vlookup_byarray()
 
 &#39;Arr为填写vlookup结果的区域
@@ -692,8 +726,9 @@ Set d = CreateObject(&quot;Scripting.Dictionary&quot;) &#39;d是字典,创建字
          End If 
     Next
     d.RemoveAll &#39;清空字典
-End Sub</code></pre>
-<h3 id="同时替换多组值"><a href="#同时替换多组值" class="headerlink" title="同时替换多组值"></a>同时替换多组值</h3><pre><code class="vb">Sub ReplaceMulValues()
+End Sub
+</code></pre>
+<h3 id="同时替换多组值"><a href="#同时替换多组值" class="headerlink" title="同时替换多组值"></a>同时替换多组值</h3><pre><code class="lang-vb">Sub ReplaceMulValues()
 
     Dim myRange As Range, myList As Range
     lastrow = ThisWorkbook.Sheets(&quot;plan&quot;).Cells(Rows.Count, 1).End(3).Row
@@ -706,14 +741,16 @@ End Sub</code></pre>
     For Each cel In myList.Columns(1).Cells
         myRange.Replace What:=cel.value, Replacement:=cel.Offset(0, 1).value
     Next
-End Sub</code></pre>
-<h3 id="使用数组实现复制粘贴为值的效果"><a href="#使用数组实现复制粘贴为值的效果" class="headerlink" title="使用数组实现复制粘贴为值的效果"></a>使用数组实现复制粘贴为值的效果</h3><pre><code class="vb">Set spsheet = ThisWorkbook.Sheets(&quot;test&quot;)
+End Sub
+</code></pre>
+<h3 id="使用数组实现复制粘贴为值的效果"><a href="#使用数组实现复制粘贴为值的效果" class="headerlink" title="使用数组实现复制粘贴为值的效果"></a>使用数组实现复制粘贴为值的效果</h3><pre><code class="lang-vb">Set spsheet = ThisWorkbook.Sheets(&quot;test&quot;)
 
 &#39;先对arr数组赋值
 arr = spsheet.Range(&quot;A1:Z10&quot;)
 &#39;再讲数组里的值赋值到结果区域。UBound(arr)为数组的行数，26是数组的列数
-spsheet.[a9].Resize(UBound(arr), 26) = arr</code></pre>
-<h3 id="新建一份excel文件"><a href="#新建一份excel文件" class="headerlink" title="新建一份excel文件"></a>新建一份excel文件</h3><pre><code class="vb">
+spsheet.[a9].Resize(UBound(arr), 26) = arr
+</code></pre>
+<h3 id="新建一份excel文件"><a href="#新建一份excel文件" class="headerlink" title="新建一份excel文件"></a>新建一份excel文件</h3><pre><code class="lang-vb">
 Sub new_file_result()
 
 &#39;创建一个新的excel文件并保存
@@ -724,7 +761,8 @@ savePath = ActiveWorkbook.path &amp; &quot;\测试表.xlsx&quot;
 excelWB.SaveAs savePath
 excelApp.Quit
 
-End Sub</code></pre>
+End Sub
+</code></pre>
 <p>使用 Workbooks.Add 可以快速新建文件</p>
 <p><img src="/upload_image/all/updating.gif" alt="**持续更新中...**"></p>
 
