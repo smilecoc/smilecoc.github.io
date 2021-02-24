@@ -18,8 +18,8 @@
   
   <entry>
     <title>时间序列（三）：ARIMA模型与Python实战</title>
-    <link href="http://smilecoc.vip/2021/01/15/%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%EF%BC%88%E4%B8%89%EF%BC%89%EF%BC%9AARIMA%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98/"/>
-    <id>http://smilecoc.vip/2021/01/15/%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%EF%BC%88%E4%B8%89%EF%BC%89%EF%BC%9AARIMA%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98/</id>
+    <link href="http://smilecoc.vip/2021/01/15/time_series_part3_arima_models/"/>
+    <id>http://smilecoc.vip/2021/01/15/time_series_part3_arima_models/</id>
     <published>2021-01-15T11:45:45.000Z</published>
     <updated>2021-01-16T07:09:49.036Z</updated>
     
@@ -39,8 +39,8 @@
   
   <entry>
     <title>时间序列（二）：时间序列平稳性检测</title>
-    <link href="http://smilecoc.vip/2021/01/15/%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9A%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E5%B9%B3%E7%A8%B3%E6%80%A7%E6%A3%80%E6%B5%8B/"/>
-    <id>http://smilecoc.vip/2021/01/15/%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9A%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E5%B9%B3%E7%A8%B3%E6%80%A7%E6%A3%80%E6%B5%8B/</id>
+    <link href="http://smilecoc.vip/2021/01/15/time_series_part2_stability/"/>
+    <id>http://smilecoc.vip/2021/01/15/time_series_part2_stability/</id>
     <published>2021-01-15T11:20:03.000Z</published>
     <updated>2021-01-31T11:45:29.498Z</updated>
     
@@ -60,8 +60,8 @@
   
   <entry>
     <title>时间序列（一）：时间序列数据与时间序列预测模型</title>
-    <link href="http://smilecoc.vip/2021/01/15/%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E6%95%B0%E6%8D%AE%E4%B8%8E%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E9%A2%84%E6%B5%8B%E6%A8%A1%E5%9E%8B/"/>
-    <id>http://smilecoc.vip/2021/01/15/%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E6%95%B0%E6%8D%AE%E4%B8%8E%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E9%A2%84%E6%B5%8B%E6%A8%A1%E5%9E%8B/</id>
+    <link href="http://smilecoc.vip/2021/01/15/time_series_part1_introduction_and_models/"/>
+    <id>http://smilecoc.vip/2021/01/15/time_series_part1_introduction_and_models/</id>
     <published>2021-01-15T08:25:43.000Z</published>
     <updated>2021-01-31T10:44:46.835Z</updated>
     

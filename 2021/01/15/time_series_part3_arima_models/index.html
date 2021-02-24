@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">时间序列（二）：时间序列平稳性检测 | Smilecoc&#39;s Blog</title>
+  <title itemprop="name">时间序列（三）：ARIMA模型与Python实战 | Smilecoc&#39;s Blog</title>
   
     <link rel="shortcut icon" href="/images/favicon.ico">
   
@@ -435,11 +435,11 @@
 
   <div class="pattern-center single-center">
     <!-- 有配图默认渲染第一张 -->
-    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.5/images/article/time_series_part2_20210115.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.5/images/article/time_series_part2_20210115.jpg">
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.5/images/article/time_series_part3_20210115.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.5/images/article/time_series_part3_20210115.jpg">
     </div>
     <header class="pattern-header single-header">
       <h1 class="entry-title">
-      时间序列（二）：时间序列平稳性检测</h1>
+      时间序列（三）：ARIMA模型与Python实战</h1>
       <p class="entry-census">
         <span>
           <a href="http://smilecoc.vip/">
@@ -465,152 +465,97 @@
         <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
         
         <div class="entry-content">
-          <p>在上一篇文章<a href="http://smilecoc.vip/2021/01/15/%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E6%95%B0%E6%8D%AE%E4%B8%8E%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E9%A2%84%E6%B5%8B%E6%A8%A1%E5%9E%8B/">时间序列（一）：时间序列数据与时间序列预测模型</a>中我们介绍了时间序列及一些时间序列预测模型。我们可以看到在进行预测时有一些模型表现较好，而另一些模型的预测结果却不尽人意。这是因为不同的时间序列模型对原始数据的要求是不同的，例如之前提到的ARIMA模型，要求时间序列数据平稳，否则得出的预测结果就会相差较大。本篇文章我们介绍时间序列的平稳性、随机性检验及相关时间序列数据处理方法。</p>
-<h1 id="时间序列的平稳性、随机性检验"><a href="#时间序列的平稳性、随机性检验" class="headerlink" title="时间序列的平稳性、随机性检验"></a>时间序列的平稳性、随机性检验</h1><p>在拿到时间序列数据后，首先要对数据的随机性和平稳性进行检测， 这两个检测是时间序列预测的重要部分。根据不同检测结果需要采取不同的分析方法。</p>
-<p>为什么时间序列要求平稳性呢？平稳性就是要求由样本拟合出的曲线在未来一段时间内仍然能够以现有的形态和趋势发展下去，这样预测结果才会有意义。</p>
-<p>对于平稳声序列， 它的均值和方差是常数， 现已有一套非常成熟的平稳序列的建模方法。 通常是建立一个线性模型来拟合该序列的发展 借此提取该序列的有用信息。</p>
-<p>对于非平稳序列， 由于它的均值和方差不稳定， 处理方法一般是将其转变为平稳序列，这样就可以应用有关平稳时间序列的分析方法， 如建立 ARIMA模型来进行相应的研究，或者分解趋势与季节性等并根据情况应用指数平滑模型等。 </p>
-<p>对于纯随机序列， 又称为白噪声序列， 序列的各项之间没有任何相关关系， 序列在进行完全无序的随机波动， 可以终止对该序列的分析。 白噪声序列是没有信息可提取的平稳序列。</p>
-<p> 在讲解平稳性和随机性的定义之前，我们先介绍一下时间序列中常用的几个特征统计量。</p>
-<h2 id="时间序列的特征统计量"><a href="#时间序列的特征统计量" class="headerlink" title="时间序列的特征统计量"></a>时间序列的特征统计量</h2><p>对于一个时间序列任意时刻的序列值$\left\{ X _ { t } , t \in T \right\}$，任意时刻的序列值 $X _ { t }$都是一个随机变量，记其分布函数为$F _ { t } ( x )$,则其特征统计量均值、方差、自协方差函数、自相关系数的定义分别如下:</p>
-<p><strong>均值：</strong> 表示时间序列在各个时刻取值的平均值，其定义如下：<br>$\mu _ { t } = E X _ { t } = \int _ { - \infty } ^ { \infty } x \mathrm { d } F _ { t } ( x )$</p>
-<p><strong>方差：</strong> 表示时间序列在各个时刻围绕其均值波动的平均程度，其定义如下：<br>$\sigma _ { t } ^ { 2 } = D X _ { t } = E \left( X _ { t } - \mu _ { t } \right) ^ { 2 } = \int _ { - \infty } ^ { \infty } \left( x - \mu _ { t } \right) ^ { 2 } \mathrm { d } F _ { t } ( x )$</p>
-<p><strong>自协方差 ：</strong> 表示时间序列任意两个时刻直接的相关性，任取$t , s \in T$，则其定义如下：<br>$\gamma ( t , s ) = E \left[ \left( X _ { t } - \mu _ { t } \right) \left( X _ { s } - \mu _ { s } \right) \right]$</p>
-<p><strong>自相关系数：</strong> 同自协方差函数，其定义如下：</p>
-<p>$\rho ( t , s ) = \frac { \gamma ( t , s ) } { \sqrt { D X _ { t } \cdot D X _ { s } } }$</p>
-<h2 id="平稳时间序列的定义与检验"><a href="#平稳时间序列的定义与检验" class="headerlink" title="平稳时间序列的定义与检验"></a>平稳时间序列的定义与检验</h2><h3 id="平稳时间序列的定义"><a href="#平稳时间序列的定义" class="headerlink" title="平稳时间序列的定义"></a>平稳时间序列的定义</h3><p>平稳时间序列按照限定条件的严格程度可以分为以下两种类型：</p>
-<p><strong>严平稳时间序列：</strong> 指时间序列的所有统计性质不会随着时间的推移而发生变化，即其联合概率分布在任何时间间隔都是相同的。设$\left\{ X _ { t } \right\}$为一时间序列，对任意的正整数$m$，任取$t _ { 1 } , t _ { 2 } , \cdots , t _ { m } \in T$，对任意整数$\tau$，有：</p>
-<p>$F _ { t _ { 1 } , t _ { 2 } , \cdots , t _ { m } } \left( x _ { 1 } , x _ { 2 } , \cdots , x _ { m } \right) = F _ { t _ { 1 + \tau } , t _ { 2 + \tau } , \cdots , t _ { m + \tau } } \left( x _ { 1 } , x _ { 2 } , \cdots , x _ { m } \right)$</p>
-<p>则称时间序列$\left\{ X _ { t } \right\}$为严平稳时间序列。</p>
-<p><strong>宽平稳时间序列：</strong> 宽平稳时间序列则认为只要时间序列的低阶距（二阶）平稳，则该时间序列近似平稳。如果时间序列$\left\{ X _ { t } \right\}$满足以下三个条件：</p>
-<ul>
-<li>任取$t \in T$，有 $EX _ { t }^ { 2 } &lt;∞$</li>
-<li>任取$t \in T$，有$E X _ { t } = \mu$,其中$\mu$为常数；</li>
-<li>任取$t , s , k \in T$, $k + s - t \in T$，有$\gamma ( t , s ) = \gamma ( k , k + s - t )$</li>
-</ul>
-<p>在现实生活中，时间序列是很难满足严平稳时间序列的要求的，因此，一般所讲的平稳时间序列在默认情况下都是指宽平稳时间序列。根据宽平稳时间序列的条件，我们可以容易得到宽平稳时间序列所具有的性质：</p>
-<ul>
-<li>均值为常数，即：$E X _ { t } = \mu , \quad \forall t \in T$</li>
-<li>方差也为均值，即：$D X _ { t } = \gamma ( t , t ) = \gamma ( 0 ) , \quad \forall t \in T$</li>
-<li>自协方差函数和自相关系数只依赖于时间的平移长度，而与时间的起点无关。即：$\gamma ( t , s ) = \gamma ( k , k + s - t ) , \quad \forall t , s , k \in T$<br>因此，可以记$\gamma ( k )$为时间序列${ X _ { t } $的延迟k自协方差函数。</li>
-</ul>
-<p>由于平稳时间序列具有这些优良性质，因此，对于一个平稳时间序列来说，其待估计的参数量就变得少了很多，因为他们的均值、方差都是一样的，因此，可以利用全部的样本来估计总体的均值和方差，即：<br>$\widehat { \mu } = \overline { x } = \frac { \sum _ { i = 1 } ^ { n } x _ { i } } { n } \\ \widehat { \gamma } ( 0 ) = \frac { \sum _ { t = 1 } ^ { n } \left( x _ { t } - \overline { x } \right) ^ { 2 } } { n - 1 }$<br>这也是为什么说当拿到一个时间序列后，需要对其进行平稳性检验。</p>
-<h2 id="平稳时间序列的检验"><a href="#平稳时间序列的检验" class="headerlink" title="平稳时间序列的检验"></a>平稳时间序列的检验</h2><p>那么，当拿到一个时间序列后，应该如何对其进行平稳性的检验呢？目前，对时间序列的平稳性检验主要有两种方法，一种是<strong>图检法</strong>，即根据时序图和自相关图进行直观判断，另一种是构<strong>造检验统计量</strong>的方法，有单位根检验法等方法。</p>
-<h3 id="图检法"><a href="#图检法" class="headerlink" title="图检法"></a>图检法</h3><p>对于图检法，我们一般绘制时间序列的时序图，考虑以下三个图形:</p>
-<p><img src="https://img-blog.csdnimg.cn/20201025163302340.png#pic_center" alt="在这里插入图片描述"><br>在第一幅图中，我们可以清楚地看到，均值随时间而变化(增加)，呈现上升的趋势。因此，这是一个非平稳序列。平稳序列不应该呈现出随时间变化的趋势。</p>
-<p>第二幅图显然看不到序列的趋势，但序列的变化是一个时间的函数。正如前面提到的，平稳序列的方差必须是一个常数。</p>
-<p>再来看第三幅图，随着时间的增加，序列传播后变得更近，这意味着协方差是时间的函数。</p>
-<p>所以上述三个例子均是非平稳时间序列.</p>
-<p>再看下面的时序图：<br><img src="https://img-blog.csdnimg.cn/2020102516370892.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>在这张图中，均值、方差和协方差都是常数，这就是平稳时间序列 </p>
-<p>另一方面，我们也可以通过自相关图来进行检验，对于平稳时间序列，其自相关图一般随着阶数的递增，自相关系统会迅速衰减至0附近，而非平稳时间序列则可能存在先减后增或者周期性波动等变动。如下图所示，该时间序列随着阶数的递增，自相关系数先减后增，因此，可以判断该时间序列不是平稳时间序列。<br><img src="https://img-blog.csdnimg.cn/20201025173222116.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<h3 id="统计检验"><a href="#统计检验" class="headerlink" title="统计检验"></a>统计检验</h3><p>可以利用统计检验来代替目视检验：比如单位根平稳检验。单位根表名给定序列的统计特性（均值，方差和协方差）不是时间的常数，这是平稳时间序列的先决条件。下面是它的数学解释：</p>
-<p>假设我们有一个时间序列：<br>$y_t=a<em>y_{t-1 }+ε_t$<br>其中$y_t$是t时刻的数据值，$ε_t$ 是误差项。<br>仙子我们需要利用$y_{t-1 }$的值来计算$y_t$，即：<br>$y_{t-1}=a</em>y_{t-2}+ε_{t-1}$<br>如果利用所有的观察值，$y_{t}$的值将是：<br>$y_{t}=a^n<em>y_{t-n}+ \sumε_{t-i}</em>a^i$</p>
-<p>假设在上述方程中a的值为1(单位)，则预测值将等于$y_{t-n}$ 和从$t-n$到$t$的所有误差之和，这意味着方差将随着时间的推移而增大，这就是时间序列中的单位根。众所周知，平稳时间序列的方差不能是时间的函数。单元根检验通过检查a=1的值来检查序列中是否存在单位根。以下是两个最常用的单位根平稳检测方法：</p>
-<h4 id="ADF（增补迪基-福勒）检验"><a href="#ADF（增补迪基-福勒）检验" class="headerlink" title="ADF（增补迪基-福勒）检验"></a>ADF（增补迪基-福勒）检验</h4><p>迪基-福勒（Dickey Fuller）检验是最流行的统计检验方法之一，可以用它来确定序列中单位根的存在，从而帮助判断序列是否是平稳。ADF检验是对DF检验的扩展。这一检验的原假设与备选假设如下：</p>
-<ul>
-<li><strong>原假设：</strong> 序列有一个单位根(序列非平稳)</li>
-<li><strong>备选假设：</strong> 该序列没有单位根。（序列平稳）</li>
-</ul>
-<p>单位根是什么呢？当一个自回归过程中： $y_{t} = by_{t-1} + a + \epsilon _{t}$，如果滞后项系数b为1，就称为单位根。当单位根存在时，自变量和因变量之间的关系具有欺骗性，因为残差序列的任何误差都不会随着样本量（即时期数）增大而衰减，也就是说模型中的残差的影响是永久的。这种回归又称作伪回归。如果单位根存在，这个过程就是一个随机漫步（random walk）。ADF检验就是判断序列是否存在单位根：如果序列平稳，就不存在单位根；否则，就会存在单位根.</p>
-<p>在Python中使用ADF检验可以在statsmodels中使用adfuller函数。在下面的代码中我们加上标题与输出值对应的名称：</p>
-<pre><code class="lang-py">#定义ADF输出格式化函数
-from statsmodels.tsa.stattools import adfuller
-def adf_test(timeseries):
-    print (&#39;ADF检验结果:&#39;)
-    dftest = adfuller(timeseries, autolag=&#39;AIC&#39;)
-    dfoutput = pd.Series(dftest[0:4], index=[&#39;Test Statistic&#39;,&#39;p-value&#39;,&#39;Number of Lags Used&#39;,&#39;Number of Observations Used&#39;])
-    for key,value in dftest[4].items():
-       dfoutput[&#39;Critical Value (%s)&#39;%key] = value
-    print (dfoutput)
+          <h1 id="什么是-ARIMA模型"><a href="#什么是-ARIMA模型" class="headerlink" title="什么是 ARIMA模型"></a>什么是 ARIMA模型</h1><p>ARIMA模型的全称叫做自回归移动平均模型，全称是(ARIMA, Autoregressive Integrated Moving Average Model)。也记作ARIMA(p,d,q)，是统计模型(statistic model)中最常见的一种用来进行时间序列预测的模型。</p>
+<p>ARIMA模型是一种自回归模型，只需要自变量即可预测后续的值。<strong>ARIMA模型要求时序数据是稳定的，或者经过差分处理后稳定</strong>，如果不稳定的数据，是无法捕捉到规律的。比如股票数据用ARIMA无法预测的原因就是股票数据是非稳定的，常常受政策和新闻的影响而波动。</p>
+<h1 id="ARIMA模型步骤"><a href="#ARIMA模型步骤" class="headerlink" title="ARIMA模型步骤"></a>ARIMA模型步骤</h1><ol>
+<li><strong>时间序列的获取与预处理</strong>：对于得到的时间序列数据，首先应该检查数据质量，例如是否有缺失，异常值的存在。确保数据无误后需要进行稳定性检验和白噪声检验。能够适用ARMA模型进行分析预测的时间序列必须满足的条件是平稳非白噪声序列。因此对数据的平稳性进行检验是时间序列分析的重要步骤。具体的检验方法可以查看上一篇文章 <a href>时间序列（二）：时间序列平稳性与白噪声检测</a></li>
+<li><strong>模型定阶</strong>: 确定模型的类型并确定模型的参数</li>
+<li><strong>建模预测</strong>：使用模型进行建模并进行相关预测。</li>
+<li><strong>模型的验证</strong>： 模型的验证主要是验证模型的拟合效果，之后对模型进行相关优化与应用</li>
+</ol>
+<h2 id="时间序列的获取与预处理"><a href="#时间序列的获取与预处理" class="headerlink" title="时间序列的获取与预处理"></a>时间序列的获取与预处理</h2><h3 id="导入数据"><a href="#导入数据" class="headerlink" title="导入数据"></a>导入数据</h3><p>在本文中我们使用2015/1/2-2015/2/6某餐厅的销售数据进行建模。数据文件可以在公众号：Romi的杂货铺</p>
+<p>首先读入数据并查看一下时序图</p>
+<pre><code class="lang-py">import pandas as pd
 
-#对数据集使用ADF检验
-adf_test(train[&#39;#Passengers&#39;])
-</code></pre>
-<p>检验结果如下：</p>
-<pre><code class="lang-py">ADF检验结果:
-Test Statistic                   0.815369
-p-value                          0.991880
-Number of Lags Used             13.000000
-Number of Observations Used    130.000000
-Critical Value (1%)             -3.481682
-Critical Value (5%)             -2.884042
-Critical Value (10%)            -2.578770
-dtype: float64
-</code></pre>
-<p>ADF的结果主要看以下两个方面：</p>
-<ul>
-<li>Test Statistic的值如果比Critical Value (5%)小则满足稳定性需求.</li>
-<li>p-value越低（理论上需要低于0.05）证明序列越稳定。</li>
-</ul>
-<p>在上面的例子中，test statistic &gt; Critical Value (5%)  ，这意味着序列不是平稳的。同时p值为0.99,这证实了我们最初在目视检测中观察的结果。</p>
-<h2 id="随机性（白噪声）的定义与检验"><a href="#随机性（白噪声）的定义与检验" class="headerlink" title="随机性（白噪声）的定义与检验"></a>随机性（白噪声）的定义与检验</h2><h3 id="随机性时间序列的定义"><a href="#随机性时间序列的定义" class="headerlink" title="随机性时间序列的定义"></a>随机性时间序列的定义</h3><p>通过对时间序列进行平稳性检验后，我们可以将时间序列分为平稳时间序列和非平稳时间序列，对于非平稳时间序列，一般需要将其转化为平稳时间序列再进行分析，具体的转化方法随后再讲。而对于平稳时间序列，我们知道其有一个性质，即自协方差函数和自相关系数只依赖于时间间隔，而与起点无关，对于相同的时间间隔，其自协方差函数和自相关系数为一个常数，那么，就存在一种情况，当该常数为0时，照样满足平稳时间序列的条件，而此时序列之间的相关性则为0，即序列之间不相关，那么，这时我们的分析即可结束，因为对于一个毫无相关的序列，我们没法从中挖掘出可用的规律，此时的序列即为随机性时间序列，也称为白噪声序列。<br>    <br>对于时间序列$X _ { t }$，如果满足：</p>
-<ul>
-<li>任取$t \in T$，有$E X _ { t } = \mu$；</li>
-<li>任取$t , s \in T$，有<br>$\gamma ( t , s ) = \begin{array} { l l } { \sigma ^ { 2 }}; { t = s } \\ { 0 }; { t \neq s } \end{array}$</li>
-</ul>
-<p>则称该时间序列为纯随机序列或白噪声序列，简记为$X _ { t } \sim W N \left( \mu , \sigma ^ { 2 } \right)$。我们可以发现，其实白噪声序列的性质与平稳时间序列的性质一样，其均值和方差均为常数，只是自协方差函数或自相关系数为0，因此，该序列的任何两项之间不存在相关性，无法从中得到任何有用的信息，此时分析可以停止。</p>
-<h3 id="纯随机性（白噪声）检验"><a href="#纯随机性（白噪声）检验" class="headerlink" title="纯随机性（白噪声）检验"></a>纯随机性（白噪声）检验</h3><p>对于纯随机性序列，一般通过构建统计量的方法来检验。我们知道，白噪声序列除了0阶自相关系数外，即方差，其他阶的自相关系数应该均为0，因此，我们可以提出下面这样一个假设：</p>
-<p>$H _ { 0 } : \rho _ { 1 } = \rho _ { 2 } = \cdots = \rho _ { m } = 0 , \quad \forall m \geqslant 1\\ H _ { 1 } :至少存在某个\rho _ { k } \neq 0 , \quad \forall m \geqslant 1 , k \leqslant m$</p>
-<p>因此，围绕该假设，我们可以构建统计量进行检验，常用的统计量有Q统计量和LB统计量，其计算公式分别如下：</p>
-<p>$Q = n \sum _ { k = 1 } ^ { m } \widehat { \rho } _ { k } ^ { 2 }\\L B = n ( n + 2 ) \sum _ { k = 1 } ^ { m } \left( \frac { \widehat { \rho } _ { k } ^ { 2 } } { n - k } \right)$</p>
-<p>其中，$n$为序列的观察期数，$m$为指定延迟期数，$k$为延迟阶数，Box和Pierce证明这两个统计量均服从自由度为m mm的卡方分布，当统计量大于$\chi _ { 1 - \alpha } ^ { 2 } ( m )$或者P值小于$α$ 时，则认为可以拒绝原假设，即认为该序列是非随机序列</p>
-<p>我们可以使用acorr_ljungbox函数进行数据的纯随机性检验.语法为：</p>
-<pre><code>acorr_ljungbox(x, lags=None, boxpierce=False) # 数据的纯随机性检验函数
+discfile = &#39;arima_data.xls&#39;
+data = pd.read_excel(discfile, index_col = u&#39;日期&#39;)
 
-lags：为延迟期数，如果为整数，则是包含在内的延迟期数，如果是一个列表或数组，那么所有时滞都包含在列表中最大的时滞中
-
-boxpierce：为True时表示除开返回LB统计量还会返回Box和Pierce的Q统计量
-
-返回值：
-
-lbvalue:测试的统计量
-
-pvalue:基于卡方分布的p统计量
-
-bpvalue:((optionsal), float or array) – 基于 Box-Pierce 的检验的p统计量
-
-bppvalue:((optional), float or array) – 基于卡方分布下的Box-Pierce检验的p统计量
-</code></pre><p>代码实现：</p>
-<pre><code class="lang-py">from statsmodels.stats.diagnostic import acorr_ljungbox
-acorr_ljungbox(train[&#39;#Passengers&#39;])
-</code></pre>
-<p>输出检验结果中会返回两个值：<br><strong>lbvalue:</strong> 测试的统计量 和  <strong>pvalue:</strong> 基于卡方分布的p统计量。如果p-value&gt;0.05则可判断为白噪声序列</p>
-<h1 id="时间序列的平稳化"><a href="#时间序列的平稳化" class="headerlink" title="时间序列的平稳化"></a>时间序列的平稳化</h1><p>在熟悉了平稳性的概念及其不同的类型之后，接下来可以对序列进行平稳化操作。平稳化的方法有以下几种：</p>
-<h2 id="差分法"><a href="#差分法" class="headerlink" title="差分法"></a>差分法</h2><p>在该方法中，计算序列中连续项的差值。执行差分操作通常是为了消除均值的变化。从数学角度，差分可以写成：</p>
-<p>$y_t = y_t – y_{t-1}$</p>
-<p>其中$y_t$ 是t时刻的数值。相减数值之间的间隔数即为阶数。例如上述公式即为一阶差分。</p>
-<p>我们可以直接相减对序列差分，并绘制出对应线图：</p>
-<pre><code class="lang-py">train[&#39;#Passengers_diff&#39;] = train[&#39;#Passengers&#39;] - train[&#39;#Passengers&#39;].shift(1)
-train[&#39;#Passengers_diff&#39;].dropna().plot()
-</code></pre>
-<p>或者使用diff方法进行差分：</p>
-<pre><code class="lang-py">train[&#39;#Passengers_diff&#39;] = train[&#39;#Passengers&#39;].diff(1)#一阶差分
-train[&#39;#Passengers_diff2&#39;] = train[&#39;#Passengers_diff&#39;].diff(1)#二阶差分
-</code></pre>
-<p><img src="https://img-blog.csdnimg.cn/20201108152929619.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<p>当数据存在季节性趋势时，我们可以利用季节性差分来消除季节性的不平稳因素。例如，星期一的观察值将与上星期一的观察值相减。从数学角度，它可以写成：</p>
-<p>$y_t = y_t – y_{t-n}$</p>
-<pre><code class="lang-py">n=7
-train[&#39;#Passengers_diff&#39;] = train[&#39;#Passengers&#39;] - train[&#39;#Passengers&#39;].shift(n)
-</code></pre>
-<h3 id="变换"><a href="#变换" class="headerlink" title="变换"></a>变换</h3><p>变换用于对方差为非常数的序列进行平稳化。常用的变换方法包括幂变换、平方根变换和对数变换。</p>
-<pre><code class="lang-py">train[&#39;#Passengers_log&#39;] = np.log(train[&#39;#Passengers&#39;])
-train[&#39;#Passengers_log_diff&#39;] = train[&#39;#Passengers_log&#39;] - train[&#39;#Passengers_log&#39;].shift(1)
-train[&#39;#Passengers_log_diff&#39;].dropna().plot()
-</code></pre>
-<p><img src="https://img-blog.csdnimg.cn/20201108153530470.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<p>在上面的变化过程中，我们首先对原始数据取对数，主要有两个用处：（1）将指数增长转为线性增长（2）可以平稳序列的方差。随后进行差分从而消除趋势的影响使序列平稳。</p>
-<h2 id="分解"><a href="#分解" class="headerlink" title="分解"></a>分解</h2><p>对于有明显趋势或者周期性的时间序列二，我们也可以对其进行分解。分解需要用到statsmodels.tsa.seasonal.seasonal_decompose函数，可以将时间序列的数据分解为趋势(trend),季节性(seasonality)和残差(residual)三部分。</p>
-<pre><code class="lang-py">from statsmodels.tsa.seasonal import seasonal_decompose
-decomposition = seasonal_decompose(train[&#39;#Passengers&#39;]).plot()#画出分解后时序图
+#时序图
+import matplotlib.pyplot as plt
+plt.rcParams[&#39;font.sans-serif&#39;] = [&#39;SimHei&#39;] #用来正常显示中文标签
+plt.rcParams[&#39;axes.unicode_minus&#39;] = False #用来正常显示负号
+data.plot()
 plt.show()
-trend = decomposition.trend
-seasonal = decomposition.seasonal
-residual = decomposition.resid
 </code></pre>
-<p><img src="https://img-blog.csdnimg.cn/20210101211117342.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p>这样趋势和季节性，还有残差值都被分解出来，之后我们就可以计算残差值的稳定性，从而得到一个平稳的时间序列</p>
-<p>参考文章：<br><a href="https://www.biaodianfu.com/arima.html" target="_blank" rel="noopener">https://www.biaodianfu.com/arima.html</a></p>
+<p><img src="https://img-blog.csdnimg.cn/20201214233037767.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h3 id="平稳性检验"><a href="#平稳性检验" class="headerlink" title="平稳性检验"></a>平稳性检验</h3><p>从上述时序图中我们可以看到序列有明显的上升趋势，基本可以确定不是平稳序列了。<br>再通过自相关图检验一下：</p>
+<pre><code class="lang-py">#自相关图
+from statsmodels.graphics.tsaplots import plot_acf
+plot_acf(data).show()
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/2020121423421367.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>从自相关图从右向左看，时间序列随着阶数的递增，自相关系数缓慢衰减至0，不符合平稳序列的要求。<br>之后再对序列进行ADF检验，</p>
+<pre><code class="lang-py">from statsmodels.tsa.stattools import adfuller as ADF
+
+print(u&#39;原始序列的ADF检验结果为：&#39;, ADF(data[u&#39;销量&#39;]))
+</code></pre>
+<p>单位根检验统计量对应的p值显著大于0.05, 最终将该序列判断为非平稳序列</p>
+<h3 id="利用差分平稳数据"><a href="#利用差分平稳数据" class="headerlink" title="利用差分平稳数据"></a>利用差分平稳数据</h3><p>首先我们对时间序列数据进行一阶差分（一般情况下差分的阶数不会超过两阶，如果差分阶数过高会导致信息丢失较多导致预测误差较大）.代码如下所示：</p>
+<pre><code class="lang-py">#一阶 差分
+D_data = data.diff().dropna()
+D_data.columns = [u&#39;销量差分&#39;]
+D_data.plot() #时序图
+plt.show()
+</code></pre>
+<p>之后我们再次对差分后的序列进行平稳性检测：</p>
+<pre><code class="lang-py">plot_acf(D_data).show() #自相关图
+
+from statsmodels.graphics.tsaplots import plot_pacf
+plot_pacf(D_data).show() #偏自相关图
+
+print(u&#39;差分序列的ADF检验结果为：&#39;, ADF(D_data[u&#39;销量差分&#39;])) #ADF检测
+</code></pre>
+<p>从检验结果来看在一阶差分后已经是平稳序列，符合后续建模要求</p>
+<h2 id="模型定阶"><a href="#模型定阶" class="headerlink" title="模型定阶"></a>模型定阶</h2><p>再对数据进行预处理后得到平稳时间序列后我们就可以确定ARIMA模型相关的参数。<br>ARIMA有三个参数，可表示为ARIMA(p, d, q)。p为自回归阶数，也就是我们需要用前多少个时间段的数据去做自回归。d为时间成为平稳时所做的差分次数，q为移动平均阶数。在之前的平稳性变化中我们做了一阶差分，那么对应d=1,那么另外两个参数ARMA(p, q)如何确定呢？</p>
+<h3 id="通过自相关图或者偏相关图"><a href="#通过自相关图或者偏相关图" class="headerlink" title="通过自相关图或者偏相关图"></a>通过自相关图或者偏相关图</h3><p>在上述的平稳性检验的过程中问我们得到了相关的自相关图和偏自相关图：<br><img src="https://img-blog.csdnimg.cn/20210102140503277.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20210102140519659.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>上面两幅图中，阴影部分为置信区间。<br><img src="https://img-blog.csdnimg.cn/20210102231751840.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>其中截尾表示落在置信区间内（95%的点都符合该规则）.<br>根据上述自相关图与偏自相关图，我们有以下模型可以供选择：</p>
+<ol>
+<li>ARMA(0,1)模型：即自相关图在滞后1阶之后缩小为0，且偏自相关缩小至0，则是一个阶数q=1的移动平均模型；</li>
+<li>ARMA(3,0)模型：即偏自相关图在滞后3阶之后缩小为0，且自相关缩小至0，则是一个阶层p=3的自回归模型；</li>
+<li>ARMA(3,1)模型：即使得自相关和偏自相关都缩小至零。则是一个混合模型。</li>
+</ol>
+<p>针对这三种模型，我们后续可以通过建立模型预测后并利用测试数据检验哪个模型更好同，时我们也可以通过查看三种模型的AIC,BIC等信息来确定哪个模型更好。AIC,BIC都是判断模型的标准，其值越小表示模型越好。</p>
+<p>AIC ：赤池信息量 ，公式为：$AIC= 2 k-2 ln(L)$<br>BIC：贝叶斯信息量，公式为：$BIC=ln(n)*k-2 ln(L)$<br>其中k为模型参数个数，n为样本数量，L为似然函数</p>
+<p>例如我们通过BIC判断相关模型的好坏的相关代码为：</p>
+<pre><code class="lang-py">print(ARIMA(data, (p,1,q)).fit().bic)
+</code></pre>
+<h3 id="通过遍历获取"><a href="#通过遍历获取" class="headerlink" title="通过遍历获取"></a>通过遍历获取</h3><p>在上述通过自相关图与偏自相关图确定p,q的方法里，我们可以看到确定的参数不止一种，因此我们可以通过遍历各个p，q参数获取对应的AIC,BIC等信息确定参数。</p>
+<pre><code class="lang-py">#遍历
+from statsmodels.tsa.arima_model import ARIMA
+
+data[u&#39;销量&#39;] = data[u&#39;销量&#39;].astype(float)
+#定阶
+pmax = int(len(D_data)/10) #一般阶数不超过length/10
+qmax = int(len(D_data)/10) #一般阶数不超过length/10
+bic_matrix = [] #bic矩阵
+for p in range(pmax+1):
+  tmp = []
+  for q in range(qmax+1):
+    try: #存在部分报错，所以用try来跳过报错。
+      tmp.append(ARIMA(data, (p,1,q)).fit().bic)
+    except:
+      tmp.append(None)
+  bic_matrix.append(tmp)
+
+#输出BIC结果矩阵
+bic_matrix = pd.DataFrame(bic_matrix) #从中可以找出最小值
+print(bic_matrix)
+</code></pre>
+<p>结果中对应BIC最小的p值和q值为：0、1.</p>
+<h2 id="建模预测"><a href="#建模预测" class="headerlink" title="建模预测"></a>建模预测</h2><p> 在确定了最佳参数后，我们可以进行后续的建模与预测。</p>
+<pre><code class="lang-py">model = ARIMA(data, (0,1,1)).fit() #建立ARIMA(0, 1, 1)模型
+model.forecast(5) #作为期5天的预测
+</code></pre>
+<p>这样我们就得到了未来五天的预测数据。</p>
 
         </div>
         <!-- .entry-content -->
@@ -638,36 +583,19 @@ residual = decomposition.resid
       <div class="toc" style="background: none;"></div>
       <section class="post-squares nextprev">
         
-          
-            <div class="post-nepre half previous">
-          
-            <a href="/2021/01/15/时间序列（三）：ARIMA模型实战/" rel="prev">
-              <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.5/images/article/time_series_part3_20210115.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.5/images/article/time_series_part3_20210115.jpg">
-              </div>
-              <span class="label">
-              Previous Post</span>
-              <div class="info">
-                <h3>
-                时间序列（三）：ARIMA模型与Python实战</h3>
-                <hr>
-              </div>
-            </a>
-          </div>
-        
         
           
-            <div class="post-nepre half next">
+            <div class="post-nepre full next">
           
-            <a href="/2021/01/15/时间序列（一）：时间序列数据与时间序列预测模型/" rel="next">
+            <a href="/2021/01/15/time_series_part2_stability/" rel="next">
               <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.5/images/article/time_series_part1_20210115.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.5/images/article/time_series_part1_20210115.jpg">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.5/images/article/time_series_part2_20210115.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.5/images/article/time_series_part2_20210115.jpg">
               </div>
               <span class="label">
               Next Post</span>
               <div class="info">
                 <h3>
-                时间序列（一）：时间序列数据与时间序列预测模型</h3>
+                时间序列（二）：时间序列平稳性检测</h3>
                 <hr>
               </div>
             </a>
