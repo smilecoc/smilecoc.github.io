@@ -465,15 +465,16 @@
         <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
         
         <div class="entry-content">
-          <h1 id="什么是-ARIMA模型"><a href="#什么是-ARIMA模型" class="headerlink" title="什么是 ARIMA模型"></a>什么是 ARIMA模型</h1><p>ARIMA模型的全称叫做自回归移动平均模型，全称是(ARIMA, Autoregressive Integrated Moving Average Model)。也记作ARIMA(p,d,q)，是统计模型(statistic model)中最常见的一种用来进行时间序列预测的模型。</p>
+          <h1 id="时间序列系列文章："><a href="#时间序列系列文章：" class="headerlink" title="时间序列系列文章："></a>时间序列系列文章：</h1><p><a href="http://smilecoc.vip/2021/01/15/time_series_part1_introduction_and_models/">时间序列（一）：时间序列数据与时间序列预测模型</a><br><a href="http://smilecoc.vip/2021/01/15/time_series_part2_stability/">时间序列（二）：时间序列平稳性检测</a><br><a href="http://smilecoc.vip/2021/01/15/time_series_part3_arima_models/">时间序列（三）：ARIMA模型实战</a></p>
+<h1 id="什么是-ARIMA模型"><a href="#什么是-ARIMA模型" class="headerlink" title="什么是 ARIMA模型"></a>什么是 ARIMA模型</h1><p>ARIMA模型的全称叫做自回归移动平均模型，全称是(ARIMA, Autoregressive Integrated Moving Average Model)。也记作ARIMA(p,d,q)，是统计模型(statistic model)中最常见的一种用来进行时间序列预测的模型。</p>
 <p>ARIMA模型是一种自回归模型，只需要自变量即可预测后续的值。<strong>ARIMA模型要求时序数据是稳定的，或者经过差分处理后稳定</strong>，如果不稳定的数据，是无法捕捉到规律的。比如股票数据用ARIMA无法预测的原因就是股票数据是非稳定的，常常受政策和新闻的影响而波动。</p>
 <h1 id="ARIMA模型步骤"><a href="#ARIMA模型步骤" class="headerlink" title="ARIMA模型步骤"></a>ARIMA模型步骤</h1><ol>
-<li><strong>时间序列的获取与预处理</strong>：对于得到的时间序列数据，首先应该检查数据质量，例如是否有缺失，异常值的存在。确保数据无误后需要进行稳定性检验和白噪声检验。能够适用ARMA模型进行分析预测的时间序列必须满足的条件是平稳非白噪声序列。因此对数据的平稳性进行检验是时间序列分析的重要步骤。具体的检验方法可以查看上一篇文章 <a href>时间序列（二）：时间序列平稳性与白噪声检测</a></li>
+<li><strong>时间序列的获取与预处理</strong>：对于得到的时间序列数据，首先应该检查数据质量，例如是否有缺失，异常值的存在。确保数据无误后需要进行稳定性检验和白噪声检验。能够适用ARMA模型进行分析预测的时间序列必须满足的条件是平稳非白噪声序列。因此对数据的平稳性进行检验是时间序列分析的重要步骤。具体的检验方法可以查看上一篇文章 <a href="http://smilecoc.vip/2021/01/15/%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9A%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E5%B9%B3%E7%A8%B3%E6%80%A7%E6%A3%80%E6%B5%8B/">时间序列（二）：时间序列平稳性与白噪声检测</a></li>
 <li><strong>模型定阶</strong>: 确定模型的类型并确定模型的参数</li>
 <li><strong>建模预测</strong>：使用模型进行建模并进行相关预测。</li>
 <li><strong>模型的验证</strong>： 模型的验证主要是验证模型的拟合效果，之后对模型进行相关优化与应用</li>
 </ol>
-<h2 id="时间序列的获取与预处理"><a href="#时间序列的获取与预处理" class="headerlink" title="时间序列的获取与预处理"></a>时间序列的获取与预处理</h2><h3 id="导入数据"><a href="#导入数据" class="headerlink" title="导入数据"></a>导入数据</h3><p>在本文中我们使用2015/1/2-2015/2/6某餐厅的销售数据进行建模。数据文件可以在公众号：Romi的杂货铺</p>
+<h2 id="时间序列的获取与预处理"><a href="#时间序列的获取与预处理" class="headerlink" title="时间序列的获取与预处理"></a>时间序列的获取与预处理</h2><h3 id="导入数据"><a href="#导入数据" class="headerlink" title="导入数据"></a>导入数据</h3><p>在本文中我们使用2015/1/2-2015/2/6某餐厅的销售数据进行建模。数据文件可以在公众号：Smilecoc的杂货铺 中回复<code>时间序列</code>获取。可直接扫描文末二维码关注！</p>
 <p>首先读入数据并查看一下时序图</p>
 <pre><code class="lang-py">import pandas as pd
 
@@ -516,14 +517,14 @@ print(u&#39;差分序列的ADF检验结果为：&#39;, ADF(D_data[u&#39;销量�
 </code></pre>
 <p>从检验结果来看在一阶差分后已经是平稳序列，符合后续建模要求</p>
 <h2 id="模型定阶"><a href="#模型定阶" class="headerlink" title="模型定阶"></a>模型定阶</h2><p>再对数据进行预处理后得到平稳时间序列后我们就可以确定ARIMA模型相关的参数。<br>ARIMA有三个参数，可表示为ARIMA(p, d, q)。p为自回归阶数，也就是我们需要用前多少个时间段的数据去做自回归。d为时间成为平稳时所做的差分次数，q为移动平均阶数。在之前的平稳性变化中我们做了一阶差分，那么对应d=1,那么另外两个参数ARMA(p, q)如何确定呢？</p>
-<h3 id="通过自相关图或者偏相关图"><a href="#通过自相关图或者偏相关图" class="headerlink" title="通过自相关图或者偏相关图"></a>通过自相关图或者偏相关图</h3><p>在上述的平稳性检验的过程中问我们得到了相关的自相关图和偏自相关图：<br><img src="https://img-blog.csdnimg.cn/20210102140503277.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p><img src="https://img-blog.csdnimg.cn/20210102140519659.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>上面两幅图中，阴影部分为置信区间。<br><img src="https://img-blog.csdnimg.cn/20210102231751840.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>其中截尾表示落在置信区间内（95%的点都符合该规则）.<br>根据上述自相关图与偏自相关图，我们有以下模型可以供选择：</p>
+<h3 id="通过自相关图或者偏相关图"><a href="#通过自相关图或者偏相关图" class="headerlink" title="通过自相关图或者偏相关图"></a>通过自相关图或者偏相关图</h3><p>在上述的平稳性检验的过程中我们得到了相关的自相关图和偏自相关图：<br><img src="https://img-blog.csdnimg.cn/20210102140503277.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20210102140519659.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>上面两幅图中，阴影部分为置信区间。<br><img src="https://img-blog.csdnimg.cn/20210102231751840.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>拖尾指序列以指数率单调递减或震荡衰减，而截尾指序列值落在置信区间内（95%的点都符合该规则）.<br>根据上述自相关图与偏自相关图，我们有以下模型可以供选择：</p>
 <ol>
 <li>ARMA(0,1)模型：即自相关图在滞后1阶之后缩小为0，且偏自相关缩小至0，则是一个阶数q=1的移动平均模型；</li>
 <li>ARMA(3,0)模型：即偏自相关图在滞后3阶之后缩小为0，且自相关缩小至0，则是一个阶层p=3的自回归模型；</li>
 <li>ARMA(3,1)模型：即使得自相关和偏自相关都缩小至零。则是一个混合模型。</li>
 </ol>
-<p>针对这三种模型，我们后续可以通过建立模型预测后并利用测试数据检验哪个模型更好同，时我们也可以通过查看三种模型的AIC,BIC等信息来确定哪个模型更好。AIC,BIC都是判断模型的标准，其值越小表示模型越好。</p>
+<p>针对这三种模型，我们后续可以通过建立模型预测后并利用测试数据检验哪个模型更好, 同时我们也可以通过查看三种模型的AIC,BIC等信息来确定哪个模型更好。AIC,BIC都是判断模型的标准，其值越小表示模型越好。</p>
 <p>AIC ：赤池信息量 ，公式为：$AIC= 2 k-2 ln(L)$<br>BIC：贝叶斯信息量，公式为：$BIC=ln(n)*k-2 ln(L)$<br>其中k为模型参数个数，n为样本数量，L为似然函数</p>
 <p>例如我们通过BIC判断相关模型的好坏的相关代码为：</p>
 <pre><code class="lang-py">print(ARIMA(data, (p,1,q)).fit().bic)
@@ -551,11 +552,12 @@ bic_matrix = pd.DataFrame(bic_matrix) #从中可以找出最小值
 print(bic_matrix)
 </code></pre>
 <p>结果中对应BIC最小的p值和q值为：0、1.</p>
-<h2 id="建模预测"><a href="#建模预测" class="headerlink" title="建模预测"></a>建模预测</h2><p> 在确定了最佳参数后，我们可以进行后续的建模与预测。</p>
+<h2 id="建模预测"><a href="#建模预测" class="headerlink" title="建模预测"></a>建模预测</h2><p> 在确定了最佳参数后，我们可以进行后续的建模与预测。预测主要有两个函数，一个是predict函数，一个是forecast函数，predict的起始时间必须在原始的数据中的，而forecast则是对训练数据集末尾下一个时间段的值进行预估。</p>
 <pre><code class="lang-py">model = ARIMA(data, (0,1,1)).fit() #建立ARIMA(0, 1, 1)模型
 model.forecast(5) #作为期5天的预测
 </code></pre>
-<p>这样我们就得到了未来五天的预测数据。</p>
+<p>这样我们就得到了未来五天的预测数据。之后我们也可以通过实际值和预测值的对比对模型进行调整和进一步的优化</p>
+<p>相关数据文件与代码：<a href="https://github.com/smilecoc/Data_analysis/tree/master/time_series" target="_blank" rel="noopener">https://github.com/smilecoc/Data_analysis/tree/master/time_series</a></p>
 
         </div>
         <!-- .entry-content -->
@@ -1033,5 +1035,20 @@ $(document).ready(function() {
     })
   });
 </script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 </html>

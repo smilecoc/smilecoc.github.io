@@ -448,7 +448,7 @@
     <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
   <div class="post-entry">
     <div class="feature">
-      <a href="/2021/01/05/通过Github Pages 将自己的Html文件发布到服务器上供远程访问/">
+      <a href="/2021/01/05/publish_html_by_github_pages/">
         <div class="overlay">
           <i class="iconfont icon-text">
           </i>
@@ -457,7 +457,7 @@
       </a>
     </div>
     <h1 class="entry-title">
-    <a href="/2021/01/05/通过Github Pages 将自己的Html文件发布到服务器上供远程访问/">
+    <a href="/2021/01/05/publish_html_by_github_pages/">
     通过Github Pages 将自己的Html文件发布到服务器上供远程访问</a>
     </h1>
     <div class="p-time">
@@ -468,7 +468,7 @@
     通过Github Pages 将自己的Html文件发布到服务器上供远程访问</p>
     <footer class="entry-footer">
       <div class="post-more">
-        <a href="/2021/01/05/通过Github Pages 将自己的Html文件发布到服务器上供远程访问/">
+        <a href="/2021/01/05/publish_html_by_github_pages/">
           <i class="iconfont icon-caidan">
           </i>
         </a>
@@ -917,5 +917,20 @@ $(document).ready(function() {
     })
   });
 </script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 </html>

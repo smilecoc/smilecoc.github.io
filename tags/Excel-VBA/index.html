@@ -448,7 +448,7 @@
     <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
   <div class="post-entry">
     <div class="feature">
-      <a href="/2020/06/20/VBA常用代码汇总/">
+      <a href="/2020/06/20/vba_code_collection/">
         <div class="overlay">
           <i class="iconfont icon-text">
           </i>
@@ -457,7 +457,7 @@
       </a>
     </div>
     <h1 class="entry-title">
-    <a href="/2020/06/20/VBA常用代码汇总/">
+    <a href="/2020/06/20/vba_code_collection/">
     VBA常用代码汇总</a>
     </h1>
     <div class="p-time">
@@ -468,7 +468,7 @@
     VBA常用代码汇总</p>
     <footer class="entry-footer">
       <div class="post-more">
-        <a href="/2020/06/20/VBA常用代码汇总/">
+        <a href="/2020/06/20/vba_code_collection/">
           <i class="iconfont icon-caidan">
           </i>
         </a>
@@ -481,7 +481,7 @@
     <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
   <div class="post-entry">
     <div class="feature">
-      <a href="/2020/03/03/VBA中使用SQL/">
+      <a href="/2020/03/03/using_sql_in_vba/">
         <div class="overlay">
           <i class="iconfont icon-text">
           </i>
@@ -490,7 +490,7 @@
       </a>
     </div>
     <h1 class="entry-title">
-    <a href="/2020/03/03/VBA中使用SQL/">
+    <a href="/2020/03/03/using_sql_in_vba/">
     在VBA中使用SQL</a>
     </h1>
     <div class="p-time">
@@ -501,7 +501,7 @@
     在vba中调用sql处理数据</p>
     <footer class="entry-footer">
       <div class="post-more">
-        <a href="/2020/03/03/VBA中使用SQL/">
+        <a href="/2020/03/03/using_sql_in_vba/">
           <i class="iconfont icon-caidan">
           </i>
         </a>
@@ -917,5 +917,20 @@ $(document).ready(function() {
     })
   });
 </script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 </html>

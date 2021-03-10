@@ -508,7 +508,7 @@
               
               
                       <li>
-                        <a href="/2021/01/05/通过Github Pages 将自己的Html文件发布到服务器上供远程访问/">
+                        <a href="/2021/01/05/publish_html_by_github_pages/">
                           <span style="color:#0bf;">
                           05日10:22:11</span>
                           通过Github Pages 将自己的Html文件发布到服务器上供远程访问
@@ -979,7 +979,7 @@
               
               
                       <li>
-                        <a href="/2020/06/20/VBA常用代码汇总/">
+                        <a href="/2020/06/20/vba_code_collection/">
                           <span style="color:#0bf;">
                           20日12:36:23</span>
                           VBA常用代码汇总
@@ -1200,7 +1200,7 @@
               
               
                       <li>
-                        <a href="/2020/03/03/VBA中使用SQL/">
+                        <a href="/2020/03/03/using_sql_in_vba/">
                           <span style="color:#0bf;">
                           03日22:24:01</span>
                           在VBA中使用SQL
@@ -1841,5 +1841,20 @@ $(document).ready(function() {
     })
   });
 </script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 </html>
