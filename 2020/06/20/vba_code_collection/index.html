@@ -466,7 +466,7 @@
         
         <div class="entry-content">
           <p>一些日常经常用到的VBA代码汇总</p>
-<h3 id="VBA中调用SQL处理数据"><a href="#VBA中调用SQL处理数据" class="headerlink" title="VBA中调用SQL处理数据"></a>VBA中调用SQL处理数据</h3><p>这里仅提供一个例子，更详细的介绍和使用可参阅<br><a href="http://smilecoc.vip/2020/03/03/VBA%E4%B8%AD%E4%BD%BF%E7%94%A8SQL/">http://smilecoc.vip/2020/03/03/VBA%E4%B8%AD%E4%BD%BF%E7%94%A8SQL/</a></p>
+<h3 id="VBA中调用SQL处理数据"><a href="#VBA中调用SQL处理数据" class="headerlink" title="VBA中调用SQL处理数据"></a>VBA中调用SQL处理数据</h3><p>这里仅提供一个例子，更详细的介绍和使用可参阅<br><a href="http://smilecoc.vip/2020/03/03/using_sql_in_vba/">http://smilecoc.vip/2020/03/03/using_sql_in_vba/</a></p>
 <pre><code class="lang-vb">Sub Query()
 
  Dim Conn As Object, Rst As Object
@@ -764,6 +764,24 @@ excelApp.Quit
 End Sub
 </code></pre>
 <p>使用 Workbooks.Add 可以快速新建文件</p>
+<h3 id="隐式打开文件"><a href="#隐式打开文件" class="headerlink" title="隐式打开文件"></a>隐式打开文件</h3><p>隐式打开文件时用户没有办法看到打开文件的窗口，但是实际上文件还是已经打开的，所以在后面要加上关闭文件的语句。</p>
+<pre><code class="lang-vb">Set wb = GetObject(&quot;test_202012.xlsx&quot;)
+a = wb.Sheets(&quot;test&quot;).Range(&quot;B1&quot;).Value
+wb.Close False
+</code></pre>
+<h3 id="遍历文件夹中的文件"><a href="#遍历文件夹中的文件" class="headerlink" title="遍历文件夹中的文件"></a>遍历文件夹中的文件</h3><pre><code class="lang-vb">s = xlsx  &#39;定义要遍历的文件类型
+f = Dir(ThisWorkbook.Path &amp; &quot;\*&quot; &amp; s) &#39;生成查找EXCEL的目录
+Do While f &lt;&gt; &quot;&quot; &#39;在目录中循环
+    If f &lt;&gt; ThisWorkbook.Name Then  &#39;如果不是当前打开的工作簿
+    Set wb = Workbooks.Open(ThisWorkbook.Path &amp; &quot;\&quot; &amp; f) &#39;打开文件并赋值为wb
+
+     start = ThisWorkbook.Sheets(&quot;Cover&quot;).[B1].Value&#39;对每个文件的操作
+
+    wb.Close
+    End If
+    f = Dir
+Loop
+</code></pre>
 <p><img src="/upload_image/all/updating.gif" alt="**持续更新中...**"></p>
 
         </div>
