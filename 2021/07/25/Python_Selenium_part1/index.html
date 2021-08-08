@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta name="baidu-site-verification" content="y0z4MO0APm">
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  
+  <title itemprop="name">Python库积累之Selenium（一）-Seleniun基础 | Smilecoc&#39;s Blog</title>
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+SerifMerriweather|Merriweather+Sans|Source+Code+Pro|Ubuntu:400,700|Noto+Serif+SC" media="all">
+  <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+  <link rel="stylesheet" id="saukra_css-css" href="/css/style.css" type="text/css" media="all">
+  <link rel="stylesheet" href="/css/lib.min.css" media="all">
+  <link rel="stylesheet" href="/css/font.css" media="all">
+  <link rel="stylesheet" href="/css/insight.css" media="all">
+  <link rel="stylesheet" href="/css/jquery.fancybox.min.css" media="all">
+  <link rel="stylesheet" href="/css/zoom.css" media="all">
+  <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<!--   <link rel="stylesheet" id="saukra_css-css" href="https://2heng.xin/wp-content/cache/autoptimize/css/autoptimize_ad42a61f4c7d4bdd9f91afcff6b5dda5.css
+" type="text/css" media="all"> -->
+  <script>
+  /*Initial Variables*/
+  var mashiro_option = new Object();
+  var mashiro_global = new Object();
+  mashiro_option.NProgressON = true;
+  /* 
+   * 邮箱信息之类的东西可以填在这里，这些js变量基本都作用于sakura-app.js
+   * 这样的设置仅是为了方便在基于PHP开发的主题中设置js变量，既然移植到了Node上，我想或许可以精简这一逻辑吧
+   */
+  mashiro_option.email_domain = "";
+  mashiro_option.email_name = "";
+  mashiro_option.cookie_version_control = "";
+  mashiro_option.qzone_autocomplete = false;
+  mashiro_option.site_name = "君の名はSmilecoc";
+  mashiro_option.author_name = "Smilecoc";
+  mashiro_option.site_url = "https://smilecoc.github.io/";
+  mashiro_option.v_appId = "Hm83GoGeDX3sGPDh3Q50lSMz-gzGzoHsz";
+  mashiro_option.v_appKey = "mXIVaYaFj1DNyH6yBicfUS0w";
+  mashiro_option.mathjax = "1";
+  mashiro_option.qq_api_url = "https://api.mashiro.top/qqinfo/"; 
+  mashiro_option.qq_avatar_api_url = "https://api.mashiro.top/qqinfo/";
+
+  // mashiro_option.jsdelivr_css_src = "https://cdn.jsdelivr.net/gh/moezx/cdn@3.4.5/css/lib.min.css";
+  // mashiro_option.float_player_on = true;
+
+  /*End of Initial Variables*/
+  </script>
+  <script type="text/javascript">
+  var bg = "https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/1.jpg,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/2.jpg,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/3.jpg,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/4.jpg,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/5.webp,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/6.jpg,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/7.webp,https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/cover/8.jpg".split(",");
+  var bgindex = Math.floor(Math.random()*bg.length);
+  if (!!window.ActiveXObject || "ActiveXObject" in window) { //is IE?
+    alert('朋友，IE浏览器未适配哦~');
+  }
+  </script>
+  <style type="text/css">
+  .hljs-ln{border-collapse:collapse}.hljs-ln td{padding:0}.hljs-ln-n:before{content:attr(data-line-number)}
+  </style>
+  <style type="text/css">.site-top .lower nav{display:block !important;}.author-profile i,.post-like a,.post-share .show-share,.sub-text,.we-info a,span.sitename,.post-more i:hover,#pagination a:hover,.post-content a:hover,.float-content i:hover{color:#FE9600}.feature i,.download,.navigator i:hover,.links ul li:before,.ar-time i,span.ar-circle,.object,.comment .comment-reply-link,.siren-checkbox-radio:checked + .siren-checkbox-radioInput:after{background:#FE9600}::-webkit-scrollbar-thumb{background:#FE9600}.download,.navigator i:hover,.link-title,.links ul li:hover,#pagination a:hover,.comment-respond input[type='submit']:hover{border-color:#FE9600}.entry-content a:hover,.site-info a:hover,.comment h4 a,#comments-navi a.prev,#comments-navi a.next,.comment h4 a:hover,.site-top ul li a:hover,.entry-title a:hover,#archives-temp h3,span.page-numbers.current,.sorry li a:hover,.site-title a:hover,i.iconfont.js-toggle-search.iconsearch:hover,.comment-respond input[type='submit']:hover{color:#FE9600}.comments .comments-main{display:block !important;}.comments .comments-hidden{display:none !important;}background-position:center center;background-attachment:inherit;}
+  </style>
+<link rel="alternate" href="/atom.xml" title="Smilecoc's Blog" type="application/atom+xml">
+</head>
+</html>
+<body class="page-template page-template-user page-template-page-analytics page-template-userpage-analytics-php page page-id-1297 chinese-font serif isWebKit">
+  <div class="skin-menu no-select" id="mainskin" style="position: fixed"> 
+    <div class="theme-controls row-container">
+          <p style="text-align:center;font-family:'Monaco';font-weight:bold;color:#444"><i style="color:grey" class="fa fa-chevron-left"></i> background <i style="color:grey" class="fa fa-chevron-right"></i></p>
+        <ul class="menu-list"> <li id="white-bg"> 
+            <i class="fa fa-television" aria-hidden="true">
+            </i>
+            </li> 
+            <li id="sakura-bg"> 
+                <i class="iconfont icon-sakura">
+                </i>
+            </li>
+            <li id="gribs-bg">
+                <i class="fa fa-slack" aria-hidden="true">
+                </i>
+            </li>
+            <li id="KAdots-bg">
+                <i class="iconfont icon-dots">
+                </i>
+            </li>
+            <li id="totem-bg">
+                <i class="fa fa-optin-monster" aria-hidden="true">
+                </i>
+            </li>
+            <li id="pixiv-bg">
+                <i class="iconfont icon-pixiv">
+                </i>
+            </li>
+            <li id="bing-bg">
+                <i class="iconfont icon-bing">
+                </i>
+            </li>
+            <li id="dark-bg">
+                <i class="fa fa-moon-o" aria-hidden="true">
+                </i>
+            </li>
+        </ul>
+    </div>
+    <canvas id="night-mode-cover">
+    </canvas>
+</div>
+ 
+  <div class="changeSkin-gear no-select"> 
+    <div class="keys" id="setbtn"> 
+        <span id="open-skinMenu"> 
+            SCHEME TOOL | 主题工具 &nbsp;
+            <i class="iconfont icon-gear inline-block rotating">
+            </i> 
+        </span>
+    </div> 
+</div>
+
+  <div class="scrollbar" id="bar">
+  </div>
+  <a href="#" class="cd-top faa-float animated"></a>
+  <section id="main-container">
+    <div class="headertop ">
+  <div id="banner_wave_1"></div>
+  <div id="banner_wave_2"></div>
+  <figure id="centerbg" class="centerbg">
+    <div class="focusinfo no-select">
+      <div class="header-tou">
+        <a href="https://smilecoc.github.io/">
+          <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/favicon.ico">
+        </a>
+      </div>
+      <div class="header-info">
+        <p>今でもあなたはわたしの光  时至今日，你仍是我的光</p>
+        <div class="top-social_v2">
+          <li id="bg-pre">
+            <img class="flipx" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/next-b.svg">
+          </li>
+          
+            
+              
+                <li>
+                  <a href="http://github.com/smilecoc" target="_blank" class="social-github" title="github">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/social/github.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="https://weibo.com/p/1005057275339401/home?from=page_100505&amp;mod=TAB#place" target="_blank" class="social-github" title="sina">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/social/sina.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="https://music.163.com/#/user/home?id=615928150" target="_blank" class="social-github" title="wangyiyun">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/social/wangyiyun.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="https://www.zhihu.com/people/lai-10086tou-su-4/activities" target="_blank" class="social-github" title="zhihu">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/social/zhihu.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="http://github.com/smilecoc" target="_blank" class="social-github" title="email">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/social/email.svg">
+                  </a>
+                </li>
+              
+            
+              
+                <li class="wechat">
+                  <a href="/#">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/social/wechat.png">
+                  </a>
+                  <div class="wechatInner">
+                    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/donate/wechat.jfif">
+                  </div>
+                </li>
+              
+            
+          
+          <li id="bg-next">
+            <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/next-b.svg">
+          </li>
+        </div>
+      </div>
+    </div>
+  </figure>
+  <div id="video-container" style="">
+    <video style="object-fit: fill" id="bgvideo" class="video" video-name="" src="" width="auto" preload="auto">
+    </video>
+    <div id="video-btn" class="loadvideo videolive">
+    </div>
+    <div id="video-add">
+    </div>
+    <div class="video-stu">
+    </div>
+  </div>
+  <div class="headertop-down faa-float animated" onclick="headertop_down()">
+    <span>
+      <i class="fa fa-chevron-down" aria-hidden="true">
+      </i>
+    </span>
+  </div>
+</div>
+    <div id="page" class="site wrapper">
+      <header class="site-header no-select gizle sabit" role="banner">
+  <div class="site-top">
+    <div class="site-branding">
+      <span class="site-title">
+        <span class="logolink moe-mashiro">
+          <a href="/">
+            <span class="sakurasono">君の名は</span>
+            <span class="shironeko">Smilecoc</span>
+          </a>
+        </span>
+      </span>
+    </div>
+    <div class="searchbox search-form-submit">
+      <i class="iconfont js-toggle-search iconsearch icon-search">
+      </i>
+    </div>
+    <div id="show-nav" class="showNav mobile-fit">
+      <div class="line line1">
+      </div>
+      <div class="line line2">
+      </div>
+      <div class="line line3">
+      </div>
+    </div>
+    <div class="lower-cantiner">
+      <div class="lower">
+        <nav class="mobile-fit-control hide">
+          <ul id="menu-new" class="menu">
+            
+              <li>
+                <a href="/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-fort-awesome faa-shake" aria-hidden="true"></i>
+                    首页
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-archive faa-shake" aria-hidden="true"></i>
+                    归档
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/categories/技术/">
+                          <i class="fa fa-code" aria-hidden="true"></i>
+                          技术
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/笔记/">
+                          <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                          笔记
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/资源/">
+                          <i class="fa fa-cloud-download" aria-hidden="true"></i>
+                          资源
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/随想/">
+                          <i class="fa fa-commenting-o" aria-hidden="true"></i>
+                          随想
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/转载/">
+                          <i class="fa fa-book" aria-hidden="true"></i>
+                          转载
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="javascript:;">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-list-ul faa-vertical" aria-hidden="true"></i>
+                    清单
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/tags/悦读/">
+                          <i class="fa fa-th-list faa-bounce" aria-hidden="true"></i>
+                          书单
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/bangumi/">
+                          <i class="fa fa-film faa-vertical" aria-hidden="true"></i>
+                          番组
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/music/">
+                          <i class="fa fa-headphones" aria-hidden="true"></i>
+                          歌单
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/tags/图集/">
+                          <i class="fa fa-photo" aria-hidden="true"></i>
+                          图集
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="/comment/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-pencil-square-o faa-tada" aria-hidden="true"></i>
+                    留言板
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/links/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-link faa-shake" aria-hidden="true"></i>
+                    友人帐
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/donate/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-heart faa-pulse" aria-hidden="true"></i>
+                    赞赏
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-leaf faa-wrench" aria-hidden="true"></i>
+                    关于
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/about/">
+                          <i class="fa fa-meetup" aria-hidden="true"></i>
+                          我？
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/lab/">
+                          <i class="fa fa-cogs" aria-hidden="true"></i>
+                          Lab
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="/client/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-android faa-vertical" aria-hidden="true"></i>
+                    客户端
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/atom.xml">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-rss faa-pulse" aria-hidden="true"></i>
+                    RSS
+                  </span>
+                </a>
+                
+              </li>
+            
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<div class="pattern-center-blank"></div>
+
+  <div class="pattern-center single-center">
+    <!-- 有配图默认渲染第一张 -->
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/article/selenium1_20210725.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/article/selenium1_20210725.jpg">
+    </div>
+    <header class="pattern-header single-header">
+      <h1 class="entry-title">
+      Python库积累之Selenium（一）-Seleniun基础</h1>
+      <p class="entry-census">
+        <span>
+          <a href="http://smilecoc.vip/">
+            <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico">
+          </a>
+        </span>
+        <span>
+          <a href="http://smilecoc.vip/">smilecoc</a>
+        </span>
+        <span class="bull">
+        ·</span>
+        2021-7-25<span class="bull">
+        ·</span>
+      <span id="busuanzi_value_page_pv"></span>次阅读</p>
+    </header>
+  </div>
+
+<div id="content" class="site-content">
+  <div id="primary" class="content-area">
+    <main id="main" class="site-main" role="main">
+      <article id="post-1" class="post-1 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+        <div class="toc"></div>
+        <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
+        
+        <div class="entry-content">
+          <p>Selenium是一个用电脑模拟人操作浏览器网页，支持多平台，多浏览器和多种编程语言，广泛应用于自动化，测试，爬虫等场景中.</p>
+<p>官方文档：<a href="https://www.selenium.dev/selenium/docs/api/py/api.html#" target="_blank" rel="noopener">https://www.selenium.dev/selenium/docs/api/py/api.html#</a><br>中文文档：<a href="https://selenium-python-zh.readthedocs.io/en/latest/index.html" target="_blank" rel="noopener">https://selenium-python-zh.readthedocs.io/en/latest/index.html</a></p>
+<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><h2 id="安装selenium"><a href="#安装selenium" class="headerlink" title="安装selenium"></a>安装selenium</h2><p>直接使用pip安装即可</p>
+<pre><code class="lang-py">pip install selenium
+</code></pre>
+<h2 id="下载浏览器驱动"><a href="#下载浏览器驱动" class="headerlink" title="下载浏览器驱动"></a>下载浏览器驱动</h2><p>各对应的浏览器驱动下载地址如下：</p>
+<p>Firefox浏览器驱动：<a href="https://github.com/mozilla/geckodriver/releases" target="_blank" rel="noopener">geckodriver</a><br>Chrome浏览器驱动：<a href="https://sites.google.com/a/chromium.org/chromedriver/home" target="_blank" rel="noopener">chromedriver</a> , <a href="https://npm.taobao.org/mirrors/chromedriver" target="_blank" rel="noopener">taobao备用地址</a><br>IE浏览器驱动：<a href="http://selenium-release.storage.googleapis.com/index.html" target="_blank" rel="noopener">IEDriverServer</a><br>Edge浏览器驱动：<a href="https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/" target="_blank" rel="noopener">MicrosoftWebDriver</a><br>Opera浏览器驱动：<a href="https://github.com/operasoftware/operachromiumdriver/releases" target="_blank" rel="noopener">operadriver</a></p>
+<p>在选择浏览器驱动时，我们要选择和我们的浏览器版本号一致的驱动，例如我使用的为Chrome。首先需要查看Chrome版本，在浏览器中输入<code>chrome://version/</code>或者打开设置查看对应的版本号,并根据版本号下载对应的chromedriver</p>
+<p>下载解压完成后需要把浏览器驱动放入相对路径中（运行selenium程序所在的路径），或者之后在程序中直接告知selenuim的驱动路径。</p>
+<p>可以使用以下代码来测试selenium是否可以正常使用：</p>
+<pre><code class="lang-py">from selenium import webdriver
+
+
+driver = webdriver.Firefox()   # Firefox浏览器
+# driver = webdriver.Firefox(&quot;驱动路径&quot;) 用于浏览器驱动不在系统路径下。其他浏览器同理。
+driver = webdriver.Chrome()    # Chrome浏览器
+driver = webdriver.Ie()        # Internet Explorer浏览器
+driver = webdriver.Edge()      # Edge浏览器
+driver = webdriver.Opera()     # Opera浏览器
+driver = webdriver.PhantomJS()   # PhantomJS
+
+# 打开网页
+driver.get(url) # 打开url网页 比如 driver.get(&quot;http://www.baidu.com&quot;)
+</code></pre>
+<p>如果可正常使用运行后会出现浏览器页面并进入到对应的url网页中。</p>
+<h1 id="元素定位"><a href="#元素定位" class="headerlink" title="元素定位"></a>元素定位</h1><p>网页上的文本，内容，按钮，输入框等统称为元素。当我们执行操作，比如需要点击某个按钮，或者在某个输入框中输入时我们需要告诉selenium具体需要操作的位置，这就是元素定位。定位元素的方法非常多，可以按照id,文本内容，xpath等进行定位，具体如下：</p>
+<pre><code class="lang-py">find_element_by_id()
+find_element_by_name()
+find_element_by_class_name()
+find_element_by_tag_name()
+find_element_by_link_text()
+find_element_by_partial_link_text()
+find_element_by_xpath()
+find_element_by_css_selector()
+</code></pre>
+<p>例如在百度网站中我们定位到输入框并传入文字selenium：</p>
+<pre><code class="lang-py">#coding=utf-8
+from selenium import webdriver
+browser = webdriver.Chrome()
+browser.get(&quot;http://www.baidu.com&quot;)
+#########百度输入框的定位方式##########
+#通过id方式定位
+browser.find_element_by_id(&quot;kw&quot;).send_keys(&quot;selenium&quot;)
+#通过name方式定位
+browser.find_element_by_name(&quot;wd&quot;).send_keys(&quot;selenium&quot;)
+#通过tag name方式定位
+browser.find_element_by_tag_name(&quot;input&quot;).send_keys(&quot;selenium&quot;)
+#通过class name方式定位
+browser.find_element_by_class_name(&quot;s_ipt&quot;).send_keys(&quot;selenium&quot;)
+#通过CSS方式定位
+browser.find_element_by_css_selector(&quot;#kw&quot;).send_keys(&quot;selenium&quot;)
+#通过xpath方式定位
+browser.find_element_by_xpath(&quot;//input[@id=&#39;kw&#39;]&quot;).send_keys(&quot;selenium&quot;)
+############################################
+browser.find_element_by_id(&quot;su&quot;).click()
+time.sleep(3)
+browser.quit()
+</code></pre>
+<p>将element变成elements就是找所有满足的条件，返回数组。</p>
+<p>实际中最常用的方式是通过 xpath 定位元素的。具体步骤为在Chrome中按F12进入开发者模式，找到元素对应的代码右键复制xpath即可。<br><img src="https://img-blog.csdnimg.cn/20210222153502507.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>元素定位后我们可以对元素进行各种操作。</p>
+<h1 id="元素（Webelement）操作"><a href="#元素（Webelement）操作" class="headerlink" title="元素（Webelement）操作"></a>元素（Webelement）操作</h1><p>点击和输入</p>
+<pre><code class="lang-py">driver.find_element_by_id(&quot;kw&quot;).clear() # 清除文本
+driver.find_element_by_id(&quot;kw&quot;).send_keys(&quot;selenium&quot;) # 模拟按键输入，一般用于输入框，例如输入账号密码等。本句代码向输入框中传入selenium字符串
+driver.find_element_by_id(&quot;su&quot;).click() # 单击元素
+</code></pre>
+<p>提交：可以在搜索框模拟回车操作</p>
+<pre><code class="lang-py">search_text = driver.find_element_by_id(&#39;kw&#39;) search_text.send_keys(&#39;selenium&#39;) #向输入框内传入selenium
+search_text.submit()  #提交
+</code></pre>
+<p>其他</p>
+<pre><code class="lang-py">size： 返回元素的尺寸。
+text： 获取元素的文本。
+get_attribute(name)： 获得属性值。
+is_displayed()： 设置该元素是否用户可见。
+</code></pre>
+<h1 id="控制浏览器操作"><a href="#控制浏览器操作" class="headerlink" title="控制浏览器操作"></a>控制浏览器操作</h1><p>控制浏览器窗口大小</p>
+<pre><code class="lang-py">driver.set_window_size(480, 800)
+</code></pre>
+<p>浏览器后退，前进</p>
+<pre><code class="lang-py">driver.back() #后退
+driver.forward()  #前进
+</code></pre>
+<p>刷新</p>
+<pre><code class="lang-py">driver.refresh() # 刷新
+</code></pre>
+<p>将浏览器最大化/最小化显示</p>
+<pre><code class="lang-py">driver.maximize_window() #最大化
+driver.minimize_window() #最小化
+</code></pre>
+<h1 id="鼠标操作"><a href="#鼠标操作" class="headerlink" title="鼠标操作"></a>鼠标操作</h1><p>在 WebDriver 中， 将这些关于鼠标操作的方法封装在 ActionChains 类提供。ActionChains 类提供了鼠标操作的常用方法：</p>
+<pre><code class="lang-py">perform() #执行所有 ActionChains 中存储的行为；
+context_click()  #右击
+double_click()  #双击
+drag_and_drop()  #拖动
+move_to_element()  #鼠标悬停
+</code></pre>
+<p>举个例子：</p>
+<pre><code class="lang-py">from selenium import webdriver
+# 引入 ActionChains 类
+from selenium.webdriver.common.action_chains import ActionChains
+
+driver = webdriver.Chrome()
+driver.get(&quot;https://www.baidu.cn&quot;)
+
+# 定位到要悬停的元素
+above = driver.find_element_by_link_text(&quot;设置&quot;)
+# 对定位到的元素执行鼠标悬停操作
+ActionChains(driver).move_to_element(above).perform()
+</code></pre>
+<h1 id="键盘事件"><a href="#键盘事件" class="headerlink" title="键盘事件"></a>键盘事件</h1><p>要想调用键盘按键操作需要引入 keys 包：</p>
+<pre><code class="lang-py">from selenium.webdriver.common.keys import Keys #通过 send_keys()调用按键
+</code></pre>
+<p>以下为常用的键盘操作：</p>
+<pre><code class="lang-py">send_keys(Keys.BACK_SPACE) 删除键（BackSpace）
+send_keys(Keys.SPACE) 空格键(Space)
+send_keys(Keys.TAB) 制表键(Tab)
+send_keys(Keys.ESCAPE) 回退键（Esc）
+send_keys(Keys.ENTER) 回车键（Enter）
+send_keys(Keys.F1) 键盘 F1
+……
+send_keys(Keys.F12) 键盘 F12
+
+#键盘组合键
+send_keys(Keys.CONTROL,&#39;a&#39;) 全选（Ctrl+A）
+send_keys(Keys.CONTROL,&#39;c&#39;) 复制（Ctrl+C）
+send_keys(Keys.CONTROL,&#39;x&#39;) 剪切（Ctrl+X）
+send_keys(Keys.CONTROL,&#39;v&#39;) 粘贴（Ctrl+V）
+</code></pre>
+<p>具体实例：</p>
+<pre><code class="lang-py"># 输入框输入内容
+driver.find_element_by_id(&quot;kw&quot;).send_keys(&quot;seleniumm&quot;)
+
+# 删除多输入的一个 m
+driver.find_element_by_id(&quot;kw&quot;).send_keys(Keys.BACK_SPACE)
+</code></pre>
+<h1 id="等待页面加载完成"><a href="#等待页面加载完成" class="headerlink" title="等待页面加载完成"></a>等待页面加载完成</h1><p>在实际应用中由于网速，硬件条件等原因我们可能无法立即加载页面，这时候就需要等待页面加载完成，否则后续会出现元素无法找到等报错</p>
+<h2 id="强制等待"><a href="#强制等待" class="headerlink" title="强制等待"></a>强制等待</h2><p>第一种也是最简单粗暴的一种办法就是强制等待sleep(xx)，让程序暂停三秒。需要引入“time”模块，这种叫强制等待，不管你浏览器是否加载完了，程序都得等待3秒，3秒一到，继续执行下面的代码，作为调试很有用，有时候也可以在代码里这样等待，不过不建议总用这种等待方式，太死板，严重影响程序执行速度。</p>
+<pre><code class="lang-py"># -*- coding: utf-8 -*-
+from selenium import webdriver
+import time
+
+driver = webdriver.Firefox()
+driver.get(&#39;http://baidu.com&#39;)
+
+time.sleep(3)  # 强制等待3秒再执行下一步
+
+print(driver.current_url)
+driver.quit()
+</code></pre>
+<h2 id="隐式等待"><a href="#隐式等待" class="headerlink" title="隐式等待"></a>隐式等待</h2><p>隐形等待是设置了一个最长等待时间，如果在规定时间内网页加载完成，则执行下一步，否则一直等到时间截止，然后执行下一步。在Selenium中使用implicitly_wait()方法实现</p>
+<pre><code class="lang-py">from selenium import webdriver
+driver = webdriver.Firefox()    
+driver.implicitly_wait(10) #   隐式等待10秒  
+driver.get(&quot;http://somedomain/url_that_delays_loading&quot;)    
+myDynamicElement = driver.find_element_by_id(&quot;myDynamicElement&quot;)
+</code></pre>
+<p>implicitly_wait() 的用法比 time.sleep() 更智能，后者只能选择一个固定的时间的等待，前者可以在一个时间范围内智能的等待。<br><strong>需要特别说明的是：隐性等待对整个driver的周期都起作用，所以只要设置一次即可，不用像sleep()一样每一步都来一下。</strong><br>但是隐式等待有一个弊端，那就是程序会一直等待整个页面加载完成，也就是一般情况下你看到浏览器标签栏那个小圈不再转，才会执行下一步，但有时候页面想要的元素早就在加载完成了，但是因为个别js之类的东西特别慢，我仍得等到页面全部完成才能执行下一步，我想等我要的元素出来之后就下一步怎么办？这就要使用selenium提供的另一种等待方式——显性等待了。</p>
+<h2 id="显示等待"><a href="#显示等待" class="headerlink" title="显示等待"></a>显示等待</h2><p>显性等待就是让程序每隔xx秒测试一下，如果条件成立了，则执行下一步，否则继续等待，直到超过设置的最长时间，然后抛出TimeoutException。<br>Selenium中实现显示等待的是WebDriverWait类，先看下它有哪些参数与方法：</p>
+<pre><code class="lang-text">selenium.webdriver.support.wait.WebDriverWait（类）
+参数：
+        driver: 传入WebDriver实例，即我们上例中的driver
+        timeout: 超时时间，等待的最长时间（同时要考虑隐性等待时间）
+        poll_frequency: 调用until或until_not中的方法的间隔时间，默认是0.5秒
+        ignored_exceptions: 忽略的异常，如果在调用until或until_not的过程中抛出这个元组中的异常，则不中断代码，继续等待，如果抛出的是这个元组外的异常，则中断代码，抛出异常。默认只有NoSuchElementException。
+方法：
+until:
+        method: 在等待期间，每隔一段时间（__init__中的poll_frequency）调用这个传入的方法，直到返回值不是False
+        message: 如果超时，抛出TimeoutException，将message传入异常
+until_not:与until相反，until是当某元素出现或什么条件成立则继续执行，until_not是当某元素消失或什么条件不成立则继续执行，参数也相同，不再赘述。
+</code></pre>
+<p>这里需要特别注意的是until或until_not中的可执行方法method参数，很多人传入了WebElement对象，例如<code>WebDriverWait(driver, 10).until(driver.find_element_by_id(&#39;kw&#39;)) # 错误</code>,这是错误的用法，这里的参数一定要是可以调用的，即这个对象一定有 call() 方法，否则会抛出异常：<code>TypeError: &#39;xxx&#39; object is not callable</code>.method参数可以用selenium提供的 expected_conditions 模块中的各种条件，也可以用WebElement的 is_displayed() 、is_enabled()、is_selected() 方法，或者用自己封装的方法都可以。</p>
+<pre><code class="lang-py">#coding=utf-8
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
+
+base_url = &quot;http://www.baidu.com&quot;
+driver = webdriver.Firefox()
+driver.implicitly_wait(5)
+&#39;&#39;&#39;隐式等待和显示等待都存在时，超时时间取二者中较大的&#39;&#39;&#39;
+locator = (By.ID,&#39;kw&#39;)
+driver.get(base_url)
+
+WebDriverWait(driver,10).until(EC.title_is(u&quot;百度一下，你就知道&quot;))
+&#39;&#39;&#39;判断title,返回布尔值&#39;&#39;&#39;
+
+WebDriverWait(driver,10).until(EC.title_contains(u&quot;百度一下&quot;))
+&#39;&#39;&#39;判断title，返回布尔值&#39;&#39;&#39;
+
+WebDriverWait(driver,10).until(EC.presence_of_element_located((By.ID,&#39;kw&#39;)))
+&#39;&#39;&#39;判断某个元素是否被加到了dom树里，并不代表该元素一定可见，如果定位到就返回WebElement&#39;&#39;&#39;
+
+WebDriverWait(driver,10).until(EC.visibility_of_element_located((By.ID,&#39;su&#39;)))
+&#39;&#39;&#39;判断某个元素是否被添加到了dom里并且可见，可见代表元素可显示且宽和高都大于0&#39;&#39;&#39;
+
+WebDriverWait(driver,10).until(EC.visibility_of(driver.find_element(by=By.ID,value=&#39;kw&#39;)))
+&#39;&#39;&#39;判断元素是否可见，如果可见就返回这个元素&#39;&#39;&#39;
+
+WebDriverWait(driver,10).until(EC.presence_of_all_elements_located((By.CSS_SELECTOR,&#39;.mnav&#39;)))
+&#39;&#39;&#39;判断是否至少有1个元素存在于dom树中，如果定位到就返回列表&#39;&#39;&#39;
+
+WebDriverWait(driver,10).until(EC.visibility_of_any_elements_located((By.CSS_SELECTOR,&#39;.mnav&#39;)))
+&#39;&#39;&#39;判断是否至少有一个元素在页面中可见，如果定位到就返回列表&#39;&#39;&#39;
+
+WebDriverWait(driver,10).until(EC.text_to_be_present_in_element((By.XPATH,&quot;//*[@id=&#39;u1&#39;]/a[8]&quot;),u&#39;设置&#39;))
+&#39;&#39;&#39;判断指定的元素中是否包含了预期的字符串，返回布尔值&#39;&#39;&#39;
+
+WebDriverWait(driver,10).until(EC.text_to_be_present_in_element_value((By.CSS_SELECTOR,&#39;#su&#39;),u&#39;百度一下&#39;))
+&#39;&#39;&#39;判断指定元素的属性值中是否包含了预期的字符串，返回布尔值&#39;&#39;&#39;
+
+#WebDriverWait(driver,10).until(EC.frame_to_be_available_and_switch_to_it(locator))
+&#39;&#39;&#39;判断该frame是否可以switch进去，如果可以的话，返回True并且switch进去，否则返回False&#39;&#39;&#39;
+#注意这里并没有一个frame可以切换进去
+
+WebDriverWait(driver,10).until(EC.invisibility_of_element_located((By.CSS_SELECTOR,&#39;#swfEveryCookieWrap&#39;)))
+&#39;&#39;&#39;判断某个元素在是否存在于dom或不可见,如果可见返回False,不可见返回这个元素&#39;&#39;&#39;
+#注意#swfEveryCookieWrap在此页面中是一个隐藏的元素
+
+WebDriverWait(driver,10).until(EC.element_to_be_clickable((By.XPATH,&quot;//*[@id=&#39;u1&#39;]/a[8]&quot;))).click()
+&#39;&#39;&#39;判断某个元素中是否可见并且是enable的，代表可点击&#39;&#39;&#39;
+driver.find_element_by_xpath(&quot;//*[@id=&#39;wrapper&#39;]/div[6]/a[1]&quot;).click()
+#WebDriverWait(driver,10).until(EC.element_to_be_clickable((By.XPATH,&quot;//*[@id=&#39;wrapper&#39;]/div[6]/a[1]&quot;))).click()
+
+#WebDriverWait(driver,10).until(EC.staleness_of(driver.find_element(By.ID,&#39;su&#39;)))
+&#39;&#39;&#39;等待某个元素从dom树中移除&#39;&#39;&#39;
+#这里没有找到合适的例子
+
+WebDriverWait(driver,10).until(EC.element_to_be_selected(driver.find_element(By.XPATH,&quot;//*[@id=&#39;nr&#39;]/option[1]&quot;)))
+&#39;&#39;&#39;判断某个元素是否被选中了,一般用在下拉列表&#39;&#39;&#39;
+
+WebDriverWait(driver,10).until(EC.element_selection_state_to_be(driver.find_element(By.XPATH,&quot;//*[@id=&#39;nr&#39;]/option[1]&quot;),True))
+&#39;&#39;&#39;判断某个元素的选中状态是否符合预期&#39;&#39;&#39;
+
+WebDriverWait(driver,10).until(EC.element_located_selection_state_to_be((By.XPATH,&quot;//*[@id=&#39;nr&#39;]/option[1]&quot;),True))
+&#39;&#39;&#39;判断某个元素的选中状态是否符合预期&#39;&#39;&#39;
+driver.find_element_by_xpath(&quot;.//*[@id=&#39;gxszButton&#39;]/a[1]&quot;).click()
+
+instance = WebDriverWait(driver,10).until(EC.alert_is_present())
+&#39;&#39;&#39;判断页面上是否存在alert,如果有就切换到alert并返回alert的内容&#39;&#39;&#39;
+print instance.text
+instance.accept()
+
+driver.close()
+</code></pre>
+<h1 id="在不同的窗口和框架之间移动"><a href="#在不同的窗口和框架之间移动" class="headerlink" title="在不同的窗口和框架之间移动"></a>在不同的窗口和框架之间移动</h1><p>定位元素过程中如果页面存在iframe或内嵌窗口就会遇到找不到元素的问题，webdriver 提供了一个 switch_to_frame 方法，可以很轻松的来解决这个问题。</p>
+<pre><code class="lang-py">driver.switch_to_window(&quot;windowName&quot;) #内嵌窗口
+driver.switch_to_frame(&quot;frameName&quot;)  #多层框架
+</code></pre>
+<p>以直接取表单的id 或name属性。如果iframe没有可用的id和name属性，则可以通过下面的方式进行定位。</p>
+<pre><code class="lang-py">#先通过xpth定位到iframe
+xf = driver.find_element_by_xpath(&#39;//*[@id=&quot;x-URS-iframe&quot;]&#39;)
+
+#再将定位对象传给switch_to_frame()方法
+driver.switch_to_frame(xf)
+</code></pre>
+<p>一旦我们完成了frame中的工作，我们可以这样返回父frame:</p>
+<pre><code class="lang-py">driver.switch_to_default_content()
+</code></pre>
+<h1 id="获取断言信息"><a href="#获取断言信息" class="headerlink" title="获取断言信息"></a>获取断言信息</h1><p>讲如何获取断言信息之前，先普及一下断言的概念。断言是编程术语，表示为一些布尔表达，用来检查一个条件，如果它为真，就不做任何事。如果它为假抛出异常。那为什么要使用断言呢？因为使用断言可以创建更稳定、品质更好且 不易于出错的代码。当需要在一个值为FALSE时中断当前操作的话，可以使用断言。比如说我们做selenium自动化，需要打开百度，那么如何去判断打开的这个百度页面是否为真呢？可以获取页面的标题，或者特定的文本等信息去断言是否为真。通常可以通过获取title 、URL和text等信息进行断言</p>
+<pre><code class="lang-py">title = driver.title # 打印当前页面title
+now_url = driver.current_url # 打印当前页面URL
+user = driver.find_element_by_class_name(&#39;nums&#39;).text #获取结果数目
+</code></pre>
+<h1 id="警告框处理"><a href="#警告框处理" class="headerlink" title="警告框处理"></a>警告框处理</h1><pre><code class="lang-py">#切换到alert，默认返回alert对话框对象
+alert = driver.switch_to_alert()
+#处理对话框
+alert.accept()
+</code></pre>
+<p>其中处理对话框的方法有：</p>
+<pre><code class="lang-text">text：返回 alert/confirm/prompt 中的文字信息。
+accept()：接受现有警告框。
+dismiss()：解散现有警告框。
+send_keys(keysToSend)：发送文本至警告框。keysToSend：将文本发送至警告框。
+</code></pre>
+<h1 id="下拉框选择"><a href="#下拉框选择" class="headerlink" title="下拉框选择"></a>下拉框选择</h1><pre><code class="lang-py">from selenium import webdriver
+from selenium.webdriver.support.select import Select
+from time import sleep
+
+driver = webdriver.Chrome()
+driver.implicitly_wait(10)
+driver.get(&#39;http://www.baidu.com&#39;)
+sel = driver.find_element_by_xpath(&quot;//select[@id=&#39;nr&#39;]&quot;)
+Select(sel).select_by_value(&#39;50&#39;)  # 显示50条
+</code></pre>
+<h1 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h1><pre><code class="lang-py">driver.find_element_by_name(&quot;file&quot;).send_keys(&#39;D:\\upload_file.txt&#39;)  #定位上传按钮，添加本地文件
+</code></pre>
+<h1 id="无界面模式"><a href="#无界面模式" class="headerlink" title="无界面模式"></a>无界面模式</h1><p>无界面模式可以隐藏浏览器界面同时不影响具体操作</p>
+<pre><code class="lang-py">from selenium import webdriver
+from selenium.webdriver import ChromeOptions
+
+option = ChromeOptions()
+
+option.headless = True #设置无界面模式的第一种方法
+#option.add_argument(&#39;--headless&#39;) #设置无界面模式的第二种方法
+driver = webdriver.Chrome(options=option)
+driver.get(&#39;https://www.baidu.com&#39;)
+# 获取网页的源码
+html = driver.page_source
+print(html)
+</code></pre>
+<h1 id="使用代理"><a href="#使用代理" class="headerlink" title="使用代理"></a>使用代理</h1><pre><code>from selenium import webdriver
+import time
+
+options = webdriver.ChromeOptions()
+options.add_argument(&#39;--proxy-server=http://ip地址&#39;)  # 代理IP:端口号
+driver = webdriver.Chrome(options=options)
+driver.get(&quot;https://dev.kdlapi.com/testproxy&quot;)
+
+# 获取页面内容
+print(driver.page_source)
+
+# 延迟3秒后关闭当前窗口，如果是最后一个窗口则退出
+time.sleep(3)
+driver.close()
+</code></pre><h1 id="cookie操作"><a href="#cookie操作" class="headerlink" title="cookie操作"></a>cookie操作</h1><p>WebDriver操作cookie的方法：</p>
+<pre><code class="lang-TEXT">get_cookies()： 获得所有cookie信息。
+get_cookie(name)： 返回字典的key为“name”的cookie信息。
+add_cookie(cookie_dict) ： 添加cookie。“cookie_dict”指字典对象，必须有name 和value 值。
+delete_cookie(name,optionsString)：删除cookie信息。“name”是要删除的cookie的名称，“optionsString”是该cookie的选项，目前支持的选项包括“路径”，“域”。
+delete_all_cookies()： 删除所有cookie信息
+</code></pre>
+<p>在爬虫中我们就经常需要传入cookie,否则每次自动打开一些有反爬机制的网站就会需要验证，具体可参考文章：<a href="https://blog.csdn.net/qq_42692386/article/details/119004055" target="_blank" rel="noopener">https://blog.csdn.net/qq_42692386/article/details/119004055</a></p>
+<h1 id="调用JavaScript代码"><a href="#调用JavaScript代码" class="headerlink" title="调用JavaScript代码"></a>调用JavaScript代码</h1><pre><code class="lang-py">js=&quot;window.scrollTo(100,450);&quot;
+driver.execute_script(js) # 通过javascript设置浏览器窗口的滚动条位置
+</code></pre>
+<p>通过execute_script()方法执行JavaScripts代码来移动滚动条的位置。通过JavaScript和Selenium可以实现非常多的操作</p>
+<h1 id="窗口截图"><a href="#窗口截图" class="headerlink" title="窗口截图"></a>窗口截图</h1><pre><code class="lang-py">driver.get_screenshot_as_file(&quot;D:\\baidu_img.jpg&quot;) # 截取当前窗口，并指定截图图片的保存位置
+</code></pre>
+<h1 id="关闭浏览器"><a href="#关闭浏览器" class="headerlink" title="关闭浏览器"></a>关闭浏览器</h1><pre><code class="lang-py">close()  #关闭单个窗口
+quit()  #关闭所有窗口
+</code></pre>
+<p>其他Selenium常见问题与解决：</p>
+<p>参考文章：<br>selenium官方文档：<br><a href="https://www.selenium.dev/selenium/docs/api/py/index.html" target="_blank" rel="noopener">https://www.selenium.dev/selenium/docs/api/py/index.html</a><br><a href="https://www.jianshu.com/p/1531e12f8852" target="_blank" rel="noopener">https://www.jianshu.com/p/1531e12f8852</a><br><a href="https://zhuanlan.zhihu.com/p/111859925" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/111859925</a></p>
+
+        </div>
+        <!-- .entry-content -->
+        <div class="single-reward">
+          <div class="reward-open">赏<div class="reward-main">
+              <ul class="reward-row">
+                <li class="alipay-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/donate/21AlipayQR.jpg"></li>
+                <li class="wechat-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/donate/wechatpayQR.jpg"></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
+        <footer class="post-footer">
+          <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
+          <div class="post-tags">
+          </div>
+          <div class="post-share">
+            <div class="social-share sharehidden share-component"></div>
+            <i class="iconfont show-share icon-forward"></i>
+          </div>
+        </footer><!-- .entry-footer -->
+      </article>
+      <!-- #post-## -->
+      <div class="toc" style="background: none;"></div>
+      <section class="post-squares nextprev">
+        
+          
+            <div class="post-nepre half previous">
+          
+            <a href="/2021/07/25/Python_Selenium_part2/" rel="prev">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/article/selenium2_20210725.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/article/selenium2_20210725.jpg">
+              </div>
+              <span class="label">
+              Previous Post</span>
+              <div class="info">
+                <h3>
+                Python库积累之Selenium（二）-Seleniun中的一些问题与解决方法</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+        
+          
+            <div class="post-nepre half next">
+          
+            <a href="/2021/07/09/Python_outlook_auto_send_email/" rel="next">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/article/python_auto_send_email20200709.png" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/article/python_auto_send_email20200709.png">
+              </div>
+              <span class="label">
+              Next Post</span>
+              <div class="info">
+                <h3>
+                利用Python调用outlook自动发送邮件</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+      </section>
+      
+<div id="vcomments"></div>
+<script>
+  window.onload = function(){
+      var valine = new Valine();
+      valine.init({
+        el: '#vcomments',
+        appId: "Hm83GoGeDX3sGPDh3Q50lSMz-gzGzoHsz",
+        appKey: "mXIVaYaFj1DNyH6yBicfUS0w",
+        path: window.location.pathname,
+        placeholder: "你是我一生只会遇见一次的惊喜 ..."
+      })
+  }
+</script>
+
+      <section class="author-profile">
+        <div class="info" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <a href="http://smilecoc.vip/" class="profile gravatar"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico" itemprop="image" alt="smilecoc" height="70" width="70"></a>
+          <div class="meta">
+            <span class="title">Author</span>
+            <h3 itemprop="name">
+            <a href="http://smilecoc.vip/" itemprop="url" rel="author">smilecoc</a>
+            </h3>
+          </div>
+        </div>
+        <hr>
+        <p><i class="iconfont icon-write"></i></p>
+      </section>
+    </main><!-- #main -->
+  </div><!-- #primary -->
+</div>
+
+
+
+    </div>    
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="请输入关键词..."/>
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            // PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+    <!-- <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Smilecoc<br>
+      powered_by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer> -->
+<footer id="colophon" class="site-footer" role="contentinfo">
+  <div class="site-info">
+    <div class="footertext">
+      <div class="img-preload">
+        <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/wordpress-rotating-ball-o.svg">
+        <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/disqus-preloader.svg">
+      </div>
+      <p style="color: #666666;">&copy 2018</p>
+    </div>
+    <div class="footer-device">
+    <p style="font-family: 'Ubuntu', sans-serif;">
+        <span style="color: #b9b9b9;">Theme <a href="https://github.com/honjun/hexo-theme-sakura" target="_blank" style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">Sakura</a> <i class="iconfont icon-sakura rotating" style="color: #ffc0cb;display:inline-block"></i> by <a href="https://2heng.xin/" target="_blank" style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">Mashiro</a>&<a href="https://www.hojun.cn/" target="_blank" style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">Hojun</a>, Powered by Hexo, Hosted by Coding Pages</a>
+        </span>
+      </p>
+    </div>
+  </div><!-- .site-info -->
+</footer>
+
+
+
+<!-- <script src="/js/tocbot.js"></script> -->
+<script type="text/javascript" src="/js/lib.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script type="text/javascript" src="/js/InsightSearch.js"></script>
+<script type="text/javascript" src="/js/jquery.fancybox.min.js"></script>
+<script type="text/javascript" src="/js/zoom.min.js"></script>
+<script type="text/javascript" src="/js/sakura-app.js"></script>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/ctz45562/cdn@2.0.2/js/volantis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+<script src="https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget/autoload.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/yremp/yremp-js@1.5/sakura.js"></script>
+<!-- 不蒜子 网页计数器 -->
+<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script> -->
+<script type="text/javascript">
+/* <![CDATA[ */
+if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+  var Poi = {"pjax":"1","movies":{"url": "https://cdn.jsdelivr.net/gh/honjun/hojun@1.2/Unbroken.mp4","name":"ThreeBody","live":"close"},"windowheight":"fixed","codelamp":"close","ajaxurl":"","order":"asc","formpostion":"bottom"};
+} else {
+  var Poi = {"pjax":"1","movies":{"url": "https://cdn.jsdelivr.net/gh/honjun/hojun@1.2/Unbroken.mp4","name":"ThreeBody","live":"open"},"windowheight":"auto","codelamp":"close","ajaxurl":"","order":"asc","formpostion":"bottom"};
+}
+/* ]]> */
+
+</script>
+<script>
+$(document).ready(function() {
+  if ($(".toc").length > 0 && document.body.clientWidth > 1200) {
+    if ($(".pattern-center").length > 0) { //有图的情况
+      tocbot.init({
+          // Where to render the table of contents.
+          tocSelector: '.toc', // 放置目录的容器
+          // Where to grab the headings to build the table of contents.
+          contentSelector: '.entry-content', // 正文内容所在
+          // Which headings to grab inside of the contentSelector element.
+          scrollSmooth: true,
+          headingSelector: 'h1, h2, h3, h4, h5', // 需要索引的标题级别
+          headingsOffset: -400,
+          scrollSmoothOffset: -85
+      });
+    } else {
+      tocbot.init({
+          // Where to render the table of contents.
+          tocSelector: '.toc', // 放置目录的容器
+          // Where to grab the headings to build the table of contents.
+          contentSelector: '.entry-content', // 正文内容所在
+          // Which headings to grab inside of the contentSelector element.
+          scrollSmooth: true,
+          headingSelector: 'h1, h2, h3, h4, h5', // 需要索引的标题级别
+          headingsOffset: -85,
+          scrollSmoothOffset: -85
+      });
+    }
+    var offsetTop = $('.toc').offset().top - 95;
+    window.onscroll = function() {
+      var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+      if (scrollTop >= offsetTop) {
+        $('.toc').addClass('toc-fixed');
+      } else {
+        $('.toc').removeClass('toc-fixed');
+      }
+    }
+  }
+});
+</script>
+
+    <div class="openNav no-select" style="height: 50px;">
+      <div class="iconflat no-select" style="width: 50px; height: 50px;">
+        <div class="icon"></div>
+      </div>
+      <div class="site-branding search-form-submit">
+        <i class="iconfont js-toggle-search iconsearch icon-search"></i>
+      </div>
+    </div>
+  </section>
+  <div id="mo-nav" class="">
+  <div class="m-avatar">
+    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/favicon.ico">
+  </div>
+  <p style="text-align: center; color: #333; font-weight: 900; font-family: 'Ubuntu', sans-serif; letter-spacing: 1.5px">君の名はSmilecoc</p>
+  <p style="text-align: center; word-spacing: 20px;">
+    
+      
+        <a href="http://github.com/smilecoc" class="fa fa-github" target="_blank" style="color: #333; margin-left:20px"></a>
+      
+        <a href="https://weibo.com/p/1005057275339401/home?from=page_100505&mod=TAB#place" class="fa fa-weibo" target="_blank" style="color: #dd4b39; margin-left:20px"></a>
+      
+        <a href="http://github.com/smilecoc" class="fa fa-qq" target="_blank" style="color: #25c6fe; margin-left:20px"></a>
+      
+    
+  </p>
+  <ul id="menu-new-1" class="menu">
+    
+      <li>
+        <a href="/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-fort-awesome faa-shake" aria-hidden="true"></i>
+            首页
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/archives">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-archive faa-shake" aria-hidden="true"></i>
+            归档
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/categories/技术/">
+                  <i class="fa fa-code" aria-hidden="true"></i>
+                  技术
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/笔记/">
+                  <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                  笔记
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/资源/">
+                  <i class="fa fa-cloud-download" aria-hidden="true"></i>
+                  资源
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/随想/">
+                  <i class="fa fa-commenting-o" aria-hidden="true"></i>
+                  随想
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/转载/">
+                  <i class="fa fa-book" aria-hidden="true"></i>
+                  转载
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="javascript:;">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-list-ul faa-vertical" aria-hidden="true"></i>
+            清单
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/tags/悦读/">
+                  <i class="fa fa-th-list faa-bounce" aria-hidden="true"></i>
+                  书单
+                </a>
+              </li>
+            
+              <li>
+                <a href="/bangumi/">
+                  <i class="fa fa-film faa-vertical" aria-hidden="true"></i>
+                  番组
+                </a>
+              </li>
+            
+              <li>
+                <a href="/music/">
+                  <i class="fa fa-headphones" aria-hidden="true"></i>
+                  歌单
+                </a>
+              </li>
+            
+              <li>
+                <a href="/tags/图集/">
+                  <i class="fa fa-photo" aria-hidden="true"></i>
+                  图集
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="/comment/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-pencil-square-o faa-tada" aria-hidden="true"></i>
+            留言板
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/links/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-link faa-shake" aria-hidden="true"></i>
+            友人帐
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/donate/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-heart faa-pulse" aria-hidden="true"></i>
+            赞赏
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-leaf faa-wrench" aria-hidden="true"></i>
+            关于
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/about/">
+                  <i class="fa fa-meetup" aria-hidden="true"></i>
+                  我？
+                </a>
+              </li>
+            
+              <li>
+                <a href="/lab/">
+                  <i class="fa fa-cogs" aria-hidden="true"></i>
+                  Lab
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="/client/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-android faa-vertical" aria-hidden="true"></i>
+            客户端
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/atom.xml">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-rss faa-pulse" aria-hidden="true"></i>
+            RSS
+          </span>
+        </a>
+        
+      </li>
+    
+  </ul>
+  <p style="text-align: center; font-size: 13px; color: #b9b9b9;">&copy 2019 hexo-sakura</p>
+</div>
+<button onclick="topFunction()" class="mobile-cd-top" id="moblieGoTop" title="Go to top" style="display: none;"><i class="fa fa-chevron-up" aria-hidden="true"></i></button>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+<style>
+  .aplayer .aplayer-lrc {
+    height: 35px;
+  }
+  .aplayer .aplayer-lrc p{
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 18px !important;
+  }
+  .aplayer .aplayer-lrc p.aplayer-lrc-current{
+    color: #FF1493;
+  }
+  .aplayer.aplayer-narrow .aplayer-body{
+    left: -66px !important;
+  }
+  .aplayer.aplayer-fixed .aplayer-lrc {
+    display: none;
+  }
+  .aplayer .aplayer-lrc.aplayer-lrc-hide {
+      display:none !important;
+  }
+  .aplayer.aplayer-fixed .lrc-show {
+    display: block;
+    background: rgba(255, 255, 255, 0.8);
+  }
+</style>
+<div class="aplayer"
+
+    data-id="953999592"
+
+    data-server="netease"
+
+    data-type="playlist"
+
+    data-fixed="true"
+
+    data-autoplay="false"
+
+    data-loop="all"
+
+    data-order="random"
+
+    data-preload="true"
+
+    data-volume="0.7"
+
+    data-mutex="true"
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script>
+<script>
+  $(function(){
+    $('body').on('click', '.aplayer', function(){
+      if($('.aplayer-button').hasClass('aplayer-play')) {
+        $('.aplayer-lrc').removeClass('lrc-show');
+      } else {
+        $('.aplayer-lrc').addClass('lrc-show');
+      }
+    })
+  });
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</body>
+</html>
