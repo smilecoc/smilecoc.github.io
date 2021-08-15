@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://smilecoc.vip/"/>
-  <updated>2021-08-08T16:57:40.806Z</updated>
+  <updated>2021-08-15T16:17:46.978Z</updated>
   <id>http://smilecoc.vip/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>软考中级数据库系统工程师备考经验分享</title>
+    <link href="http://smilecoc.vip/2021/08/16/ruankao_database_engineer/"/>
+    <id>http://smilecoc.vip/2021/08/16/ruankao_database_engineer/</id>
+    <published>2021-08-15T16:17:08.000Z</published>
+    <updated>2021-08-15T16:17:46.978Z</updated>
+    
+    <summary type="html">
+    
+      软考中级数据库系统工程师基本情况，学习方法，备考经验分享
+    
+    </summary>
+    
+    
+      <category term="笔记" scheme="http://smilecoc.vip/categories/%E7%AC%94%E8%AE%B0/"/>
+    
+    
+      <category term="考试" scheme="http://smilecoc.vip/tags/%E8%80%83%E8%AF%95/"/>
+    
+  </entry>
   
   <entry>
     <title>搜索引擎和网站中的高级搜索技巧</title>
@@ -404,27 +425,6 @@
     <summary type="html">
     
       利用SQL查询众数与中位数，是面试中经常出现的题目
-    
-    </summary>
-    
-    
-      <category term="技术" scheme="http://smilecoc.vip/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-    
-      <category term="SQL&amp;数据库" scheme="http://smilecoc.vip/tags/SQL-%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>SQL Server日期函数详解与实战</title>
-    <link href="http://smilecoc.vip/2020/09/20/SQL%20Server%E6%97%A5%E6%9C%9F%E5%87%BD%E6%95%B0%E8%AF%A6%E8%A7%A3%E4%B8%8E%E5%AE%9E%E6%88%98/"/>
-    <id>http://smilecoc.vip/2020/09/20/SQL%20Server%E6%97%A5%E6%9C%9F%E5%87%BD%E6%95%B0%E8%AF%A6%E8%A7%A3%E4%B8%8E%E5%AE%9E%E6%88%98/</id>
-    <published>2020-09-20T09:22:11.000Z</published>
-    <updated>2020-09-26T09:42:29.191Z</updated>
-    
-    <summary type="html">
-    
-      SQL Server所有相关的日期函数详解与实战
     
     </summary>
     
