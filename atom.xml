@@ -143,6 +143,27 @@
   </entry>
   
   <entry>
+    <title>数据透视表（图）中添加公式计算与汇总--计算项和计算字段</title>
+    <link href="http://smilecoc.vip/2021/04/25/pivot_table_calculate_fileds/"/>
+    <id>http://smilecoc.vip/2021/04/25/pivot_table_calculate_fileds/</id>
+    <published>2021-04-25T06:45:06.000Z</published>
+    <updated>2021-08-15T17:25:10.391Z</updated>
+    
+    <summary type="html">
+    
+      VBA常用代码汇总
+    
+    </summary>
+    
+    
+      <category term="技术" scheme="http://smilecoc.vip/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="Excel &amp; VBA" scheme="http://smilecoc.vip/tags/Excel-VBA/"/>
+    
+  </entry>
+  
+  <entry>
     <title>时间序列（三）：ARIMA模型与Python实战</title>
     <link href="http://smilecoc.vip/2021/01/15/time_series_part3_arima_models/"/>
     <id>http://smilecoc.vip/2021/01/15/time_series_part3_arima_models/</id>
@@ -412,27 +433,6 @@
     
     
       <category term="python爬虫" scheme="http://smilecoc.vip/tags/python%E7%88%AC%E8%99%AB/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>SQL查询众数与中位数</title>
-    <link href="http://smilecoc.vip/2020/09/20/SQL%E6%9F%A5%E8%AF%A2%E4%BC%97%E6%95%B0%E4%B8%8E%E4%B8%AD%E4%BD%8D%E6%95%B0/"/>
-    <id>http://smilecoc.vip/2020/09/20/SQL%E6%9F%A5%E8%AF%A2%E4%BC%97%E6%95%B0%E4%B8%8E%E4%B8%AD%E4%BD%8D%E6%95%B0/</id>
-    <published>2020-09-20T11:36:18.000Z</published>
-    <updated>2020-09-26T09:41:23.278Z</updated>
-    
-    <summary type="html">
-    
-      利用SQL查询众数与中位数，是面试中经常出现的题目
-    
-    </summary>
-    
-    
-      <category term="技术" scheme="http://smilecoc.vip/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-    
-      <category term="SQL&amp;数据库" scheme="http://smilecoc.vip/tags/SQL-%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
     
   </entry>
   

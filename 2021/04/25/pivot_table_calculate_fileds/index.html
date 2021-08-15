@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">Category: 技术 | Smilecoc&#39;s Blog</title>
+  <title itemprop="name">数据透视表（图）中添加公式计算与汇总--计算项和计算字段 | Smilecoc&#39;s Blog</title>
   
     <link rel="shortcut icon" href="/images/favicon.ico">
   
@@ -429,706 +429,158 @@
   </div>
 </header>
 
-      
+      <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
 <div class="pattern-center-blank"></div>
-<div class="pattern-center ">
-  <div class="pattern-attachment-img">
-    <img data-src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/banner/coding.jpg" class="lazyload" onerror="imgError(this,3)" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+
+  <div class="pattern-center single-center">
+    <!-- 有配图默认渲染第一张 -->
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/pivot_table_calculate_fileds20210425.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/pivot_table_calculate_fileds20210425.jpg">
+    </div>
+    <header class="pattern-header single-header">
+      <h1 class="entry-title">
+      数据透视表（图）中添加公式计算与汇总--计算项和计算字段</h1>
+      <p class="entry-census">
+        <span>
+          <a href="http://smilecoc.vip/">
+            <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico">
+          </a>
+        </span>
+        <span>
+          <a href="http://smilecoc.vip/">smilecoc</a>
+        </span>
+        <span class="bull">
+        ·</span>
+        2021-4-25<span class="bull">
+        ·</span>
+      <span id="busuanzi_value_page_pv"></span>次阅读</p>
+    </header>
   </div>
-  <header class="pattern-header ">
-    <h1 class="cat-title">野生技术协会</h1>
-    <span class="cat-des">
-      <p>Geek – Only for Love</p>
-    </span>
-  </header>
-</div>
+
 <div id="content" class="site-content">
   <div id="primary" class="content-area">
     <main id="main" class="site-main" role="main">
-      
-  <!-- 首页默认取最最新文章集 -->
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/10/18/猫眼top100爬虫_多进程多线程/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.3/images/article/maoyan_top100_20201018.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/10/18/猫眼top100爬虫_多进程多线程/">
-    爬取猫眼电影--静态网页反爬与多线程/多进程爬取</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-10-18</div>
-    <p>
-    爬取猫眼电影Top100电影与其详细信息，知识点包括正则爬虫，yield，静态网页反爬与多线程/多进程爬取</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/10/18/猫眼top100爬虫_多进程多线程/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/10/01/利用Python检测正态分布/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.3/images/article/normal_distribution_python20201001.png" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/10/01/利用Python检测正态分布/">
-    Python检验数据是否正态分布</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-10-1</div>
-    <p>
-    利用Python检验数据是否正态分布的方法</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/10/01/利用Python检测正态分布/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/09/26/饿了么爬虫fiddler方法/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.2/images/article/elmspider_fiddler20200629.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/09/26/饿了么爬虫fiddler方法/">
-    饿了么爬虫-Fiddler抓包爬取</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-9-26</div>
-    <p>
-    通过Fiddler抓包保存json文件并爬取饿了么商品信息</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/09/26/饿了么爬虫fiddler方法/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/09/26/饿了么爬虫html方法/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.2/images/article/elmspider_html20200926.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/09/26/饿了么爬虫html方法/">
-    饿了么爬虫-保存HTML爬取数据</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-9-26</div>
-    <p>
-    通过保存HTML文件并爬取饿了么商品信息</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/09/26/饿了么爬虫html方法/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/09/20/SQL查询众数与中位数/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.2/images/article/sql_get_majority_median20200920.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/09/20/SQL查询众数与中位数/">
-    SQL查询众数与中位数</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-9-20</div>
-    <p>
-    利用SQL查询众数与中位数，是面试中经常出现的题目</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/09/20/SQL查询众数与中位数/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/09/20/SQL Server日期函数详解与实战/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.2/images/article/sql_datefunc20200920.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/09/20/SQL Server日期函数详解与实战/">
-    SQL Server日期函数详解与实战</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-9-20</div>
-    <p>
-    SQL Server所有相关的日期函数详解与实战</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/09/20/SQL Server日期函数详解与实战/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/09/20/SQL  Server 公用表表达式(CTE)/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.1/images/article/sql_cte_20200920.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/09/20/SQL  Server 公用表表达式(CTE)/">
-    SQL Server 公用表表达式(CTE)</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-9-20</div>
-    <p>
-    SQL Server 公用表表达式(CTE)详解与例题实战</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/09/20/SQL  Server 公用表表达式(CTE)/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/09/06/英雄联盟胜利因素分析/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.0/images/article/lol_analysis_20200906.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/09/06/英雄联盟胜利因素分析/">
-    利用Python对英雄联盟胜利条件进行分析</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-9-6</div>
-    <p>
-    基于PCA与逻辑回归对英雄联盟胜利条件进行研究并预测</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/09/06/英雄联盟胜利因素分析/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/07/27/sweetviz/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.8/images/article/sweetviz20200727.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/07/27/sweetviz/">
-    sweetviz库：快速可视化和数据集EDA</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-7-27</div>
-    <p>
-    快速可视化和数据集EDA的python包</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/07/27/sweetviz/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/07/20/Faker库/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.8/images/article/faker20200715.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/07/20/Faker库/">
-    Faker库：快速生成测试数据</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-7-20</div>
-    <p>
-    Faker库</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/07/20/Faker库/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-
-
-      <div class="clearer">
-      </div>
-    </main>
-    <!-- 
-      <nav class="navigator">
+      <article id="post-1" class="post-1 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+        <div class="toc"></div>
+        <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
         
-        <a class="extend prev" rel="prev" href="/categories/技术/"><i class="iconfont icon-back"></i></a><a class="page-number" href="/categories/技术/">1</a><span class="page-number current">2</span><a class="page-number" href="/categories/技术/page/3/">3</a><a class="page-number" href="/categories/技术/page/4/">4</a><a class="extend next" rel="next" href="/categories/技术/page/3/"><i class="iconfont icon-right"></i></a>
-      </nav>
-     -->
-    
-      <div id="pagination"><a href="/categories/技术/page/3/" class="">Previous</a></div>
-    
-  </div>
+        <div class="entry-content">
+          <h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>最近有一个同学咨询了一个Excel问题如下：<br>原始数据如下表：<br>| 品牌 | 时间       | 产品数量 | 次品数量 |<br>|——|—————|———|———|<br>| A  | 2020/1/1 | 3501 | 25   |<br>| A  | 2020/1/2 | 3697 | 23   |<br>| A  | 2020/1/3 | 4694 | 22   |<br>| A  | 2020/1/4 | 3191 | 18   |<br>| A  | 2020/1/5 | 3583 | 30   |<br>| A  | 2020/1/6 | 4024 | 12   |<br>| A  | 2020/1/7 | 3378 | 28   |<br>| A  | 2020/1/8 | 4240 | 20   |<br>| B  | 2020/1/1 | 4520 | 42   |<br>| B  | 2020/1/2 | 4909 | 54   |<br>| B  | 2020/1/3 | 4218 | 52   |<br>| B  | 2020/1/4 | 3621 | 34   |<br>| B  | 2020/1/5 | 3023 | 56   |<br>| B  | 2020/1/6 | 3411 | 56   |<br>| B  | 2020/1/7 | 4238 | 37   |<br>| B  | 2020/1/8 | 4495 | 32   |<br>| C  | 2020/1/1 | 3944 | 39   |<br>| C  | 2020/1/2 | 3055 | 42   |<br>| C  | 2020/1/3 | 4541 | 47   |<br>| C  | 2020/1/4 | 3471 | 80   |<br>| C  | 2020/1/5 | 3181 | 97   |<br>| C  | 2020/1/6 | 3273 | 74   |<br>| C  | 2020/1/7 | 3425 | 88   |<br>| C  | 2020/1/8 | 4372 | 89   |</p>
+<p>现在需要使用数据透视表（图） 以时间为横轴，次品率为纵轴画出各品牌和所有品牌总计的次品率的折线图，结果如下<br><img src="https://img-blog.csdnimg.cn/20210425113057516.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>他的问题是：</p>
+<ol>
+<li>如何在数据透视图（表）中添加次品率这一个计算。之前他的解决办法是新建一列辅助列利用公式计算 次品数量/产品数量，然后再利用这张表作为数据源画图。但是问题在于如果后续有新的数据补充进来，那么需要手动调整公式范围</li>
+<li>需要添加全部产品的次品率到图表中。遇到的问题是在数据透视表中会出现一个汇总的次品率，但是由于是数据透视表的自动汇总无法添加到透视图中，因此之前的解决办法是在表中复制所有的数据并将品牌全部改为全部产品从而得到一个全部产品的的次品率。问题同样在于如果后续有新的数据补充进来，那么需要手动复制数据调整数据</li>
+</ol>
+<p>我们可以使用计算项和计算字段来实现列之间的计算和添加分类汇总并添加到数据透视表（图）中。</p>
+<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>具体步骤为：</p>
+<ol>
+<li><p>首先新建数据透视表，并在数据透视表工具中选取计算字段<br><img src="https://img-blog.csdnimg.cn/20210425105549123.png" alt="在这里插入图片描述"></p>
+</li>
+<li><p>根据具体的逻辑书写公式。例如这里公式为 =次品数量 /产品数量，公式填写完后点击确定<br><img src="https://img-blog.csdnimg.cn/20210425105339398.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+</li>
+<li>之后我们就可以看到在数据透视表字段中出现了次品率这一个字段，根据具体的需求制作数据透视表/图即可得到各品牌的次品率。<br><img src="https://img-blog.csdnimg.cn/20210425110331693.png" alt="字段选择"><br><img src="https://img-blog.csdnimg.cn/20210425110419733.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="数据透视表"></li>
+</ol>
+<p><img src="https://img-blog.csdnimg.cn/20210425110350600.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="数据透视图"><br>接下来我们需要将所有品牌的次品率加进去，这里我们就需要用到计算项。</p>
+<p><strong>这里注意一定要先选中一个行标签然后再添加计算项，否则你会发现计算项这一个功能是灰色的无法使用！</strong></p>
+<p>同样我们在数据透视表工具中选取计算项<br><img src="https://img-blog.csdnimg.cn/20210425112438202.png" alt><br>并根据对应逻辑书写公式。这里我们要计算所有品牌的数据，就用公式把所有的品牌加起来<br><img src="https://img-blog.csdnimg.cn/2021042511231983.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>之后在数据表中就可以看到各个品牌的次品率和合计的次品率了。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>从上述例子中我们可以看到计算项和计算字段的强大功能。计算字段是<strong>横向计算</strong>，当我们需要对两列进行逻辑计算的时候我们可以通过新建计算字段来<strong>添加一个新的字段</strong>（也就是一列）。而计算项是<strong>纵向计算</strong>，当我们需要对一个字段（一列）的数据进行计算的时候我们通过新建计算项来<strong>添加分类/项目</strong>。计算字段和计算项的综合运用可以对透视表（图）进行多维度的计算，能够使用更多透视表的强大功能。</p>
+
+        </div>
+        <!-- .entry-content -->
+        <div class="single-reward">
+          <div class="reward-open">赏<div class="reward-main">
+              <ul class="reward-row">
+                <li class="alipay-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/donate/21AlipayQR.jpg"></li>
+                <li class="wechat-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/donate/wechatpayQR.jpg"></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
+        <footer class="post-footer">
+          <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
+          <div class="post-tags">
+          </div>
+          <div class="post-share">
+            <div class="social-share sharehidden share-component"></div>
+            <i class="iconfont show-share icon-forward"></i>
+          </div>
+        </footer><!-- .entry-footer -->
+      </article>
+      <!-- #post-## -->
+      <div class="toc" style="background: none;"></div>
+      <section class="post-squares nextprev">
+        
+          
+            <div class="post-nepre half previous">
+          
+            <a href="/2021/06/28/vba_outlook_auto_send_email/" rel="prev">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/vba_auto_send_email20200628.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/vba_auto_send_email20200628.jpg">
+              </div>
+              <span class="label">
+              Previous Post</span>
+              <div class="info">
+                <h3>
+                利用VBA调用outlook自动发送邮件</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+        
+          
+            <div class="post-nepre half next">
+          
+            <a href="/2021/01/15/time_series_part3_arima_models/" rel="next">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.5/images/article/time_series_part3_20210115.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.5/images/article/time_series_part3_20210115.jpg">
+              </div>
+              <span class="label">
+              Next Post</span>
+              <div class="info">
+                <h3>
+                时间序列（三）：ARIMA模型与Python实战</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+      </section>
+      
+<div id="vcomments"></div>
+<script>
+  window.onload = function(){
+      var valine = new Valine();
+      valine.init({
+        el: '#vcomments',
+        appId: "Hm83GoGeDX3sGPDh3Q50lSMz-gzGzoHsz",
+        appKey: "mXIVaYaFj1DNyH6yBicfUS0w",
+        path: window.location.pathname,
+        placeholder: "你是我一生只会遇见一次的惊喜 ..."
+      })
+  }
+</script>
+
+      <section class="author-profile">
+        <div class="info" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <a href="http://smilecoc.vip/" class="profile gravatar"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico" itemprop="image" alt="smilecoc" height="70" width="70"></a>
+          <div class="meta">
+            <span class="title">Author</span>
+            <h3 itemprop="name">
+            <a href="http://smilecoc.vip/" itemprop="url" rel="author">smilecoc</a>
+            </h3>
+          </div>
+        </div>
+        <hr>
+        <p><i class="iconfont icon-write"></i></p>
+      </section>
+    </main><!-- #main -->
+  </div><!-- #primary -->
 </div>
 
-<!-- 
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/10/18/猫眼top100爬虫_多进程多线程/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.3/images/article/maoyan_top100_20201018.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/10/18/猫眼top100爬虫_多进程多线程/">
-    爬取猫眼电影--静态网页反爬与多线程/多进程爬取</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-10-18</div>
-    <p>
-    爬取猫眼电影Top100电影与其详细信息，知识点包括正则爬虫，yield，静态网页反爬与多线程/多进程爬取</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/10/18/猫眼top100爬虫_多进程多线程/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/10/01/利用Python检测正态分布/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.3/images/article/normal_distribution_python20201001.png" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/10/01/利用Python检测正态分布/">
-    Python检验数据是否正态分布</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-10-1</div>
-    <p>
-    利用Python检验数据是否正态分布的方法</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/10/01/利用Python检测正态分布/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/09/26/饿了么爬虫fiddler方法/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.2/images/article/elmspider_fiddler20200629.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/09/26/饿了么爬虫fiddler方法/">
-    饿了么爬虫-Fiddler抓包爬取</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-9-26</div>
-    <p>
-    通过Fiddler抓包保存json文件并爬取饿了么商品信息</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/09/26/饿了么爬虫fiddler方法/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/09/26/饿了么爬虫html方法/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.2/images/article/elmspider_html20200926.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/09/26/饿了么爬虫html方法/">
-    饿了么爬虫-保存HTML爬取数据</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-9-26</div>
-    <p>
-    通过保存HTML文件并爬取饿了么商品信息</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/09/26/饿了么爬虫html方法/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/09/20/SQL查询众数与中位数/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.2/images/article/sql_get_majority_median20200920.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/09/20/SQL查询众数与中位数/">
-    SQL查询众数与中位数</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-9-20</div>
-    <p>
-    利用SQL查询众数与中位数，是面试中经常出现的题目</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/09/20/SQL查询众数与中位数/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/09/20/SQL Server日期函数详解与实战/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.2/images/article/sql_datefunc20200920.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/09/20/SQL Server日期函数详解与实战/">
-    SQL Server日期函数详解与实战</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-9-20</div>
-    <p>
-    SQL Server所有相关的日期函数详解与实战</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/09/20/SQL Server日期函数详解与实战/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/09/20/SQL  Server 公用表表达式(CTE)/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.1/images/article/sql_cte_20200920.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/09/20/SQL  Server 公用表表达式(CTE)/">
-    SQL Server 公用表表达式(CTE)</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-9-20</div>
-    <p>
-    SQL Server 公用表表达式(CTE)详解与例题实战</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/09/20/SQL  Server 公用表表达式(CTE)/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/09/06/英雄联盟胜利因素分析/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.0/images/article/lol_analysis_20200906.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/09/06/英雄联盟胜利因素分析/">
-    利用Python对英雄联盟胜利条件进行分析</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-9-6</div>
-    <p>
-    基于PCA与逻辑回归对英雄联盟胜利条件进行研究并预测</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/09/06/英雄联盟胜利因素分析/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/07/27/sweetviz/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.8/images/article/sweetviz20200727.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/07/27/sweetviz/">
-    sweetviz库：快速可视化和数据集EDA</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-7-27</div>
-    <p>
-    快速可视化和数据集EDA的python包</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/07/27/sweetviz/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
-    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <div class="post-entry">
-    <div class="feature">
-      <a href="/2020/07/20/Faker库/">
-        <div class="overlay">
-          <i class="iconfont icon-text">
-          </i>
-        </div>
-        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.8/images/article/faker20200715.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
-      </a>
-    </div>
-    <h1 class="entry-title">
-    <a href="/2020/07/20/Faker库/">
-    Faker库：快速生成测试数据</a>
-    </h1>
-    <div class="p-time">
-      <i class="iconfont icon-time">
-      </i>
-    2020-7-20</div>
-    <p>
-    Faker库</p>
-    <footer class="entry-footer">
-      <div class="post-more">
-        <a href="/2020/07/20/Faker库/">
-          <i class="iconfont icon-caidan">
-          </i>
-        </a>
-      </div>
-    </footer>
-  </div>
-  <hr>
-</article>
-  
 
- -->
+
     </div>    
     <div class="ins-search">
     <div class="ins-search-mask"></div>

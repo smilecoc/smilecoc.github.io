@@ -546,7 +546,7 @@ select ID,name,address,score from [sheet1$]
 </code></pre><p>如提取成绩前三名的记录</p>
 <pre><code class="lang-sql">Select top 3 * FROM [Sheet1$A1:C17]  ORDER BY score
 </code></pre>
-<p>其中 [Sheet1$A1:C17]这个表示工作表名Sheet1的工作表A1：C17的这个单元格区域，加上了指定的单元格区域为数据。可以根据自己的实际情况，来改变.<br>不在同一张表上显示结果，而且数据源规范，就可以直接用[工作表名$]。或者书写的时候写上列名不用星号（”*”）<br>这两个也是和标准sql之间差别较大的地方</p>
+<p>其中<code>[Sheet1$A1:C17]</code>这个表示工作表名Sheet1的工作表A1：C17的这个单元格区域，加上了指定的单元格区域为数据。可以根据自己的实际情况，来改变.<br>不在同一张表上显示结果，而且数据源规范，就可以直接用[工作表名$]。或者书写的时候写上列名不用星号（”*”）<br>这两个也是和标准sql之间差别较大的地方</p>
 <p>TOP 与 PERCENT 组合在SQL语句中的使用可以按照百分比提取数据,例如按成绩降序排列提取前30%</p>
 <pre><code class="lang-sql">Select TOP 30 PERCENT * FROM [Sheet1$A1:C17]  ORDER BY 成绩 DESC
 </code></pre>
@@ -555,13 +555,22 @@ select ID,name,address,score from [sheet1$]
 </code></pre><p>例如按照日期和姓名汇总产品数：</p>
 <pre><code class="lang-sql">SELECT 日期, 姓名, SUM(产品数) as 产品总数 From [Sheet1$] GROUP BY 日期, 姓名
 </code></pre>
-<h5 id="日期数据在SQL表达式中的应用"><a href="#日期数据在SQL表达式中的应用" class="headerlink" title="日期数据在SQL表达式中的应用"></a>日期数据在SQL表达式中的应用</h5><p>在SQL表达式运算符条件中，要查询日期和时间类型的数据，需要在数据值两端加上井字符号（#）以表示日期类型。<br>日期可以有多种表示方式，最符合中国人的习惯是“年-月-日”或“年/月/日”的表示方式。也就是说年月日之间的分隔符可以用“-”或“/”。<br>例如表示2013年10月1日<br>可以采用以下表达式：<br>年月日</p>
-<h1 id="2013-10-1"><a href="#2013-10-1" class="headerlink" title="2013-10-1"></a>2013-10-1</h1><p>年日月</p>
-<h1 id="2013-1-10"><a href="#2013-1-10" class="headerlink" title="2013-1-10"></a>2013-1-10</h1><p>年月日</p>
-<h1 id="2013-10-1-1"><a href="#2013-10-1-1" class="headerlink" title="2013/10/1"></a>2013/10/1</h1><p>日月年</p>
-<h1 id="1-10-2013"><a href="#1-10-2013" class="headerlink" title="1/10/2013/"></a>1/10/2013/</h1><p>月日年</p>
-<h1 id="10-1-2013"><a href="#10-1-2013" class="headerlink" title="10/1/2013"></a>10/1/2013</h1><p>以表达式在系统无错识别最高的应该是<br>月/日/年</p>
-<h1 id="10-1-2013-1"><a href="#10-1-2013-1" class="headerlink" title="10/1/2013"></a>10/1/2013</h1><h5 id="如何查询二个日期间的数据"><a href="#如何查询二个日期间的数据" class="headerlink" title="如何查询二个日期间的数据"></a>如何查询二个日期间的数据</h5><p>Where …. AND…语句，例如查找大于等于2013年10月1日，小于等于2013年10月7日的数据，的SQL表达式为：</p>
+<h5 id="日期数据在SQL表达式中的应用"><a href="#日期数据在SQL表达式中的应用" class="headerlink" title="日期数据在SQL表达式中的应用"></a>日期数据在SQL表达式中的应用</h5><p>在SQL表达式运算符条件中，要查询日期和时间类型的数据，需要在数据值两端加上井字符号（#）以表示日期类型。<br>日期可以有多种表示方式，最符合中国人的习惯是“年-月-日”或“年/月/日”的表示方式。也就是说年月日之间的分隔符可以用“-”或“/”。<br>例如表示2013年10月1日<br>可以采用以下表达式：</p>
+<pre><code class="lang-text">年月日
+#2013-10-1#
+年日月
+#2013-1-10#
+年月日
+#2013/10/1#
+日月年
+#1/10/2013/#
+月日年
+#10/1/2013#
+以表达式在系统无错识别最高的应该是
+月/日/年
+#10/1/2013#
+</code></pre>
+<h5 id="如何查询二个日期间的数据"><a href="#如何查询二个日期间的数据" class="headerlink" title="如何查询二个日期间的数据"></a>如何查询二个日期间的数据</h5><p>Where …. AND…语句，例如查找大于等于2013年10月1日，小于等于2013年10月7日的数据，的SQL表达式为：</p>
 <pre><code class="lang-sql">SELECT * From [Sheet1$A:C] where 日期&gt;=#10/1/2013# And 日期&lt;=#10/7/2013#
 </code></pre>
 <p>还可以以单元为动态引用查询两个日期内的数据,如下图所示</p>
@@ -607,11 +616,16 @@ SELECT A.姓名,性别,部门 FROM [Sheet2$]A Left JOIN [Sheet1$]B ON A.姓名=B
 </code></pre><p>使用in可以限制列标签的内容，同时可以规定列字段值的展示顺序</p>
 <h2 id="4-一些其他SQL语句的补充"><a href="#4-一些其他SQL语句的补充" class="headerlink" title="4.一些其他SQL语句的补充"></a><strong>4.一些其他SQL语句的补充</strong></h2><p>在SQL中使用广泛的case关键字在VBA　SQL中的实现方式为IIF，IIF的语法为：<br>IIf(Logical EXPression, Numeric Expression1, Numeric Expression2)<br>如果 Logical Expression 取值为 TRUE，则此函数返回 Numeric Expression1，否则，返回 Numeric Expression2。</p>
 <p>例如：<br>当site列填NA时，将if_address设为N，否则设为Y</p>
-<pre><code>select name,iif([site]=&#39;NA&#39;,&#39;N&#39;,&#39;Y&#39;) as if_address form [student$]
-</code></pre><p>同理，Logical Expression可以使用isnull,数字等值判断语句等</p>
-<p>同时iif语句对符合条件的数据进行计算。例如如果是赠送的，实际的花费为0,否则为原价购买计算花费</p>
-<pre><code>select 客户,sum(iif(buying_type=&#39;赠送&#39;,price,0)) as cost  from  [order$]
+<pre><code class="lang-vb">select name,iif([site]=&#39;NA&#39;,&#39;N&#39;,&#39;Y&#39;) as if_address form [student$]
 </code></pre>
+<p>同理，Logical Expression可以使用isnull,数字等值判断语句等</p>
+<p>同时iif语句对符合条件的数据进行计算。例如如果是赠送的，实际的花费为0,否则为原价购买计算花费</p>
+<pre><code class="lang-vb">select 客户,sum(iif(buying_type=&#39;赠送&#39;,price,0)) as cost  from  [order$]
+</code></pre>
+<p>直接从其他文件获取数据的SQL语句：</p>
+<pre><code class="lang-vb">Select * From [盘符:\路径\工作簿名1.后辍名].[工作表名$] Union All Select * From [盘符:\路径\工作簿名2.后辍名].[工作表名$] Union All Select * From [盘符:\路径\工作簿名3.后辍名].[工作表名$]
+</code></pre>
+
         </div>
         <!-- .entry-content -->
         <div class="single-reward">

@@ -435,7 +435,7 @@
 
   <div class="pattern-center single-center">
     <!-- 有配图默认渲染第一张 -->
-    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.5/images/article/vba_code20200620.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.5/images/article/vba_code20200620.jpg">
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/vba_code20200620.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/vba_code20200620.jpg">
     </div>
     <header class="pattern-header single-header">
       <h1 class="entry-title">
@@ -616,7 +616,8 @@ a = a &amp; &quot; FROM 采购订单表;&quot;
 </code></pre><p>当然也可以用字典加数组以及SQL等方式实现去重，会更有效率，这里不在赘述</p>
 <h3 id="VBA隐藏与取消隐藏"><a href="#VBA隐藏与取消隐藏" class="headerlink" title="VBA隐藏与取消隐藏"></a>VBA隐藏与取消隐藏</h3><pre><code>Set raw = ThisWorkbook.Sheets(&quot;raw data&quot;)
 &#39;取消工作表的全部隐藏
-raw.Columns.Hidden = False
+raw.Columns.Hidden = False  &#39;取消所有列的隐藏
+raw.Rows.Hidden = False   &#39;&#39;取消所有行的隐藏
 &#39;将ak到bk列隐藏
 raw.Columns(&quot;AK:BK&quot;).EntireColumn.Hidden = True
 
@@ -743,12 +744,13 @@ End Sub
     Next
 End Sub
 </code></pre>
-<h3 id="使用数组实现复制粘贴为值的效果"><a href="#使用数组实现复制粘贴为值的效果" class="headerlink" title="使用数组实现复制粘贴为值的效果"></a>使用数组实现复制粘贴为值的效果</h3><pre><code class="lang-vb">Set spsheet = ThisWorkbook.Sheets(&quot;test&quot;)
+<h3 id="使用数组实现复制粘贴为值的效果"><a href="#使用数组实现复制粘贴为值的效果" class="headerlink" title="使用数组实现复制粘贴为值的效果"></a>使用数组实现复制粘贴为值的效果</h3><p>使用数组实现复制粘贴的好处在于这种方法不用关心是否有筛选，同时会自动把文本型的数字变为数值型。</p>
+<pre><code class="lang-vb">Set spsheet = ThisWorkbook.Sheets(&quot;test&quot;)
 
 &#39;先对arr数组赋值
 arr = spsheet.Range(&quot;A1:Z10&quot;)
-&#39;再讲数组里的值赋值到结果区域。UBound(arr)为数组的行数，26是数组的列数
-spsheet.[a9].Resize(UBound(arr), 26) = arr
+&#39;再将数组里的值赋值到结果区域。UBound(arr,1)为数组的行数，UBound(arr,2)是数组的列数，这样可以实现动态的复制粘贴。如果行数或列数确定也可直接使用固定值
+spsheet.[a9].Resize(UBound(arr,1), UBound(arr,2)) = arr
 </code></pre>
 <h3 id="新建一份excel文件"><a href="#新建一份excel文件" class="headerlink" title="新建一份excel文件"></a>新建一份excel文件</h3><pre><code class="lang-vb">
 Sub new_file_result()
