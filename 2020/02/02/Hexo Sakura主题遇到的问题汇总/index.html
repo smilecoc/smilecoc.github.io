@@ -466,12 +466,14 @@
         
         <div class="entry-content">
           <h4 id="代码高亮"><a href="#代码高亮" class="headerlink" title="代码高亮"></a><strong>代码高亮</strong></h4><p>刚用的时候代码框十分诡异而且压根就没有高亮。找了几种方法并不可行，整理了一下几种可能错误的原因。<br>错误可能为<br>1.markdown(md)语法问题，将代码块改为如下格式：</p>
-<p>```+语言名（比如java）<br>代码内容<br>```</p>
-<p>2.与hexo自带的高亮冲突了，只要把站点配置文件中：</p>
-<pre><code class="lang-TEXT">highlight:
-  enable: true
+<pre><code class="lang-text">```+语言名（比如java）
+代码内容
 </code></pre>
-<p>true改为false就可以了。注意是站点配置文件而不是主题配置文件</p>
+<pre><code>2.与hexo自带的高亮冲突了，只要把站点配置文件中：
+```TEXT
+highlight:
+  enable: true
+</code></pre><p>true改为false就可以了。注意是站点配置文件而不是主题配置文件</p>
 <h4 id="搜索"><a href="#搜索" class="headerlink" title="搜索"></a><strong>搜索</strong></h4><p>搜索一直不能用的原因就是少了个插件。</p>
 <p>git bash中执行：</p>
 <pre><code class="lang-text">npm install hexo-generator-json-content --save

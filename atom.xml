@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://smilecoc.vip/"/>
-  <updated>2021-08-15T16:17:46.978Z</updated>
+  <updated>2021-09-05T14:41:33.200Z</updated>
   <id>http://smilecoc.vip/</id>
   
   <author>
@@ -15,6 +15,48 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>R语言包学习之tidyr包：数据结构重构</title>
+    <link href="http://smilecoc.vip/2021/09/03/R_tidyr/"/>
+    <id>http://smilecoc.vip/2021/09/03/R_tidyr/</id>
+    <published>2021-09-03T05:52:38.000Z</published>
+    <updated>2021-09-05T14:41:33.200Z</updated>
+    
+    <summary type="html">
+    
+      R语言数据重构包之tidyr包
+    
+    </summary>
+    
+    
+      <category term="技术" scheme="http://smilecoc.vip/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="R包" scheme="http://smilecoc.vip/tags/R%E5%8C%85/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>R语言包学习之dplyr包：数据处理</title>
+    <link href="http://smilecoc.vip/2021/08/23/R_dplyr/"/>
+    <id>http://smilecoc.vip/2021/08/23/R_dplyr/</id>
+    <published>2021-08-23T06:36:36.000Z</published>
+    <updated>2021-09-05T14:34:09.785Z</updated>
+    
+    <summary type="html">
+    
+      R语言数据处理包之dplyr包
+    
+    </summary>
+    
+    
+      <category term="技术" scheme="http://smilecoc.vip/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="R包" scheme="http://smilecoc.vip/tags/R%E5%8C%85/"/>
+    
+  </entry>
   
   <entry>
     <title>软考中级数据库系统工程师备考经验分享</title>
@@ -42,7 +84,7 @@
     <link href="http://smilecoc.vip/2021/08/08/search_tech_in_search_engines/"/>
     <id>http://smilecoc.vip/2021/08/08/search_tech_in_search_engines/</id>
     <published>2021-08-08T02:00:00.000Z</published>
-    <updated>2021-08-08T16:57:40.806Z</updated>
+    <updated>2021-09-05T15:21:33.327Z</updated>
     
     <summary type="html">
     
@@ -51,10 +93,10 @@
     </summary>
     
     
-      <category term="资源" scheme="http://smilecoc.vip/categories/%E8%B5%84%E6%BA%90/"/>
+      <category term="笔记" scheme="http://smilecoc.vip/categories/%E7%AC%94%E8%AE%B0/"/>
     
     
-      <category term="其他资源" scheme="http://smilecoc.vip/tags/%E5%85%B6%E4%BB%96%E8%B5%84%E6%BA%90/"/>
+      <category term="实用技巧" scheme="http://smilecoc.vip/tags/%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7/"/>
     
   </entry>
   
@@ -147,11 +189,11 @@
     <link href="http://smilecoc.vip/2021/04/25/pivot_table_calculate_fileds/"/>
     <id>http://smilecoc.vip/2021/04/25/pivot_table_calculate_fileds/</id>
     <published>2021-04-25T06:45:06.000Z</published>
-    <updated>2021-08-15T17:25:10.391Z</updated>
+    <updated>2021-08-15T17:32:16.393Z</updated>
     
     <summary type="html">
     
-      VBA常用代码汇总
+      VBA数据透视表中计算项和计算字段的使用，可以帮助我们实现直接在数据透视表进行计算
     
     </summary>
     
@@ -391,48 +433,6 @@
     
     
       <category term="Python数据分析" scheme="http://smilecoc.vip/tags/Python%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>饿了么爬虫-Fiddler抓包爬取</title>
-    <link href="http://smilecoc.vip/2020/09/26/%E9%A5%BF%E4%BA%86%E4%B9%88%E7%88%AC%E8%99%ABfiddler%E6%96%B9%E6%B3%95/"/>
-    <id>http://smilecoc.vip/2020/09/26/%E9%A5%BF%E4%BA%86%E4%B9%88%E7%88%AC%E8%99%ABfiddler%E6%96%B9%E6%B3%95/</id>
-    <published>2020-09-26T05:00:01.000Z</published>
-    <updated>2020-09-26T09:41:36.405Z</updated>
-    
-    <summary type="html">
-    
-      通过Fiddler抓包保存json文件并爬取饿了么商品信息
-    
-    </summary>
-    
-    
-      <category term="技术" scheme="http://smilecoc.vip/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-    
-      <category term="python爬虫" scheme="http://smilecoc.vip/tags/python%E7%88%AC%E8%99%AB/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>饿了么爬虫-保存HTML爬取数据</title>
-    <link href="http://smilecoc.vip/2020/09/26/%E9%A5%BF%E4%BA%86%E4%B9%88%E7%88%AC%E8%99%ABhtml%E6%96%B9%E6%B3%95/"/>
-    <id>http://smilecoc.vip/2020/09/26/%E9%A5%BF%E4%BA%86%E4%B9%88%E7%88%AC%E8%99%ABhtml%E6%96%B9%E6%B3%95/</id>
-    <published>2020-09-26T01:06:15.000Z</published>
-    <updated>2020-09-26T09:42:12.274Z</updated>
-    
-    <summary type="html">
-    
-      通过保存HTML文件并爬取饿了么商品信息
-    
-    </summary>
-    
-    
-      <category term="技术" scheme="http://smilecoc.vip/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-    
-      <category term="python爬虫" scheme="http://smilecoc.vip/tags/python%E7%88%AC%E8%99%AB/"/>
     
   </entry>
   

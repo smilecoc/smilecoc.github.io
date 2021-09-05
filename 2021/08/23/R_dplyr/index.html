@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">removebg库：一键抠图&amp;换证件照底色 | Smilecoc&#39;s Blog</title>
+  <title itemprop="name">R语言包学习之dplyr包：数据处理 | Smilecoc&#39;s Blog</title>
   
     <link rel="shortcut icon" href="/images/favicon.ico">
   
@@ -435,11 +435,11 @@
 
   <div class="pattern-center single-center">
     <!-- 有配图默认渲染第一张 -->
-    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.8/images/article/removebg20200720.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.8/images/article/removebg20200720.jpg">
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/r_dplyr20210823.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/r_dplyr20210823.jpg">
     </div>
     <header class="pattern-header single-header">
       <h1 class="entry-title">
-      removebg库：一键抠图&换证件照底色</h1>
+      R语言包学习之dplyr包：数据处理</h1>
       <p class="entry-census">
         <span>
           <a href="http://smilecoc.vip/">
@@ -451,7 +451,7 @@
         </span>
         <span class="bull">
         ·</span>
-        2020-7-13<span class="bull">
+        2021-8-23<span class="bull">
         ·</span>
       <span id="busuanzi_value_page_pv"></span>次阅读</p>
     </header>
@@ -465,39 +465,198 @@
         <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
         
         <div class="entry-content">
-          <p>Remove.bg是一个利用AI智能抠图的网站，在这个网站上可以上传图片，然后实现自动抠图并更换背景等，如果不懂编程的可以直接登陆<a href="https://www.remove.bg/zh" target="_blank" rel="noopener">https://www.remove.bg/zh</a>操作</p>
-<p>Remove.bg 网站提供了API 接口，可以直接调用并实现抠图。而在python中已经有基于api开发的removebg包，可以非常方便的实现相关功能</p>
-<p>首先安装removebg包：</p>
-<pre><code class="python">pip install removebg</code></pre>
-<p>然后需要一个Remove.bg 网站的API-key.需要登录Remove.bg的官网并注册。注册完成后可以在“我的账户”中查看API-key。复制这个key即可</p>
-<p>之后就可以使用remove_background_from_img_file函数快速转化图片的背景了：</p>
-<pre><code class="python">from removebg import RemoveBg
+          <h1 id="dplyr简介"><a href="#dplyr简介" class="headerlink" title="dplyr简介"></a>dplyr简介</h1><p>dplyr是R语言的数据分析包，类似于python中的pandas，能对dataframe类型的数据做很方便的数据处理和分析操作。</p>
+<h1 id="安装并导入dplyr包"><a href="#安装并导入dplyr包" class="headerlink" title="安装并导入dplyr包"></a>安装并导入dplyr包</h1><pre><code class="lang-R">install.packages(&quot;dplyr&quot;)
+library(dplyr)
+</code></pre>
+<h1 id="准备测试数据"><a href="#准备测试数据" class="headerlink" title="准备测试数据"></a>准备测试数据</h1><p>我们使用dplyr包中内置的starwars数据集作为测试数据</p>
+<pre><code class="lang-R">starwars    #查看starwars数据集中的数据
+class(starwars)     # 查看数据类型
+colnames(starwars)    #查看数据的字段
+dim(starwars)     #  查看dataframe的大小
+</code></pre>
+<p>如果你是从外部读入数据或自己构造的数据，那么在dplyr包中内可以首先将的数据整理成更友好的tbl_df数据：</p>
+<pre><code class="lang-r">#先查看数据类型
+data &lt;- data.frame(person=c(&#39;Alex&#39;,&#39;Bob&#39;,&#39;Cathy&#39;),grade=c(2,3,4),score=c(78,89,88))
+class(data)
+#转换为tbl_df类型
+ds &lt;- tbl_df(data)
+#转换为data.frame类型
+df &lt;- as.data.frame(ds)
+</code></pre>
+<h1 id="管道符-gt"><a href="#管道符-gt" class="headerlink" title="管道符 %&gt;%"></a>管道符 %&gt;%</h1><p>在dplyr中有一个比较有特色的管道符 %&gt;% 有必要先说明一下，其作用是将前一步的结果直接传参给下一步的函数，从而省略了中间的赋值步骤，可以大量减少内存中的对象，节省内存。该符号将左边的对象作为第一个参数传递到右边的函数中.<br>举个例子来说,在上面查看数据集的字段中我们使用语句<code>colnames(starwars)</code>,用管道符%&gt;%来写的话就是<code>starwars %&gt;% colnames()</code></p>
+<pre><code class="lang-r">#管道函数
+#默认是传递至后面函数的第一个参数
+df %&gt;% head(2)
+  a b
+1 1 a
+2 2 b
+#当需要传递至后面函数的非第一个参数时，使用“.”代替
+&quot;a_b&quot; %&gt;% str_c(&quot;c_&quot;, ., sep = &quot;&quot;)
+[1] &quot;c_a_b&quot;
+</code></pre>
+<h1 id="dplyr常用函数"><a href="#dplyr常用函数" class="headerlink" title="dplyr常用函数"></a>dplyr常用函数</h1><h2 id="排列Arrange"><a href="#排列Arrange" class="headerlink" title="排列Arrange"></a>排列Arrange</h2><p>arrange()按给定的列名依次对行进行排序，语法为<code>arrange(.data, ...)</code></p>
+<pre><code class="lang-r">arrange(starwars, height)  #升序排列
+arrange(starwars, -height)  #降序排列
+arrange(starwars, desc(height))  #降序排列,使用desc()函数
+starwars %&gt;% arrange(-height)  #管道函数方法：降序排列
+</code></pre>
+<h2 id="选择Select"><a href="#选择Select" class="headerlink" title="选择Select"></a>选择Select</h2><p>select()用列名作参数来选择子数据集。dplyr包中提供了些特殊功能的函数与select函数结合使用， 用于筛选变量，包括starts_with，ends_with，contains，matches，one_of，num_range和everything等。语法 为<code>select(.data, ...)</code></p>
+<pre><code class="lang-r">#选取多列
+select(starwars, name,height,mass,hair_color)
+#选取多列并改变顺序
+select(starwars, height,mass,name,hair_color)
+#选取列名以s开始的列
+select(starwars, starts_with(&quot;s&quot;))
+#选取列名后缀包含color的列
+select(starwars, ends_with(&quot;color&quot;))
+#选取列名后缀不包含color的列
+select(starwars, -ends_with(&quot;color&quot;))
+#选取列名中包含_的列
+select(starwars, contains(&quot;_&quot;))
+#正则表达式匹配，返回变量名中包含t的列
+select(starwars, matches(&quot;.t.&quot;))
+#使用冒号连接列名，选择多个列
+select(starwars, name:hair_color)
+#选择字符向量中的列，select中不能直接使用字符向量筛选，需要使用one_of函数
+vars &lt;- c(&quot;name&quot;, &quot;hair_color&quot;)
+select(starwars, one_of(vars))
+#返回指定字符向量之外的列
+select(starwars, -one_of(vars))
+#返回所有列，一般调整数据集中变量顺序时使用,例如把hair_color列放到最前面
+select(starwars, hair_color, everything())
+</code></pre>
+<p>select也可以用来重命名:</p>
+<pre><code class="lang-r">#重命名列hair_color，返回子数据集只包含重命名的列
+select(starwars, haircolor = hair_color)
+#重命名所有以color为后缀的列，返回子数据集只包含重命名的列
+select(starwars, color = ends_with(&quot;color&quot;))
+#重命名列hair_color，返回全部列,使用rename函数
+rename(starwars,, haircolor = hair_color)
+</code></pre>
+<h2 id="筛选Filter"><a href="#筛选Filter" class="headerlink" title="筛选Filter"></a>筛选Filter</h2><p>filter()函数可以按给定的逻辑条件筛选出符合要求的子数据集.同时也可以根据行号筛选数据,语法为语法 <code>filter(.data, ...)</code></p>
+<pre><code class="lang-r">#筛选出height为150的行
+filter(starwars, height == 150)
+#筛选出sex为female的行
+filter(starwars, sex == &#39;female&#39;)
+#筛选出skin_color为light并且height等于150的行
+filter(starwars, skin_color == &#39;light&#39; &amp; height == 150)
+filter(starwars, skin_color == &#39;light&#39;,height == 150)
+#筛选出skin_color为light或者height等于150的行
+filter(starwars, skin_color == &#39;light&#39; | height == 150)
+#过滤出height等于150或159的行
+filter(starwars, height %in% c(150, 165))
 
-rmbg = RemoveBg(&quot;YOUR-API-KEY&quot;, &quot;error.log&quot;)
-rmbg.remove_background_from_img_file(&quot;testrmbg.jpg&quot;)</code></pre>
-<p>语法为：<br>remove_background_from_img_file（img_file_path，size，bg_color），参数如下图所示：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200713161625942.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>例如要将证件照背景换为白色底色，并且输出4k分辨率的图片</p>
-<pre><code class="python">from removebg import RemoveBg
+#filter()函数和slice()函数根据行号筛选数据
+#选取第一行数据
+slice(starwars, 1L)
+filter(starwars, row_number() == 1L)
+#选取最后一行数据
+slice(starwars, n())
+filter(starwars, row_number() == n())
+#选取第5行到最后一行所有数据
+slice(starwars, 5:n())
+filter(starwars, between(row_number(), 5, n()))
+</code></pre>
+<h2 id="变形mutate"><a href="#变形mutate" class="headerlink" title="变形mutate"></a>变形mutate</h2><p>mutate函数对已有列进行数据运算并添加为新列，同时还有另外一个函数transmute()只返回扩展的新变量。语法为<code>mutate(.data, ...)</code>和<code>transmute(.data, ...)</code></p>
+<pre><code class="lang-r"># 添加两列：ht_m将身高数据除以100，color列连接skin_color和eye_color两列
+mutate(starwars, ht_m = height/100,color =paste(starwars$skin_color,starwars$eye_color,sep=&quot;_&quot;))
+#计算新列wt_kg和wt_t，返回对象中只包含新列
+transmute(starwars, ht_m = height/100,color =paste(starwars$skin_color,starwars$eye_color,sep=&quot;_&quot;))
+#添加新列,在同一语句中可以使用刚添加的列，注意这里不用添加dataframe名，否则会报错
+mutate(starwars, ht_m = height/100,ht_m_text =paste(ht_m,&quot;m&quot;,sep=&quot;_&quot;))
+</code></pre>
+<h2 id="抽样sample"><a href="#抽样sample" class="headerlink" title="抽样sample"></a>抽样sample</h2><p>抽样函数，sample_n()随机抽取指定数目的样本，sample_frac()随机抽取指定百分比的样本，默认都为不放回抽样，通过设置replacement = TRUE可改为放回抽样，可以用于实现Bootstrap抽样。语法为<code>sample_n(tbl, size, replace = FALSE, weight = NULL, .env = parent.frame())</code>在新版本的dplyr包中抽样函数已变为slice_sample。</p>
+<pre><code class="lang-r">#无放回抽样10行数据
+sample_n(starwars, 10)
+#有放回抽样20行数据
+sample_n(starwars, 20, replace = TRUE)
+#默认size=1，相当于对全部数据无放回抽样
+sample_frac(starwars)
+#无放回抽样10%的数据
+sample_frac(starwars, 0.1)
 
-rmbg = RemoveBg(&quot;YOUR-API-KEY&quot;, &quot;error.log&quot;)
-rmbg.remove_background_from_img_file(&quot;identificationphoto.jpg&quot;,&#39;4k&#39;,&#39;blank&#39;)</code></pre>
-<p>同时我们也可以实现照片的批量转换：</p>
-<pre><code class="python">from removebg import RemoveBg
-import os
+# 按个数抽样
+slice_sample(starwars,n = 10)
+# 按比例抽样
+slice_sample(starwars,prop = 0.1)
+</code></pre>
+<h2 id="汇总summarise"><a href="#汇总summarise" class="headerlink" title="汇总summarise"></a>汇总summarise</h2><p>对数据框调用其它函数进行汇总操作, 返回一维的结果,返回多维结果时会报如下错误：<code>Error: expecting result of length one, got : 2</code>,语法为<code>summarise(.data, ...)</code><br>注意在使用统计函数时保证数据不存在缺失值，否则结果会返回NA，可以利用<code>na.omit(starwars)</code>来去抽除数据框中包含NA的行.</p>
+<pre><code class="lang-r">#返回数据中height的均值
+summarise(na.omit(starwars), mean(height))
+#返回数据中height的标准差
+summarise(na.omit(starwars), sd(height))
+#返回数据中height的最大值及最小值
+summarise(na.omit(starwars), max(height), min(height))
+#返回数据框的行数
+summarise(starwars, n())
+#返回sex去重后的个数数
+summarise(starwars, n_distinct(sex))
+#返回height的第一个值
+summarise(starwars, first(height))
+#返回height的最后一个值
+summarise(starwars, last(height))
+</code></pre>
+<h2 id="分组group-by"><a href="#分组group-by" class="headerlink" title="分组group_by"></a>分组group_by</h2><p>group_by()函数用于对数据集按照给定变量分组，返回分组后的数据集。对返回后的数据集使用以上介绍的函数时，会自动的对分组数据操作。</p>
+<pre><code class="lang-r">#使用变量sex对starwars分组，返回分组后数据集，注意去除数据集中的NA
+sw_group &lt;- group_by(na.omit(starwars), sex)
+#返回每个分组中最大height所在的行
+filter(sw_group, height == max(height))
+#返回每个分组中变量名包含d的列，同时始终返回列sex(上述分组依据列)
+select(sw_group, contains(&quot;d&quot;))
+#使用height对每个分组排序
+arrange(sw_group,  height)
+#对每个分组无放回抽取2行
+sample_n(sw_group, 2)
+#求每个分组中height和birth_year的均值
+summarise(sw_group, mean(height), mean(birth_year))
+#返回每个分组中height第二的值
+summarise(sw_group, nth(height,2))
 
-rmbg = RemoveBg(&quot;YOUR-API-KEY&quot;, &quot;error.log&quot;)
-#os.getcwd() 方法用于返回当前工作目录
-#同时将生成的结果放在路径中的picture文件夹中
-path=&#39;%s/picture&#39;%os.getcwd()
-print(path)
 
-for pic in os.listdir(path):  #os.listdir() 方法用于返回指定的文件夹包含的文件或文件夹的名字的列表。
-    rmbg.remove_background_from_img_file(&#39;%s\%s&#39;%(path,pic))</code></pre>
-<p>需要注意的是免费用户系统会自动赠送你一个credit以及50次的免费预览。免费预览就是低像素（最高 25 万像素，例如625 × 400 像素）的抠图，想要获得高像素图像就需要花费credit。所以用完了之后就会拒绝你的api请求.</p>
-<p>另外此包还支持修改url图片背景remove_background_from_img_url（）和base64图片remove_background_from_base64_img（）</p>
-<p>最后附上removebg包的github地址：<br><a href="https://github.com/brilam/remove-bg" target="_blank" rel="noopener">https://github.com/brilam/remove-bg</a></p>
-<p>官网API文档：<br><a href="https://www.remove.bg/zh/api" target="_blank" rel="noopener">https://www.remove.bg/zh/api</a></p>
-<p>本文首发于博客：<a href="http://smilecoc.vip/">http://smilecoc.vip/</a><br>微信公众号：Romi的杂货铺</p>
+#获取分组数据集所使用的分组变量
+groups(sw_group)
+#ungroup从数据框中移除组合信息，因此返回的分组变量为NULL
+groups(ungroup(sw_group))
+</code></pre>
+<h2 id="数据连接join"><a href="#数据连接join" class="headerlink" title="数据连接join"></a>数据连接join</h2><p>  数据框中经常需要将多个表进行连接操作, 如左连接、右连接、内连接等，dplyr包也提供了数据集的连接操作，类似于 base::merge() 函数。语法如下： </p>
+<pre><code class="lang-text">  #内连接，合并数据仅保留匹配的记录
+  inner_join(x,y, by = NULL, copy = FALSE, suffix = c(&quot;.x&quot;, &quot;.y&quot;), ...) 
+
+  #左连接，向数据集x中加入匹配的数据集y记录
+  left_join(x,y, by = NULL, copy = FALSE, suffix = c(&quot;.x&quot;, &quot;.y&quot;), ...)
+
+  #右连接，向数据集y中加入匹配的数据集x记录
+  right_join(x,y, by = NULL, copy = FALSE, suffix = c(&quot;.x&quot;, &quot;.y&quot;), ...) 
+
+  #全连接，合并数据保留所有记录，所有行
+  full_join(x,y, by = NULL, copy = FALSE, suffix = c(&quot;.x&quot;, &quot;.y&quot;), ...)
+
+  #返回能够与y表匹配的x表所有记录 
+  semi_join(x,y, by = NULL, copy = FALSE, ...)
+
+  #返回无法与y表匹配的x表的所有记录
+  anti_join(x, y, by = NULL, copy = FALSE, ...)
+</code></pre>
+<p>by设置两个数据集用于匹配的字段名，默认使用全部同名字段进行匹配，如果两个数据集需要匹配的字段名不同，可以直接用等号指定匹配的字段名，如， by = c(“a” = “b”)，表示用x.a和y.b进行匹配。如果两个数据集来自不同的数据源，copy设置为TRUE时，会把数据集y的数据复制到数据集x中，出于性能上的考虑，需要谨慎设置copy参数为TRUE。合并后的数据集中同名变量，会自动添加suffix中设置的后缀加以区分。</p>
+<pre><code class="lang-r">df1 = data.frame(CustomerId=c(1:6), sex = c(&quot;f&quot;, &quot;m&quot;, &quot;f&quot;, &quot;f&quot;, &quot;m&quot;, &quot;m&quot;), Product=c(rep(&quot;Toaster&quot;,3), rep(&quot;Radio&quot;,3)))
+df2 = data.frame(CustomerId=c(2,4,6,7),sex = c( &quot;m&quot;, &quot;f&quot;, &quot;m&quot;, &quot;f&quot;), State=c(rep(&quot;Alabama&quot;,3), rep(&quot;Ohio&quot;,1)))
+#内连接，默认使用&quot;CustomerId&quot;和&quot;sex&quot;连接
+inner_join(df1, df2)
+#左连接，默认使用&quot;CustomerId&quot;和&quot;sex&quot;连接
+left_join(df1, df2)
+#右连接，默认使用&quot;CustomerId&quot;和&quot;sex&quot;连接
+right_join(df1, df2)
+#全连接，默认使用&quot;CustomerId&quot;和&quot;sex&quot;连接
+full_join(df1, df2)
+#内连接，使用&quot;CustomerId&quot;连接，同名字段sex会自动添加后缀
+inner_join(df1, df2, by = c(&quot;CustomerId&quot; = &quot;CustomerId&quot;))
+#以CustomerId连接，返回df1中与df2匹配的记录
+semi_join(df1, df2, by = c(&quot;CustomerId&quot; = &quot;CustomerId&quot;))
+#以CustomerId和sex连接，返回df1中与df2不匹配的记录
+anti_join(df1, df2)
+</code></pre>
+<p>参考链接：<br><a href="https://blog.csdn.net/wltom1985/article/details/54973811" target="_blank" rel="noopener">https://blog.csdn.net/wltom1985/article/details/54973811</a><br><a href="https://zhuanlan.zhihu.com/p/150457098" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/150457098</a><br><a href="https://www.cnblogs.com/shangfr/p/6110614.html" target="_blank" rel="noopener">https://www.cnblogs.com/shangfr/p/6110614.html</a></p>
 
         </div>
         <!-- .entry-content -->
@@ -528,15 +687,15 @@ for pic in os.listdir(path):  #os.listdir() 方法用于返回指定的文件夹
           
             <div class="post-nepre half previous">
           
-            <a href="/2020/07/15/With在Python中的实践原理/" rel="prev">
+            <a href="/2021/09/03/R_tidyr/" rel="prev">
               <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.0/images/article/with_python_20200901.png" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.0/images/article/with_python_20200901.png">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/r_tidyr20210903.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/r_tidyr20210903.jpg">
               </div>
               <span class="label">
               Previous Post</span>
               <div class="info">
                 <h3>
-                With在Python中的实践原理</h3>
+                R语言包学习之tidyr包：数据结构重构</h3>
                 <hr>
               </div>
             </a>
@@ -546,15 +705,15 @@ for pic in os.listdir(path):  #os.listdir() 方法用于返回指定的文件夹
           
             <div class="post-nepre half next">
           
-            <a href="/2020/07/09/SQL锁/" rel="next">
+            <a href="/2021/08/16/ruankao_database_engineer/" rel="next">
               <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.7/images/article/sqllock20200709.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.7/images/article/sqllock20200709.jpg">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/ruankao_database_engineer20210816.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/ruankao_database_engineer20210816.jpg">
               </div>
               <span class="label">
               Next Post</span>
               <div class="info">
                 <h3>
-                一张图彻底搞懂 MySQL 的锁机制</h3>
+                软考中级数据库系统工程师备考经验分享</h3>
                 <hr>
               </div>
             </a>
