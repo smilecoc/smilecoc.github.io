@@ -656,6 +656,7 @@ semi_join(df1, df2, by = c(&quot;CustomerId&quot; = &quot;CustomerId&quot;))
 #以CustomerId和sex连接，返回df1中与df2不匹配的记录
 anti_join(df1, df2)
 </code></pre>
+<p>dplyr包在R语言中也经常和tidyr包一起使用进行数据清洗，tidyr包的使用可以查看：<a href="http://smilecoc.vip/2021/09/03/R_tidyr/">http://smilecoc.vip/2021/09/03/R_tidyr/</a></p>
 <p>参考链接：<br><a href="https://blog.csdn.net/wltom1985/article/details/54973811" target="_blank" rel="noopener">https://blog.csdn.net/wltom1985/article/details/54973811</a><br><a href="https://zhuanlan.zhihu.com/p/150457098" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/150457098</a><br><a href="https://www.cnblogs.com/shangfr/p/6110614.html" target="_blank" rel="noopener">https://www.cnblogs.com/shangfr/p/6110614.html</a></p>
 
         </div>
@@ -1151,20 +1152,5 @@ $(document).ready(function() {
     })
   });
 </script>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 </html>

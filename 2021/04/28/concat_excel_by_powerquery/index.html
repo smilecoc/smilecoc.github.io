@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">Windows 10文件夹中的一些高级搜索技巧 | Smilecoc&#39;s Blog</title>
+  <title itemprop="name">Excel：使用powerquery进行多表合并 | Smilecoc&#39;s Blog</title>
   
     <link rel="shortcut icon" href="/images/favicon.ico">
   
@@ -435,11 +435,11 @@
 
   <div class="pattern-center single-center">
     <!-- 有配图默认渲染第一张 -->
-    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/win10_file_search20210903.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/win10_file_search20210903.jpg">
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/concat_excel_by_powerquery20210428.png);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/concat_excel_by_powerquery20210428.png">
     </div>
     <header class="pattern-header single-header">
       <h1 class="entry-title">
-      Windows 10文件夹中的一些高级搜索技巧</h1>
+      Excel：使用powerquery进行多表合并</h1>
       <p class="entry-census">
         <span>
           <a href="http://smilecoc.vip/">
@@ -451,7 +451,7 @@
         </span>
         <span class="bull">
         ·</span>
-        2020-1-1<span class="bull">
+        2021-4-28<span class="bull">
         ·</span>
       <span id="busuanzi_value_page_pv"></span>次阅读</p>
     </header>
@@ -465,39 +465,75 @@
         <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
         
         <div class="entry-content">
-          <h1 id="搜索文件中的内容"><a href="#搜索文件中的内容" class="headerlink" title="搜索文件中的内容"></a>搜索文件中的内容</h1><p>默认的win10搜索是只针对文件名搜索的，但有的时候我们需要搜索文件中包含特定内容的文件，这时候需要设置一下搜索的选项打开搜索文件名和内容选项：</p>
+          <p>​注：本文原创为：<a href="https://www.cnblogs.com/fanyu2019/p/11175827.html" target="_blank" rel="noopener">https://www.cnblogs.com/fanyu2019/p/11175827.html</a>,本文在原创的基础上添加修改了一点内容</p>
+<p>工作中常遇到需汇总多张表进行分析的情况，本文以某公司销售数据（数据为虚构数据）为例介绍使用powerquery合并excel表的方法。</p>
+<p>本文中所使用<strong>数据格式相同</strong>，且工<strong>作表中第一行为标题行</strong>，数据不规范可能使合并汇总数据存在问题或合并不成功，注意事项请移至文末进行查看。同时本文操作工具为office365。</p>
+<p><strong>多表合并存在多种情况：</strong><br><img src="https://img-blog.csdnimg.cn/20210428153422840.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h1 id="一-单工作簿多工作表合并"><a href="#一-单工作簿多工作表合并" class="headerlink" title="一. 单工作簿多工作表合并"></a>一. 单工作簿多工作表合并</h1><p>原始数据中存在多sheet页，进行单工作簿的多工作表合并，先看原始数据及处理之后的数据：</p>
+<p>原始数据▼<br><img src="https://img-blog.csdnimg.cn/20210428153502906.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>最终数据▼<br><img src="https://img-blog.csdnimg.cn/20210428153516382.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><strong>第一步：新建查询（进入powerquery编辑器）</strong><br>点击【数据】&gt;【获取数据】&gt;【来自文件】&gt;【从工作簿】，选择原始数据，导入<br><img src="https://img-blog.csdnimg.cn/20210428153922786.gif" alt="在这里插入图片描述"></p>
+<p><strong>第二步：追加查询</strong><br>点击【主页】&gt;【追加查询】&gt;【追加查询】，选择“三个或更多表”，依次添加工作表，得到合并后的数据<br><img src="https://img-blog.csdnimg.cn/20210428153938982.gif" alt="在这里插入图片描述"></p>
+<p><strong>第三步：关闭并上载</strong></p>
+<p>点击【关闭并上载】&gt;【关闭并上载】，可在excel中查看汇总后的数据<br><img src="https://img-blog.csdnimg.cn/20210428154000436.gif" alt="在这里插入图片描述"></p>
+<p><strong>第四步：excel中对数据进行最后处理</strong></p>
+<p>在excel中对数据进行简单处理，得到最终汇总数据<br><img src="https://img-blog.csdnimg.cn/2021042815403835.gif" alt="在这里插入图片描述"></p>
+<h1 id="二-多工作簿单工作表合并"><a href="#二-多工作簿单工作表合并" class="headerlink" title="二. 多工作簿单工作表合并"></a>二. 多工作簿单工作表合并</h1><p>原始数据含有多个工作簿，但每个工作簿中只有一个工作表，进行多工作簿的单工作表合并，先看原始数据及处理之后的数据：</p>
+<p>原始数据▼<br><img src="https://img-blog.csdnimg.cn/20210428154512467.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>最终数据▼<br><img src="https://img-blog.csdnimg.cn/20210428154520823.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><strong>第一步：新建查询（进入powerquery编辑器），合并</strong><br>点击【数据】&gt;【获取数据】&gt;【来自文件】&gt;【从文件夹】，选择原始数据，导入，点击【组合】&gt;【合并和编辑】，选择工作表，点击【确定】，在powerquery中可查看到已合并的数据</p>
+<p><img src="https://img-blog.csdnimg.cn/20210428155350302.gif" alt="在这里插入图片描述"></p>
+<p><strong>第二步：关闭并上载</strong><br>查看合并后的数据，点击【关闭并上载】</p>
+<p>注：由于第三个工作表中存在编辑过的空行，合并时空行也进入到合并的数据中，可在合并之前对工作表数据进行处理<br><img src="https://img-blog.csdnimg.cn/20210428155402259.gif" alt="在这里插入图片描述"></p>
+<p><strong>第三步：excel中对数据进行最后处理</strong><br>在excel中对数据进行简单处理，得到最终汇总数据<br><img src="https://img-blog.csdnimg.cn/20210428155441732.gif" alt="在这里插入图片描述"></p>
+<h1 id="三-多工作簿多工作表合并"><a href="#三-多工作簿多工作表合并" class="headerlink" title="三. 多工作簿多工作表合并"></a>三. 多工作簿多工作表合并</h1><p>实际工作中常常存在需要合并文件夹中的excel数据，且每个工作簿中含有多张工作表，进行多工作簿的多工作表合并，先看原始数据及处理之后的数据：</p>
+<p>原始数据▼</p>
+<p><img src="https://img-blog.csdnimg.cn/20210428160533657.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>最终数据▼<br><img src="https://img-blog.csdnimg.cn/20210428160540729.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><strong>第一步：新建查询（进入powerquery编辑器）</strong></p>
+<p>点击【数据】&gt;【获取数据】&gt;【来自文件】&gt;【从文件夹】，选择原始数据，导入，点击【转换数据】<br><img src="https://img-blog.csdnimg.cn/20210428161050211.gif" alt="在这里插入图片描述"></p>
+<p><strong>第二步：删除其他信息，保留content及name列</strong></p>
+<p>保留content及name列，点击【主页】&gt;【删除列】&gt;【删除其他列】。这些删除的列一般我们都是用不到的，所以我们直接删除提高效率</p>
+<p><img src="https://img-blog.csdnimg.cn/2021042816111420.gif" alt="在这里插入图片描述"></p>
+<p><strong>第三步：自定义列，返回工作表记录</strong></p>
+<p>点击【添加列】&gt;【自定义列】，输入新列名及公式：<strong>Excel.Workbook([Content],true)</strong></p>
+<p>注：<br>公式Excel.Workbook([Content],true)需区分大小写</p>
+<p> <img src="https://img-blog.csdnimg.cn/20210428161246684.gif" alt="在这里插入图片描述"></p>
+<p>公式解析：</p>
+<ul>
+<li>功能：从Excel工作簿返回工作表的记录</li>
+<li>参数：Excel.Workbook( workbook as binary, optional useHeaders as nullable logical, optional delayTypes as nullable logical) as table<br>第一个参数是要解析的字段，返回一个table，第二个是可选参数逻辑值，参数使用true，就是指定数据使用第一行做为标题。</li>
+</ul>
+<p><strong>第四步：展开数据并删除多余数据</strong></p>
 <ol>
-<li>打开文件夹—查看<img src="https://img-blog.csdnimg.cn/9a669f9e215347aa87d33f1c622d3175.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAU21pbGVjb2M=,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></li>
-<li><p>选择选项<img src="https://img-blog.csdnimg.cn/d52e5c68296041fab673fb667c17e33b.png" alt="在这里插入图片描述"></p>
+<li><p>选中第三步中返回的table列及name列，点击【主页】&gt;【删除列】&gt;【删除其他列】</p>
+<p>注：保留name列为保留数据来源，若不需要可以删除</p>
 </li>
-<li><p>打开文件夹中的搜索选项<img src="https://img-blog.csdnimg.cn/16a3407123074cf6a09d2ecddfe4448f.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAU21pbGVjb2M=,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
+<li><p>点击table列，进行展开</p>
 </li>
-<li><p>勾选始终搜索文件名和内容<img src="https://img-blog.csdnimg.cn/183efe0998e24f23ab07e17dd0b201d2.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAU21pbGVjb2M=,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
+<li><p>展开的数据中，选中table列及数据源列，点击【主页】&gt;【删除列】&gt;【删除其他列】</p>
 </li>
-<li><p>由于搜索内容比较耗时，所有在文件较多或者不需要搜索内容是记得关闭该选项</p>
+<li><p>展开table列</p>
 </li>
 </ol>
-<h2 id="Advanced-Query-Syntax语句搜索"><a href="#Advanced-Query-Syntax语句搜索" class="headerlink" title="Advanced Query Syntax语句搜索"></a>Advanced Query Syntax语句搜索</h2><h2 id="通配符搜索"><a href="#通配符搜索" class="headerlink" title="通配符搜索"></a>通配符搜索</h2><p>Windows搜索工具支持匹配搜索，即支持使用<code>*</code>（代表任意多个字母或汉字）和<code>?</code>（代表一个汉字或字符）</p>
-<p>例如：输入<code>*.txt</code>将列出指定目录下所有文本文件</p>
-<h2 id="精确搜索"><a href="#精确搜索" class="headerlink" title="精确搜索"></a>精确搜索</h2><p>Win10会默认返回模糊匹配的结果。例如我要搜索<code>测试.txt</code>这个文件，但是返回的结果为：<br><img src="https://img-blog.csdnimg.cn/b92b7d624be0456e87c18c9885488889.png" alt="在这里插入图片描述"><br>这时可以通过搜索<code>filename:测试.txt</code>得到精确的搜索结果</p>
-<p>同理还有其他的搜索语句：</p>
-<pre><code class="lang-text">Kind:&lt;&gt;picture   #查找除图片类型外的文件
-DateModified:2021/07/03   #查找修改时间在2021/07/03的文件
-Author:&quot;Admin&quot;   #查找作者为Admin的文件
-Size:&lt;1mb  #查找文件大小小于1Mb的文件
-</code></pre>
-<h2 id="组合使用AQS语句搜索"><a href="#组合使用AQS语句搜索" class="headerlink" title="组合使用AQS语句搜索"></a>组合使用AQS语句搜索</h2><p>同样上述规则还可以组合使用，我们可以通过逻辑运算表达式. AND OR 和NOT(大写)来实现不同的组合：</p>
-<pre><code class="lang-text">#选择文件修改时间在2021/08/01到2021/08/30的文件
-DateModified:&gt;=2021/08/01 AND DateModified:&lt;=2021/08/30
-date:&gt;=2021/08/0&lt;=2021/08/30
-#查找文件名中包含test同时大小小于110M的的pdf文件
-*test*.pdf AND System.Size: &lt; 10mb
-#查找文件名中不包含test的pdf文件
-NOT test AND *.pdf
-#修改时间在2021/7/3或者类型为图片的文件
-DateModified:2021/07/03  OR  Kind:picture
-</code></pre>
-<p>Advanced Query Syntax语句的更多使用方法可以参考<a href="https://docs.microsoft.com/en-us/windows/win32/lwef/-search-2x-wds-aqsreference#:~:text=The%20Advanced%20Query%20Syntax%20%28AQS%29%20is%20used%20by,kinds%3A%20folders%2C%20documents%2C%20presentations%2C%20pictures%20and%20so%20on." target="_blank" rel="noopener">官方文档</a></p>
+<p><img src="https://img-blog.csdnimg.cn/20210428161330314.gif" alt="在这里插入图片描述"></p>
+<p>注：若需保留数据来源（工作簿名、工作表名），在数据处理中对数据来源列进行保留即可</p>
+<p><strong>第五步：关闭并上载</strong></p>
+<p>点击【关闭并上载】&gt;【关闭并上载】，可在excel中查看到已合并的数据</p>
+<p><img src="https://img-blog.csdnimg.cn/20210428161410996.gif" alt="在这里插入图片描述"></p>
+<p><strong>第六步：excel中对数据进行最后处理</strong></p>
+<p>在excel中对数据进行简单处理，得到最终汇总数据</p>
+<p><img src="https://img-blog.csdnimg.cn/20210428161429117.gif" alt="在这里插入图片描述"></p>
+<p>注：当文件夹中的数据改变中，可右键进行【刷新】即可更新数据</p>
+<h1 id="注意事项："><a href="#注意事项：" class="headerlink" title="注意事项："></a>注意事项：</h1><ol>
+<li><p>数据格式：此方法仅适用于数据格式相同的数据表合并</p>
+</li>
+<li><p>合并单元格：工作表中应避免出现合并单元格</p>
+</li>
+<li><p>空行：若工作表中存在编辑过或有格式的空行，合并时空行也会保留，需在合并之前对工作表数据进行处理：Ctrl+shift+↓选中所有空行，Ctrl+-删除所有空行</p>
+</li>
+<li>筛选很多的下拉值时只会显示前1000个值，如果想要筛选1000后的值可以考虑在原始数据中改变一下值的位置</li>
+</ol>
 
         </div>
         <!-- .entry-content -->
@@ -528,15 +564,15 @@ DateModified:2021/07/03  OR  Kind:picture
           
             <div class="post-nepre half previous">
           
-            <a href="/2020/01/01/定制系统资源/" rel="prev">
+            <a href="/2021/06/28/vba_outlook_auto_send_email/" rel="prev">
               <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/article/dzxt20200101.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/article/dzxt20200101.jpg">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/vba_auto_send_email20200628.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/vba_auto_send_email20200628.jpg">
               </div>
               <span class="label">
               Previous Post</span>
               <div class="info">
                 <h3>
-                定制系统与使用方式资源</h3>
+                利用VBA调用outlook自动发送邮件</h3>
                 <hr>
               </div>
             </a>
@@ -546,15 +582,15 @@ DateModified:2021/07/03  OR  Kind:picture
           
             <div class="post-nepre half next">
           
-            <a href="/2019/12/25/SQL实现筛选出连续3天登录用户/" rel="next">
+            <a href="/2021/04/25/pivot_table_calculate_fileds/" rel="next">
               <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/article/sqlnotes20191225.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/article/sqlnotes20191225.jpg">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/pivot_table_calculate_fileds20210425.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/pivot_table_calculate_fileds20210425.jpg">
               </div>
               <span class="label">
               Next Post</span>
               <div class="info">
                 <h3>
-                SQL窗口函数并实现筛选出连续n天登录用户</h3>
+                数据透视表（图）中添加公式计算与汇总--计算项和计算字段</h3>
                 <hr>
               </div>
             </a>
@@ -992,20 +1028,5 @@ $(document).ready(function() {
     })
   });
 </script>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 </html>

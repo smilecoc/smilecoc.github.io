@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://smilecoc.vip/"/>
-  <updated>2021-09-05T14:41:33.200Z</updated>
+  <updated>2021-09-05T15:25:29.270Z</updated>
   <id>http://smilecoc.vip/</id>
   
   <author>
@@ -17,11 +17,32 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Windows 10文件夹中的一些高级搜索技巧</title>
+    <link href="http://smilecoc.vip/2021/09/03/win10_file_search_tips/"/>
+    <id>http://smilecoc.vip/2021/09/03/win10_file_search_tips/</id>
+    <published>2021-09-03T10:23:46.000Z</published>
+    <updated>2021-09-05T15:25:29.270Z</updated>
+    
+    <summary type="html">
+    
+      Windows 10文件夹中的一些高级搜索技巧
+    
+    </summary>
+    
+    
+      <category term="笔记" scheme="http://smilecoc.vip/categories/%E7%AC%94%E8%AE%B0/"/>
+    
+    
+      <category term="实用技巧" scheme="http://smilecoc.vip/tags/%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7/"/>
+    
+  </entry>
+  
+  <entry>
     <title>R语言包学习之tidyr包：数据结构重构</title>
     <link href="http://smilecoc.vip/2021/09/03/R_tidyr/"/>
     <id>http://smilecoc.vip/2021/09/03/R_tidyr/</id>
     <published>2021-09-03T05:52:38.000Z</published>
-    <updated>2021-09-05T14:41:33.200Z</updated>
+    <updated>2021-09-06T15:04:46.408Z</updated>
     
     <summary type="html">
     
@@ -42,7 +63,7 @@
     <link href="http://smilecoc.vip/2021/08/23/R_dplyr/"/>
     <id>http://smilecoc.vip/2021/08/23/R_dplyr/</id>
     <published>2021-08-23T06:36:36.000Z</published>
-    <updated>2021-09-05T14:34:09.785Z</updated>
+    <updated>2021-09-06T15:08:43.335Z</updated>
     
     <summary type="html">
     
@@ -173,6 +194,27 @@
     <summary type="html">
     
       利用Python中win32com库调用outlook实现自动发送邮件
+    
+    </summary>
+    
+    
+      <category term="技术" scheme="http://smilecoc.vip/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="Excel &amp; VBA" scheme="http://smilecoc.vip/tags/Excel-VBA/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Excel：使用powerquery进行多表合并</title>
+    <link href="http://smilecoc.vip/2021/04/28/concat_excel_by_powerquery/"/>
+    <id>http://smilecoc.vip/2021/04/28/concat_excel_by_powerquery/</id>
+    <published>2021-04-28T08:18:28.000Z</published>
+    <updated>2021-09-06T15:30:07.136Z</updated>
+    
+    <summary type="html">
+    
+      使用PowerQuery进行多表合并，让你不用写代码就可以合并多个文件
     
     </summary>
     
@@ -391,48 +433,6 @@
     
     
       <category term="python其他" scheme="http://smilecoc.vip/tags/python%E5%85%B6%E4%BB%96/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>python中yield的用法详解</title>
-    <link href="http://smilecoc.vip/2020/10/10/python%E4%B8%ADyield%E7%9A%84%E7%94%A8%E6%B3%95%E8%AF%A6%E8%A7%A3/"/>
-    <id>http://smilecoc.vip/2020/10/10/python%E4%B8%ADyield%E7%9A%84%E7%94%A8%E6%B3%95%E8%AF%A6%E8%A7%A3/</id>
-    <published>2020-10-10T09:28:33.000Z</published>
-    <updated>2020-10-18T09:28:48.804Z</updated>
-    
-    <summary type="html">
-    
-      最简单易懂讲解python中yield的用法详解
-    
-    </summary>
-    
-    
-      <category term="转载" scheme="http://smilecoc.vip/categories/%E8%BD%AC%E8%BD%BD/"/>
-    
-    
-      <category term="python其他" scheme="http://smilecoc.vip/tags/python%E5%85%B6%E4%BB%96/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Python检验数据是否正态分布</title>
-    <link href="http://smilecoc.vip/2020/10/01/%E5%88%A9%E7%94%A8Python%E6%A3%80%E6%B5%8B%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83/"/>
-    <id>http://smilecoc.vip/2020/10/01/%E5%88%A9%E7%94%A8Python%E6%A3%80%E6%B5%8B%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83/</id>
-    <published>2020-10-01T08:25:43.000Z</published>
-    <updated>2020-10-07T09:05:59.522Z</updated>
-    
-    <summary type="html">
-    
-      利用Python检验数据是否正态分布的方法
-    
-    </summary>
-    
-    
-      <category term="技术" scheme="http://smilecoc.vip/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-    
-      <category term="Python数据分析" scheme="http://smilecoc.vip/tags/Python%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/"/>
     
   </entry>
   
