@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">数据透视表（图）中添加公式计算与汇总--计算项和计算字段 | Smilecoc&#39;s Blog</title>
+  <title itemprop="name">Smilecoc&#39;s Blog</title>
   
     <link rel="shortcut icon" href="/images/favicon.ico">
   
@@ -429,157 +429,126 @@
   </div>
 </header>
 
-      <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
-<div class="pattern-center-blank"></div>
-
-  <div class="pattern-center single-center">
-    <!-- 有配图默认渲染第一张 -->
-    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/pivot_table_calculate_fileds20210425.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/pivot_table_calculate_fileds20210425.jpg">
-    </div>
-    <header class="pattern-header single-header">
-      <h1 class="entry-title">
-      数据透视表（图）中添加公式计算与汇总--计算项和计算字段</h1>
-      <p class="entry-census">
-        <span>
-          <a href="http://smilecoc.vip/">
-            <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico">
-          </a>
-        </span>
-        <span>
-          <a href="http://smilecoc.vip/">smilecoc</a>
-        </span>
-        <span class="bull">
-        ·</span>
-        2021-4-25<span class="bull">
-        ·</span>
-      <span id="busuanzi_value_page_pv"></span>次阅读</p>
-    </header>
-  </div>
-
+      <div class="blank" style="padding-top: 0px;"></div>
 <div id="content" class="site-content">
+  
+  <div class="notice" style="margin-top:60px">
+    <i class="iconfont icon-notification">
+    </i>
+    <div class="notice-content">Welcome to My Blog</div>
+  </div>
+  
+  <div class="top-feature-row">
+  <h1 class="fes-title" style="font-family: 'Ubuntu', sans-serif;">
+  <i class="fa fa-anchor" aria-hidden="true">
+  </i>
+  START:DASH!!</h1>
+  
+  <div class="top-feature-v2">
+    <div class="the-feature square from_left_and_right">
+      <a href="http://smilecoc.vip/2019/08/20/%E6%88%91%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E5%85%A8%E8%AE%B0%E5%BD%95/" target="_blank">
+        <div class="img">
+          <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/startdash/sakura.jpg">
+        </div>
+        <div class="info">
+          <h3>Sakura</h3>
+          <p>本站 hexo 主题</p>
+        </div>
+      </a>
+    </div>
+  </div>
+  
+  <div class="top-feature-v2">
+    <div class="the-feature square from_left_and_right">
+      <a href="http://space.bilibili.com/46934171" target="_blank">
+        <div class="img">
+          <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/startdash/bilibili.jpg">
+        </div>
+        <div class="info">
+          <h3>Bilibili</h3>
+          <p>博主的b站视频</p>
+        </div>
+      </a>
+    </div>
+  </div>
+  
+  <div class="top-feature-v2">
+    <div class="the-feature square from_left_and_right">
+      <a href="/" target="_blank">
+        <div class="img">
+          <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/startdash/wangshiwu.jpg">
+        </div>
+        <div class="info">
+          <h3>Smilecoc的杂货铺</h3>
+          <p>博主的微信公众号</p>
+        </div>
+      </a>
+    </div>
+  </div>
+  
+</div>
   <div id="primary" class="content-area">
     <main id="main" class="site-main" role="main">
-      <article id="post-1" class="post-1 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
-        <div class="toc"></div>
-        <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
-        
-        <div class="entry-content">
-          <h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>最近有一个同学咨询了一个Excel问题如下：<br>原始数据如下表：<br>| 品牌 | 时间       | 产品数量 | 次品数量 |<br>|——|—————|———|———|<br>| A  | 2020/1/1 | 3501 | 25   |<br>| A  | 2020/1/2 | 3697 | 23   |<br>| A  | 2020/1/3 | 4694 | 22   |<br>| A  | 2020/1/4 | 3191 | 18   |<br>| A  | 2020/1/5 | 3583 | 30   |<br>| A  | 2020/1/6 | 4024 | 12   |<br>| A  | 2020/1/7 | 3378 | 28   |<br>| A  | 2020/1/8 | 4240 | 20   |<br>| B  | 2020/1/1 | 4520 | 42   |<br>| B  | 2020/1/2 | 4909 | 54   |<br>| B  | 2020/1/3 | 4218 | 52   |<br>| B  | 2020/1/4 | 3621 | 34   |<br>| B  | 2020/1/5 | 3023 | 56   |<br>| B  | 2020/1/6 | 3411 | 56   |<br>| B  | 2020/1/7 | 4238 | 37   |<br>| B  | 2020/1/8 | 4495 | 32   |<br>| C  | 2020/1/1 | 3944 | 39   |<br>| C  | 2020/1/2 | 3055 | 42   |<br>| C  | 2020/1/3 | 4541 | 47   |<br>| C  | 2020/1/4 | 3471 | 80   |<br>| C  | 2020/1/5 | 3181 | 97   |<br>| C  | 2020/1/6 | 3273 | 74   |<br>| C  | 2020/1/7 | 3425 | 88   |<br>| C  | 2020/1/8 | 4372 | 89   |</p>
-<p>现在需要使用数据透视表（图） 以时间为横轴，次品率为纵轴画出各品牌和所有品牌总计的次品率的折线图，结果如下<br><img src="https://img-blog.csdnimg.cn/20210425113057516.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>他的问题是：</p>
-<ol>
-<li>如何在数据透视图（表）中添加次品率这一个计算。之前他的解决办法是新建一列辅助列利用公式计算 次品数量/产品数量，然后再利用这张表作为数据源画图。但是问题在于如果后续有新的数据补充进来，那么需要手动调整公式范围</li>
-<li>需要添加全部产品的次品率到图表中。遇到的问题是在数据透视表中会出现一个汇总的次品率，但是由于是数据透视表的自动汇总无法添加到透视图中，因此之前的解决办法是在表中复制所有的数据并将品牌全部改为全部产品从而得到一个全部产品的的次品率。问题同样在于如果后续有新的数据补充进来，那么需要手动复制数据调整数据</li>
-</ol>
-<p>我们可以使用计算项和计算字段来实现列之间的计算和添加分类汇总并添加到数据透视表（图）中。</p>
-<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>具体步骤为：</p>
-<ol>
-<li><p>首先新建数据透视表，并在数据透视表工具中选取计算字段<br><img src="https://img-blog.csdnimg.cn/20210425105549123.png" alt="在这里插入图片描述"></p>
-</li>
-<li><p>根据具体的逻辑书写公式。例如这里公式为 =次品数量 /产品数量，公式填写完后点击确定<br><img src="https://img-blog.csdnimg.cn/20210425105339398.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-</li>
-<li>之后我们就可以看到在数据透视表字段中出现了次品率这一个字段，根据具体的需求制作数据透视表/图即可得到各品牌的次品率。<br><img src="https://img-blog.csdnimg.cn/20210425110331693.png" alt="字段选择"><br><img src="https://img-blog.csdnimg.cn/20210425110419733.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="数据透视表"></li>
-</ol>
-<p><img src="https://img-blog.csdnimg.cn/20210425110350600.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="数据透视图"><br>接下来我们需要将所有品牌的次品率加进去，这里我们就需要用到计算项。</p>
-<p><strong>这里注意一定要先选中一个行标签然后再添加计算项，否则你会发现计算项这一个功能是灰色的无法使用！</strong></p>
-<p>同样我们在数据透视表工具中选取计算项<br><img src="https://img-blog.csdnimg.cn/20210425112438202.png" alt><br>并根据对应逻辑书写公式。这里我们要计算所有品牌的数据，就用公式把所有的品牌加起来<br><img src="https://img-blog.csdnimg.cn/2021042511231983.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>之后在数据表中就可以看到各个品牌的次品率和合计的次品率了。</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>从上述例子中我们可以看到计算项和计算字段的强大功能。计算字段是<strong>横向计算</strong>，当我们需要对两列进行逻辑计算的时候我们可以通过新建计算字段来<strong>添加一个新的字段</strong>（也就是一列）。而计算项是<strong>纵向计算</strong>，当我们需要对一个字段（一列）的数据进行计算的时候我们通过新建计算项来<strong>添加分类/项目</strong>。计算字段和计算项的综合运用可以对透视表（图）进行多维度的计算，能够使用更多透视表的强大功能。</p>
-
-        </div>
-        <!-- .entry-content -->
-        <div class="single-reward">
-          <div class="reward-open">赏<div class="reward-main">
-              <ul class="reward-row">
-                <li class="alipay-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/donate/21AlipayQR.jpg"></li>
-                <li class="wechat-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/donate/wechatpayQR.jpg"></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
-        <footer class="post-footer">
-          <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
-          <div class="post-tags">
-          </div>
-          <div class="post-share">
-            <div class="social-share sharehidden share-component"></div>
-            <i class="iconfont show-share icon-forward"></i>
-          </div>
-        </footer><!-- .entry-footer -->
-      </article>
-      <!-- #post-## -->
-      <div class="toc" style="background: none;"></div>
-      <section class="post-squares nextprev">
-        
-          
-            <div class="post-nepre half previous">
-          
-            <a href="/2021/04/28/concat_excel_by_powerquery/" rel="prev">
-              <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/concat_excel_by_powerquery20210428.png" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/concat_excel_by_powerquery20210428.png">
-              </div>
-              <span class="label">
-              Previous Post</span>
-              <div class="info">
-                <h3>
-                Excel：使用powerquery进行多表合并</h3>
-                <hr>
-              </div>
-            </a>
-          </div>
-        
-        
-          
-            <div class="post-nepre half next">
-          
-            <a href="/2021/01/15/time_series_part3_arima_models/" rel="next">
-              <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.5/images/article/time_series_part3_20210115.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.5/images/article/time_series_part3_20210115.jpg">
-              </div>
-              <span class="label">
-              Next Post</span>
-              <div class="info">
-                <h3>
-                时间序列（三）：ARIMA模型与Python实战</h3>
-                <hr>
-              </div>
-            </a>
-          </div>
-        
-      </section>
+      <h1 class="main-title" style="font-family: 'Ubuntu', sans-serif;">
+      <i class="fa fa-envira" aria-hidden="true"></i>
+      Discovery</h1>
       
-<div id="vcomments"></div>
-<script>
-  window.onload = function(){
-      var valine = new Valine();
-      valine.init({
-        el: '#vcomments',
-        appId: "Hm83GoGeDX3sGPDh3Q50lSMz-gzGzoHsz",
-        appKey: "mXIVaYaFj1DNyH6yBicfUS0w",
-        path: window.location.pathname,
-        placeholder: "你是我一生只会遇见一次的惊喜 ..."
-      })
-  }
-</script>
+  <!-- 首页默认取最最新文章集 -->
+  
+    
+<article  class="post post-list-thumb post-list-thumb-left"  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
 
-      <section class="author-profile">
-        <div class="info" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-          <a href="http://smilecoc.vip/" class="profile gravatar"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico" itemprop="image" alt="smilecoc" height="70" width="70"></a>
-          <div class="meta">
-            <span class="title">Author</span>
-            <h3 itemprop="name">
-            <a href="http://smilecoc.vip/" itemprop="url" rel="author">smilecoc</a>
-            </h3>
-          </div>
+  <div class="post-thumb">
+    <a href="/2019/03/12/RFM用户分析模型/">
+      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.2/images/article/RFM20200312.jpg">
+    </a>
+  </div>
+  <div class="post-content-wrap">
+    <div class="post-content">
+      <div class="post-date">
+        <i class="iconfont icon-time">
+        </i>2019-3-12 22:03</div>
+      <a href="/2019/03/12/RFM用户分析模型/" class="post-title">
+        <h3>RFM用户模型</h3>
+      </a>
+      <div class="post-meta">
+        <span><i class="fa fa-tags"></i>
+        
+            <a href="/tags/Python数据分析/">Python数据分析<em>·</em></a>
+          
+        </span>
+        <span>
+          <i class="iconfont icon-file"></i>
+          
+            <a href="/categories/转载/">转载</a>
+          
+        </span>
+      </div>
+      <div class="float-content">
+        <p>利用python进行RFM建模分析</p>
+        <div class="post-bottom">
+          <a href="/2019/03/12/RFM用户分析模型/" class="button-normal">
+            <i class="iconfont icon-caidan"></i>
+          </a>
         </div>
-        <hr>
-        <p><i class="iconfont icon-write"></i></p>
-      </section>
-    </main><!-- #main -->
-  </div><!-- #primary -->
+      </div>
+    </div>
+  </div>
+</article>
+  
+
+
+    </main>
+      <!-- 首页默认取最最新文章集 -->
+    <!-- 
+      <nav class="navigator">
+        
+        <a class="extend prev" rel="prev" href="/page/7/"><i class="iconfont icon-back"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span>
+      </nav>
+     -->
+  </div>
+  
 </div>
-
-
 
     </div>    
     <div class="ins-search">
