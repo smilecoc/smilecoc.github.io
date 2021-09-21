@@ -468,8 +468,8 @@
           <p>在这篇文章中，我们将使用Python下载视频，并将普通的视频转化为的代码版本的视频，效果如下：</p>
 <p>首先我们需要获取网页上的视频。一般情况下通过APP或者网页上的视频下载的问题有：<br>1.没有提供下载按钮导致无法下载<br>2.下载后的格式一般为.flv格式，或者是有自己的格式无法解析（例如B站）</p>
 <p>针对第一个问题,我们的解决办法就是Python中的you_get库.You-Get 只需要一行代码就可以便利的下载网络上的媒体信息</p>
-<h2 id="you-get下载视频"><a href="#you-get下载视频" class="headerlink" title="you_get下载视频"></a>you_get下载视频</h2><p>you_get主页:<a href="https://github.com/soimort/you-get" target="_blank" rel="noopener">https://github.com/soimort/you-get</a><br>中文说明文档:<a href="https://github.com/soimort/you-get/wiki/%E4%B8%AD%E6%96%87%E8%AF%B4%E6%98%8E" target="_blank" rel="noopener">https://github.com/soimort/you-get/wiki/%E4%B8%AD%E6%96%87%E8%AF%B4%E6%98%8E</a></p>
-<p>首先依旧是需要安装you-get库,同时还需要安装<a href="https://ffmpeg.zeranoe.com/builds/" target="_blank" rel="noopener">FFmpeg</a>,这个工具是you-get库的必要依赖，同时也会在其他的地方用到。本篇文章提供的FFmpeg地址为解压免安装版本，下载后解压并记一下文件路径。其他</p>
+<h2 id="you-get下载视频"><a href="#you-get下载视频" class="headerlink" title="you_get下载视频"></a>you_get下载视频</h2><p>you_get的教程可以看我的另一篇文章<a href="http://smilecoc.vip/2021/09/10/Python_you_get/">http://smilecoc.vip/2021/09/10/Python_you_get/</a><br>you_get主页:<a href="https://github.com/soimort/you-get" target="_blank" rel="noopener">https://github.com/soimort/you-get</a><br>中文说明文档:<a href="https://github.com/soimort/you-get/wiki/%E4%B8%AD%E6%96%87%E8%AF%B4%E6%98%8E" target="_blank" rel="noopener">https://github.com/soimort/you-get/wiki/%E4%B8%AD%E6%96%87%E8%AF%B4%E6%98%8E</a></p>
+<p>首先依旧是需要安装you-get库,同时还需要安装<a href="https://github.com/BtbN/FFmpeg-Builds/releases" target="_blank" rel="noopener">FFmpeg</a>,这个工具是you-get库的必要依赖，同时也会在其他的地方用到。根据对应系统下载安装，下载后解压并记一下文件路径。</p>
 <p>安装完成后如果想下载某个网页的视频,,只需要一句简单的 you-get+网址即可下载视频.</p>
 <pre><code>$ you-get http://www.fsf.org/blogs/rms/20140407-geneva-tedx-talk-free-software-free-society
 Site:       fsf.org
@@ -478,11 +478,13 @@ Type:       WebM video (video/webm)
 Size:       27.12 MiB (28435804 Bytes)
 
 Downloading TEDxGE2014_Stallman05_LQ.webm ...
-100.0% ( 27.1/27.1 MB) ├████████████████████████████████████████┤[1/1]   12 MB/s</code></pre><p>需要注意一点,上述例子you_get的基本命令是在cmd中输入的命令行,如果我们使用IDE时需要使用os.system()方法来执行cmd命令</p>
-<pre><code class="python">import os
-os.system(&#39;you-get  http://www.fsf.org/blogs/rms/20140407-geneva-tedx-talk-free-software-free-society&#39;)</code></pre>
+100.0% ( 27.1/27.1 MB) ├████████████████████████████████████████┤[1/1]   12 MB/s
+</code></pre><p>需要注意一点,上述例子you_get的基本命令是在cmd中输入的命令行,如果我们使用IDE时需要使用os.system()方法来执行cmd命令</p>
+<pre><code class="lang-python">import os
+os.system(&#39;you-get  http://www.fsf.org/blogs/rms/20140407-geneva-tedx-talk-free-software-free-society&#39;)
+</code></pre>
 <p>在一下的you_get示例中，所有的代码均为cmd的代码，所以使用IDE的同学记得要在代码前加入os.system()函数以保证正确运行。</p>
-<p>在下载前可以使用 –info/-i 以查看所有可用画质与格式：</p>
+<p>在下载前可以使用 —info/-i 以查看所有可用画质与格式：</p>
 <pre><code>$ you-get -i &#39;https://www.youtube.com/watch?v=jNQXAC9IVRw&#39;
 site:                YouTube
 title:               Me at the zoo
@@ -512,17 +514,20 @@ streams:             # Available quality and codecs
     - itag:          17
       container:     3gp
       quality:       small
-    # download-with: you-get --itag=17 [URL]</code></pre><p>标有DEFAULT 为默认画质。使用上述下载语句即可开始下载默认画质的视频</p>
+    # download-with: you-get --itag=17 [URL]
+</code></pre><p>标有DEFAULT 为默认画质。使用上述下载语句即可开始下载默认画质的视频</p>
 <p>如果希望下载其他格式或画质的视频，使用提示中出现的 # download-with: 选项即可。例如我想下载上述示例中的MP4格式的视屏：</p>
-<pre><code>$ you-get --itag=18 &#39;https://www.youtube.com/watch?v=jNQXAC9IVRw&#39;</code></pre><p>当下载视频遇到问题时：</p>
+<pre><code>$ you-get --itag=18 &#39;https://www.youtube.com/watch?v=jNQXAC9IVRw&#39;
+</code></pre><p>当下载视频遇到问题时：</p>
 <ul>
 <li>一是排除网络问题；</li>
 <li>二是确保you-get更新到最新版本；</li>
 <li>三是检查目标视频是否已经确认无法爬取。</li>
-<li>四–debug参数进行调试</li>
+<li>四—debug参数进行调试</li>
 </ul>
-<p>同时可以使用–output-dir/-o 设定路径, –output-filename/-O 设定输出文件名:</p>
-<pre><code>$ you-get -o ~/Videos -O zoo.webm &#39;https://www.youtube.com/watch?v=jNQXAC9IVRw&#39;</code></pre><p>这样从网页上下载视频的问题就解决了！</p>
+<p>同时可以使用—output-dir/-o 设定路径, —output-filename/-O 设定输出文件名:</p>
+<pre><code>$ you-get -o ~/Videos -O zoo.webm &#39;https://www.youtube.com/watch?v=jNQXAC9IVRw&#39;
+</code></pre><p>这样从网页上下载视频的问题就解决了！</p>
 <h2 id="视频格式转化"><a href="#视频格式转化" class="headerlink" title="视频格式转化"></a>视频格式转化</h2><p>第二个问题就是从网页上下载视频的视频很只有flv格式，不利于预览和处理。因此需要转化视频格式，比如转化成MP4格式。但是一般在线频转化要么有视频大小的限制，要么需要下载app或者会员。这时候就要用到上面我们下载的FFmpeg处理视频</p>
 <p>FFmpeg 是视频处理最常用的开源软件。它功能强大，用途广泛，大量用于视频网站和商业软件（比如 Youtube 和 iTunes），也是许多音频和视频格式的标准编码/解码实现。使用FFmpeg 命令行处理视频，比桌面视频处理软件更简洁高效。</p>
 <p>例如我们想把所有的flv文件转化为mp4文件：<br>（本部分涉及cmd命令与FFmpeg 命令行，如有疑问可以先搜一下Windows cmd命令的用法和FFmpeg 命令行的用法）</p>
@@ -541,7 +546,7 @@ streams:             # Available quality and codecs
 <p>  2.运行程序即可</p>
 <p>  注意对存储空间的要求较高，请保证有足够的存储空间</p>
 <p>代码如下：</p>
-<pre><code class="python"># -*- coding:utf-8 -*-
+<pre><code class="lang-python"># -*- coding:utf-8 -*-
 # coding:utf-8
 import os, cv2, subprocess, shutil
 from cv2 import VideoWriter, VideoWriter_fourcc, imread, resize
@@ -710,7 +715,8 @@ def main(vedio, save=False, iscut=False, start=&#39;00:00:00&#39;, end=&#39;00:0
 
 if __name__ == &#39;__main__&#39;:
     vedio = r&quot;test.mp4&quot;
-    main(vedio, save=False, iscut=False, start=&#39;00:00:00&#39;, end=&#39;00:00:14&#39;)</code></pre>
+    main(vedio, save=False, iscut=False, start=&#39;00:00:00&#39;, end=&#39;00:00:14&#39;)
+</code></pre>
 <p>这样就可以将一个视频转化为代码版的视频了！</p>
 
         </div>
@@ -762,7 +768,7 @@ if __name__ == &#39;__main__&#39;:
           
             <a href="/2020/04/12/Useful_website_resources/" rel="next">
               <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.4/images/article/websitezl20200412.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.4/images/article/websitezl20200412.jpg">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/websitezl20200412.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/websitezl20200412.jpg">
               </div>
               <span class="label">
               Next Post</span>
