@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://smilecoc.vip/"/>
-  <updated>2021-09-21T14:40:52.507Z</updated>
+  <updated>2022-01-15T17:41:48.989Z</updated>
   <id>http://smilecoc.vip/</id>
   
   <author>
@@ -15,6 +15,48 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Tableau技巧-从 Tableau文件中获取数据</title>
+    <link href="http://smilecoc.vip/2022/01/12/get_data_from_tableau/"/>
+    <id>http://smilecoc.vip/2022/01/12/get_data_from_tableau/</id>
+    <published>2022-01-12T07:58:22.000Z</published>
+    <updated>2022-01-15T17:41:48.989Z</updated>
+    
+    <summary type="html">
+    
+      从 Tableau文件中获取原始数据的方法汇总
+    
+    </summary>
+    
+    
+      <category term="技术" scheme="http://smilecoc.vip/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="BI" scheme="http://smilecoc.vip/tags/BI/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Python爬虫之爬取一个问题下所有的回答</title>
+    <link href="http://smilecoc.vip/2021/12/27/zhihu_spider_by_python/"/>
+    <id>http://smilecoc.vip/2021/12/27/zhihu_spider_by_python/</id>
+    <published>2021-12-26T17:24:28.000Z</published>
+    <updated>2022-01-05T14:30:05.283Z</updated>
+    
+    <summary type="html">
+    
+      使用Python爬取一个知乎问题下的所有回答及其点赞，评论数据
+    
+    </summary>
+    
+    
+      <category term="技术" scheme="http://smilecoc.vip/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="python爬虫" scheme="http://smilecoc.vip/tags/python%E7%88%AC%E8%99%AB/"/>
+    
+  </entry>
   
   <entry>
     <title>Python库积累之you-get库：网页视频与资源下载</title>
@@ -391,48 +433,6 @@
     
     
       <category term="SQL&amp;数据库" scheme="http://smilecoc.vip/tags/SQL-%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>SQL语句优化</title>
-    <link href="http://smilecoc.vip/2020/11/11/SQL%E8%AF%AD%E5%8F%A5%E4%BC%98%E5%8C%96/"/>
-    <id>http://smilecoc.vip/2020/11/11/SQL%E8%AF%AD%E5%8F%A5%E4%BC%98%E5%8C%96/</id>
-    <published>2020-11-11T03:11:11.000Z</published>
-    <updated>2020-11-15T15:36:19.266Z</updated>
-    
-    <summary type="html">
-    
-      SQL语句优化的具体案例与准则
-    
-    </summary>
-    
-    
-      <category term="转载" scheme="http://smilecoc.vip/categories/%E8%BD%AC%E8%BD%BD/"/>
-    
-    
-      <category term="SQL&amp;数据库" scheme="http://smilecoc.vip/tags/SQL-%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>爬取猫眼电影--静态网页反爬与多线程/多进程爬取</title>
-    <link href="http://smilecoc.vip/2020/10/18/%E7%8C%AB%E7%9C%BCtop100%E7%88%AC%E8%99%AB_%E5%A4%9A%E8%BF%9B%E7%A8%8B%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
-    <id>http://smilecoc.vip/2020/10/18/%E7%8C%AB%E7%9C%BCtop100%E7%88%AC%E8%99%AB_%E5%A4%9A%E8%BF%9B%E7%A8%8B%E5%A4%9A%E7%BA%BF%E7%A8%8B/</id>
-    <published>2020-10-18T11:20:10.000Z</published>
-    <updated>2020-10-18T10:21:49.865Z</updated>
-    
-    <summary type="html">
-    
-      爬取猫眼电影Top100电影与其详细信息，知识点包括正则爬虫，yield，静态网页反爬与多线程/多进程爬取
-    
-    </summary>
-    
-    
-      <category term="技术" scheme="http://smilecoc.vip/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-    
-      <category term="python爬虫" scheme="http://smilecoc.vip/tags/python%E7%88%AC%E8%99%AB/"/>
     
   </entry>
   
