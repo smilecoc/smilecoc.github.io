@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://smilecoc.vip/music/index.html</loc>
+    
+    <lastmod>2022-03-20T12:23:33.963Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://smilecoc.vip/2020/02/02/Hexo%20Sakura%20problems%20list/</loc>
+    
+    <lastmod>2022-03-13T06:41:46.384Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://smilecoc.vip/2022/01/12/get_data_from_tableau/</loc>
     
     <lastmod>2022-01-16T17:11:04.471Z</lastmod>
@@ -551,13 +565,6 @@
     <loc>http://smilecoc.vip/links/index.html</loc>
     
     <lastmod>2020-02-05T07:03:44.491Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://smilecoc.vip/music/index.html</loc>
-    
-    <lastmod>2020-01-29T08:36:05.608Z</lastmod>
     
   </url>
   

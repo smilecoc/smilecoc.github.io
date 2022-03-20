@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">SQL Server日期函数详解与实战 | Smilecoc&#39;s Blog</title>
+  <title itemprop="name">Hexo Sakura主题的问题汇总 | Smilecoc&#39;s Blog</title>
   
     <link rel="shortcut icon" href="/images/favicon.ico">
   
@@ -435,11 +435,11 @@
 
   <div class="pattern-center single-center">
     <!-- 有配图默认渲染第一张 -->
-    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.2/images/article/sql_datefunc20200920.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.2/images/article/sql_datefunc20200920.jpg">
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/article/blogquestions.png);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/article/blogquestions.png">
     </div>
     <header class="pattern-header single-header">
       <h1 class="entry-title">
-      SQL Server日期函数详解与实战</h1>
+      Hexo Sakura主题的问题汇总</h1>
       <p class="entry-census">
         <span>
           <a href="http://smilecoc.vip/">
@@ -451,7 +451,7 @@
         </span>
         <span class="bull">
         ·</span>
-        2020-9-20<span class="bull">
+        2020-2-2<span class="bull">
         ·</span>
       <span id="busuanzi_value_page_pv"></span>次阅读</p>
     </header>
@@ -465,124 +465,280 @@
         <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
         
         <div class="entry-content">
-          <p>编写SQL中经常可以遇到日期的格式化与日期相关函数，这篇文章中我们将整理一下相关函数并给出一些实例供参考</p>
-<h1 id="获取时间函数"><a href="#获取时间函数" class="headerlink" title="获取时间函数"></a>获取时间函数</h1><h2 id="getdate-函数"><a href="#getdate-函数" class="headerlink" title="getdate()函数"></a>getdate()函数</h2><p>getdate()函数获取当前的日期与时间。返回的为datetime类型</p>
-<pre><code class="sql">select GETDATE()</code></pre>
-<p>返回<code>2020-09-21 10:07:38.170</code></p>
-<h2 id="SYSDATETIME-函数"><a href="#SYSDATETIME-函数" class="headerlink" title="SYSDATETIME()函数"></a>SYSDATETIME()函数</h2><p>SYSDATETIME()函数获取当前的日期与时间，但是返回的数据类型是DATETIME2，会更加精准，使用频率较少</p>
-<pre><code class="sql">SELECT SYSDATETIME()</code></pre>
-<h1 id="格式化函数"><a href="#格式化函数" class="headerlink" title="格式化函数"></a>格式化函数</h1><h2 id="CONVERT-函数"><a href="#CONVERT-函数" class="headerlink" title="CONVERT()函数"></a>CONVERT()函数</h2><p>CONVERT() 函数是一个数据类型转化的通用函数，例如将数字类型转化为文本等。我们可以使用此函数把日期转换为新数据类型<br>语法为：</p>
-<pre><code class="sql">        CONVERT(data_type(length),expression,style)</code></pre>
-<p>其中data_type(length) 规定目标数据类型（带有可选的长度）。expression指需要转换的值。style 规定日期/时间的输出格式。</p>
-<p>其中常用的style代码及显示格式如下：</p>
-<pre><code>        101： mm/dd/yyyy
-        110： mm-dd-yyyy
-        111： yyyy/mm/dd
-        112： yyyymmdd
-        120： yyyy-mm-dd hh:mm:ss
-        121： yyyy-mm-dd hh:mm:sssssss</code></pre><p>全部的style代码可以参考:<a href="https://www.cnblogs.com/rainman/p/6558261.html" target="_blank" rel="noopener">https://www.cnblogs.com/rainman/p/6558261.html</a></p>
-<p>例如;</p>
-<pre><code class="sql">    SELECT CONVERT(varchar(100), GETDATE(), 111)</code></pre>
-<p>通过查看转化后的数据类型，可以看到新的数据类型已变成varchar(100)类型。</p>
-<pre><code class="sql">--查看数据类型
-DECLARE @query nvarchar(max) = &#39;SELECT CONVERT(varchar(100), GETDATE(), 111) AS [Column1]&#39;;
-EXEC sp_describe_first_result_set @query, null, 0;</code></pre>
-<h2 id="FORMAT-函数"><a href="#FORMAT-函数" class="headerlink" title="FORMAT()函数"></a>FORMAT()函数</h2><p>Format函数用于指定显示的格式。<br>语法：</p>
-<pre><code>FORMAT(value,format[,culture])</code></pre><p>参数format用于指定显示的格式，给予用户对格式更自由地控制，culture参数是可选的，用于指定显示的语言，该函数返回值的数据类型是NVARCHAR，如果格式转换失败，该函数返回NULL</p>
-<p>参数format使用#表示一个数值，参数 format 使用以下占位符来表示日期/时间的格式：</p>
-<pre><code>1. yyyy、MM、dd：表示年、月、日
-2. hh:mm:ss fffffff：表示时、分、秒、毫秒
-3. 使用“/”，“-”等作为连接各个部分（part）的分割符号</code></pre><p>例如要将当前日期转化为20200921，则SQL语句为：</p>
-<pre><code class="sql">SELECT Format(GETDATE(), &#39;yyyyMMdd&#39;)</code></pre>
-<p>同时format()函数还可以转变数值类型，使用特定的格式展示等</p>
-<pre><code class="sql">select FORMAT(123456789,&#39;###-##-####&#39;) AS &#39;Custom Number Result&#39;</code></pre>
-<p>对应返回结果为123-45-6789</p>
-<h1 id="日期的拆分"><a href="#日期的拆分" class="headerlink" title="日期的拆分"></a>日期的拆分</h1><h2 id="YEAR-date-MONTH-date-DAY-date"><a href="#YEAR-date-MONTH-date-DAY-date" class="headerlink" title="YEAR(date),MONTH(date),DAY(date)"></a>YEAR(date),MONTH(date),DAY(date)</h2><p>YEAR(date),MONTH(date),DAY(date)等函数返回给定date的年，月，日<br>实例：</p>
-<pre><code class="sql">select year(&#39;2020-9-21&#39;),month(&#39;2020-9-21&#39;),day(&#39;2020-9-21&#39;)</code></pre>
-<h2 id="DATEPART-函数"><a href="#DATEPART-函数" class="headerlink" title="DATEPART() 函数"></a>DATEPART() 函数</h2><p>DATEPART() 函数用于返回日期/时间的单独部分，比如年、月、日、小时、分钟等等</p>
-<p>语法：</p>
-<pre><code>DATEPART(datepart,date)</code></pre><p>其中date 参数是合法的日期表达式。datepart为需要取出的数据缩写代码。常用的datepart参数可以是下列的值：</p>
-<pre><code>    quarter：季度，取值范围是 1、2、3、4
-    week：周在年中的序数，取值范围是 1 - 53
-    dayofyear：天在年中的序数，取值范围是 1 - 366
-    weekday：天在一周中的序数，取值范围是 1 - 7</code></pre><p>全部参数可参阅：<a href="https://www.w3school.com.cn/sql/func_datepart.asp" target="_blank" rel="noopener">https://www.w3school.com.cn/sql/func_datepart.asp</a></p>
-<p>具体实例代码：</p>
-<pre><code class="sql">--返回年，月份，季度，当前天数统计
-SELECT DATEPART(yyyy,GETDATE()) AS Year,
-DATEPART(m,GETDATE()) AS Month,
-DATEPART(quarter,GETDATE()) AS Quarter,
-DATEPART(dayofyear,GETDATE()) AS daynumber</code></pre>
-<h2 id="DATENAME-函数，"><a href="#DATENAME-函数，" class="headerlink" title="DATENAME()函数，"></a>DATENAME()函数，</h2><p>与DATEPART不同的地方在于返回字符类型,比如Jan,一月等<br>语法：</p>
-<pre><code class="sql">DATENAME(datepart,date)</code></pre>
-<p>实例：</p>
-<pre><code class="sql">SELECT DATENAME(month, getdate()) AS &#39;Month&#39;</code></pre>
-<p>对于中英文切换，使用如下语句：</p>
-<pre><code class="sql">set LANGUAGE &#39;Simplified Chinese&#39;
-select  DATENAME(WEEKDAY,getutcdate())
-
-set LANGUAGE &#39;us_english&#39;
-select  DATENAME(WEEKDAY,getutcdate())</code></pre>
-<h1 id="日期计算函数"><a href="#日期计算函数" class="headerlink" title="日期计算函数"></a>日期计算函数</h1><h2 id="EOMonth-函数"><a href="#EOMonth-函数" class="headerlink" title="EOMonth()函数"></a>EOMonth()函数</h2><p>EOMonth()函数可以返回月份的最后一天。因此我们可以利用这个函数求某个月的最后一天与第一天。<br>语法：</p>
-<pre><code>EOMONTH(start_date [,month_to_add])</code></pre><p>其中start_date： 有两种输入方式，能够转换为Date的字符串类型 和 date 数据类型<br>    month_to_add： 是int 类型，能够为正整数，负整数和0，默认值是0，如果省略，那么使用默认值0,表示月份的偏移量。</p>
-<pre><code class="sql">--查看当前月的最后一天、下一个月的最后一天、上一个月的最后一天
-declare @date date
-set @date=getdate()
-
-select EOMONTH(@date) as CurrentMonth_EndDay,
-    EOMONTH(@date,1) as NextMonth_EndDay,
-    EOMONTH(@date,-1) as LastMonth_EndDay</code></pre>
-<h2 id="dateadd-函数"><a href="#dateadd-函数" class="headerlink" title="dateadd()函数"></a>dateadd()函数</h2><p>DATEADD() 函数在日期中添加或减去指定的时间间隔。<br>语法：</p>
-<pre><code>DATEADD(datepart,number,date)</code></pre><p>其中datepart是單位(年，月，天等)，number是指定的數值，date是原始日期<br>如下例的結果是当前时间的两个月后的日期，类型为datetime类型</p>
-<pre><code class="sql">    SELECT DATEADD(MONTH,2,getdate())</code></pre>
-<p>根据上述两个函数我们还可以通过上个月的最后一天+1来获取每个月第一天</p>
-<pre><code class="sql">select dateadd(day,1,EOMONTH(getdate(),-1)) as CurrentMonth_startDay</code></pre>
-<p>同时也可以通过前面所说的日期拼接函数与format函数实现</p>
-<pre><code class="sql">declare @date date
-set @date=getdate()
-
-select DATEFROMPARTS(year(@date),month(@date),1) 
-
---or
-
-select FORMAT(GETDATE(),&#39;yyyy-MM-01&#39;)</code></pre>
-<h2 id="DATEDIFF-函数"><a href="#DATEDIFF-函数" class="headerlink" title="DATEDIFF()函数"></a>DATEDIFF()函数</h2><p>DATEDIFF()函数计算两个日期之间的间隔，传回带正负符号的整数</p>
-<p>语法：</p>
-<pre><code>DATEDIFF(datepart,startdate,enddate)</code></pre><p>datepart为间隔的单位，可以选择天，周，月等。startdate跟enddate为起始时间</p>
-<p>实例：</p>
-<pre><code class="sql">SELECT DATEDIFF(DAY, &#39;2010-10-03&#39;,&#39;2010-10-04&#39;  )</code></pre>
-<p>结果返回1</p>
-<h1 id="构造日期的函数"><a href="#构造日期的函数" class="headerlink" title="构造日期的函数"></a>构造日期的函数</h1><p>构造日期的函数有以下几个：<br>语法：</p>
-<pre><code class="sql">    DATEFROMPARTS ( year, month, day )
-    DATETIME2FROMPARTS ( year, month, day, hour, minute, seconds, fractions, precision ) 
-    DATETIMEOFFSETFROMPARTS ( year, month, day, hour, minute, seconds, fractions, hour_offset, minute_offset, precision )
-    TIMEFROMPARTS ( hour, minute, seconds, fractions, precision ) </code></pre>
-<p>传入对应参数后即可<br>其中参数precision 是指小数秒的精度，指的是DateTime2(n)、DateTimeOffset(n),Time(n)中的n值，表示以多少位小数表示1s，一般比较少使用</p>
-<pre><code class="sql">select DATEFROMPARTS ( 2020, 1, 2 )</code></pre>
-<h1 id="练习实例"><a href="#练习实例" class="headerlink" title="练习实例"></a>练习实例</h1><p>现有一列日期，请根据日期输出对应的每周开始与每周结束日期并格式化。<br>例如原始数据time_test表：</p>
-<pre><code>| date      | 
-|-----------|
-| 2020-8-4  | 
-| 2020-8-5  | 
-| 2020-8-6  | 
-| 2020-8-12 | 
-| 2020-8-8  | 
-| 2020-8-12 | 
-| 2020-9-15 |</code></pre><p>期望的输出结果：</p>
-<pre><code>| date      | period  |
-|-----------|---------|
-| 2020-8-4  |0803-0809|
-| 2020-8-5  |0803-0809|
-| 2020-8-6  |0803-0809|
-| 2020-8-12 |0810-0816|
-| 2020-8-8  |0803-0809|
-| 2020-8-12 |0803-0809|
-| 2020-9-15 |0810-0816|</code></pre><p>其中period的开始为每周周一，结束日期为每周周日</p>
-<p>解答：<br>先给出代码</p>
-<pre><code class="sql">select [date],
-format(DATEADD(wk, DATEDIFF(wk,0,DATEADD(dd,-1,[date])), 0),&#39;MMdd&#39;)+&#39;-&#39;+format(DATEADD(dd,-1,DATEADD(wk, DATEDIFF(wk,0,DATEADD(dd,6,[date])), 0)),&#39;MMdd&#39;) as period
-from time_test</code></pre>
-<p>从内到外解析这一段代码，我们首先利用datediif(wk,0,date)计算从1900-01-01 到指定日期的周数（0代表日期对应的数字形式，即1900-01-01）。之后利用DateAdd函数在1900-01-01 的基础上加上刚刚我们计算出的周数，从而得到每周的开始时间。最后通过forma函数对日期格式化即可得出结果。</p>
-<p>其中在最内层有一个DATEADD(dd,-1,[date])，这个是由于我使用的是英文版的SQL server,所以每周是周日开始与周六结束，如果使用中文版SQL server,应该就可以直接使[date]列</p>
+          <h4 id="代码高亮"><a href="#代码高亮" class="headerlink" title="代码高亮"></a><strong>代码高亮</strong></h4><p>刚用的时候代码框十分诡异而且压根就没有高亮。找了几种方法并不可行，整理了一下几种可能错误的原因。<br>错误可能为<br>1.markdown(md)语法问题，将代码块改为如下格式：</p>
+<pre><code class="lang-text">```+语言名（比如java）
+代码内容
+</code></pre>
+<pre><code>2.与hexo自带的高亮冲突了，只要把站点配置文件中：
+```TEXT
+highlight:
+  enable: true
+</code></pre><p>true改为false就可以了。注意是站点配置文件而不是主题配置文件</p>
+<h4 id="搜索"><a href="#搜索" class="headerlink" title="搜索"></a><strong>搜索</strong></h4><p>搜索一直不能用的原因就是少了个插件。</p>
+<p>git bash中执行：</p>
+<pre><code class="lang-text">npm install hexo-generator-json-content --save
+</code></pre>
+<h4 id="文章内插入图片"><a href="#文章内插入图片" class="headerlink" title="文章内插入图片"></a><strong>文章内插入图片</strong></h4><p>在文章中写入:</p>
+<pre><code class="lang-TEXT">![](/upload_image/1.jpg)
+</code></pre>
+<p>然后进入themes-主题名-source-upload_image目录下(自己创建)，将图片放到这个目录下，就可以了。</p>
+<p>说明：当执行hexo g命令时，会自动把图片复制到 public文件的upload_image目录下。</p>
+<h4 id="赞赏页面的作者名称修改"><a href="#赞赏页面的作者名称修改" class="headerlink" title="赞赏页面的作者名称修改"></a><strong>赞赏页面的作者名称修改</strong></h4><p>赞赏页面的页脚作者永远是原作者的名称，可能是没有链接到变量的bug吧</p>
+<p>修改方法为将”\blog\themes\Sakura\themes\Sakura\layout\donate.ejs”中的</p>
+<pre><code class="lang-js">&lt;h3 itemprop=&quot;name&quot;&gt;
+&lt;a href=&quot;&lt;%- theme.url%&gt;&quot; itemprop=&quot;url&quot; rel=&quot;author&quot;&gt;houjun&lt;/a&gt;
+&lt;/h3&gt;
+</code></pre>
+<p>“houjun”换为自己的名字就可以了</p>
+<p>另外其他的相似问题比如友链页面的描述需要改动的话也是一样的方法</p>
+<h4 id="主题工具"><a href="#主题工具" class="headerlink" title="主题工具"></a><strong>主题工具</strong></h4><p>在themes\sakura\layout\layout.ejs中：</p>
+<pre><code class="lang-js">  &lt;div class=&quot;scrollbar&quot; id=&quot;bar&quot;&gt;
+  &lt;/div&gt;
+</code></pre>
+<p>前面添加：</p>
+<pre><code class="lang-js"> &lt;%- partial(&#39;_partial/setdisplay&#39;) %&gt; 
+ &lt;%- partial(&#39;_partial/set&#39;, null, {cache: !config.relative_link}) %&gt;
+</code></pre>
+<p>原版是在&lt;%- partial(‘_partial/mheader’, null, {cache: !config.relative_link}) %&gt;前添加的，但要这样字体切换会出bug。</p>
+<p>在\themes\sakura\layout_partial中新建set.ejs，内容：</p>
+<pre><code class="lang-js">&lt;div class=&quot;changeSkin-gear no-select&quot;&gt; 
+    &lt;div class=&quot;keys&quot; id=&quot;setbtn&quot;&gt; 
+        &lt;span id=&quot;open-skinMenu&quot;&gt; 
+            SCHEME TOOL | 主题工具 &amp;nbsp;
+            &lt;i class=&quot;iconfont icon-gear inline-block rotating&quot;&gt;
+            &lt;/i&gt; 
+        &lt;/span&gt;
+    &lt;/div&gt; 
+&lt;/div&gt;
+</code></pre>
+<p>新建setdisplay.ejs，内容：</p>
+<pre><code class="lang-js">&lt;div class=&quot;skin-menu no-select&quot; id=&quot;mainskin&quot; style=&quot;position: fixed&quot;&gt; 
+    &lt;div class=&quot;theme-controls row-container&quot;&gt;
+          &lt;p style=&quot;text-align:center;font-family:&#39;Monaco&#39;;font-weight:bold;color:#444&quot;&gt;&lt;i style=&quot;color:grey&quot; class=&quot;fa fa-chevron-left&quot;&gt;&lt;/i&gt; background &lt;i style=&quot;color:grey&quot; class=&quot;fa fa-chevron-right&quot;&gt;&lt;/i&gt;&lt;/p&gt;
+        &lt;ul class=&quot;menu-list&quot;&gt; &lt;li id=&quot;white-bg&quot;&gt; 
+            &lt;i class=&quot;fa fa-television&quot; aria-hidden=&quot;true&quot;&gt;
+            &lt;/i&gt;
+            &lt;/li&gt; 
+            &lt;li id=&quot;sakura-bg&quot;&gt; 
+                &lt;i class=&quot;iconfont icon-sakura&quot;&gt;
+                &lt;/i&gt;
+            &lt;/li&gt;
+            &lt;li id=&quot;gribs-bg&quot;&gt;
+                &lt;i class=&quot;fa fa-slack&quot; aria-hidden=&quot;true&quot;&gt;
+                &lt;/i&gt;
+            &lt;/li&gt;
+            &lt;li id=&quot;KAdots-bg&quot;&gt;
+                &lt;i class=&quot;iconfont icon-dots&quot;&gt;
+                &lt;/i&gt;
+            &lt;/li&gt;
+            &lt;li id=&quot;totem-bg&quot;&gt;
+                &lt;i class=&quot;fa fa-optin-monster&quot; aria-hidden=&quot;true&quot;&gt;
+                &lt;/i&gt;
+            &lt;/li&gt;
+            &lt;li id=&quot;pixiv-bg&quot;&gt;
+                &lt;i class=&quot;iconfont icon-pixiv&quot;&gt;
+                &lt;/i&gt;
+            &lt;/li&gt;
+            &lt;li id=&quot;bing-bg&quot;&gt;
+                &lt;i class=&quot;iconfont icon-bing&quot;&gt;
+                &lt;/i&gt;
+            &lt;/li&gt;
+            &lt;li id=&quot;dark-bg&quot;&gt;
+                &lt;i class=&quot;fa fa-moon-o&quot; aria-hidden=&quot;true&quot;&gt;
+                &lt;/i&gt;
+            &lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+    &lt;canvas id=&quot;night-mode-cover&quot;&gt;
+    &lt;/canvas&gt;
+&lt;/div&gt;
+</code></pre>
+<p>还要修点bug：</p>
+<p>在\themes\sakura\source\js\sakura-app.js中，找到函数$(‘.skin-menu #dark-bg’).click(function ()，函数最底下添加：</p>
+<pre><code>setCookie(&#39;bgImgSetting&#39;,&#39;https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/starry_sky.png&#39;,30)
+</code></pre><p>把所有形如：</p>
+<pre><code class="lang-text">$(&#39;.changeSkin-gear, .toc&#39;).css(&#39;background&#39;, &#39;none&#39;)
+或
+$(&#39;.changeSkin-gear, .toc&#39;).css(&#39;background&#39;, &#39;rgba(255,255,255,0.8)&#39;)
+</code></pre>
+<p>里的.changeSkin-gear,删掉。</p>
+<p>这只是初始版，后面还有更高级的。</p>
+<p>更换bing图片<br>bing主题是从bing随机图片api获取一张图片做背景，可以更换。</p>
+<p>在\themes\sakura\source\js\sakura-app.js中，下面两句：</p>
+<pre><code class="lang-text">changeBGnoTrans(&#39;#bing-bg&#39;, &#39;https://api.shino.cc/bing/&#39;)
+</code></pre>
+<pre><code class="lang-text">else if (bgurl == &#39;https://api.shino.cc/bing/&#39;)
+</code></pre>
+<p>其中的网址换成其他url。</p>
+<p>位置和外观<br>在set.ejs里直接用css美化，可能还要修正setdisplay.ejs。</p>
+<p>参考配置：</p>
+<p>set.ejs：</p>
+<pre><code class="lang-js">&lt;div class=&quot;changeSkin-gear no-select&quot; style=&quot;background: rgba(0, 0, 0, 0) none repeat scroll 0% 0%; visibility: visible; bottom: 0px;&quot;&gt; 
+  &lt;div class=&quot;keys&quot; id=&quot;setbtn&quot;&gt; 
+    &lt;button id=&quot;open-skinMenu&quot;&gt;
+        &lt;style&gt;
+        button#open-skinMenu{
+            transition: all 0.2s linear 0s;
+            outline:none;
+            position:fixed;
+            bottom:13px;
+            left:15px;
+            font-size:16px;
+            background-color: rgba(255,255,255,.95);
+            border-radius: 20px;
+            box-shadow: 0 3px 8px 0 rgba(0,0,0,0.1), 0 3px 8px 0 rgba(0,0,0,0.1);
+        }
+        button#open-skinMenu:hover{
+            transition: all 0.2s linear 0s;
+            background-color: rgb(255, 165, 0);
+            color: rgba(255,255,255);
+        }
+        &lt;/style&gt;
+        &lt;i class=&quot;iconfont icon-gear inline-block rotating&quot;&gt;
+      &lt;/i&gt; 
+        SCHEME TOOL | 主题工具 
+    &lt;/button&gt;
+  &lt;/div&gt; 
+&lt;/div&gt;
+</code></pre>
+<h4 id="文章列表图片拉伸问题"><a href="#文章列表图片拉伸问题" class="headerlink" title="文章列表图片拉伸问题"></a><strong>文章列表图片拉伸问题</strong></h4><p>浏览某个分类或标签下的文章下时，配图是被压缩成正方形的,导致原来的图片产生变形<br>解决办法为：<br>在\themes\sakura\source\css\style.css中，找到.feature img，内部添加：</p>
+<pre><code class="lang-css"> object-fit: cover;
+</code></pre>
+<h4 id="对主题进行魔改"><a href="#对主题进行魔改" class="headerlink" title="对主题进行魔改"></a><strong>对主题进行魔改</strong></h4><p>生成网页的代码都在\blog\themes\Sakura\themes\Sakura\layout文件夹中，通过名称可以找到整个网页的代码，对照生成的网页源码找到对应的额文件进行修改即可。不清楚相对路径是否形同，可以多多进行尝试</p>
+<h4 id="后续cdn的添加和修改"><a href="#后续cdn的添加和修改" class="headerlink" title="后续cdn的添加和修改"></a><strong>后续cdn的添加和修改</strong></h4><p>如果需要对cdn里的文件进行修改，例如删除和更名，改变文件结构等：</p>
+<h5 id="克隆Github仓库到本地"><a href="#克隆Github仓库到本地" class="headerlink" title="克隆Github仓库到本地"></a>克隆Github仓库到本地</h5><p>点击 Clone or download，一键复制仓库地址<br><img src="/upload_image/blog 2002/1.jfif" alt><br>在本地目录右键 Git Bash Here，执行以下命令：</p>
+<pre><code class="lang-text">git clone 一键复制的仓库地址
+</code></pre>
+<h5 id="上传资源"><a href="#上传资源" class="headerlink" title="上传资源"></a>上传资源</h5><p>复制需要上传的资源到本地git仓库（注：jsDelivr不支持加载超过20M的资源），在本地git仓库目录下右键 Git Bash Here，执行以下命令：</p>
+<pre><code class="lang-text">git status                    //查看状态
+git add .                     //添加所有文件到暂存区
+git commit -m &#39;第一次提交&#39;      //把文件提交到仓库
+git push                      //推送至远程仓库
+</code></pre>
+<h5 id="发布仓库"><a href="#发布仓库" class="headerlink" title="发布仓库"></a>发布仓库</h5><p>点击release发布<br><img src="/upload_image/blog 2002/2.jfif" alt><br>自定义发布版本号<br><img src="/upload_image/blog 2002/3.jfif" alt></p>
+<h5 id="通过jsDelivr引用资源"><a href="#通过jsDelivr引用资源" class="headerlink" title="通过jsDelivr引用资源"></a>通过jsDelivr引用资源</h5><p>使用方法：<a href="https://cdn.jsdelivr.net/gh/你的用户名/你的仓库名@发布的版本号/文件路径" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/你的用户名/你的仓库名@发布的版本号/文件路径</a><br>或者：<a href="https://cdn.jsdelivr.net/gh/你的用户名/你的仓库名@master/文件路径,这样可以不用再github中release版本" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/你的用户名/你的仓库名@master/文件路径,这样可以不用再github中release版本</a><br>例如：<br><a href="https://cdn.jsdelivr.net/gh/TRHX/CDN-for-itrhx.com@1.0/images/trhx.png" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/TRHX/CDN-for-itrhx.com@1.0/images/trhx.png</a><br><a href="https://cdn.jsdelivr.net/gh/TRHX/CDN-for-itrhx.com@2.0.1/css/style.css" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/TRHX/CDN-for-itrhx.com@2.0.1/css/style.css</a><br><a href="https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.3//The%20Pet%20Girl%20of%20Sakurasou.mp4" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.3//The%20Pet%20Girl%20of%20Sakurasou.mp4</a><br>注意：版本号不是必需的，是为了区分新旧资源，如果不使用版本号，将会直接引用最新资源，除此之外还可以使用某个范围内的版本，查看所有资源等，具体使用方法如下：</p>
+<ul>
+<li>// 加载任何Github发布、提交或分支</li>
+<li><p><a href="https://cdn.jsdelivr.net/gh/user/repo@version/file" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/user/repo@version/file</a></p>
+</li>
+<li><p>// 加载 jQuery v3.2.1</p>
+</li>
+<li><p><a href="https://cdn.jsdelivr.net/gh/jquery/jquery@3.2.1/dist/jquery.min.js" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/jquery/jquery@3.2.1/dist/jquery.min.js</a></p>
+</li>
+<li><p>// 使用版本范围而不是特定版本</p>
+</li>
+<li><a href="https://cdn.jsdelivr.net/gh/jquery/jquery@3.2/dist/jquery.min.js" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/jquery/jquery@3.2/dist/jquery.min.js</a></li>
+<li><p><a href="https://cdn.jsdelivr.net/gh/jquery/jquery@3/dist/jquery.min.js" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/jquery/jquery@3/dist/jquery.min.js</a></p>
+</li>
+<li><p>// 完全省略该版本以获取最新版本</p>
+</li>
+<li><p><a href="https://cdn.jsdelivr.net/gh/jquery/jquery/dist/jquery.min.js" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/jquery/jquery/dist/jquery.min.js</a></p>
+</li>
+<li><p>// 将“.min”添加到任何JS/CSS文件中以获取缩小版本，如果不存在，将为会自动生成</p>
+</li>
+<li><p><a href="https://cdn.jsdelivr.net/gh/jquery/jquery@3.2.1/src/core.min.js" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/jquery/jquery@3.2.1/src/core.min.js</a></p>
+</li>
+<li><p>// 在末尾添加 / 以获取资源目录列表</p>
+</li>
+<li><a href="https://cdn.jsdelivr.net/gh/jquery/jquery/" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/jquery/jquery/</a></li>
+</ul>
+<h4 id="Rss页面修改"><a href="#Rss页面修改" class="headerlink" title="Rss页面修改"></a><strong>Rss页面修改</strong></h4><p>RSS配置后是404的页面，解决步骤如下：<br>安装插件</p>
+<pre><code class="lang-text">npm install hexo-generator-feed
+</code></pre>
+<p>主配置_config.yml文末添加</p>
+<pre><code class="lang-text"># Extensions
+## Plugins: http://hexo.io/plugins/
+#RSS订阅
+plugin:
+ hexo-generator-feed
+#Feed Atom
+feed:
+  type: atom #RSS的类型(atom/rss2)
+  path: atom.xml #文件路径,默认是atom.xml/rss2.xml
+  limit: 20 #展示文章的数量,使用0或则false代表展示全部
+  hub:
+  content: #在RSS文件中是否包含内容 ,有3个值 true/false默认不填为false
+  content_limit: 140 #指定内容的长度作为摘要,仅仅在上面content设置为false和没有自定义的描述出现
+  content_limit_delim: &#39; &#39; #上面截取描述的分隔符,截取内容是以指定的这个分隔符作为截取结束的标志.在达到规定的内容长度之前最后出现的这个分隔符之前的内容,，防止从中间截断.
+  order_by: -date
+  icon: #icon.png
+</code></pre>
+<p>主题配置themes\sakura_config.yml文末添加(sakura主题中应该已有这一句，如果已有的话可以直接跳过)</p>
+<pre><code class="lang-text"># 简易信息聚合,站点共享
+rss: /atom.xml
+</code></pre>
+<h4 id="添加搜索引擎收录"><a href="#添加搜索引擎收录" class="headerlink" title="添加搜索引擎收录"></a><strong>添加搜索引擎收录</strong></h4><h5 id="查看网站是否被收录"><a href="#查看网站是否被收录" class="headerlink" title="查看网站是否被收录"></a><strong>查看网站是否被收录</strong></h5><p>首先我们可以输入 site:域名 来查看域名是否被搜索引擎收录，如果没有相关网页，表示没有收录</p>
+<h5 id="提交百度搜索"><a href="#提交百度搜索" class="headerlink" title="提交百度搜索"></a><strong>提交百度搜索</strong></h5><p>github是禁止百度爬虫的，所以如果你是和我一样在github中建立的静态网站，想要在百度中被搜到需要将博客双线部署到国内的代码托管平台。这里使用Coding。另外百度收录的所需的时间较长，大约半个月左右才会看到效果！</p>
+<ol>
+<li>创建项目：进入 <a href="https://coding.net/" target="_blank" rel="noopener">Coding</a> 官网，点击个人版登陆，没有账号就注册一个并登录，进入后有啥提示引导的话跳过，点击创建项目。项目名称建议和你的用户名一致，这样做的好处是：到时候可以直接通过<code>user_name.coding.me</code>访问你的博客，如果项目名与用户名不一致，则需要通过<code>user_name.coding.me/project_name</code>才能访问，项目描述可以随便写</li>
+<li>配置公钥。配置 SSH 公钥方法与 GitHub Pages 的方式差不多，点击你的头像，依次选择 个人设置-SSH公钥-新增公钥，前面部署到 GitHub Pages 的时候就已经有了一对公钥，我们直接将该公钥粘贴进去就行，公钥名称可以随便写，选中永久有效选项  PS：公钥储存位置一般在 C:\Users\用户名.ssh 目录下的 id_rsa.pub 文件里，用记事本打开复制其内容即可。另外由于coding的UI变化很快，所以有些按钮的位置和层级已经变化需要找一下，但是差的不多，实在不行的话就百度</li>
+<li>添加公钥后，我们可以右键<code>Get Bash</code>，输入以下命令来检查是否配置成功：<pre><code>ssh -T git@e.coding.net `
+</code></pre>若出现以下提示，则证明配置成功：<pre><code>coding 提示: Hello XXX, You&#39;ve connected to Coding.net via SSH. This is a personal key.
+XXX，你好，你已经通过 SSH 协议认证 Coding.net 服务，这是一个个人公钥
+</code></pre></li>
+<li>配置 _config.yml:进入你的项目，在右下角有选择连接方式，选择 SSH 方式（HTTPS 方式也可以，但是这种方式有时候可能连接不上，SSH 连接不容易出问题），一键复制，然后打开你本地博客根目录的 _config.yml 文件，找到 deploy 关键字，添加 coding 地址，也就是刚刚复制的 SSH 地址:<pre><code>deploy:
+type: git
+repository: 
+ github: git@github.com:xxx/xxx.github.io.git
+ coding: git@e.coding.net:xxx/xxx/xxx.git
+branch: master
+</code></pre>注意中间有空格。添加完成后先执行命令 hexo clean 清理一下缓存，然后执行命令 hexo g -d 将博客双线部署到 Coding Pages 和 GitHub Pages，可以查看一下代码仓库是否有代码上传，如果有即表示部署成功：</li>
+<li>开启 Coding Pages。打开 项目设置-项目与成员-功能开关，打开 持续集成 和 持续部署，然后在 持续部署 中可以看到静态网站。经过身份验证后即可开启</li>
+<li>绑定域名并开启 HPPTS：首先在你的域名 DNS 设置中添加一条 CNAME 记录指向 xxxx.coding.me，解析路线选择 默认，将 GitHub 的解析路线改为 境外，这样境外访问就会走 GitHub，境内就会走 Coding，也有人说阿里云是智能解析，自动分配路线，如果解析路线都是默认，境外访问同样会智能选择走 GitHub，境内走 Coding，我没有验证过，有兴趣的可以自己试试，我的解析如下图所示：<br>然后点击静态 Pages 应用右上角的设置，进入设置页面，这里要注意，如果你之前已经部署到了 GitHub Pages 并开启了 HTTPS，那么直接在设置页面绑定你自己的域名，SSL/TLS 安全证书就会显示申请错误，当你访问你的网站时，浏览器就会提示不是安全连接。申请错误原因是：在验证域名所有权时会定位到 Github Pages 的主机上导致 SSL 证书申请失败<br>正确的做法是：先去域名 DNS 把 GitHub 的解析暂停掉，然后再重新申请 SSL 证书，大约十秒左右就能申请成功，然后开启强制 HTTPS 访问<br>这里也建议同时绑定有 www 前缀和没有 www 前缀的，如果要绑定没有 www 前缀的，首先要去域名 DNS 添加一个 A 记录，主机记录为 @，记录值为你博客 IP 地址，IP 地址可以在 cmd 命令行 ping 一下得到，然后在 Coding Pages 中设置其中一个为【首选】，另一个设置【跳转至首选】，这样不管用户是否输入 www 前缀都会跳到有 www 前缀的了<br>至此，我们的 Hexo 博客就成功双线部署到 Coding Pages 和 GitHub Pages 了。</li>
+<li>访问<a href="https://ziyuan.baidu.com/" target="_blank" rel="noopener">百度搜索资源平台官网</a>，注册或者登陆百度账号，依次选择 用户中心-站点管理 ，添加你的网站，在添加站点时会让你选择协议头（http 或者 https），之后会让你验证网站所有权，提供三种验证方式：</li>
+</ol>
+<ul>
+<li>文件验证：下载给定的文件，将其放到本地主题目录 source 文件夹，然后部署上去完成验证</li>
+<li>HTML 标签验证：一般是给一个 meta 标签，放到首页 <head><meta name="generator" content="Hexo 3.9.0"> 与 <link rel="alternate" href="/atom.xml" title="Smilecoc's Blog" type="application/atom+xml">
+</head> 标签之间即可完成验证</li>
+<li>CNAME 验证：去域名 DNS 添加一个 CNAME 记录即可完成验证</li>
+</ul>
+<ol>
+<li>提交百度搜索:百度提供了自动提交和手动提交两种方式，其中自动提交又分为主动推送、自动推送和 sitemap 三种方式,推荐同时使用主动推送和 sitemap 方式</li>
+<li>主动推送可以在博客根目录安装插件 npm install hexo-baidu-url-submit —save，然后在根目录 _config.yml 文件里写入以下配置：<pre><code>baidu_url_submit:
+count: 1               # 提交最新的多少个链接
+host: www.itrhx.com    # 在百度站长平台中添加的域名
+token: your_token      # 秘钥
+path: baidu_urls.txt   # 文本文档的地址， 新链接会保存在此文本文档里
+</code></pre>其中的其中的 token 可以在【链接提交】-【自动提交】-【主动推送】下面看到，接口调用地址最后面 token=xxxxx 即为你的 token<br>同样是在根目录的 _config.yml 文件，大约第 17 行处，url 要改为在百度站长平台添加的域名，也就是你网站的首页地址：<pre><code># URL
+url: https://www.itrhx.com
+root: /
+permalink: :year/:month/:day/:title/
+</code></pre></li>
+</ol>
+<p>最后，加入新的 deployer：</p>
+<pre><code># Deployment
+## Docs: https://hexo.io/docs/deployment.html
+deploy:
+- type: git
+  repository:
+    github: git@github.com:TRHX/TRHX.github.io.git  # 这是原来的 github 配置
+    coding: git@git.dev.tencent.com:TRHX/TRHX.git   # 这是原来的 coding 配置
+  branch: master
+- type: baidu_url_submitter                         # 这是新加的主动推送
+</code></pre><p>最后执行 hexo g -d 部署一遍即可实现主动推送，推送成功的标志是：在执行部署命令最后会显示类似如下代码：</p>
+<pre><code>{&quot;remain&quot;:4999953,&quot;success&quot;:47}
+INFO  Deploy done: baidu_url_submitter
+</code></pre><ol>
+<li>sitemap提交：首先我们要使用以下命令生成一个网站地图：</li>
+</ol>
+<pre><code>npm install hexo-generator-sitemap --save     
+npm install hexo-generator-baidu-sitemap --save
+</code></pre><p>这里也注意一下，将根目录的 _config.yml 文件，大约第 17 行处，url 改为在百度站长平台添加的域名，也就是你网站的首页地址：</p>
+<pre><code># URL
+url: https://www.itrhx.com
+root: /
+permalink: :year/:month/:day/:title/
+</code></pre><p>然后使用命令 hexo g -d 将网站部署上去，然后访问 你的首页/sitemap.xml 或者 你的首页/baidusitemap.xml 就可以看到网站地图了<br>比如我的是：<code>https://www.itrhx.com/baidusitemap.xml</code> 或者 <code>https://www.itrhx.com/sitemap.xml</code><br>其中 sitemap.xml 文件是搜索引擎通用的 sitemap 文件，baidusitemap.xml 是百度专用的 sitemap 文件<br>然后来到百度站长平台的 sitemap 提交页面，将你的 sitemap 地址提交即可，如果成功的话状态会显示为正常，初次提交要等几分钟，sitemap.xml 相比 baidusitemap.xml 来说等待时间也会更长，如果以后你博客有新的文章或其他页面，可以点击手动更新文件，更新一下新的 sitemap</p>
+<h5 id="提交谷歌搜索"><a href="#提交谷歌搜索" class="headerlink" title="提交谷歌搜索"></a><strong>提交谷歌搜索</strong></h5><p>提交谷歌搜索引擎比较简单，在提交之前，我们依然可以使用<code>site:域名</code>查看网站是否被收录<br>接下来我们将网站提交谷歌搜索引擎搜索，进入<a href="https://www.google.com/webmasters/" target="_blank" rel="noopener">谷歌站长平台</a>，登录你的谷歌账号之后会让你验证网站所有权.所有操作需要科学上网<br>之后有两种验证方式，分别是网域和网址前缀，选择一个适合的就行。我用的是比较简单的网址前缀，根据谷歌给的提示做后续的操作就可以的。<br>谷歌收录基本上等几分钟就可以看到结果了，非常快,而且也不需要添加sitemap或者设置自动推送就可以直接抓取到内容了，非常方便</p>
+<h5 id="提交必应搜索"><a href="#提交必应搜索" class="headerlink" title="提交必应搜索"></a><strong>提交必应搜索</strong></h5><p>必应收录也是很简单，点击<a href="https://www.bing.com/webmaster/home/mysites" target="_blank" rel="noopener">必应站长</a>。先注册登录，必应收录有两种方式，一种使用刚刚谷歌导入过去，第二种是就是自己添加URL,跟着提示操作就行。不过必应也收录也比较慢，只比百度稍快一点</p>
+<h4 id="使用Latex"><a href="#使用Latex" class="headerlink" title="使用Latex"></a>使用Latex</h4><p>在博客中如果有书写数学公示的需求，那么一定会用到Latex.Sakura主题中已经内置有Latex语法，只要在主题文件夹中的_config.yml文件中将mathjax设置为1即可。</p>
+<h4 id="初始化Hexo并本地预览"><a href="#初始化Hexo并本地预览" class="headerlink" title="初始化Hexo并本地预览"></a>初始化Hexo并本地预览</h4><p>选中网站文件夹右键，点击Git Bash Here，或者CMD中直接进入博客的文件夹，依次输入以下代码：</p>
+<pre><code>hexo g
+hexo s
+</code></pre><p>注意代码是分别输入的<br>在浏览器地址栏中输入<code>localhost:4000</code> 并按下回车键，如果出现以博客界面就说明Hexo本地预览成功</p>
+<p>回到Git控制台或CMD中按下CTRL+C即可关闭本地预览服务器</p>
+<h5 id="参考文章-网站："><a href="#参考文章-网站：" class="headerlink" title="参考文章/网站："></a><strong>参考文章/网站：</strong></h5><p><a href="https://ctz45562.github.io/2019/06/04/blog%E3%81%AE%E6%90%AD%E5%BB%BA%E4%B9%8Bsakura/#%E4%B8%BB%E9%A2%98%E5%B7%A5%E5%85%B7" target="_blank" rel="noopener">ctz’s blog</a><br><a href="https://yremp.live/hexo-sakura/" target="_blank" rel="noopener">yremp’s blog</a><br><a href="https://blog.csdn.net/qq_36759224/article/details/100879609" target="_blank" rel="noopener">https://blog.csdn.net/qq_36759224/article/details/100879609</a><br><a href="https://www.itrhx.com/2019/09/17/A48-submit-search-engine-inclusion/" target="_blank" rel="noopener">https://www.itrhx.com/2019/09/17/A48-submit-search-engine-inclusion/</a></p>
 
         </div>
         <!-- .entry-content -->
@@ -613,15 +769,15 @@ from time_test</code></pre>
           
             <div class="post-nepre half previous">
           
-            <a href="/2020/09/20/SQL查询众数与中位数/" rel="prev">
+            <a href="/2020/02/02/Hexo Sakura主题遇到的问题汇总/" rel="prev">
               <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.2/images/article/sql_get_majority_median20200920.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.2/images/article/sql_get_majority_median20200920.jpg">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/article/blogquestions.png" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/article/blogquestions.png">
               </div>
               <span class="label">
               Previous Post</span>
               <div class="info">
                 <h3>
-                SQL查询众数与中位数</h3>
+                Hexo Sakura主题的问题汇总</h3>
                 <hr>
               </div>
             </a>
@@ -631,15 +787,15 @@ from time_test</code></pre>
           
             <div class="post-nepre half next">
           
-            <a href="/2020/09/20/SQL  Server 公用表表达式(CTE)/" rel="next">
+            <a href="/2020/01/01/定制系统资源/" rel="next">
               <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.1/images/article/sql_cte_20200920.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.1/images/article/sql_cte_20200920.jpg">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/article/dzxt20200101.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/article/dzxt20200101.jpg">
               </div>
               <span class="label">
               Next Post</span>
               <div class="info">
                 <h3>
-                SQL Server 公用表表达式(CTE)</h3>
+                定制系统与使用方式资源</h3>
                 <hr>
               </div>
             </a>
