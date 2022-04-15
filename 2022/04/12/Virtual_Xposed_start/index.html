@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">Smilecoc&#39;s Blog</title>
+  <title itemprop="name">Virtual Xposed 教程——不Root即可使用的Xposed框架 | Smilecoc&#39;s Blog</title>
   
     <link rel="shortcut icon" href="/images/favicon.ico">
   
@@ -429,497 +429,142 @@
   </div>
 </header>
 
-      <div class="blank" style="padding-top: 0px;"></div>
+      <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<div class="pattern-center-blank"></div>
+
+  <div class="pattern-center single-center">
+    <!-- 有配图默认渲染第一张 -->
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.6/images/article/Virtual_Xposed_start_20220413.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.6/images/article/Virtual_Xposed_start_20220413.jpg">
+    </div>
+    <header class="pattern-header single-header">
+      <h1 class="entry-title">
+      Virtual Xposed 教程——不Root即可使用的Xposed框架</h1>
+      <p class="entry-census">
+        <span>
+          <a href="http://smilecoc.vip/">
+            <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico">
+          </a>
+        </span>
+        <span>
+          <a href="http://smilecoc.vip/">smilecoc</a>
+        </span>
+        <span class="bull">
+        ·</span>
+        2022-4-12<span class="bull">
+        ·</span>
+      <span id="busuanzi_value_page_pv"></span>次阅读</p>
+    </header>
+  </div>
+
 <div id="content" class="site-content">
-  
-  <div class="notice" style="margin-top:60px">
-    <i class="iconfont icon-notification">
-    </i>
-    <div class="notice-content">Welcome to My Blog</div>
-  </div>
-  
-  <div class="top-feature-row">
-  <h1 class="fes-title" style="font-family: 'Ubuntu', sans-serif;">
-  <i class="fa fa-anchor" aria-hidden="true">
-  </i>
-  START:DASH!!</h1>
-  
-  <div class="top-feature-v2">
-    <div class="the-feature square from_left_and_right">
-      <a href="http://smilecoc.vip/2019/08/20/%E6%88%91%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E5%85%A8%E8%AE%B0%E5%BD%95/" target="_blank">
-        <div class="img">
-          <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/startdash/sakura.jpg">
-        </div>
-        <div class="info">
-          <h3>Sakura</h3>
-          <p>本站 hexo 主题</p>
-        </div>
-      </a>
-    </div>
-  </div>
-  
-  <div class="top-feature-v2">
-    <div class="the-feature square from_left_and_right">
-      <a href="http://space.bilibili.com/46934171" target="_blank">
-        <div class="img">
-          <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/startdash/bilibili.jpg">
-        </div>
-        <div class="info">
-          <h3>Bilibili</h3>
-          <p>博主的b站视频</p>
-        </div>
-      </a>
-    </div>
-  </div>
-  
-  <div class="top-feature-v2">
-    <div class="the-feature square from_left_and_right">
-      <a href="/" target="_blank">
-        <div class="img">
-          <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/startdash/wangshiwu.jpg">
-        </div>
-        <div class="info">
-          <h3>Smilecoc的杂货铺</h3>
-          <p>博主的微信公众号</p>
-        </div>
-      </a>
-    </div>
-  </div>
-  
-</div>
   <div id="primary" class="content-area">
     <main id="main" class="site-main" role="main">
-      <h1 class="main-title" style="font-family: 'Ubuntu', sans-serif;">
-      <i class="fa fa-envira" aria-hidden="true"></i>
-      Discovery</h1>
+      <article id="post-1" class="post-1 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+        <div class="toc"></div>
+        <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
+        
+        <div class="entry-content">
+          <p>对于广大稀罕折腾 Android 设备的机友来说，Xposed 可谓是必「装」备「逼」神器。Xposed 作为一款第三方框架工具，通过对系统框架的「偷天换日」，以达到修改系统与应用的各种数据，进而实现无数种可能性，同时也大大地提升了 Android 系统的可玩性等目的，因此让许多 Android 玩家都爱不释手。</p>
+<p>但是，由于 Xposed 的使用有着各种限制，例如：必须要解锁手机的 Bootloader，以及获取 Android 的 Root 权限等。</p>
+<p>然而，有些设备在执行这些操作时可能并不方便，甚至无法解锁或者 Root。这个时候就是该 VirtualXposed 出场表演了，起码也算为这些设备带来了一丝曙光。开发者称，借助 VirtualXposed 即使在没有 Root 权限的情况下，也可以使用 Xposed 框架！</p>
+<h1 id="VirtualXposed-的原理："><a href="#VirtualXposed-的原理：" class="headerlink" title="VirtualXposed 的原理："></a>VirtualXposed 的原理：</h1><p>首先，VirtualXposed 并未对系统底层进行任何修改，也没有利用什么神奇的漏洞。它的工作原理有点像那些双开软件。简单来说：VirtualXposed 是通过在你的手机里创建一个「虚拟环境」，然后在此虚拟环境中启用 Xposed。一切都是虚拟的，这也是它的名字叫 VirtualXposed 的原因吧。</p>
+<p>所以您需要用的 Xposed 框架与框架所对应的应用，都需要安装在这个虚拟环境中，才能起作用。</p>
+<p>举个栗子，如果您要在钉钉上应用某个虚拟位置的框架，你必须同时把二者都安装到 VirtualXposed 中。<br><img src="https://img-blog.csdnimg.cn/f26a37625c814889ba3173d960946df4.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAU21pbGVjb2M=,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"><br>只在 VirtualXposed 中安装框架，是不会对系统中的钉钉起任何作用的。同理，直接将框架安装在系统上，或是将应用和框架都安装在系统上，也都不会起任何作用。<br><img src="https://img-blog.csdnimg.cn/43f5e7c5557e489eb96b366e33ef1479.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAU21pbGVjb2M=,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
+<h1 id="VirtualXposed-的使用："><a href="#VirtualXposed-的使用：" class="headerlink" title="VirtualXposed 的使用："></a>VirtualXposed 的使用：</h1><p>Github主页及下载：<br><a href="https://github.com/android-hacker/VirtualXposed" target="_blank" rel="noopener">https://github.com/android-hacker/VirtualXposed</a><br><a href="https://github.com/android-hacker/VirtualXposed/releases/" target="_blank" rel="noopener">https://github.com/android-hacker/VirtualXposed/releases/</a><br>下载对应apk文件并安装即可<br>初次打开 VirtualXposed 后，呈现在眼前的，是这个类似于 Android 启动器的界面。<br><img src="https://img-blog.csdnimg.cn/1631e4aea31649e3acb32bf2479e03f5.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAU21pbGVjb2M=,size_17,color_FFFFFF,t_70,g_se,x_16" alt="VirtualXposed 使用方法教程 VirtualXposed, ROOT, Android"><br>没错！不要怀疑，你并没有装错软件。还记得上面介绍的原理吗？这是一个「虚拟空间」。而这个启动器，就相当于「虚拟空间」的入口。</p>
+<p>使用和 Pixel Launcher 一样，向上滑动就可以打开应用抽屉，安装到 VirtualXposed 的应用都会在其中显示；但一开始只有预先装好的 Xposed Installer。<br><img src="https://img-blog.csdnimg.cn/87b09196db3544bd856af9a429a4a3e0.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAU21pbGVjb2M=,size_17,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"><br>如果一切正常，「虚拟环境」中的 Xposed 应该是已经启用的，打开后会显示「Xposed 框架已激活」…..即便是您的手机并没有解锁，以及获取 Root 权限。<br><img src="https://img-blog.csdnimg.cn/30583ff41e584477b98be1e0feb68b1f.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAU21pbGVjb2M=,size_17,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"><br>有三种方法可以将应用与模块安装到 VirtualXposed 中。<br>第一种，是「克隆应用」，即将已经安装在系统中的应用添加到 VirtualXposed。回到 VirtualXposed 的桌面（初始化进入时的页面），点击那个看上去像是应用抽屉的按钮，可以打开 VirtualXposed 的设置选项。<br><img src="https://img-blog.csdnimg.cn/7aaf567fed594d3b8a04202f7c30af68.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAU21pbGVjb2M=,size_17,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"><br>然后选择「添加应用」，在已经安装到系统中的应用列表中勾选需要添加的应用，确认后即可将它们「克隆」到 VirtualXposed 的「虚拟环境」里<br><img src="https://img-blog.csdnimg.cn/3e8cf91cb87348e8862c4ab4a50dc05d.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAU21pbGVjb2M=,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"><br>如果想要添加并未安装的应用或模块，可以选择第二种方式，即直接打开 .apk 安装包后选择「安装到 VirtualXposed」。<br>【更新】如果不可以通过直接打开 .apk 安装包并选择「安装到 VirtualXposed」（尚不清楚是版本原因还是手机型号原因），可以根据上面一种方法的流程，在上面截图的那一步选择右下角的加号，并添加需要安装的apk文件即可<br><img src="https://img-blog.csdnimg.cn/d8a1c7c714d34d0b96b5ad02b75decd1.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAU21pbGVjb2M=,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"><br>另外，如果你已经将xx市场或是浏览器添加到了 VirtualXposed 中，也可以直接通过这些渠道下载并安装应用。<br><img src="https://img-blog.csdnimg.cn/9185bd8af9044fac83b486083d840ba2.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAU21pbGVjb2M=,size_17,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"><br>当然，如果只是想安装模块，还可以直接通过内置的 Xposed Installer 搜索并安装。<br><img src="https://img-blog.csdnimg.cn/d16866957e1f4863826b5cfbd8f616d4.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAU21pbGVjb2M=,size_17,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"><br>添加到 VirtualXposed 中的应用，运行起来与安装到系统中的应用几乎没有什么区别，同样可以正常接收通知，以及浏览本机中的图片等文件。<br><img src="https://img-blog.csdnimg.cn/83563e07ff2d436fa3c27041a499388a.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAU21pbGVjb2M=,size_17,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"><br>除此之外，它还可以像「双开」软件一样，同时运行两个相同的应用，并在多任务中进行切换，甚至还可以分屏。从 VirtualXposed 中打开的应用，会加上「Admin」的前缀。</p>
+<p>想要管理 VirtualXposed 中的应用进程或是卸载应用，前往「设置」即可，直接在抽屉中长按图标也可以实现部分操作。<br><img src="https://img-blog.csdnimg.cn/dccd3c36dc6147378544452a035b80d4.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAU21pbGVjb2M=,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"><br>其实 VirtualXposed 中的启动器，本质上也的确是个 Pixel Launcher。如果愿意的话，你甚至还能在设置中更换图标包……。</p>
+<h1 id="VirtualXposed-的上手体验："><a href="#VirtualXposed-的上手体验：" class="headerlink" title="VirtualXposed 的上手体验："></a>VirtualXposed 的上手体验：</h1><p>接下来，就让我们一起上手体验下 VirtualXposed 吧！</p>
+<p>从 VirtualXposed 官方网站上给出的支持模块列表中，我挑选了两款框架进行测试。其中一款名为 MDWechat，是一个能让微信界面 Material Design 化的模块。</p>
+<p>激活模块的方式，与实机里的 Xposed 大致无异。打开 VirtualXposed 中的 Xposed Installer，然后前往「模块」，就能看到安装好的模块了。<br><img src="https://img-blog.csdnimg.cn/46db26bbbce642a6a290b28d6a047b72.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAU21pbGVjb2M=,size_17,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
+<p>按以往 Xposed 框架操作步骤接下来应该是「勾选模块，然后重启手机」，然而在 VirtualXposed 中，启用模块并不需要真的重启手机。只要在勾选模块后，前往设置，点击最下方的「重启」即可。「重启」的速度极快，因此作者还设置了一个「温馨」的 Toast 提醒。<br><img src="https://img-blog.csdnimg.cn/9783c36df18846738a65185f9011d02c.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAU21pbGVjb2M=,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"><br>完成这些操作后，再打开微信；这时 MDWechat 就已经被成功激活了。</p>
+<p><img src="https://img-blog.csdnimg.cn/fe12127bec9e4b8da991fa40f66943e3.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAU21pbGVjb2M=,size_17,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"><br>Material Design 版微信，就这样愉快的实现了！</p>
+<p>接下来测试另一个模块「应用变量」，通过它可以分应用修改机型，从而显示各种不同的来源「小尾巴」<br><img src="https://img-blog.csdnimg.cn/6914185a2c494c7cb6b8b70f91a10393.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAU21pbGVjb2M=,size_17,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"><br>它也可以成功地被激活，并对 VirtualXposed 中的应用进行修改。现在，我也是用 Mate 9 保时捷设计发微博的人啦~~！</p>
+<p>当然，这些模块只会对 VirtualXposed 里的应用生效。VirtualXposed 在一台既没有解锁，也没有 Root 的设备上，成功应用了 Xposed 框架模块。</p>
+<p>如果您嫌每次都要在 VirtualXposed 的启动器中打开应用麻烦，可以长按图标，选择「创建快捷方式」，这个应用就出现在你的系统桌面上了，当然应用名会加上「VirtualXposedP」的后缀。<br><img src="https://img-blog.csdnimg.cn/2149268a568849cba8cb310a97b10d96.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAU21pbGVjb2M=,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
+<h1 id="VirtualXposed-的影响："><a href="#VirtualXposed-的影响：" class="headerlink" title="VirtualXposed 的影响："></a>VirtualXposed 的影响：</h1><p>即使您的插件出问题了，您也不必担心，VirtualXposed 并不会影响手机系统，如果真的出现了严重到无法正常使用的情况，直接卸载 VirtualXposed 即可。</p>
+<h1 id="写在最后："><a href="#写在最后：" class="headerlink" title="写在最后："></a>写在最后：</h1><p>VirtualXposed 的工作原理，也决定了任何修改系统的 Xposed 模块均无法使用。但 VirtualXposed 大大降低了 Xposed 框架的使用门槛，让更多人能体验到各种花样百出的模块。是个很有前途的项目。</p>
+<p>对于已经在系统中启用了 Xposed 的用户，还可以借助 VirtualXposed 方便地测试模块。既不用频繁重启手机，又毋需担心「翻车」后影响正常使用。</p>
+<p>【参考文章】<br><a href="https://www.yxssp.com/23278.html" target="_blank" rel="noopener">https://www.yxssp.com/23278.html</a><br><a href="https://www.iplaysoft.com/virtualxposed.html" target="_blank" rel="noopener">https://www.iplaysoft.com/virtualxposed.html</a></p>
+
+        </div>
+        <!-- .entry-content -->
+        <div class="single-reward">
+          <div class="reward-open">赏<div class="reward-main">
+              <ul class="reward-row">
+                <li class="alipay-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/donate/21AlipayQR.jpg"></li>
+                <li class="wechat-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/donate/wechatpayQR.jpg"></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
+        <footer class="post-footer">
+          <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
+          <div class="post-tags">
+          </div>
+          <div class="post-share">
+            <div class="social-share sharehidden share-component"></div>
+            <i class="iconfont show-share icon-forward"></i>
+          </div>
+        </footer><!-- .entry-footer -->
+      </article>
+      <!-- #post-## -->
+      <div class="toc" style="background: none;"></div>
+      <section class="post-squares nextprev">
+        
+        
+          
+            <div class="post-nepre full next">
+          
+            <a href="/2022/01/12/get_data_from_tableau/" rel="next">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/get_data_tableau20220112.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/get_data_tableau20220112.jpg">
+              </div>
+              <span class="label">
+              Next Post</span>
+              <div class="info">
+                <h3>
+                </h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+      </section>
       
-  <!-- 首页默认取最最新文章集 -->
-  
-    
-<article  class="post post-list-thumb post-list-thumb-left"  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
+<div id="vcomments"></div>
+<script>
+  window.onload = function(){
+      var valine = new Valine();
+      valine.init({
+        el: '#vcomments',
+        appId: "Hm83GoGeDX3sGPDh3Q50lSMz-gzGzoHsz",
+        appKey: "mXIVaYaFj1DNyH6yBicfUS0w",
+        path: window.location.pathname,
+        placeholder: "你是我一生只会遇见一次的惊喜 ..."
+      })
+  }
+</script>
 
-  <div class="post-thumb">
-    <a href="/2020/09/20/SQL  Server 公用表表达式(CTE)/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.1/images/article/sql_cte_20200920.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-9-20 10:09</div>
-      <a href="/2020/09/20/SQL  Server 公用表表达式(CTE)/" class="post-title">
-        <h3>SQL Server 公用表表达式(CTE)</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/SQL-数据库/">SQL&amp;数据库<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/技术/">技术</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>SQL Server 公用表表达式(CTE)详解与例题实战</p>
-        <div class="post-bottom">
-          <a href="/2020/09/20/SQL  Server 公用表表达式(CTE)/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
+      <section class="author-profile">
+        <div class="info" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <a href="http://smilecoc.vip/" class="profile gravatar"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico" itemprop="image" alt="smilecoc" height="70" width="70"></a>
+          <div class="meta">
+            <span class="title">Author</span>
+            <h3 itemprop="name">
+            <a href="http://smilecoc.vip/" itemprop="url" rel="author">smilecoc</a>
+            </h3>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/09/06/英雄联盟胜利因素分析/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.0/images/article/lol_analysis_20200906.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-9-6 13:09</div>
-      <a href="/2020/09/06/英雄联盟胜利因素分析/" class="post-title">
-        <h3>利用Python对英雄联盟胜利条件进行分析</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/Python数据分析/">Python数据分析<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/技术/">技术</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>基于PCA与逻辑回归对英雄联盟胜利条件进行研究并预测</p>
-        <div class="post-bottom">
-          <a href="/2020/09/06/英雄联盟胜利因素分析/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb post-list-thumb-left"  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/09/03/sklearn三种数据标准化方法的对比：StandardScaler、MinMaxScaler、RobustScaler/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.0/images/article/sklearn_standardize_20200903.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-9-3 10:09</div>
-      <a href="/2020/09/03/sklearn三种数据标准化方法的对比：StandardScaler、MinMaxScaler、RobustScaler/" class="post-title">
-        <h3>sklearn三种数据标准化方法的对比：StandardScaler、MinMaxScaler、RobustScaler</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/机器学习/">机器学习<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/转载/">转载</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>sklearn三种数据标准化方法的对比：StandardScaler、MinMaxScaler、RobustScaler</p>
-        <div class="post-bottom">
-          <a href="/2020/09/03/sklearn三种数据标准化方法的对比：StandardScaler、MinMaxScaler、RobustScaler/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/09/01/sklearn.model_selection.train_test_split用法-划分训练集与测试集/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.0/images/article/sklearn_test-train_spilt_20200901.png">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-9-1 12:09</div>
-      <a href="/2020/09/01/sklearn.model_selection.train_test_split用法-划分训练集与测试集/" class="post-title">
-        <h3>sklearn.model_selection.train_test_split用法-划分训练集与测试集</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/Python数据分析/">Python数据分析<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/转载/">转载</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>利用sklearn.model_selection.train_test_split方法划分训练集与测试集</p>
-        <div class="post-bottom">
-          <a href="/2020/09/01/sklearn.model_selection.train_test_split用法-划分训练集与测试集/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb post-list-thumb-left"  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/08/17/left join on and 与 left join on where的区别/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.4/images/article/lj_whereand_20200818.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-8-17 23:08</div>
-      <a href="/2020/08/17/left join on and 与 left join on where的区别/" class="post-title">
-        <h3>left join on and 与 left join on where的区别</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/SQL-数据库/">SQL&amp;数据库<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/笔记/">笔记</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>数据库面试知识点：left join on and 与 left join on where的区别</p>
-        <div class="post-bottom">
-          <a href="/2020/08/17/left join on and 与 left join on where的区别/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/08/12/如何从0开始建立数据库(六)数据库建表SQL索引规范/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.5/images/article/builddb_part620200812.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-8-12 20:08</div>
-      <a href="/2020/08/12/如何从0开始建立数据库(六)数据库建表SQL索引规范/" class="post-title">
-        <h3>如何从0开始建立数据库(六)：数据库建表/SQL/索引规范</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/SQL-数据库/">SQL&amp;数据库<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/转载/">转载</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>如何从0开始建立数据库(六)：数据库建表/SQL/索引规范</p>
-        <div class="post-bottom">
-          <a href="/2020/08/12/如何从0开始建立数据库(六)数据库建表SQL索引规范/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb post-list-thumb-left"  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/08/11/如何从0开始建立数据库(五)：数据库系统的实现/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part520200811.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-8-11 20:08</div>
-      <a href="/2020/08/11/如何从0开始建立数据库(五)：数据库系统的实现/" class="post-title">
-        <h3>如何从0开始建立数据库(五)：数据库系统的实现</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/SQL-数据库/">SQL&amp;数据库<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/转载/">转载</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>如何从0开始建立数据库(五)：数据库系统的实现</p>
-        <div class="post-bottom">
-          <a href="/2020/08/11/如何从0开始建立数据库(五)：数据库系统的实现/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/08/11/如何从0开始建立数据库(四)：SQL/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part420200811.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-8-11 19:08</div>
-      <a href="/2020/08/11/如何从0开始建立数据库(四)：SQL/" class="post-title">
-        <h3>如何从0开始建立数据库(四)：SQL</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/SQL-数据库/">SQL&amp;数据库<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/转载/">转载</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>如何从0开始建立数据库(三)：更新异常与规范化设计</p>
-        <div class="post-bottom">
-          <a href="/2020/08/11/如何从0开始建立数据库(四)：SQL/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb post-list-thumb-left"  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/08/11/如何从0开始建立数据库(三)：更新异常与规范化设计/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part320200811.png">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-8-11 18:08</div>
-      <a href="/2020/08/11/如何从0开始建立数据库(三)：更新异常与规范化设计/" class="post-title">
-        <h3>如何从0开始建立数据库(三)：更新异常与规范化设计</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/SQL-数据库/">SQL&amp;数据库<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/转载/">转载</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>如何从0开始建立数据库(三)：更新异常与规范化设计</p>
-        <div class="post-bottom">
-          <a href="/2020/08/11/如何从0开始建立数据库(三)：更新异常与规范化设计/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-    
-<article  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
-
-  <div class="post-thumb">
-    <a href="/2020/08/11/如何从0开始建立数据库(二)：数据库关系建模/">
-      <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.9/images/article/builddb_part220200811.jpg">
-    </a>
-  </div>
-  <div class="post-content-wrap">
-    <div class="post-content">
-      <div class="post-date">
-        <i class="iconfont icon-time">
-        </i>2020-8-11 17:08</div>
-      <a href="/2020/08/11/如何从0开始建立数据库(二)：数据库关系建模/" class="post-title">
-        <h3>如何从0开始建立数据库(二)：数据库关系建模</h3>
-      </a>
-      <div class="post-meta">
-        <span><i class="fa fa-tags"></i>
-        
-            <a href="/tags/SQL-数据库/">SQL&amp;数据库<em>·</em></a>
-          
-        </span>
-        <span>
-          <i class="iconfont icon-file"></i>
-          
-            <a href="/categories/转载/">转载</a>
-          
-        </span>
-      </div>
-      <div class="float-content">
-        <p>如何从0开始建立数据库(二)：数据库关系建模</p>
-        <div class="post-bottom">
-          <a href="/2020/08/11/如何从0开始建立数据库(二)：数据库关系建模/" class="button-normal">
-            <i class="iconfont icon-caidan"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
-  
-
-
-    </main>
-      <!-- 首页默认取最最新文章集 -->
-    <!-- 
-      <nav class="navigator">
-        
-        <a class="extend prev" rel="prev" href="/page/3/"><i class="iconfont icon-back"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/5/"><i class="iconfont icon-right"></i></a>
-      </nav>
-     -->
-  </div>
-  
-    <div id="pagination"><a href="/page/5/" class="">Previous</a></div>
-  
+        <hr>
+        <p><i class="iconfont icon-write"></i></p>
+      </section>
+    </main><!-- #main -->
+  </div><!-- #primary -->
 </div>
+
+
 
     </div>    
     <div class="ins-search">
