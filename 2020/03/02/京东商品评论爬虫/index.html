@@ -435,7 +435,7 @@
 
   <div class="pattern-center single-center">
     <!-- 有配图默认渲染第一张 -->
-    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.1/images/article/jdcommentspider20200302.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.1/images/article/jdcommentspider20200302.jpg">
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/jdcommentspider20200302.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/jdcommentspider20200302.jpg">
     </div>
     <header class="pattern-header single-header">
       <h1 class="entry-title">
@@ -465,13 +465,13 @@
         <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
         
         <div class="entry-content">
-          <p>首先打开京东的任意几个商品页面，并观URL，可以发现都是<a href="https://item.jd.com/+数字+.htm的格式，而且数字也随着商品的改变而改变，基本上可以确定这串数字是商品ID" target="_blank" rel="noopener">https://item.jd.com/+数字+.htm的格式，而且数字也随着商品的改变而改变，基本上可以确定这串数字是商品ID</a><br>![](/upload_image/blog 2003/1.png)</p>
+          <p>首先打开京东的任意几个商品页面，并观URL，可以发现都是<a href="https://item.jd.com/+数字+.htm的格式，而且数字也随着商品的改变而改变，基本上可以确定这串数字是商品ID" target="_blank" rel="noopener">https://item.jd.com/+数字+.htm的格式，而且数字也随着商品的改变而改变，基本上可以确定这串数字是商品ID</a><br><img src="/upload_image/blog 2003/1.png" alt></p>
 <p>之后我们找到网页的源码并随便复制一句评论，在网页源码中查找，发现并没有找到评论内容，说明jd的评论页面并非静态网页</p>
 <p>AJAX：<br>AJAX的全称是Asynchronous JavaScript and XML（异步的 JavaScript 和 XML）。<br>ajax不是新的编程语言，而是一种使用现有标准的新方法。ajax是与服务器交换数据并更新部分网页的艺术，在不重新加载整个页面的情况下。<br>ajax是一种在无需重新加载整个网页的情况下，能够更新部分网页的技术。<br>ajax是一种用于创建快速动态网页的技术。通过在后台与服务器进行少量数据交换。ajax可以使网页实现异步更新。这意味着可以在不重新加载整个网页的情况下，对网页的某部分进行更新。而传统的网页（不使用ajax）如果需要更新内容，必须重载整个网页面。</p>
 <p>既然确定是AJAX的方式加载，我们可以直接打开chrome的调试工具，在network中的XHR和JS中寻找保存有评论的文件。注意这里必须先下拉到评论页面使数据文件加载下来，否则会找不到加载的数据文件</p>
 <p>我们可以通过两种方式来查找包含评论的文件：<br>１.可以在ｊｓ和ＸＨＲ中寻找ｃｏｍｍｅｎｔ关键字，查看是否有文件符合要求，并对符合要求的结果筛选<br>２.评论在页面的最下方，根据文件的加载顺序可以大致了解到会在后面，从后面开始找即可</p>
-<p>最终确定ｊｓ文件，如下图所示<br>![](/upload_image/blog 2003/2.png)<br>这样我们就可以确定评论的请求地址并开始抓取</p>
-<pre><code class="python">import requests
+<p>最终确定ｊｓ文件，如下图所示<br><img src="/upload_image/blog 2003/2.png" alt><br>这样我们就可以确定评论的请求地址并开始抓取</p>
+<pre><code class="lang-python">import requests
 import json
 
 url=&#39;https://item.jd.com/52297931949.html&#39;
@@ -483,7 +483,8 @@ josntext=json.loads(html)
 comments= josntext[&#39;comments&#39;]
 for comment in comments:
     content = comment[&#39;content&#39;]
-    print(content)</code></pre>
+    print(content)
+</code></pre>
 <p>这里需要注意一下原始的jsonurl得到的文件并不是标准的json文件格式，我们可以将得到的文本内容复制到<a href="https://www.json.cn/" target="_blank" rel="noopener">https://www.json.cn</a>发现这并不是一个标准的josn文件，所以直接loads()会直接报错：json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)，只要返<br>回的对象不是josn对象就会出现此错误<br>解决的方法有两个，一是将URL中的?callback=fetchJSON_comment98去除，另外一种方法是将返回的文本对象中的fetchJSON_comment98替换为空</p>
 <p>得到所需要的json文件后就可以将数据存到sqllite中了<br>sqllite是python内置的关系型数据库，具有以下优点：</p>
 <ul>
@@ -520,7 +521,7 @@ for comment in comments:
 </li>
 </ul>
 <p>这一部分代码如下所示</p>
-<pre><code class="python">conn=sqlite3.connect(&quot;comments.db&quot;)#建立连接，数据库存在时，直接连接；不存在时，创建相应数据库
+<pre><code class="lang-python">conn=sqlite3.connect(&quot;comments.db&quot;)#建立连接，数据库存在时，直接连接；不存在时，创建相应数据库
 #新建一张表
 conn.execute(&#39;&#39;&#39;CREATE TABLE Comments_jd
 
@@ -533,17 +534,19 @@ for comment in comments:
     conn.execute(sql)conn.commit()
 
 # 关闭数据库连接
-conn.close()</code></pre>
+conn.close()
+</code></pre>
 <p>之后检查以下数据是否有问题：</p>
-<pre><code class="python">conn=sqlite3.connect(&quot;comments.db&quot;)
+<pre><code class="lang-python">conn=sqlite3.connect(&quot;comments.db&quot;)
 cursor = conn.execute(&quot;select *  from Comments_jd&quot;)
 for row in cursor:
     print(&#39;ID = &#39;, row[0], &#39;  Comment = &#39;, row[1])
-conn.close()</code></pre>
-<p>得到的结果如下图所示<br>![](/upload_image/blog 2003/3.png)</p>
+conn.close()
+</code></pre>
+<p>得到的结果如下图所示<br><img src="/upload_image/blog 2003/3.png" alt></p>
 <p>这样整个流程就搞定了</p>
 <p>最终的代码如下：</p>
-<pre><code class="python">import requests
+<pre><code class="lang-python">import requests
 import json
 import sqlite3
 
@@ -573,7 +576,8 @@ def data_stored(html):
 
 if __name__ == &#39;__main__&#39;:
     html=get_comments(str(52297931949))
-    data_stored(html)</code></pre>
+    data_stored(html)
+</code></pre>
 
         </div>
         <!-- .entry-content -->
@@ -606,7 +610,7 @@ if __name__ == &#39;__main__&#39;:
           
             <a href="/2020/03/03/using_sql_in_vba/" rel="prev">
               <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.1/images/article/vbasql20200303.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.1/images/article/vbasql20200303.jpg">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/vbasql20200303.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/vbasql20200303.jpg">
               </div>
               <span class="label">
               Previous Post</span>
@@ -624,7 +628,7 @@ if __name__ == &#39;__main__&#39;:
           
             <a href="/2020/02/24/Chrome插件资源/" rel="next">
               <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5/images/article/chromecj20200224.png" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5/images/article/chromecj20200224.png">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/chromecj20200224.png" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/chromecj20200224.png">
               </div>
               <span class="label">
               Next Post</span>

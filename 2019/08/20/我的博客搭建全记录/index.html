@@ -435,7 +435,7 @@
 
   <div class="pattern-center single-center">
     <!-- 有配图默认渲染第一张 -->
-    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/article/blogdj20190820.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/article/blogdj20190820.jpg">
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/blogdj20190820.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/blogdj20190820.jpg">
     </div>
     <header class="pattern-header single-header">
       <h1 class="entry-title">
@@ -469,28 +469,30 @@
 <h2 id="开始搭建"><a href="#开始搭建" class="headerlink" title="开始搭建"></a><strong>开始搭建</strong></h2><h4 id="安装node-js"><a href="#安装node-js" class="headerlink" title="安装node.js"></a><strong>安装node.js</strong></h4><p>下载node.js并安装（官网下载安装），默认会安装npm。打开cmd命令行，成功的标志如下：<br><img src="/upload_image/blog190820/1.png" alt="node.js"></p>
 <h4 id="安装git"><a href="#安装git" class="headerlink" title="安装git"></a><strong>安装git</strong></h4><p>下载安装git（官网下载安装）,安装成功的象征就是在电脑上任何位置鼠标右键能够出现Git GUI Here和Git Bash here如下两个选择<br><img src="/upload_image/blog190820/2.png" alt="git"><br>注意：一般出于安全考虑，只有在Git Bash Here中才能进行Git的相关操作。如果需要在cmd命令行里调用Git，那么就要配置电脑的环境变量Path，或者在安装的时候选择use Git from the Windows Command Prompt。这个可有可无，影响不大</p>
 <h4 id="Github建立项目"><a href="#Github建立项目" class="headerlink" title="Github建立项目"></a><strong>Github建立项目</strong></h4><p>Github账户注册和新建项目（new repository），项目必须要遵守格式：账户名.github.io，并且需要勾选Initialize this repository with a README。<br><img src="/upload_image/blog190820/3.png" alt="github"><br>在建好的项目右侧有个settings按钮，点击它，向下拉到GitHub Pages，你会看到那边有个网址，访问它，你将会惊奇的发现该项目已经被部署到网络上，能够通过外网来访问它。<br><img src="/upload_image/blog190820/4.png" alt="setting"></p>
-<h4 id="安装hexo"><a href="#安装hexo" class="headerlink" title="安装hexo"></a><strong>安装hexo</strong></h4><p>安装Hexo，在自己认为合适的地方建了一个blog文件夹。然后通过命令行进入到该文件夹里面<br><img src="/upload_image/blog190820/5.png" alt="blog文件夹"><br>为什么要新创建blog文件呢？因为hexo 初始化需要文件夹为null的，所以确保路径简单且路径中不要有中文<br>输入<strong>npm install hexo -g</strong>，开始安装Hexo<br>输入** hexo -v <strong>查看是否安装成功，如果成功安装会显示出安装的版本信息<br><img src="/upload_image/blog190820/6.png" alt="hexo"><br>输入</strong>hexo init<strong>，初始化该文件夹（有点漫长的等待。。。）<br>个人在这一步一直出现报错，先出现<a href="https://stackoverflow.com/questions/4492979/git-is-not-recognized-as-an-internal-or-external-command" target="_blank" rel="noopener">‘git’ is not recognized as an internal or external command</a>错误，后来又出现Permission denied错误，耽误了好几个小时，后来发现使用hexo init <floder>都可以解决<br>看到 Start blogging with Hexo！ 则表明安装成功。<br><img src="/upload_image/blog190820/7.png" alt="hexo安装成功"><br>在cmd中输入</floder></strong>npm install<strong>，安装所需要的组件<br>输入</strong>hexo g<strong>，首次体验Hexo<br>输入</strong>hexo s<strong>，开启服务器，访问该网址（即提示中的<a href="http://localhost:4000/），正式体验Hexo" target="_blank" rel="noopener">http://localhost:4000/），正式体验Hexo</a><br><img src="/upload_image/blog190820/8.png" alt="hexo s"><br>如果页面一直无法跳转，那么可能端口被占用了。此时我们ctrl+c停止服务器，接着输入</strong>hexo server -p 端口号**来改变端口号</p>
-<h4 id="连接Hexo与Github"><a href="#连接Hexo与Github" class="headerlink" title="连接Hexo与Github"></a><strong>连接Hexo与Github</strong></h4><p>将Hexo与Github page联系起来，设置Git的user name和email（如果是第一次的话）<br>首先在新建的blog文件夹里面鼠标右键，点击Git Bash Here。这里“06866”可以替换成自己的用户名，邮箱可以替换成自己的邮箱<br><img src="/upload_image/blog190820/9.png" alt="git bash"><br>输入<strong>cd ~/.ssh</strong>，检查是否由.ssh的文件夹 ls 查看<br><img src="/upload_image/blog190820/10.png" alt="添加ssh"><br>ssh 密钥生成<br><img src="/upload_image/blog190820/11.png" alt="添加ssh"><br>连续三个回车，生成密钥，最后得到了两个文件：id_rsa和id_rsa.pub<br><img src="/upload_image/blog190820/12.png" alt="添加ssh"><br>接着输入<strong>eval “$(ssh-agent -s)”</strong>，回车，添加密钥到ssh-agent<br>再输入<strong>ssh-add ~/.ssh/id_rsa</strong>，回车，添加生成的SSH key到ssh-agent<br>接着登录Github，点击头像下的settings，点击new ssh key<br><img src="/upload_image/blog190820/13.png" alt="添加ssh"><br>输入<strong>cat id_rsa.pub</strong>生成一个new ssh key，将生成后的内容复制到上一步的github中的new ssh key中<br><img src="/upload_image/blog190820/14.png" alt="添加ssh"><br><img src="/upload_image/blog190820/15.png" alt="添加ssh"><br>输入<strong>ssh -T <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a></strong>，测试添加ssh是否成功。如果看到Hi后面是你的用户名，就说明成功了</p>
+<h4 id="安装hexo"><a href="#安装hexo" class="headerlink" title="安装hexo"></a><strong>安装hexo</strong></h4><p>安装Hexo，在自己认为合适的地方建了一个blog文件夹。然后通过命令行进入到该文件夹里面<br><img src="/upload_image/blog190820/5.png" alt="blog文件夹"><br>为什么要新创建blog文件呢？因为hexo 初始化需要文件夹为null的，所以确保路径简单且路径中不要有中文<br>输入<strong>npm install hexo -g</strong>，开始安装Hexo<br>输入<strong> hexo -v </strong>查看是否安装成功，如果成功安装会显示出安装的版本信息<br><img src="/upload_image/blog190820/6.png" alt="hexo"><br>输入<strong>hexo init</strong>，初始化该文件夹（有点漫长的等待。。。）<br>个人在这一步一直出现报错，先出现<a href="https://stackoverflow.com/questions/4492979/git-is-not-recognized-as-an-internal-or-external-command" target="_blank" rel="noopener">‘git’ is not recognized as an internal or external command</a>错误，后来又出现Permission denied错误，耽误了好几个小时，后来发现使用hexo init <floder>都可以解决<br>看到 Start blogging with Hexo！ 则表明安装成功。<br><img src="/upload_image/blog190820/7.png" alt="hexo安装成功"><br>在cmd中输入<strong>npm install</strong>，安装所需要的组件<br>输入<strong>hexo g</strong>，首次体验Hexo<br>输入<strong>hexo s</strong>，开启服务器，访问该网址（即提示中的<a href="http://localhost:4000/），正式体验Hexo" target="_blank" rel="noopener">http://localhost:4000/），正式体验Hexo</a><br><img src="/upload_image/blog190820/8.png" alt="hexo s"><br>如果页面一直无法跳转，那么可能端口被占用了。此时我们ctrl+c停止服务器，接着输入<strong>hexo server -p 端口号</strong>来改变端口号</floder></p>
+<h4 id="连接Hexo与Github"><a href="#连接Hexo与Github" class="headerlink" title="连接Hexo与Github"></a><strong>连接Hexo与Github</strong></h4><p>将Hexo与Github page联系起来，设置Git的user name和email（如果是第一次的话）<br>首先在新建的blog文件夹里面鼠标右键，点击Git Bash Here。这里“06866”可以替换成自己的用户名，邮箱可以替换成自己的邮箱<br><img src="/upload_image/blog190820/9.png" alt="git bash"><br>输入<strong>cd ~/.ssh</strong>，检查是否由.ssh的文件夹 ls 查看<br><img src="/upload_image/blog190820/10.png" alt="添加ssh"><br>ssh 密钥生成<br><img src="/upload_image/blog190820/11.png" alt="添加ssh"><br>连续三个回车，生成密钥，最后得到了两个文件：id_rsa和id_rsa.pub<br><img src="/upload_image/blog190820/12.png" alt="添加ssh"><br>接着输入<strong>eval “$(ssh-agent -s)”</strong>，回车，添加密钥到ssh-agent<br>再输入<strong>ssh-add ~/.ssh/id_rsa</strong>，回车，添加生成的SSH key到ssh-agent<br>接着登录Github，点击头像下的settings，点击new ssh key<br><img src="/upload_image/blog190820/13.png" alt="添加ssh"><br>输入<strong>cat id_rsa.pub</strong>生成一个new ssh key，将生成后的内容复制到上一步的github中的new ssh key中<br><img src="/upload_image/blog190820/14.png" alt="添加ssh"><br><img src="/upload_image/blog190820/15.png" alt="添加ssh"><br>输入<strong>ssh -T git@github.com</strong>，测试添加ssh是否成功。如果看到Hi后面是你的用户名，就说明成功了</p>
 <p>如果ssh-key配置失败，那么只要按照以下步骤就能完全解决</p>
 <ul>
 <li>首先，清除所有的key-pair，输入<strong>ssh-add -D</strong>和<strong>rm -r ~/.ssh</strong>删除你在github中的public-key</li>
-<li>重新生成ssh密钥对，输入<strong>ssh-keygen -t rsa -C “<a href="mailto:xxx@xxx.com" target="_blank" rel="noopener">xxx@xxx.com</a>“</strong></li>
+<li>重新生成ssh密钥对，输入<strong>ssh-keygen -t rsa -C “xxx@xxx.com”</strong></li>
 <li>接下来正常操作在github上添加公钥public-key:</li>
 <li>1、首先在你的终端运行<strong>xclip -sel c ~/.ssh/id_rsa.pub</strong>将公钥内容复制到剪切板</li>
 <li>2、在github上添加公钥时，直接复制即可</li>
 <li>3、保存</li>
-<li>测试：在终端<strong>ssh -T <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a></strong></li>
+<li>测试：在终端<strong>ssh -T git@github.com</strong></li>
 </ul>
 <h4 id="修改Deployment值"><a href="#修改Deployment值" class="headerlink" title="修改Deployment值"></a><strong>修改Deployment值</strong></h4><p>在之前新建的blog文件夹中，找到<strong>_config.yml</strong>文件，修改Deployment值（在末尾）,将</p>
-<pre><code class="text">deploy:
-  type:</code></pre>
+<pre><code class="lang-text">deploy:
+  type:
+</code></pre>
 <p>更改为：</p>
-<pre><code class="text">deploy:
+<pre><code class="lang-text">deploy:
   type: git
   repository: git@github.com:xxxx/xxxx.github.io.git
-  branch: master</code></pre>
+  branch: master
+</code></pre>
 <p>repository值是你在github项目里的ssh（右下角）<br><img src="/upload_image/blog190820/16.png" alt="repository"></p>
-<h4 id="完成建站并新建博客"><a href="#完成建站并新建博客" class="headerlink" title="完成建站并新建博客"></a><strong>完成建站并新建博客</strong></h4><p>新建一篇博客，在cmd执行命令：hexo new post “博客名”，就可以在blog/_posts/中找到已创建的文件。<br>在生成以及部署文章之前，需要安装一个扩展，在cmd中输入<strong>npm install hexo-deployer-git –save</strong>，并将刚刚生成的文件编辑好后cmd中输入命令<strong>hexo d -g</strong>即可生成部署文章</p>
+<h4 id="完成建站并新建博客"><a href="#完成建站并新建博客" class="headerlink" title="完成建站并新建博客"></a><strong>完成建站并新建博客</strong></h4><p>新建一篇博客，在cmd执行命令：hexo new post “博客名”，就可以在blog/_posts/中找到已创建的文件。<br>在生成以及部署文章之前，需要安装一个扩展，在cmd中输入<strong>npm install hexo-deployer-git —save</strong>，并将刚刚生成的文件编辑好后cmd中输入命令<strong>hexo d -g</strong>即可生成部署文章</p>
 <p>至此，一个具备基础功能的博客就完成了</p>
 <h2 id="绑定自己的域名"><a href="#绑定自己的域名" class="headerlink" title="绑定自己的域名"></a><strong>绑定自己的域名</strong></h2><h4 id="购买域名"><a href="#购买域名" class="headerlink" title="购买域名"></a><strong>购买域名</strong></h4><p>国内的域名服务商有新网，腾讯云，还有阿里云的万网等。下面以阿里云的万网为例：<br>在万网购买了自己心仪的域名后，进入阿里云的管理控制台-域名与网站-域名就可以看到购买的域名此时的域名状态是未实名认证的，然后就是实名认证（一般需要2小时左右）。</p>
 <h4 id="域名解析"><a href="#域名解析" class="headerlink" title="域名解析"></a><strong>域名解析</strong></h4><p>首先获取自己 github 的二级域名的 IP地址，windows 下直接在 cmd 里 Ping 一下自己的博客就会得到 IP 地址：<br>ping username.github.io,其中username为自己的github用户名</p>
@@ -502,31 +504,34 @@
 <h4 id="主题下载安装"><a href="#主题下载安装" class="headerlink" title="主题下载安装"></a><strong>主题下载安装</strong></h4><p>hexo-theme-sakura建议下载压缩包格式，因为除了主题内容还有些source的配置对新手来说比较太麻烦，直接下载解压就省去这些麻烦咯。<br>下载好后解压到博客根目录（不是主题目录哦，重复的选择替换）。接着在命令行（cmd、bash）运行<code>npm i</code>安装依赖。</p>
 <h4 id="主题配置"><a href="#主题配置" class="headerlink" title="主题配置"></a><strong>主题配置</strong></h4><p>找到 /themes/sakura/config.yml 这个配置文件中修改，跟着作者的注释修改即可。注意一下所有的文件带有注释，所以最好找到自己的电脑中的文件对照改，以免出错。</p>
 <p>站点</p>
-<pre><code class="YML"># Site
+<pre><code class="lang-YML"># Site
 title: 你的站点名
 subtitle:
 description: 站点简介
 keywords:
 author: 作者名
 language: zh-cn
-timezone:</code></pre>
+timezone:
+</code></pre>
 <p>部署</p>
-<pre><code class="YML">deploy:
+<pre><code class="lang-YML">deploy:
   type: git
   repo: 
     github: 你的github仓库地址
     # coding: 你的coding仓库地址
-  branch: master</code></pre>
+  branch: master
+</code></pre>
 <p>备份 （使用hexo b发布备份到远程仓库）</p>
-<pre><code class="YML">backup:
+<pre><code class="lang-YML">backup:
   type: git
   message: backup my blog of https://honjun.github.io/
   repository:
     # 你的github仓库地址,备份分支名  （建议新建backup分支）
     github: https://github.com/honjun/honjun.github.io.git,backup
-    # coding: https://git.coding.net/hojun/hojun.git,backup</code></pre>
+    # coding: https://git.coding.net/hojun/hojun.git,backup
+</code></pre>
 <h4 id="主题目录下的-config配置"><a href="#主题目录下的-config配置" class="headerlink" title="主题目录下的_config配置"></a><strong>主题目录下的_config配置</strong></h4><p>其中标明【改】的是需要修改部门，标明【选】是可改可不改，标明【非】是不用改的部分</p>
-<pre><code class="YML"># site name
+<pre><code class="lang-YML"># site name
 # 站点名，即网站的左上角的名称 【改】
 prefixName: さくら荘その
 siteName: hojun
@@ -646,7 +651,8 @@ aplayer:
 # Valine评论配置【改】
 valine: true
 v_appId: GyC3NzMvd0hT9Yyd2hYIC0MN-gzGzoHsz
-v_appKey: mgOpfzbkHYqU92CV4IDlAUHQ</code></pre>
+v_appKey: mgOpfzbkHYqU92CV4IDlAUHQ
+</code></pre>
 <h2 id="CDN搭建"><a href="#CDN搭建" class="headerlink" title="CDN搭建"></a><strong>CDN搭建</strong></h2><p>这其中涉及到搭建cdn,可以直接去<a href="https://www.bilibili.com/video/av41155462/" target="_blank" rel="noopener">视屏地址</a>看，直接看文字版如下：</p>
 <p>国内加载github的资源比较慢，需要使用CDN加速来优化网站打开速度，于是使用jsDeliver+github搭建免费的cdn。jsDelivr 是一个免费开源的 CDN 解决方案，用于帮助开发者和站长。包含 JavaScript 库、jQuery 插件、CSS 框架、字体等等 Web 上常用的静态资源</p>
 <h4 id="什么是CDN"><a href="#什么是CDN" class="headerlink" title="什么是CDN"></a><strong>什么是CDN</strong></h4><p>CDN的全称是Content Delivery Network，即内容分发网络。CDN是构建在网络之上的内容分发网络，依靠部署在各地的边缘服务器，通过中心平台的负载均衡、内容分发、调度等功能模块，使用户就近获取所需内容，降低网络拥塞，提高用户访问响应速度和命中率。CDN的关键技术主要有内容存储和分发技术。</p>
@@ -665,7 +671,8 @@ git add .
 // 提交更新（引号内 为自定义信息说明）
 git commit -m &#39;第一次提交&#39;
 // 推送至远程仓库 
-git push</code></pre><h4 id="第四步：发布仓库"><a href="#第四步：发布仓库" class="headerlink" title="第四步：发布仓库"></a><strong>第四步：发布仓库</strong></h4><p>点击release发布</p>
+git push
+</code></pre><h4 id="第四步：发布仓库"><a href="#第四步：发布仓库" class="headerlink" title="第四步：发布仓库"></a><strong>第四步：发布仓库</strong></h4><p>点击release发布</p>
 <p><img src="/upload_image/blog190820/22.png" alt></p>
 <p>发布版本号为1.0（自定义）</p>
 <p><img src="/upload_image/blog190820/23.png" alt></p>
@@ -684,22 +691,24 @@ git push</code></pre><h4 id="第四步：发布仓库"><a href="#第四步：发
 <h4 id="网页顶部导航栏"><a href="#网页顶部导航栏" class="headerlink" title="网页顶部导航栏"></a><strong>网页顶部导航栏</strong></h4><p>网页顶部导航栏可以在/themes/sakura/config.yml中的meuns:下修改，如果有需要，可以修改名称，也可以直接删除，生成的网页会随之变动<br><img src="/upload_image/blog190820/24.png" alt="导航"><br>前面的path是网页路径，这个不建议修改，但可以修改。后面的如: fa: fas fa-home fa-1x 这个就是对应的图标设置,关于这个图标大家可以去<a href="http://fontawesome.dashgame.com/" target="_blank" rel="noopener">fontawesome</a>看教程以及选择自己喜欢的图标，导航栏下拉下拉菜单的图标修改和导航栏相同。</p>
 <h4 id="社交栏样式"><a href="#社交栏样式" class="headerlink" title="社交栏样式"></a><strong>社交栏样式</strong></h4><p>社交栏的样式在 /themes/sakura/source/css/style.css中可以修改， Ctrl+f 搜索 header-info即可，建议没有必要就不修改了</p>
 <h4 id="模块更名"><a href="#模块更名" class="headerlink" title="模块更名"></a><strong>模块更名</strong></h4><p>startdash模块更改名称：在 /themes/sakura/layout/_partial/startdash.ejs中有：</p>
-<pre><code class="text">&lt;div class=&quot;top-feature-row&quot;&gt;
+<pre><code class="lang-text">&lt;div class=&quot;top-feature-row&quot;&gt;
   &lt;h1 class=&quot;fes-title&quot; style=&quot;font-family: &#39;Ubuntu&#39;, sans-serif;&quot;&gt;
   &lt;i class=&quot;fa fa-anchor&quot; aria-hidden=&quot;true&quot;&gt;
   &lt;/i&gt;
   startdash&lt;/h1&gt;
   &lt;% for (dash in theme.startdash) { %&gt;
-  ....</code></pre>
+  ....
+</code></pre>
 <p>更改其中的startdash即可<br>同样如果要更改discovery模块的名称，在/themes/sakura/layout/index.ejs中找到如下代码：</p>
-<pre><code class="text">      &lt;h1 class=&quot;main-title&quot; style=&quot;font-family: &#39;Ubuntu&#39;, sans-serif;&quot;&gt;
+<pre><code class="lang-text">      &lt;h1 class=&quot;main-title&quot; style=&quot;font-family: &#39;Ubuntu&#39;, sans-serif;&quot;&gt;
       &lt;i class=&quot;fa fa-envira&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;
       Discovery&lt;/h1&gt;
       &lt;%- partial(&#39;_partial/archive&#39;, {pagination: 2, index: true}) %&gt;
-      &lt;!-- 首页默认取最最新文章集 --&gt;</code></pre>
+      &lt;!-- 首页默认取最最新文章集 --&gt;
+</code></pre>
 <p>修改discovery即可</p>
 <h4 id="文章的封面，归档设置"><a href="#文章的封面，归档设置" class="headerlink" title="文章的封面，归档设置"></a><strong>文章的封面，归档设置</strong></h4><p>在你写博客时的md文件中可以自由设置，下面是示例：</p>
-<pre><code class="text">title: Sakura美化教程#文章的标题
+<pre><code class="lang-text">title: Sakura美化教程#文章的标题
 author: hojun#作者名称
 avatar: https://wx1.sinaimg.cn/large/006bYVyvgy1ftand2qurdj303c03cdfv.jpg#文章标题下作者的图标，如果不加会导致图片缺失，比较丑
 authorLink: https://yremp.club#作者链接
@@ -713,9 +722,10 @@ tags:
 keywords: Sakura主题自定义美化教程
 description:  Sakura美化教程
 photos: https://static.2heng.xin/wp-content/uploads//2019/02/wallhaven-672007-1-1024x576.png#封面的图片链接
----</code></pre>
+---
+</code></pre>
 <h4 id="归档子页面"><a href="#归档子页面" class="headerlink" title="归档子页面"></a><strong>归档子页面</strong></h4><p>归档子页面下的图片/封面设置在 /themes/sakura/language/zh-cn.yml，找到如下代码：</p>
-<pre><code class="text">#category
+<pre><code class="lang-text">#category
 技术:
     zh: 野生技术协会
     en: Technical Communication
@@ -724,10 +734,11 @@ photos: https://static.2heng.xin/wp-content/uploads//2019/02/wallhaven-672007-1-
     zh: 生活
     en: Live
     img: https://cdn.jsdelivr.net/gh/yremp/cdn@2.1.5/img/cover/(2).jpg.webp
-......</code></pre>
+......
+</code></pre>
 <p>这一个子页面同样是和之前设置的相关的，自己有几个归档分类就自己添加即可</p>
 <h4 id="悦读和图集"><a href="#悦读和图集" class="headerlink" title="悦读和图集"></a><strong>悦读和图集</strong></h4><p>在 /themes/sakura/language/zh-cn.yml修改：</p>
-<pre><code class="text">#tag
+<pre><code class="lang-text">#tag
 悦读:
     img: https://cdn.jsdelivr.net/gh/yremp/cdn@2.1.5/img/cover/(6).jpg.webp
 图集:
@@ -736,7 +747,7 @@ web:
     img:  https://cdn.jsdelivr.net/gh/yremp/resource@1.0/img/pic.jpg
 </code></pre>
 <h4 id="番组"><a href="#番组" class="headerlink" title="番组"></a><strong>番组</strong></h4><p>注意：这个souce文件夹需要放在blog一级的文件夹下，如果没有的话在下载的sakura文件中复制粘贴<br>这个页面对应的配置是在 /source/bangumi/index.md中修改，其中代码如下,对照网页修改即可</p>
-<pre><code class="text">---
+<pre><code class="lang-text">---
 layout: bangumi
 title: bangumi
 comments: false
@@ -761,7 +772,7 @@ bangumis:
 ---
 </code></pre>
 <h4 id="歌单"><a href="#歌单" class="headerlink" title="歌单"></a><strong>歌单</strong></h4><p>整个页面配置在 /source/music/index.md中：</p>
-<pre><code class="text">---
+<pre><code class="lang-text">---
 title: music
 date: 2018-12-20 23:14:28
 keywords: 喜欢的音乐
@@ -778,7 +789,7 @@ photos: http://pic.netbian.com/uploads/allimg/170911/233802-15051442827782.jpg
 </li>
 <li><p>注意所有的md文件中的：后都有一个空格（不知道改如何叫，键值对？）</p>
 </li>
-<li><p>其他的后续问题，bug等归纳整理到<a href="http://smilecoc.vip/2020/02/02/Hexo%20Sakura%E4%B8%BB%E9%A2%98%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/" target="_blank" rel="noopener">Hexo Sakura主题遇到的问题汇总</a>供参考</p>
+<li><p>其他的后续问题，bug等归纳整理到<a href="http://smilecoc.vip/2020/02/02/Hexo%20Sakura%E4%B8%BB%E9%A2%98%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/">Hexo Sakura主题遇到的问题汇总</a>供参考</p>
 </li>
 </ul>
 <h2 id="添加一个看板娘"><a href="#添加一个看板娘" class="headerlink" title="添加一个看板娘"></a><strong>添加一个看板娘</strong></h2><p>就是右下角的卡通人物</p>
@@ -786,10 +797,11 @@ photos: http://pic.netbian.com/uploads/allimg/170911/233802-15051442827782.jpg
 <p><a href="https://github.com/xiazeyu/live2d-widget-models" target="_blank" rel="noopener">live2d模型</a></p>
 <p><a href="https://blog.csdn.net/wang_123_zy/article/details/87181892" target="_blank" rel="noopener">部分模型预览</a></p>
 <p>首先进入Hexo博客根目录安装live2d插件</p>
-<pre><code class="text">$ npm install --save hexo-helper-live2d</code></pre>
-<p>接着，修改根目录下的 *_config.yml *文件</p>
+<pre><code class="lang-text">$ npm install --save hexo-helper-live2d
+</code></pre>
+<p>接着，修改根目录下的 <em>_config.yml </em>文件</p>
 <p>添加自定义配置(下面提供我的配置做参考)：</p>
-<pre><code class="text">## live2d
+<pre><code class="lang-text">## live2d
 live2d:
    enable: true
    scriptFrom: local
@@ -822,28 +834,34 @@ live2d:
 <p>现在假设你所挑选的看板娘也是<em>z16</em></p>
 <p>你有几种方式让看板娘进驻你的Hexo博客，这里只提供最方便的一种(命令安装)。</p>
 <p>进入博客根目录输入以下命令：</p>
-<pre><code class="text">$ npm install live2d-widget-model-z16</code></pre>
-<p>再将 *_config.yml *中 model.use检查 一遍确保与你安装的名称一致</p>
+<pre><code class="lang-text">$ npm install live2d-widget-model-z16
+</code></pre>
+<p>再将 <em>_config.yml </em>中 model.use检查 一遍确保与你安装的名称一致</p>
 <p>到此处看板娘进驻成功</p>
 <h4 id="进阶版看板娘"><a href="#进阶版看板娘" class="headerlink" title="进阶版看板娘"></a><strong>进阶版看板娘</strong></h4><p>如何安装看板娘<br>傻瓜式安装只需在网页中引入这三行代码即可</p>
-<pre><code class="js">&lt;script src=&quot;https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js&quot;&gt;&lt;/script&gt;
+<pre><code class="lang-js">&lt;script src=&quot;https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js&quot;&gt;&lt;/script&gt;
 &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css&quot;/&gt;
-&lt;script src=&quot;https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget/autoload.js&quot;&gt;&lt;/script&gt;</code></pre>
+&lt;script src=&quot;https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget/autoload.js&quot;&gt;&lt;/script&gt;
+</code></pre>
 <p>在 主题配置文件 中,新增如下内容：</p>
-<pre><code class="text">live2d:
-  enable: true</code></pre>
+<pre><code class="lang-text">live2d:
+  enable: true
+</code></pre>
 <p>如果你想折腾一翻，请看下面<br>本插件需要jQuery和font-awesome支持，请确保它们已在页面中加载，例如在<head><meta name="generator" content="Hexo 3.9.0">中加入：<link rel="alternate" href="/atom.xml" title="Smilecoc's Blog" type="application/atom+xml">
 </head></p>
-<pre><code class="js">&lt;script src=&quot;https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js&quot;&gt;&lt;/script&gt;
-&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css&quot;&gt;</code></pre>
+<pre><code class="lang-js">&lt;script src=&quot;https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css&quot;&gt;
+</code></pre>
 <p>否则无法正常显示。（如果你的网页已经加载了jQuery，就不要重复加载了）</p>
 <p>你可以直接这样使用：</p>
-<pre><code class="js">&lt;script src=&quot;https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget/autoload.js&quot;&gt;&lt;/script&gt;</code></pre>
+<pre><code class="lang-js">&lt;script src=&quot;https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget/autoload.js&quot;&gt;&lt;/script&gt;
+</code></pre>
 <p>将这一行代码加入<head><meta name="generator" content="Hexo 3.9.0">或</head><body>，即可看到效果。如果你的网站启用了PJAX，由于看板娘不必每页刷新，因此需要注意将相关脚本放到PJAX刷新区域之外。</body></p>
 <p>换句话说，如果你是小白，或者只需要最基础的功能，就只需要：</p>
 <p>把这一行代码，连同前面的两行代码，一起放到html的<head><meta name="generator" content="Hexo 3.9.0">中即可；<br>如果页面是用各种模版引擎、php、asp生成的，也要自行修改，方法类似，只是可能略为麻烦。<br>但是！我们强烈推荐自己进行配置，否则很多功能是不完整的，并且可能产生问题！<br>如果你还有兴趣自己折腾的话，请看下面的详细说明。算了不搞你们了，如果搞不到，请使用傻瓜式安装</head></p>
 <p>如果要自定义有关内容，可以把这个仓库Fork一份，然后进行修改。这时，使用方法对应地变为</p>
-<pre><code class="js">&lt;script src=&quot;https://cdn.jsdelivr.net/gh/username/live2d-widget/autoload.js&quot;&gt;&lt;/script&gt;</code></pre>
+<pre><code class="lang-js">&lt;script src=&quot;https://cdn.jsdelivr.net/gh/username/live2d-widget/autoload.js&quot;&gt;&lt;/script&gt;
+</code></pre>
 <p>将username替换为你的GitHub用户名即可。</p>
 <p>定制看板娘的语录<br>1.从github中下载项目: <a href="https://github.com/stevenjoezhang/live2d-widget" target="_blank" rel="noopener">https://github.com/stevenjoezhang/live2d-widget</a><br>2.更改waifu-tip.json里面的内容详情<br>3.更改autoload.js的引入位置<br>将下载的文件解压到本地博客目录的themes/主题文件夹/source下，修改autoload.js文件，如下：</p>
 <p>将<script src="https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget/autoload.js"></script> 改成const live2d_path = “/live2d-widget/“;</p>
@@ -881,7 +899,7 @@ live2d:
           
             <a href="/2019/10/01/经典SQL语句大全/" rel="prev">
               <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/article/jdsql20191001.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/article/jdsql20191001.jpg">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/jdsql20191001.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/jdsql20191001.jpg">
               </div>
               <span class="label">
               Previous Post</span>
@@ -899,7 +917,7 @@ live2d:
           
             <a href="/2019/08/06/2019年随想/" rel="next">
               <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/article/blogstart20190806.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/article/blogstart20190806.jpg">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/blogstart20190806.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/blogstart20190806.jpg">
               </div>
               <span class="label">
               Next Post</span>

@@ -435,7 +435,7 @@
 
   <div class="pattern-center single-center">
     <!-- 有配图默认渲染第一张 -->
-    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.1/images/article/weibo_selenium20200120.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.1/images/article/weibo_selenium20200120.jpg">
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/weibo_selenium20200120.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/weibo_selenium20200120.jpg">
     </div>
     <header class="pattern-header single-header">
       <h1 class="entry-title">
@@ -466,7 +466,7 @@
         
         <div class="entry-content">
           <p>之前偶然登陆微博发现微博里有60多个关注的对象，然而都不是自己关注的人(万恶的微博 🤔)，然后又没有发现全选 取关的按钮，于是做了个自动帮助我们取关的脚本，顺便练习一下selenium库的使用~<br>废话不多说，上代码~</p>
-<pre><code class="python">
+<pre><code class="lang-python">
 from selenium import webdriver
 import time
 from selenium.webdriver import ActionChains
@@ -498,7 +498,8 @@ for cou in range(1,10):
     time.sleep(1)
     #browser.find_element_by_xpath(&#39;//*[@id=&quot;layer_15660574768511&quot;]/div[2]/div[4]/a[1]&#39;).click()
     browser.find_element_by_link_text(&quot;确定&quot;).click()
-browser.quit()</code></pre>
+browser.quit()
+</code></pre>
 <p>整个流程中的问题主要有两个：</p>
 <p>1.有一个鼠标悬停时才显示的取消关注界面，使用ActionChains(browser).move_to_element().perform()方法解决</p>
 <p>2.最后还有一个确定窗口跳出来，之前以为是弹窗，但是后来发现其实并不是，直接定位元素就可以了</p>
@@ -534,7 +535,7 @@ browser.quit()</code></pre>
           
             <a href="/2020/03/07/数据库设计范式/" rel="prev">
               <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.1/images/article/databasefs20200307.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.1/images/article/databasefs20200307.jpg">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/databasefs20200307.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/databasefs20200307.jpg">
               </div>
               <span class="label">
               Previous Post</span>

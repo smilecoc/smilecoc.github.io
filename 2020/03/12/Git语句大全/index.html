@@ -435,7 +435,7 @@
 
   <div class="pattern-center single-center">
     <!-- 有配图默认渲染第一张 -->
-    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.2/images/article/githz20200312.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.2/images/article/githz20200312.jpg">
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/githz20200312.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/githz20200312.jpg">
     </div>
     <header class="pattern-header single-header">
       <h1 class="entry-title">
@@ -467,73 +467,132 @@
         <div class="entry-content">
           <h2 id="一、Git-配置相关"><a href="#一、Git-配置相关" class="headerlink" title="一、Git 配置相关"></a>一、Git 配置相关</h2><p>如果你首次使用 Git，那刚开始首先是需要配置各种身份信息的，这样当你提交相关任务的时候，别人才能知道这个 commit 是谁提交的。</p>
 <h4 id="（1）、Git-最小配置"><a href="#（1）、Git-最小配置" class="headerlink" title="（1）、Git 最小配置"></a>（1）、Git 最小配置</h4><p>1、配置全局账户，也就是该账户对所有的 Git 仓库都有效</p>
-<pre><code>git config --global user.name &#39;你的账户名称&#39;git config --global user.email &#39;你的 Email&#39;</code></pre><p>2、配置局部账户，也就是该账户只对当前 Git 仓库有效</p>
-<pre><code>git config --local user.name &#39;你的账户名称&#39; git config --local user.email &#39;你的 Email&#39;</code></pre><p>注意，不同点就是一个参数是 global（全局），一个是 local(本地)</p>
+<pre><code>git config --global user.name &#39;你的账户名称&#39;git config --global user.email &#39;你的 Email&#39;
+</code></pre><p>2、配置局部账户，也就是该账户只对当前 Git 仓库有效</p>
+<pre><code>git config --local user.name &#39;你的账户名称&#39; git config --local user.email &#39;你的 Email&#39;
+</code></pre><p>注意，不同点就是一个参数是 global（全局），一个是 local(本地)</p>
 <h4 id="（2）、查看相关配置情况"><a href="#（2）、查看相关配置情况" class="headerlink" title="（2）、查看相关配置情况"></a>（2）、查看相关配置情况</h4><p>配置了之后，显然有时候是需要查看我们当前配置的相关情况的，可以使用如下命令</p>
 <p>1、查看 global 类型的配置情况</p>
-<pre><code>git config --global --list</code></pre><p>2、查看某个仓库下的配置情况</p>
-<pre><code>git config --local --list</code></pre><h2 id="二、本地基本操作"><a href="#二、本地基本操作" class="headerlink" title="二、本地基本操作"></a>二、本地基本操作</h2><p>这部分命令有点多，也是使用的最频繁的命令了，待我一一列举出来，建议收藏</p>
+<pre><code>git config --global --list
+</code></pre><p>2、查看某个仓库下的配置情况</p>
+<pre><code>git config --local --list
+</code></pre><h2 id="二、本地基本操作"><a href="#二、本地基本操作" class="headerlink" title="二、本地基本操作"></a>二、本地基本操作</h2><p>这部分命令有点多，也是使用的最频繁的命令了，待我一一列举出来，建议收藏</p>
 <h4 id="（1）、基本操作"><a href="#（1）、基本操作" class="headerlink" title="（1）、基本操作"></a>（1）、基本操作</h4><p>1、查看变更情况</p>
-<pre><code>git status</code></pre><p>2、查看当前工作在哪个分支上</p>
-<pre><code>git branch -v</code></pre><p>3、切换到指定分支</p>
-<pre><code>git checkout 指定分支的名称</code></pre><p>4、把<strong>当前目录及其子目录</strong>下所有变更都加入到<strong>暂存区</strong></p>
-<pre><code>git add . // 注意，add 后面是一个 &#39;.&#39;；</code></pre><p>5、把仓库内<strong>所有</strong>变更都假如到暂存区</p>
-<pre><code>git add -A</code></pre><p>6、把指定文件添加到暂存区</p>
-<pre><code>git add 文件1 文件2 ... 文件n</code></pre><p>7、创建正式的 commit，也就是把当前的数据提交上去</p>
-<pre><code>git commit</code></pre><h4 id="（二）、比较差异"><a href="#（二）、比较差异" class="headerlink" title="（二）、比较差异"></a>（二）、比较差异</h4><p>1、比较某文件工作区和暂存区的差异</p>
-<pre><code>git diff 某文件</code></pre><p>2、比较某文件暂存区和 HEAD 的差异</p>
-<pre><code>git diff --cache 某文件</code></pre><p>3、比较工作区和暂存区的所有差异</p>
-<pre><code>git diff</code></pre><p>4、比较暂存区和 HEAD 的所有差异</p>
-<pre><code>git diff --cache</code></pre><h4 id="（3）、暂存区与工作区之间回滚"><a href="#（3）、暂存区与工作区之间回滚" class="headerlink" title="（3）、暂存区与工作区之间回滚"></a>（3）、暂存区与工作区之间回滚</h4><p>1、把工作区指定文件恢复成和暂存区一样</p>
-<pre><code>git checkout 文件1 文件2 ... 文件n</code></pre><p>2、把暂存区指定文件回复和 HEAD 一样</p>
-<pre><code>git reset 文件1 文件2 ... 文件n</code></pre><p>3、把暂存区和工作区所有文件恢复成和 HEAD 一样</p>
-<pre><code>git reset --hard</code></pre><p>4、用 difftool 比较任意两个 commit 的差异</p>
-<pre><code>git difftool commit1 commit2</code></pre><blockquote>
+<pre><code>git status
+</code></pre><p>2、查看当前工作在哪个分支上</p>
+<pre><code>git branch -v
+</code></pre><p>3、切换到指定分支</p>
+<pre><code>git checkout 指定分支的名称
+</code></pre><p>4、把<strong>当前目录及其子目录</strong>下所有变更都加入到<strong>暂存区</strong></p>
+<pre><code>git add . // 注意，add 后面是一个 &#39;.&#39;；
+</code></pre><p>5、把仓库内<strong>所有</strong>变更都假如到暂存区</p>
+<pre><code>git add -A
+</code></pre><p>6、把指定文件添加到暂存区</p>
+<pre><code>git add 文件1 文件2 ... 文件n
+</code></pre><p>7、创建正式的 commit，也就是把当前的数据提交上去</p>
+<pre><code>git commit
+</code></pre><h4 id="（二）、比较差异"><a href="#（二）、比较差异" class="headerlink" title="（二）、比较差异"></a>（二）、比较差异</h4><p>1、比较某文件工作区和暂存区的差异</p>
+<pre><code>git diff 某文件
+</code></pre><p>2、比较某文件暂存区和 HEAD 的差异</p>
+<pre><code>git diff --cache 某文件
+</code></pre><p>3、比较工作区和暂存区的所有差异</p>
+<pre><code>git diff
+</code></pre><p>4、比较暂存区和 HEAD 的所有差异</p>
+<pre><code>git diff --cache
+</code></pre><h4 id="（3）、暂存区与工作区之间回滚"><a href="#（3）、暂存区与工作区之间回滚" class="headerlink" title="（3）、暂存区与工作区之间回滚"></a>（3）、暂存区与工作区之间回滚</h4><p>1、把工作区指定文件恢复成和暂存区一样</p>
+<pre><code>git checkout 文件1 文件2 ... 文件n
+</code></pre><p>2、把暂存区指定文件回复和 HEAD 一样</p>
+<pre><code>git reset 文件1 文件2 ... 文件n
+</code></pre><p>3、把暂存区和工作区所有文件恢复成和 HEAD 一样</p>
+<pre><code>git reset --hard
+</code></pre><p>4、用 difftool 比较任意两个 commit 的差异</p>
+<pre><code>git difftool commit1 commit2
+</code></pre><blockquote>
 <p>注意，从工作区回滚到暂存区则用 checkout ，否则用 reset</p>
 </blockquote>
 <h4 id="（四）、其他"><a href="#（四）、其他" class="headerlink" title="（四）、其他"></a>（四）、其他</h4><p>查看哪些文件没有被 Git 管控</p>
-<pre><code>git ls-files --others</code></pre><h2 id="三、加塞临时任务处理"><a href="#三、加塞临时任务处理" class="headerlink" title="三、加塞临时任务处理"></a>三、加塞临时任务处理</h2><p>1、把未处理完的变更先保存到 stash 中</p>
-<pre><code>git stash</code></pre><p>2、临时任务处理完后继续之前的工作</p>
-<pre><code>git stash pop // pop 相当于栈的出栈和入栈一样，把之前的任务弹出来或者git stash apply // 和 pop 不同的是， apply 相当于从栈顶把任务取出来，但是不过从栈中把任务移除</code></pre><p>3、查看所有的 stash</p>
-<pre><code>git stash list</code></pre><p>4、取回某次 stash 的变更</p>
-<pre><code>git stash pop stash @{数字n}</code></pre><h2 id="四、修改个人分支历史"><a href="#四、修改个人分支历史" class="headerlink" title="四、修改个人分支历史"></a>四、修改个人分支历史</h2><p>我们的仓库的内容每次变更执行 commit 的时候，都会生成一个新的 commit，不过有时候，我们不想产生新的 commit，而是想要通过修改之前的 commit 来变更仓库的内容，那么就可以使用如下命令了</p>
+<pre><code>git ls-files --others
+</code></pre><h2 id="三、加塞临时任务处理"><a href="#三、加塞临时任务处理" class="headerlink" title="三、加塞临时任务处理"></a>三、加塞临时任务处理</h2><p>1、把未处理完的变更先保存到 stash 中</p>
+<pre><code>git stash
+</code></pre><p>2、临时任务处理完后继续之前的工作</p>
+<pre><code>git stash pop // pop 相当于栈的出栈和入栈一样，把之前的任务弹出来或者git stash apply // 和 pop 不同的是， apply 相当于从栈顶把任务取出来，但是不过从栈中把任务移除
+</code></pre><p>3、查看所有的 stash</p>
+<pre><code>git stash list
+</code></pre><p>4、取回某次 stash 的变更</p>
+<pre><code>git stash pop stash @{数字n}
+</code></pre><h2 id="四、修改个人分支历史"><a href="#四、修改个人分支历史" class="headerlink" title="四、修改个人分支历史"></a>四、修改个人分支历史</h2><p>我们的仓库的内容每次变更执行 commit 的时候，都会生成一个新的 commit，不过有时候，我们不想产生新的 commit，而是想要通过修改之前的 commit 来变更仓库的内容，那么就可以使用如下命令了</p>
 <p>1、修改最后一次 commit</p>
-<pre><code>1、在工作区中修改文件2、git add3、git commit --amend</code></pre><p>2|、修改中间的 commit(假设代号为 X)</p>
-<pre><code>1. git rebase -i X前面的一个 commit 的 id2. 在工作区修改文件3. git add4. git rebase --contiue </code></pre><h2 id="五、查看变更日志等"><a href="#五、查看变更日志等" class="headerlink" title="五、查看变更日志等"></a>五、查看变更日志等</h2><p>1、当前分支各个 commit 用一行显示</p>
-<pre><code>git log --online</code></pre><p>2、显示最近的 n 个 commit</p>
-<pre><code>git log -n</code></pre><p>3、用图示显示所有的分支历史</p>
-<pre><code>git log --online --graph --all</code></pre><p>4、查看涉及到某文件变更的所有 commit</p>
-<pre><code>git log 某文件</code></pre><p>5、某文件各行最后修改对应的 commit 以及作者</p>
-<pre><code>git blame 某文件</code></pre><h2 id="六、分支与标签"><a href="#六、分支与标签" class="headerlink" title="六、分支与标签"></a>六、分支与标签</h2><h4 id="1、创建新分支"><a href="#1、创建新分支" class="headerlink" title="1、创建新分支"></a>1、创建新分支</h4><p>基于当前分支创建新分支</p>
-<pre><code>git branch 新分支</code></pre><p>基于指定分支创建新分支</p>
-<pre><code>git branch 新分支 已有分支</code></pre><p>基于某个 commit 创建分支</p>
-<pre><code>git branch 新分支 某个 commit 的id</code></pre><p>创建分支并且切换到该分支</p>
-<pre><code>git chechout -b 新分支</code></pre><h4 id="2、列出分支"><a href="#2、列出分支" class="headerlink" title="2、列出分支"></a>2、列出分支</h4><p>列出本地分支</p>
-<pre><code>git branch -v</code></pre><p>列出本地和远端分支</p>
-<pre><code>git branch -av</code></pre><p>列出远端所有分支</p>
-<pre><code>git branch -rv</code></pre><p>列出名称符号某样式的远端分支</p>
-<pre><code>git branch -rv -l &#39;某样式&#39;</code></pre><h4 id="3、删除分支"><a href="#3、删除分支" class="headerlink" title="3、删除分支"></a>3、删除分支</h4><p>安全删除本地某分支</p>
-<pre><code>git branch -d 要删除的分支</code></pre><p>强行删除本地分支</p>
-<pre><code>git branch -D 要删除的分支</code></pre><p>删除已合并到 master 分支的所有本地分支</p>
-<pre><code>git branch --merged master | grep -v &#39;^\*\| master&#39; | xargs -n 1 git branch -d</code></pre><p>删除远端 origin 已不存在的所有本地分支</p>
-<pre><code>git remote prune origin</code></pre><h4 id="4、打标签"><a href="#4、打标签" class="headerlink" title="4、打标签"></a>4、打标签</h4><p>从 commit 打上标签</p>
-<pre><code>git tag 标签名 commit 的id</code></pre><h2 id="七、两分支之间的集成"><a href="#七、两分支之间的集成" class="headerlink" title="七、两分支之间的集成"></a>七、两分支之间的集成</h2><p>1、把 A 分支合入到当前分支，且为 merge 创建 commit</p>
-<pre><code>git merge A分支</code></pre><p>2、把 A 分支合入到 B 分支，且为 Merge 创建 commit</p>
-<pre><code>git merge A分支 B分支 </code></pre><p>3、把当前分支基于B分支做 rebase，以便把B分支合入到当前分支</p>
-<pre><code>git rebase B分支</code></pre><p>4、把A分支基于B分支做rebase，以便把B分支合入到A分支</p>
-<pre><code>git rebase B分支 A分支</code></pre><p>5、用 mergetool 解决冲突</p>
-<pre><code>git mergetool</code></pre><h2 id="八、和远端交互"><a href="#八、和远端交互" class="headerlink" title="八、和远端交互"></a>八、和远端交互</h2><p>1、列出所有 remote</p>
-<pre><code>git remote -v</code></pre><p>2、增加 remote</p>
-<pre><code>git remote add url地址</code></pre><p>3、删除 remote</p>
-<pre><code>git remote remove remote的名称</code></pre><p>4、改变 remote 的name</p>
-<pre><code>git remote rename 旧名称 新名称</code></pre><p>5、把远端所有分支和标签的变更都拉到本地</p>
-<pre><code>git fetch remote</code></pre><p>6、把远端分支的变更拉倒本地，且 merge 到本地分支</p>
-<pre><code>git pull remote名称 分支名</code></pre><p>关于 pull 和 fetch 的区别不懂可以看这篇文章<a href="https://mp.weixin.qq.com/s?__biz=Mzg2NzA4MTkxNQ==&mid=2247486636&idx=2&sn=b3d94e89b4bf2e7dba8b995dc694ccd8&scene=21#wechat_redirect" target="_blank" rel="noopener">从0学习Git：详解git pull和git fetch的区别</a></p>
+<pre><code>1、在工作区中修改文件2、git add3、git commit --amend
+</code></pre><p>2|、修改中间的 commit(假设代号为 X)</p>
+<pre><code>1. git rebase -i X前面的一个 commit 的 id2. 在工作区修改文件3. git add4. git rebase --contiue
+</code></pre><h2 id="五、查看变更日志等"><a href="#五、查看变更日志等" class="headerlink" title="五、查看变更日志等"></a>五、查看变更日志等</h2><p>1、当前分支各个 commit 用一行显示</p>
+<pre><code>git log --online
+</code></pre><p>2、显示最近的 n 个 commit</p>
+<pre><code>git log -n
+</code></pre><p>3、用图示显示所有的分支历史</p>
+<pre><code>git log --online --graph --all
+</code></pre><p>4、查看涉及到某文件变更的所有 commit</p>
+<pre><code>git log 某文件
+</code></pre><p>5、某文件各行最后修改对应的 commit 以及作者</p>
+<pre><code>git blame 某文件
+</code></pre><h2 id="六、分支与标签"><a href="#六、分支与标签" class="headerlink" title="六、分支与标签"></a>六、分支与标签</h2><h4 id="1、创建新分支"><a href="#1、创建新分支" class="headerlink" title="1、创建新分支"></a>1、创建新分支</h4><p>基于当前分支创建新分支</p>
+<pre><code>git branch 新分支
+</code></pre><p>基于指定分支创建新分支</p>
+<pre><code>git branch 新分支 已有分支
+</code></pre><p>基于某个 commit 创建分支</p>
+<pre><code>git branch 新分支 某个 commit 的id
+</code></pre><p>创建分支并且切换到该分支</p>
+<pre><code>git chechout -b 新分支
+</code></pre><h4 id="2、列出分支"><a href="#2、列出分支" class="headerlink" title="2、列出分支"></a>2、列出分支</h4><p>列出本地分支</p>
+<pre><code>git branch -v
+</code></pre><p>列出本地和远端分支</p>
+<pre><code>git branch -av
+</code></pre><p>列出远端所有分支</p>
+<pre><code>git branch -rv
+</code></pre><p>列出名称符号某样式的远端分支</p>
+<pre><code>git branch -rv -l &#39;某样式&#39;
+</code></pre><h4 id="3、删除分支"><a href="#3、删除分支" class="headerlink" title="3、删除分支"></a>3、删除分支</h4><p>安全删除本地某分支</p>
+<pre><code>git branch -d 要删除的分支
+</code></pre><p>强行删除本地分支</p>
+<pre><code>git branch -D 要删除的分支
+</code></pre><p>删除已合并到 master 分支的所有本地分支</p>
+<pre><code>git branch --merged master | grep -v &#39;^\*\| master&#39; | xargs -n 1 git branch -d
+</code></pre><p>删除远端 origin 已不存在的所有本地分支</p>
+<pre><code>git remote prune origin
+</code></pre><h4 id="4、打标签"><a href="#4、打标签" class="headerlink" title="4、打标签"></a>4、打标签</h4><p>从 commit 打上标签</p>
+<pre><code>git tag 标签名 commit 的id
+</code></pre><h2 id="七、两分支之间的集成"><a href="#七、两分支之间的集成" class="headerlink" title="七、两分支之间的集成"></a>七、两分支之间的集成</h2><p>1、把 A 分支合入到当前分支，且为 merge 创建 commit</p>
+<pre><code>git merge A分支
+</code></pre><p>2、把 A 分支合入到 B 分支，且为 Merge 创建 commit</p>
+<pre><code>git merge A分支 B分支
+</code></pre><p>3、把当前分支基于B分支做 rebase，以便把B分支合入到当前分支</p>
+<pre><code>git rebase B分支
+</code></pre><p>4、把A分支基于B分支做rebase，以便把B分支合入到A分支</p>
+<pre><code>git rebase B分支 A分支
+</code></pre><p>5、用 mergetool 解决冲突</p>
+<pre><code>git mergetool
+</code></pre><h2 id="八、和远端交互"><a href="#八、和远端交互" class="headerlink" title="八、和远端交互"></a>八、和远端交互</h2><p>1、列出所有 remote</p>
+<pre><code>git remote -v
+</code></pre><p>2、增加 remote</p>
+<pre><code>git remote add url地址
+</code></pre><p>3、删除 remote</p>
+<pre><code>git remote remove remote的名称
+</code></pre><p>4、改变 remote 的name</p>
+<pre><code>git remote rename 旧名称 新名称
+</code></pre><p>5、把远端所有分支和标签的变更都拉到本地</p>
+<pre><code>git fetch remote
+</code></pre><p>6、把远端分支的变更拉倒本地，且 merge 到本地分支</p>
+<pre><code>git pull remote名称 分支名
+</code></pre><p>关于 pull 和 fetch 的区别不懂可以看这篇文章<a href="https://mp.weixin.qq.com/s?__biz=Mzg2NzA4MTkxNQ==&amp;mid=2247486636&amp;idx=2&amp;sn=b3d94e89b4bf2e7dba8b995dc694ccd8&amp;scene=21#wechat_redirect" target="_blank" rel="noopener">从0学习Git：详解git pull和git fetch的区别</a></p>
 <p>7、把本地分支 push 到远端</p>
-<pre><code>git push remote名称 分支名</code></pre><p>8、删除远端分支</p>
-<pre><code>git push remote --delete 远端分支名或者git push remote:远端分支名</code></pre><p>9、向远端提交指定标签</p>
-<pre><code>git push remote 标签名</code></pre><p>10、向远端提交所有标签</p>
-<pre><code>git push remote --tags</code></pre>
+<pre><code>git push remote名称 分支名
+</code></pre><p>8、删除远端分支</p>
+<pre><code>git push remote --delete 远端分支名或者git push remote:远端分支名
+</code></pre><p>9、向远端提交指定标签</p>
+<pre><code>git push remote 标签名
+</code></pre><p>10、向远端提交所有标签</p>
+<pre><code>git push remote --tags
+</code></pre>
         </div>
         <!-- .entry-content -->
         <div class="single-reward">
@@ -565,7 +624,7 @@
           
             <a href="/2020/03/15/pandas笔记/" rel="prev">
               <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.2/images/article/pandasnotes20200315.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.2/images/article/pandasnotes20200315.jpg">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/pandasnotes20200315.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/pandasnotes20200315.jpg">
               </div>
               <span class="label">
               Previous Post</span>
@@ -583,7 +642,7 @@
           
             <a href="/2020/03/07/数据库设计范式/" rel="next">
               <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.1/images/article/databasefs20200307.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.1/images/article/databasefs20200307.jpg">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/databasefs20200307.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/databasefs20200307.jpg">
               </div>
               <span class="label">
               Next Post</span>

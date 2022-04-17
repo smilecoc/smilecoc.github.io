@@ -435,7 +435,7 @@
 
   <div class="pattern-center single-center">
     <!-- 有配图默认渲染第一张 -->
-    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/article/sqlscript20191001.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/article/sqlscript20191001.jpg">
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/sqlscript20191001.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/sqlscript20191001.jpg">
     </div>
     <header class="pattern-header single-header">
       <h1 class="entry-title">
@@ -465,7 +465,7 @@
         <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
         
         <div class="entry-content">
-          <h3 id="1、行转列的用法PIVOT"><a href="#1、行转列的用法PIVOT" class="headerlink" title="1、行转列的用法PIVOT"></a><strong>1、行转列的用法PIVOT</strong></h3><pre><code class="sql">CREATE table test
+          <h3 id="1、行转列的用法PIVOT"><a href="#1、行转列的用法PIVOT" class="headerlink" title="1、行转列的用法PIVOT"></a><strong>1、行转列的用法PIVOT</strong></h3><pre><code class="lang-sql">CREATE table test
 (id int,name nvarchar(20),quarter int,number int)
 insert into test values(1,N&#39;苹果&#39;,1,1000)
 insert into test values(1,N&#39;苹果&#39;,2,2000)
@@ -475,10 +475,11 @@ insert into test values(2,N&#39;梨子&#39;,1,3000)
 insert into test values(2,N&#39;梨子&#39;,2,3500)
 insert into test values(2,N&#39;梨子&#39;,3,4200)
 insert into test values(2,N&#39;梨子&#39;,4,5500)
-select * from test</code></pre>
+select * from test
+</code></pre>
 <p>结果：</p>
 <p><img src="/upload_image/blog191225/1.webp" alt></p>
-<pre><code class="sql">select ID,NAME,
+<pre><code class="lang-sql">select ID,NAME,
 [1] as &#39;一季度&#39;,
 [2] as &#39;二季度&#39;,
 [3] as &#39;三季度&#39;,
@@ -490,17 +491,19 @@ sum(number)
 for quarter in
 ([1],[2],[3],[4])
 )
-as pvt</code></pre>
+as pvt
+</code></pre>
 <p>结果：</p>
 <p><img src="/upload_image/blog191225/2.webp" alt></p>
-<h3 id="2、列转行的用法UNPIOVT"><a href="#2、列转行的用法UNPIOVT" class="headerlink" title="2、列转行的用法UNPIOVT"></a><strong>2、列转行的用法UNPIOVT</strong></h3><pre><code class="sql">create table test2
+<h3 id="2、列转行的用法UNPIOVT"><a href="#2、列转行的用法UNPIOVT" class="headerlink" title="2、列转行的用法UNPIOVT"></a><strong>2、列转行的用法UNPIOVT</strong></h3><pre><code class="lang-sql">create table test2
 (id int,name varchar(20), Q1 int, Q2 int, Q3 int, Q4 int)
 insert into test2 values(1,&#39;苹果&#39;,1000,2000,4000,5000)
 insert into test2 values(2,&#39;梨子&#39;,3000,3500,4200,5500)
-select * from test2</code></pre>
+select * from test2
+</code></pre>
 <p>结果：</p>
 <p><img src="/upload_image/blog191225/3.webp" alt></p>
-<pre><code class="sql">--列转行
+<pre><code class="lang-sql">--列转行
 select id,name,quarter,number
 from
 test2
@@ -510,33 +513,38 @@ number
 for quarter in
 ([Q1],[Q2],[Q3],[Q4])
 )
-as unpvt</code></pre>
+as unpvt
+</code></pre>
 <p>结果：</p>
 <p><img src="/upload_image/blog191225/4.webp" alt></p>
-<h3 id="3、字符串替换SUBSTRING-REPLACE"><a href="#3、字符串替换SUBSTRING-REPLACE" class="headerlink" title="3、字符串替换SUBSTRING/REPLACE"></a><strong>3、字符串替换SUBSTRING/REPLACE</strong></h3><pre><code class="sql">SELECT REPLACE(&#39;abcdefg&#39;,SUBSTRING(&#39;abcdefg&#39;,2,4),&#39;**&#39;)</code></pre>
+<h3 id="3、字符串替换SUBSTRING-REPLACE"><a href="#3、字符串替换SUBSTRING-REPLACE" class="headerlink" title="3、字符串替换SUBSTRING/REPLACE"></a><strong>3、字符串替换SUBSTRING/REPLACE</strong></h3><pre><code class="lang-sql">SELECT REPLACE(&#39;abcdefg&#39;,SUBSTRING(&#39;abcdefg&#39;,2,4),&#39;**&#39;)
+</code></pre>
 <p>结果：</p>
 <p><img src="/upload_image/blog191225/5.png" alt></p>
-<pre><code class="sql">SELECT REPLACE(&#39;12345678@qq.com&#39;,&#39;1234567&#39;,&#39;******&#39;)</code></pre>
+<pre><code class="lang-sql">SELECT REPLACE(&#39;12345678@qq.com&#39;,&#39;1234567&#39;,&#39;******&#39;)
+</code></pre>
 <p>结果：</p>
 <p><img src="/upload_image/blog191225/6.png" alt></p>
 <h3 id="4、查询一个表内相同纪录-HAVING"><a href="#4、查询一个表内相同纪录-HAVING" class="headerlink" title="4、查询一个表内相同纪录 HAVING"></a><strong>4、查询一个表内相同纪录 HAVING</strong></h3><p>HR.Employees表的表结构：<br><img src="/upload_image/blog191225/7.png" alt><br>如果一个ID可以区分的话，可以这么写</p>
-<pre><code class="sql">select * from HR.Employees
+<pre><code class="lang-sql">select * from HR.Employees
 where title in (
 select title from HR.Employees
 group by title
-having count(1)&gt;1)</code></pre>
+having count(1)&gt;1)
+</code></pre>
 <p>结果：</p>
 <p><img src="/upload_image/blog191225/8.webp" alt><br>对比一下发现，ID为1,2的被过滤掉了，因为他们只有一条记录</p>
 <p>如果有几个ID需要区分的话可以这么写</p>
-<pre><code class="sql">select * from HR.Employees
+<pre><code class="lang-sql">select * from HR.Employees
 where title+titleofcourtesy in
 (select title+titleofcourtesy
 from HR.Employees
 group by title,titleofcourtesy
-having count(1)&gt;1)</code></pre>
+having count(1)&gt;1)
+</code></pre>
 <p>结果：</p>
 <p><img src="/upload_image/blog191225/9.webp" alt><br>title在和titleofcourtesy进行拼接后符合条件的就只有ID为6,7,8,9的了</p>
-<h3 id="5、把多行SQL数据变成一条多列数据，即新增列"><a href="#5、把多行SQL数据变成一条多列数据，即新增列" class="headerlink" title="5、把多行SQL数据变成一条多列数据，即新增列"></a><strong>5、把多行SQL数据变成一条多列数据，即新增列</strong></h3><pre><code class="sql">SELECT
+<h3 id="5、把多行SQL数据变成一条多列数据，即新增列"><a href="#5、把多行SQL数据变成一条多列数据，即新增列" class="headerlink" title="5、把多行SQL数据变成一条多列数据，即新增列"></a><strong>5、把多行SQL数据变成一条多列数据，即新增列</strong></h3><pre><code class="lang-sql">SELECT
  id,
  name,
  SUM(CASE WHEN quarter=1 THEN number ELSE 0 END) &#39;一季度&#39;,
@@ -544,7 +552,8 @@ having count(1)&gt;1)</code></pre>
  SUM(CASE WHEN quarter=3 THEN number ELSE 0 END) &#39;三季度&#39;,
  SUM(CASE WHEN quarter=4 THEN number ELSE 0 END) &#39;四季度&#39;
 FROM test
-GROUP BY id,name</code></pre>
+GROUP BY id,name
+</code></pre>
 <p>结果：</p>
 <p><img src="/upload_image/blog191225/10.webp" alt><br>我们将原来的4列增加到了6列。细心的朋友可能发现了这个结果和上面的行转列怎么一模一样？其实上面的行转列是省略写法，这种是比较通用的写法。</p>
 <h3 id="6、表复制"><a href="#6、表复制" class="headerlink" title="6、表复制"></a><strong>6、表复制</strong></h3><p>语法1：Insert INTO table(field1,field2,…) values(value1,value2,…)</p>
@@ -553,7 +562,7 @@ GROUP BY id,name</code></pre>
 <p>语法3：SELECT vale1, value2 into Table2 from Table1</p>
 <p>（要求目标表Table2不存在，因为在插入时会自动创建表Table2，并将Table1中指定字段数据复制到Table2中。）</p>
 <p>语法4：使用导入导出功能进行全表复制。如果是使用【编写查询以指定要传输的数据】，那么在大数据表的复制就会有问题？因为复制到一定程度就不再动了，内存爆了？它也没有写入到表中。而使用上面3种语法直接执行是会马上刷新到数据库表中的，你刷新一下mdf文件就知道了。</p>
-<h3 id="7、利用带关联子查询Update语句更新数据"><a href="#7、利用带关联子查询Update语句更新数据" class="headerlink" title="7、利用带关联子查询Update语句更新数据"></a><strong>7、利用带关联子查询Update语句更新数据</strong></h3><pre><code class="sql">--方法1：
+<h3 id="7、利用带关联子查询Update语句更新数据"><a href="#7、利用带关联子查询Update语句更新数据" class="headerlink" title="7、利用带关联子查询Update语句更新数据"></a><strong>7、利用带关联子查询Update语句更新数据</strong></h3><pre><code class="lang-sql">--方法1：
 Update Table1
 set c = (select c from Table2 where a = Table1.a)
 where c is null
@@ -569,8 +578,9 @@ update
 (select A.bnum ,A.newqiantity,B.qiantity from A
 left join B on A.bnum=B.bnum) AS C
 set C.newqiantity = C.qiantity
-where C.bnum =&#39;001&#39;</code></pre>
-<h3 id="8、连接远程服务器"><a href="#8、连接远程服务器" class="headerlink" title="8、连接远程服务器"></a><strong>8、连接远程服务器</strong></h3><pre><code class="sql">--方法1：
+where C.bnum =&#39;001&#39;
+</code></pre>
+<h3 id="8、连接远程服务器"><a href="#8、连接远程服务器" class="headerlink" title="8、连接远程服务器"></a><strong>8、连接远程服务器</strong></h3><pre><code class="lang-sql">--方法1：
 select *  from openrowset(
 &#39;SQLOLEDB&#39;,
 &#39;server=192.168.0.1;uid=sa;pwd=password&#39;,
@@ -582,7 +592,8 @@ select *  from openrowset(
 &#39;192.168.0.1&#39;;
 &#39;sa&#39;;
 &#39;password&#39;,
-&#39;SELECT * FROM dbo.test&#39;)</code></pre>
+&#39;SELECT * FROM dbo.test&#39;)
+</code></pre>
 <p>当然也可以参考以前的示例，建立DBLINK进行远程连接</p>
 <h3 id="9、Date-和-Time-样式-CONVERT"><a href="#9、Date-和-Time-样式-CONVERT" class="headerlink" title="9、Date 和 Time 样式 CONVERT"></a><strong>9、Date 和 Time 样式 CONVERT</strong></h3><p>CONVERT() 函数是把日期转换为新数据类型的通用函数。<br>CONVERT() 函数可以用不同的格式显示日期/时间数据。</p>
 <p>语法:</p>
@@ -591,7 +602,7 @@ select *  from openrowset(
 </ul>
 <p>data_type(length) 规定目标数据类型（带有可选的长度）。data_to_be_converted 含有需要转换的值。style 规定日期/时间的输出格式。</p>
 <p>可以使用的 style 值：<br><img src="/upload_image/blog191225/11.png" alt></p>
-<pre><code class="sql">SELECT CONVERT(varchar(100), GETDATE(), 0)
+<pre><code class="lang-sql">SELECT CONVERT(varchar(100), GETDATE(), 0)
 --结果：
 01  2 2019  9:33PM
 SELECT CONVERT(varchar(100), GETDATE(), 1)
@@ -704,26 +715,30 @@ SELECT CONVERT(varchar(100), GETDATE(), 120)
 2019-01-02 21:33:18
 SELECT CONVERT(varchar(100), GETDATE(), 121)
 --结果：
-2019-01-02 21:33:18.780</code></pre>
+2019-01-02 21:33:18.780
+</code></pre>
 <h3 id="10、SQL中的相除"><a href="#10、SQL中的相除" class="headerlink" title="10、SQL中的相除"></a><strong>10、SQL中的相除</strong></h3><p>方法一</p>
-<pre><code class="sql">--SQL中的相除
+<pre><code class="lang-sql">--SQL中的相除
 SELECT
 CASE WHEN ISNULL(A-B,0)=0 THEN &#39;&#39;
 ELSE CAST(CONVERT(DECIMAL(18,2),A*100.0/(A-B)) AS VARCHAR(10))+&#39;%&#39;  
-END AS &#39;百分数&#39;  --FROM 表</code></pre>
+END AS &#39;百分数&#39;  --FROM 表
+</code></pre>
 <p>这里我们先要判断被除数是否为0，如果为0给出一个想输出的结果，这里我们返回空白(是字符类型，不是NULL)，在不为0的时候就给出具体的计算公式，然后转换成字符类型再和“%”进行拼接。例如：</p>
-<pre><code class="sql">SELECT
+<pre><code class="lang-sql">SELECT
 CASE WHEN ISNULL(5-2,0)=0 THEN &#39;&#39;
 ELSE CAST(CONVERT(DECIMAL(18,2),5*100.0/(5-2)) AS VARCHAR(10))+&#39;%&#39;  
-END AS &#39;百分数&#39;  --FROM 表</code></pre>
+END AS &#39;百分数&#39;  --FROM 表
+</code></pre>
 <p>返回的结果：<br><img src="/upload_image/blog191225/12.webp" alt></p>
 <p>方法二</p>
-<pre><code class="sql">SELECT
+<pre><code class="lang-sql">SELECT
 (CONVERT(VARCHAR(20),ROUND(41*100.0/88,3))+&#39;%&#39;) AS &#39;百分比&#39;
---FROM A</code></pre>
+--FROM A
+</code></pre>
 <p>执行结果：<br><img src="/upload_image/blog191225/13.png" alt></p>
 <h3 id="11、四舍五入ROUND函数"><a href="#11、四舍五入ROUND函数" class="headerlink" title="11、四舍五入ROUND函数"></a><strong>11、四舍五入ROUND函数</strong></h3><p>ROUND ( numeric_expression , length [ ,function ] )<br>function 必须为 tinyint、smallint  或 int。<br>如果省略 function 或其值为 0（默认值），则将舍入 numeric_expression。<br>如果指定了0以外的值，则将截断 numeric_expression。</p>
-<pre><code class="sql">SELECT ROUND(150.45648, 2);
+<pre><code class="lang-sql">SELECT ROUND(150.45648, 2);
 --保留小数点后两位，需要四舍五入
 --结果：
 150.46000
@@ -743,9 +758,10 @@ SELECT ROUND(150.45648, 2, 2);
 --保留小数点后两位，不需要四舍五入，这里除0以外都是有同样的效果，
 --与Oracle的TRUNC函数效果相同
 --结果：
-150.45000</code></pre>
+150.45000
+</code></pre>
 <h3 id="12、对字段出现NULL值的处理"><a href="#12、对字段出现NULL值的处理" class="headerlink" title="12、对字段出现NULL值的处理"></a><strong>12、对字段出现NULL值的处理</strong></h3><p>方法一</p>
-<pre><code class="sql">--CASE
+<pre><code class="lang-sql">--CASE
 SELECT
 CASE WHEN  &#39;字段名&#39; IS NULL THEN &#39;NULL&#39;
 ELSE CONVERT(VARCHAR(20),&#39;字段名1&#39;) END
@@ -757,9 +773,10 @@ SELECT CASE WHEN NULL IS NULL THEN &#39;N&#39;
 ELSE CONVERT(VARCHAR(20),NULL) END
 AS &#39;NewName&#39;
 --结果：
-N</code></pre>
+N
+</code></pre>
 <p>方法二</p>
-<pre><code class="sql">--SQL Server 2005：COALESCE
+<pre><code class="lang-sql">--SQL Server 2005：COALESCE
 SELECT COALESCE(&#39;字符串类型字段&#39;,&#39;N&#39;) AS &#39;NewName&#39;
 --结果：
 字符串类型字段
@@ -783,8 +800,9 @@ SELECT COALESCE(NULL,11,12,13,NULL)
 
 SELECT COALESCE(111,112,113,114,NULL)
 --结果：
-111</code></pre>
-<h3 id="13、COUNT的几种情况"><a href="#13、COUNT的几种情况" class="headerlink" title="13、COUNT的几种情况"></a><strong>13、COUNT的几种情况</strong></h3><pre><code class="sql">--以下三种方法均可统计出表的记录数
+111
+</code></pre>
+<h3 id="13、COUNT的几种情况"><a href="#13、COUNT的几种情况" class="headerlink" title="13、COUNT的几种情况"></a><strong>13、COUNT的几种情况</strong></h3><pre><code class="lang-sql">--以下三种方法均可统计出表的记录数
 --第一种
 select count(*) from tablename
 
@@ -792,14 +810,16 @@ select count(*) from tablename
 select count(ID) from tablename
 
 --第三种,1换成其它值也是可以的
-select count(1) from tablename</code></pre>
+select count(1) from tablename
+</code></pre>
 <h3 id="14、UNION-ALL多表插入"><a href="#14、UNION-ALL多表插入" class="headerlink" title="14、UNION ALL多表插入"></a><strong>14、UNION ALL多表插入</strong></h3><p>把两个相同结构的表union后插入到一个新表中，<br>当然两个以上的相同结构的表也是可以的，<br>这里的相同是指两个或多个表的列数和每个对应列的类型相同，<br>列名称可以不同</p>
-<pre><code class="sql">select *
+<pre><code class="lang-sql">select *
 into table_new
 from table_1
 union all
-select * from table_2</code></pre>
-<h3 id="15、查看数据库缓存的SQL"><a href="#15、查看数据库缓存的SQL" class="headerlink" title="15、查看数据库缓存的SQL"></a><strong>15、查看数据库缓存的SQL</strong></h3><pre><code class="sql">use master
+select * from table_2
+</code></pre>
+<h3 id="15、查看数据库缓存的SQL"><a href="#15、查看数据库缓存的SQL" class="headerlink" title="15、查看数据库缓存的SQL"></a><strong>15、查看数据库缓存的SQL</strong></h3><pre><code class="lang-sql">use master
 declare @dbid int
 Select @dbid = dbid from sysdatabases
 where name = &#39;SQL_ROAD&#39;--修改成数据库的名称
@@ -809,44 +829,50 @@ dbid,UseCounts ,RefCounts,CacheObjtype,ObjType,
 DB_Name(dbid) as DatabaseName,SQL
 from syscacheobjects
 where dbid=@dbid
-order by dbid,useCounts desc,objtype</code></pre>
+order by dbid,useCounts desc,objtype
+</code></pre>
 <p>我们可以看到数据库中当前正在运行的SQL有哪些</p>
-<h3 id="16、删除计划缓存"><a href="#16、删除计划缓存" class="headerlink" title="16、删除计划缓存"></a><strong>16、删除计划缓存</strong></h3><pre><code class="sql">--删除整个数据库的计划缓存
+<h3 id="16、删除计划缓存"><a href="#16、删除计划缓存" class="headerlink" title="16、删除计划缓存"></a><strong>16、删除计划缓存</strong></h3><pre><code class="lang-sql">--删除整个数据库的计划缓存
 DBCC FREEPROCCACHE
 
 --删除某个数据库的计划缓存
 USE master
 DECLARE @dbid INT
 SELECT @dbid=dbid FROM sysdatabases WHERE NAME = &#39;SQL_ROAD&#39;
-DBCC FLUSHPROCINDB (@dbid)</code></pre>
+DBCC FLUSHPROCINDB (@dbid)
+</code></pre>
 <h3 id="17、SQL换行"><a href="#17、SQL换行" class="headerlink" title="17、SQL换行"></a><strong>17、SQL换行</strong></h3><p>SQL的换行<br>制表符 CHAR(9)<br>换行符 CHAR(10)<br>回车 CHAR(13)</p>
-<pre><code class="sql">PRINT &#39;SQL&#39;+CHAR(13)+&#39;ROAD&#39;
+<pre><code class="lang-sql">PRINT &#39;SQL&#39;+CHAR(13)+&#39;ROAD&#39;
 PRINT &#39;SQL&#39;+CHAR(10)+&#39;ROAD&#39;
-PRINT &#39;SQL&#39;+CHAR(9)+&#39;ROAD&#39;</code></pre>
+PRINT &#39;SQL&#39;+CHAR(9)+&#39;ROAD&#39;
+</code></pre>
 <p>执行结果：<br><img src="/upload_image/blog191225/14.webp" alt></p>
 <p>如果将查询结果以文本格式显示，而不是网格格式显示，SELECT语句也适用，我们先将查询结果改成以文本格式显示<br><img src="/upload_image/blog191225/15.webp" alt></p>
-<pre><code class="sql">--以文本格式显示结果
+<pre><code class="lang-sql">--以文本格式显示结果
 SELECT &#39;SQL&#39;+ CHAR(10)+&#39;ROAD&#39;
 SELECT &#39;SQL&#39;+ CHAR(13)+&#39;ROAD&#39;
-SELECT &#39;SQL&#39; + CHAR(10) + CHAR(13) + &#39;ROAD&#39;</code></pre>
+SELECT &#39;SQL&#39; + CHAR(10) + CHAR(13) + &#39;ROAD&#39;
+</code></pre>
 <p>结果如下：<br><img src="/upload_image/blog191225/16.webp" alt></p>
 <h3 id="18、TRUNCATE-TABLE-Table-Name"><a href="#18、TRUNCATE-TABLE-Table-Name" class="headerlink" title="18、TRUNCATE TABLE [Table Name]"></a><strong>18、TRUNCATE TABLE [Table Name]</strong></h3><p>TRUNCATE 是SQL中的一个删除数据表内容的语句，用法是：</p>
 <p>TRUNCATE TABLE [Table Name] 速度快,而且效率高,因为:<br>TRUNCATE TABLE 在功能上与不带 WHERE 子句的 DELETE 语句相同：二者均删除表中的全部行。但 TRUNCATE TABLE 比 DELETE 速度快，且使用的系统和事务日志资源少。<br>DELETE 语句每次删除一行，并在事务日志中为所删除的每行记录一项。TRUNCATE TABLE 通过释放存储表数据所用的数据页来删除数据，并且只在事务日志中记录页的释放。<br>TRUNCATE TABLE 删除表中的所有行，但表结构及其列、约束、索引等保持不变。新行标识所用的计数值重置为该列的种子。</p>
 <p>如果想保留标识计数值，请改用 DELETE。</p>
 <p>如果要删除表定义及其数据，请使用 DROP TABLE 语句。<br>对于由 FOREIGN KEY 约束引用的表，不能使用 TRUNCATE TABLE，而应使用不带 WHERE 子句的 DELETE 语句。由于 TRUNCATE TABLE 不记录在日志中，所以它不能激活触发器。TRUNCATE TABLE 不能用于参与了索引视图的表。 </p>
-<h3 id="19、常用系统检测脚本"><a href="#19、常用系统检测脚本" class="headerlink" title="19、常用系统检测脚本"></a><strong>19、常用系统检测脚本</strong></h3><pre><code class="sql">--查看内存状态
+<h3 id="19、常用系统检测脚本"><a href="#19、常用系统检测脚本" class="headerlink" title="19、常用系统检测脚本"></a><strong>19、常用系统检测脚本</strong></h3><pre><code class="lang-sql">--查看内存状态
 dbcc memorystatus
 
 --查看哪个引起的阻塞，blk
 EXEC sp_who active
 
 --查看锁住了那个资源id，objid
-EXEC sp_lock</code></pre>
+EXEC sp_lock
+</code></pre>
 <p>还有如何查看查询分析器的SPID，可以在查询分析器的状态栏看到，比如sa(57),这就表示当前查询分析器SPID为57,这样在使用profile的时候就可以指定当前窗体进行监控。状态栏在查询窗口的右下角。<br><img src="/upload_image/blog191225/17.webp" alt></p>
-<h3 id="20、获取脚本的执行时间"><a href="#20、获取脚本的执行时间" class="headerlink" title="20、获取脚本的执行时间"></a><strong>20、获取脚本的执行时间</strong></h3><pre><code class="sql">declare @timediff datetime
+<h3 id="20、获取脚本的执行时间"><a href="#20、获取脚本的执行时间" class="headerlink" title="20、获取脚本的执行时间"></a><strong>20、获取脚本的执行时间</strong></h3><pre><code class="lang-sql">declare @timediff datetime
 select @timediff=getdate()
 select * from Suppliers
-print &#39;耗时:&#39;+ convert(varchar(10),datediff(ms,@timediff,getdate()))</code></pre>
+print &#39;耗时:&#39;+ convert(varchar(10),datediff(ms,@timediff,getdate()))
+</code></pre>
 <p>结果如下：</p>
 <p><img src="/upload_image/blog191225/18.webp" alt></p>
 <p>在状态栏是不会精确到毫秒的，只能精确到秒</p>
@@ -902,7 +928,7 @@ print &#39;耗时:&#39;+ convert(varchar(10),datediff(ms,@timediff,getdate()))</
           
             <a href="/2019/10/01/经典SQL语句大全/" rel="next">
               <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/article/jdsql20191001.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.4/images/article/jdsql20191001.jpg">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/jdsql20191001.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/jdsql20191001.jpg">
               </div>
               <span class="label">
               Next Post</span>

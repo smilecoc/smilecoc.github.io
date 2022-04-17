@@ -435,7 +435,7 @@
 
   <div class="pattern-center single-center">
     <!-- 有配图默认渲染第一张 -->
-    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.6/images/article/sql_schema20200622.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.6/images/article/sql_schema20200622.jpg">
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/sql_schema20200622.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/sql_schema20200622.jpg">
     </div>
     <header class="pattern-header single-header">
       <h1 class="entry-title">
@@ -478,18 +478,21 @@
 <li>当查找对象时，先找与用户默认架构相同的架构下的对象，找不到再找dbo的对象。</li>
 </ol>
 <h2 id="sql-server-修改表的模式schema"><a href="#sql-server-修改表的模式schema" class="headerlink" title="sql server 修改表的模式schema"></a>sql server 修改表的模式schema</h2><p>创建schema并赋予wang这个用户这个schema的权限</p>
-<pre><code class="sql">create schema  myschema  authorization  wang;</code></pre>
+<pre><code class="lang-sql">create schema  myschema  authorization  wang;
+</code></pre>
 <p>修改当前表的schema</p>
-<pre><code class="sql">use myDB  --使用的数据库
+<pre><code class="lang-sql">use myDB  --使用的数据库
 go
 
 create schema myschema  --如果没有此schema就先建立
 go
 
 alter schema myschema transfer dbo.myTable   --移动对象至建立的schema下
-go</code></pre>
+go
+</code></pre>
 <p>删除schema</p>
-<pre><code class="sql">drop schema wang cascade;</code></pre>
+<pre><code class="lang-sql">drop schema wang cascade;
+</code></pre>
 <p>其中，CASCADE（级联）表示删除模式的同时把该模式中所有的数据库对象全部删除。同时也可以改为RESTRICT（限制），表示如果该模式中已经定义了下属的数据库对象（如表、视图等），则拒绝该删除语句的执行。</p>
 
         </div>

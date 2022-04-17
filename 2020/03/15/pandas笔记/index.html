@@ -435,7 +435,7 @@
 
   <div class="pattern-center single-center">
     <!-- 有配图默认渲染第一张 -->
-    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.2/images/article/pandasnotes20200315.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.2/images/article/pandasnotes20200315.jpg">
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/pandasnotes20200315.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/pandasnotes20200315.jpg">
     </div>
     <header class="pattern-header single-header">
       <h1 class="entry-title">
@@ -475,7 +475,7 @@
 </li>
 </ul>
 <p>首先创建原始数据</p>
-<pre><code class="python">import pandas as pd
+<pre><code class="lang-python">import pandas as pd
 import numpy as np
 
 data = {&#39;name&#39;: [&#39;Joe&#39;, &#39;Mike&#39;, &#39;Jack&#39;, &#39;Rose&#39;, &#39;David&#39;, &#39;Marry&#39;, &#39;Wansi&#39;, &#39;Sidy&#39;, &#39;Jason&#39;, &#39;Even&#39;],
@@ -488,7 +488,8 @@ data = {&#39;name&#39;: [&#39;Joe&#39;, &#39;Mike&#39;, &#39;Jack&#39;, &#39;Ros
 
 labels = [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39;, &#39;f&#39;, &#39;g&#39;, &#39;h&#39;, &#39;i&#39;, &#39;j&#39;]
 
-df = pd.DataFrame(data, index=labels)</code></pre>
+df = pd.DataFrame(data, index=labels)
+</code></pre>
 <p>目前的df的数据为：</p>
 <pre><code>    name   age  gender isMarried
 
@@ -510,38 +511,43 @@ h   Sidy   NaN       0       yes
 
 i  Jason  37.0       1        no
 
-j   Even  32.0       0        no</code></pre><h3 id="行（列）选取：df"><a href="#行（列）选取：df" class="headerlink" title="行（列）选取：df[]"></a><strong>行（列）选取：df[]</strong></h3><p>行（列）选取是在单一维度上进行数据的选取，即以行为单位进行选取或者以列为单位进行选取。Dataframe对象的行有索引（index），默认情况下是[0,1,2，……]的整数序列，也可以自定义添加另外的索引，例如上面的labels，（为区分默认索引和自定义的索引，在本文中将默认索引称为整数索引，自定义索引称为标签索引）。Dataframe对象的每一列都有列名，可以通过列名实现对列的选取。</p>
+j   Even  32.0       0        no
+</code></pre><h3 id="行（列）选取：df"><a href="#行（列）选取：df" class="headerlink" title="行（列）选取：df[]"></a><strong>行（列）选取：df[]</strong></h3><p>行（列）选取是在单一维度上进行数据的选取，即以行为单位进行选取或者以列为单位进行选取。Dataframe对象的行有索引（index），默认情况下是[0,1,2，……]的整数序列，也可以自定义添加另外的索引，例如上面的labels，（为区分默认索引和自定义的索引，在本文中将默认索引称为整数索引，自定义索引称为标签索引）。Dataframe对象的每一列都有列名，可以通过列名实现对列的选取。</p>
 <p>1）选取行<br>选取行的方式包括三种：整数索引切片、标签索引切片和布尔数组。<br>a）整数索引切片：前闭后开<br>选取第一行：</p>
-<pre><code class="python">&gt;&gt;&gt; df[0:1]
+<pre><code class="lang-python">&gt;&gt;&gt; df[0:1]
 
   name   age  gender isMarried
 
-a  Joe  25.0       1       yes</code></pre>
+a  Joe  25.0       1       yes
+</code></pre>
 <p>选取前两行：</p>
-<pre><code class="python">&gt;&gt;&gt; df[0:2]
+<pre><code class="lang-python">&gt;&gt;&gt; df[0:2]
 
    name   age  gender isMarried
 
 a   Joe  25.0       1       yes
 
-b  Mike  32.0       0       yes</code></pre>
+b  Mike  32.0       0       yes
+</code></pre>
 <p>b）标签索引切片：前闭后闭<br>选取第一行：</p>
-<pre><code class="python">&gt;&gt;&gt; df[:&#39;a&#39;]
+<pre><code class="lang-python">&gt;&gt;&gt; df[:&#39;a&#39;]
 
   name   age  gender isMarried
 
-a  Joe  25.0       1       yes</code></pre>
+a  Joe  25.0       1       yes
+</code></pre>
 <p>选取前两行：</p>
-<pre><code class="python">&gt;&gt;&gt; df[&#39;a&#39;:&#39;b&#39;]
+<pre><code class="lang-python">&gt;&gt;&gt; df[&#39;a&#39;:&#39;b&#39;]
 
    name   age  gender isMarried
 
 a   Joe  25.0       1       yes
 
-b  Mike  32.0       0       yes</code></pre>
+b  Mike  32.0       0       yes
+</code></pre>
 <p>注意：整数索引切片是前闭后开，标签索引切片是前闭后闭，这点尤其要注意。</p>
 <p>c）布尔数组<br>选取前三行</p>
-<pre><code class="python">&gt;&gt;&gt; df[[True,True,True,False,False,False,False,False,False,False]]
+<pre><code class="lang-python">&gt;&gt;&gt; df[[True,True,True,False,False,False,False,False,False,False]]
 
    name   age  gender isMarried
 
@@ -549,9 +555,10 @@ a   Joe  25.0       1       yes
 
 b  Mike  32.0       0       yes
 
-c  Jack  18.0       1        no</code></pre>
+c  Jack  18.0       1        no
+</code></pre>
 <p>选取所有age大于30的行</p>
-<pre><code class="python">&gt;&gt;&gt; df[[each&gt;30 for each in df[&#39;age&#39;]]]
+<pre><code class="lang-python">&gt;&gt;&gt; df[[each&gt;30 for each in df[&#39;age&#39;]]]
 
     name   age  gender isMarried
 
@@ -561,9 +568,10 @@ g  Wansi  41.0       0        no
 
 i  Jason  37.0       1        no
 
-j   Even  32.0       0        no</code></pre>
+j   Even  32.0       0        no
+</code></pre>
 <p>通过布尔数组的方式，又可以衍生出下面的选取方式：<br>选取所有age大于30的行（更方便且更经常使用）</p>
-<pre><code class="python">&gt;&gt;&gt; df[df[&#39;age&#39;]&gt;30]
+<pre><code class="lang-python">&gt;&gt;&gt; df[df[&#39;age&#39;]&gt;30]
 
     name   age  gender isMarried
 
@@ -573,9 +581,10 @@ g  Wansi  41.0       0        no
 
 i  Jason  37.0       1        no
 
-j   Even  32.0       0        no</code></pre>
+j   Even  32.0       0        no
+</code></pre>
 <p>选取出所有age大于30，且isMarried为no的行</p>
-<pre><code class="python">&gt;&gt;&gt; df[(df[&#39;age&#39;]&gt;30) &amp; (df[&#39;isMarried&#39;]==&#39;no&#39;)]
+<pre><code class="lang-python">&gt;&gt;&gt; df[(df[&#39;age&#39;]&gt;30) &amp; (df[&#39;isMarried&#39;]==&#39;no&#39;)]
 
     name   age  gender isMarried
 
@@ -583,9 +592,10 @@ g  Wansi  41.0       0        no
 
 i  Jason  37.0       1        no
 
-j   Even  32.0       0        no</code></pre>
+j   Even  32.0       0        no
+</code></pre>
 <p>选取出所有age为20或32的行</p>
-<pre><code class="python">&gt;&gt;&gt; df[(df[&#39;age&#39;]==20) | (df[&#39;age&#39;]==32)]
+<pre><code class="lang-python">&gt;&gt;&gt; df[(df[&#39;age&#39;]==20) | (df[&#39;age&#39;]==32)]
 
     name   age  gender isMarried
 
@@ -593,11 +603,12 @@ b   Mike  32.0       0       yes
 
 f  Marry  20.0       1        no
 
-j   Even  32.0       0        no</code></pre>
+j   Even  32.0       0        no
+</code></pre>
 <p>注意：像上面这种通过多个布尔条件判断的情况，多个条件最好（一定）用括号括起来，否则非常容易出错。<br>　　2）列选取<br>列选取方式也有三种：标签索引、标签列表、Callable对象</p>
 <p>a）标签索引：选取单个列</p>
 <p>选取name列所有数据</p>
-<pre><code class="python">&gt;&gt;&gt; df[&#39;name&#39;]
+<pre><code class="lang-python">&gt;&gt;&gt; df[&#39;name&#39;]
 
 a      Joe
 
@@ -619,10 +630,11 @@ i    Jason
 
 j     Even
 
-Name: name, dtype: object</code></pre>
+Name: name, dtype: object
+</code></pre>
 <p>　　b）标签列表：选取多个列</p>
 <p>选取name和age两列数据</p>
-<pre><code class="python">&gt;&gt;&gt; df[[&#39;name&#39;,&#39;age&#39;]]
+<pre><code class="lang-python">&gt;&gt;&gt; df[[&#39;name&#39;,&#39;age&#39;]]
 
     name   age
 
@@ -644,10 +656,11 @@ h   Sidy   NaN
 
 i  Jason  37.0
 
-j   Even  32.0</code></pre>
+j   Even  32.0
+</code></pre>
 <p>　　c）callable对象</p>
 <p>选取第一列</p>
-<pre><code class="python">&gt;&gt;&gt; df[lambda df: df.columns[0]]
+<pre><code class="lang-python">&gt;&gt;&gt; df[lambda df: df.columns[0]]
 
 a      Joe
 
@@ -669,7 +682,8 @@ i    Jason
 
 j     Even
 
-Name: name, dtype: object</code></pre>
+Name: name, dtype: object
+</code></pre>
 <h3 id="区域选取"><a href="#区域选取" class="headerlink" title="区域选取"></a><strong>区域选取</strong></h3><p>区域选取可以从多个维度（行和列）对数据进行筛选，可以通过df.loc[]，df.iloc[]，df.ix[]三种方法实现。采用df.loc[]，df.iloc[]，df.ix[]这三种方法进行数据选取时，方括号内必须有两个参数，第一个参数是对行的筛选条件，第二个参数是对列的筛选条件，两个参数用逗号隔开。df.loc[]，df.iloc[]，df.ix[]的区别如下：</p>
 <p>*　　df.loc[]只能使用标签索引，不能使用整数索引，通过便签索引切边进行筛选时，前闭后闭。</p>
 <p>*　　df.iloc[]只能使用整数索引，不能使用标签索引，通过整数索引切边进行筛选时，前闭后开。；</p>
@@ -677,7 +691,7 @@ Name: name, dtype: object</code></pre>
 <p>下面分别通过实例演示这三种方法。</p>
 <p>df.loc[]<br>　　1）对行进行选取</p>
 <p>选取索引为‘a’的行：</p>
-<pre><code class="python">&gt;&gt;&gt; df.loc[&#39;a&#39;, :]
+<pre><code class="lang-python">&gt;&gt;&gt; df.loc[&#39;a&#39;, :]
 
 name         Joe
 
@@ -687,9 +701,10 @@ gender         1
 
 isMarried    yes
 
-Name: a, dtype: object</code></pre>
+Name: a, dtype: object
+</code></pre>
 <p>选取索引为‘a’或‘b’或‘c’的行</p>
-<pre><code class="python">&gt;&gt;&gt; df.loc[[&#39;a&#39;,&#39;b&#39;,&#39;c&#39;], :]
+<pre><code class="lang-python">&gt;&gt;&gt; df.loc[[&#39;a&#39;,&#39;b&#39;,&#39;c&#39;], :]
 
    name   age  gender isMarried
 
@@ -697,9 +712,10 @@ a   Joe  25.0       1       yes
 
 b  Mike  32.0       0       yes
 
-c  Jack  18.0       1        no</code></pre>
+c  Jack  18.0       1        no
+</code></pre>
 <p>选取从‘a’到‘d’的所有行（包括‘d’行）</p>
-<pre><code class="python">&gt;&gt;&gt; df.loc[&#39;a&#39;:&#39;d&#39;, :]
+<pre><code class="lang-python">&gt;&gt;&gt; df.loc[&#39;a&#39;:&#39;d&#39;, :]
 
    name   age  gender isMarried
 
@@ -709,9 +725,10 @@ b  Mike  32.0       0       yes
 
 c  Jack  18.0       1        no
 
-d  Rose   NaN       1       yes</code></pre>
+d  Rose   NaN       1       yes
+</code></pre>
 <p>用布尔数组选取前3行</p>
-<pre><code class="python">&gt;&gt;&gt; df.loc[[True,True,True,False,False,False], :]
+<pre><code class="lang-python">&gt;&gt;&gt; df.loc[[True,True,True,False,False,False], :]
 
    name   age  gender isMarried
 
@@ -719,9 +736,10 @@ a   Joe  25.0       1       yes
 
 b  Mike  32.0       0       yes
 
-c  Jack  18.0       1        no</code></pre>
+c  Jack  18.0       1        no
+</code></pre>
 <p>选取所有age大于30的行</p>
-<pre><code class="python">&gt;&gt;&gt; df.loc[df[&#39;age&#39;]&gt;30,:]
+<pre><code class="lang-python">&gt;&gt;&gt; df.loc[df[&#39;age&#39;]&gt;30,:]
 
     name   age  gender isMarried
 
@@ -731,9 +749,10 @@ g  Wansi  41.0       0        no
 
 i  Jason  37.0       1        no
 
-j   Even  32.0       0        no</code></pre>
+j   Even  32.0       0        no
+</code></pre>
 <p>　　也可以使用下面两方法：</p>
-<pre><code class="python">&gt;&gt;&gt; df.loc[df.loc[:,&#39;age&#39;]&gt;30, :]
+<pre><code class="lang-python">&gt;&gt;&gt; df.loc[df.loc[:,&#39;age&#39;]&gt;30, :]
 
     name   age  gender isMarried
 
@@ -743,8 +762,9 @@ g  Wansi  41.0       0        no
 
 i  Jason  37.0       1        no
 
-j   Even  32.0       0        no</code></pre>
-<pre><code class="python">&gt;&gt;&gt; df.loc[df.iloc[:,1]&gt;30, :]
+j   Even  32.0       0        no
+</code></pre>
+<pre><code class="lang-python">&gt;&gt;&gt; df.loc[df.iloc[:,1]&gt;30, :]
 
     name   age  gender isMarried
 
@@ -754,9 +774,10 @@ g  Wansi  41.0       0        no
 
 i  Jason  37.0       1        no
 
-j   Even  32.0       0        no</code></pre>
+j   Even  32.0       0        no
+</code></pre>
 <p>用callable对象选取age大于30的所有行</p>
-<pre><code class="python">&gt;&gt;&gt; df.loc[lambda df:df[&#39;age&#39;] &gt; 30, :]
+<pre><code class="lang-python">&gt;&gt;&gt; df.loc[lambda df:df[&#39;age&#39;] &gt; 30, :]
 
     name   age  gender isMarried
 
@@ -766,7 +787,8 @@ g  Wansi  41.0       0        no
 
 i  Jason  37.0       1        no
 
-j   Even  32.0       0        no</code></pre>
+j   Even  32.0       0        no
+</code></pre>
 <p>　　2）对列选取</p>
 <p>输出所有人的姓名（选取name列）</p>
 <pre><code>&gt;&gt;&gt; df.loc[:, &#39;name&#39;]
@@ -791,8 +813,9 @@ i    Jason
 
 j     Even
 
-Name: name, dtype: object</code></pre><p>输出所有人的姓名和年龄（选取name和age列）</p>
-<pre><code class="python">&gt;&gt;&gt; df.loc[:, &#39;name&#39;:&#39;age&#39;]
+Name: name, dtype: object
+</code></pre><p>输出所有人的姓名和年龄（选取name和age列）</p>
+<pre><code class="lang-python">&gt;&gt;&gt; df.loc[:, &#39;name&#39;:&#39;age&#39;]
 
     name   age
 
@@ -814,7 +837,8 @@ h   Sidy   NaN
 
 i  Jason  37.0
 
-j   Even  32.0</code></pre>
+j   Even  32.0
+</code></pre>
 <p>输出所有人的姓名、年龄、婚否（选取name、age、isMarried列）</p>
 <pre><code>&gt;&gt;&gt; df.loc[:, [&#39;name&#39;,&#39;age&#39;,&#39;isMarried&#39;]]
 
@@ -838,8 +862,9 @@ h   Sidy   NaN       yes
 
 i  Jason  37.0        no
 
-j   Even  32.0        no</code></pre><p>用布尔数组的方式选取前3列</p>
-<pre><code class="python">&gt;&gt;&gt; df.loc[:, [True,True,True,False]]
+j   Even  32.0        no
+</code></pre><p>用布尔数组的方式选取前3列</p>
+<pre><code class="lang-python">&gt;&gt;&gt; df.loc[:, [True,True,True,False]]
 
     name   age  gender
 
@@ -861,10 +886,11 @@ h   Sidy   NaN       0
 
 i  Jason  37.0       1
 
-j   Even  32.0       0</code></pre>
+j   Even  32.0       0
+</code></pre>
 <p>　　3）同时对行和列进行筛选</p>
 <p>输出年龄大于30的人的姓名和年龄</p>
-<pre><code class="python">&gt;&gt;&gt; df.loc[df[&#39;age&#39;]&gt;30,[&#39;name&#39;,&#39;age&#39;]]
+<pre><code class="lang-python">&gt;&gt;&gt; df.loc[df[&#39;age&#39;]&gt;30,[&#39;name&#39;,&#39;age&#39;]]
 
     name   age
 
@@ -874,18 +900,20 @@ g  Wansi  41.0
 
 i  Jason  37.0
 
-j   Even  32.0</code></pre>
+j   Even  32.0
+</code></pre>
 <p>输出行名为‘Mike’或‘Marry’的姓名和年龄</p>
-<pre><code class="python">&gt;&gt;&gt; df.loc[(df[&#39;name&#39;]==&#39;Mike&#39;) |(df[&#39;name&#39;]==&#39;Marry&#39;),[&#39;name&#39;,&#39;age&#39;]]                                                    
+<pre><code class="lang-python">&gt;&gt;&gt; df.loc[(df[&#39;name&#39;]==&#39;Mike&#39;) |(df[&#39;name&#39;]==&#39;Marry&#39;),[&#39;name&#39;,&#39;age&#39;]]                                                    
 
     name   age
 
 b   Mike  32.0
 
-f  Marry  20.0</code></pre>
+f  Marry  20.0
+</code></pre>
 <p>3.2 df.iloc[]<br>　　1）行选取</p>
 <p>选取第2行</p>
-<pre><code class="python">&gt;&gt;&gt; df.iloc[1, :]
+<pre><code class="lang-python">&gt;&gt;&gt; df.iloc[1, :]
 
 name         Mike
 
@@ -895,9 +923,10 @@ gender          0
 
 isMarried     yes
 
-Name: b, dtype: object</code></pre>
+Name: b, dtype: object
+</code></pre>
 <p>选取前3行</p>
-<pre><code class="python">&gt;&gt;&gt; df.iloc[:3, :]
+<pre><code class="lang-python">&gt;&gt;&gt; df.iloc[:3, :]
 
    name   age  gender isMarried
 
@@ -905,9 +934,10 @@ a   Joe  25.0       1       yes
 
 b  Mike  32.0       0       yes
 
-c  Jack  18.0       1        no</code></pre>
+c  Jack  18.0       1        no
+</code></pre>
 <p>选取第2行、第4行、第6行</p>
-<pre><code class="python">&gt;&gt;&gt; df.iloc[[1,3,5],:]
+<pre><code class="lang-python">&gt;&gt;&gt; df.iloc[[1,3,5],:]
 
     name   age  gender isMarried
 
@@ -915,9 +945,10 @@ b   Mike  32.0       0       yes
 
 d   Rose   NaN       1       yes
 
-f  Marry  20.0       1        no</code></pre>
+f  Marry  20.0       1        no
+</code></pre>
 <p>通过布尔数组选取前3行</p>
-<pre><code class="python">&gt;&gt;&gt; df.iloc[[True,True,True,False,False,False], :]
+<pre><code class="lang-python">&gt;&gt;&gt; df.iloc[[True,True,True,False,False,False], :]
 
    name   age  gender isMarried
 
@@ -925,10 +956,11 @@ a   Joe  25.0       1       yes
 
 b  Mike  32.0       0       yes
 
-c  Jack  18.0       1        no</code></pre>
+c  Jack  18.0       1        no
+</code></pre>
 <p>　　2）列选取</p>
 <p>选取第2列</p>
-<pre><code class="python">&gt;&gt;&gt; df.iloc[:, 1]
+<pre><code class="lang-python">&gt;&gt;&gt; df.iloc[:, 1]
 
 a    25.0
 
@@ -950,9 +982,10 @@ i    37.0
 
 j    32.0
 
-Name: age, dtype: float64</code></pre>
+Name: age, dtype: float64
+</code></pre>
 <p>选取前3列</p>
-<pre><code class="python">&gt;&gt;&gt; df.iloc[:, 0:3]
+<pre><code class="lang-python">&gt;&gt;&gt; df.iloc[:, 0:3]
 
     name   age  gender
 
@@ -977,7 +1010,7 @@ i  Jason  37.0       1
 j   Even  32.0       0
 </code></pre>
 <p>选取第1列、第3列和第4列</p>
-<pre><code class="python">&gt;&gt;&gt; df.iloc[:, [0,2,3]]
+<pre><code class="lang-python">&gt;&gt;&gt; df.iloc[:, [0,2,3]]
 
     name  gender isMarried
 
@@ -999,9 +1032,10 @@ h   Sidy       0       yes
 
 i  Jason       1        no
 
-j   Even       0        no</code></pre>
+j   Even       0        no
+</code></pre>
 <p>通过布尔数组选取前3列</p>
-<pre><code class="python">&gt;&gt;&gt; df.iloc[:,[True,True,True,False]]
+<pre><code class="lang-python">&gt;&gt;&gt; df.iloc[:,[True,True,True,False]]
     name   age  gender
 a    Joe  25.0       1
 b   Mike  32.0       0
@@ -1012,10 +1046,11 @@ f  Marry  20.0       1
 g  Wansi  41.0       0
 h   Sidy   NaN       0
 i  Jason  37.0       1
-j   Even  32.0       0</code></pre>
+j   Even  32.0       0
+</code></pre>
 <p>　　3）同时选取行和列</p>
 <p>选取第2行的第1列、第3列、第4列</p>
-<pre><code class="python">&gt;&gt;&gt; df.iloc[1, [0,2,3]]
+<pre><code class="lang-python">&gt;&gt;&gt; df.iloc[1, [0,2,3]]
 
 name         Mike
 
@@ -1023,9 +1058,10 @@ gender          0
 
 isMarried     yes
 
-Name: b, dtype: object</code></pre>
+Name: b, dtype: object
+</code></pre>
 <p>选取前3行的前3列</p>
-<pre><code class="python">&gt;&gt;&gt; df.iloc[:3, :3]
+<pre><code class="lang-python">&gt;&gt;&gt; df.iloc[:3, :3]
 
    name   age  gender
 
@@ -1033,14 +1069,16 @@ a   Joe  25.0       1
 
 b  Mike  32.0       0
 
-c  Jack  18.0       1</code></pre>
+c  Jack  18.0       1
+</code></pre>
 <p>3.3 df.ix[]<br>　　df.ix[]既可以通过整数索引进行数据选取，也可以通过标签索引进行数据选取，换句话说，df.ix[]是df.loc[]和df.iloc[]的功能集合，且在同义词选取中，可以同时使用整数索引和标签索引。</p>
 <p>选取第3行的name数据</p>
-<pre><code class="python">&gt;&gt;&gt; df.ix[2,&#39;name&#39;]
+<pre><code class="lang-python">&gt;&gt;&gt; df.ix[2,&#39;name&#39;]
 
-&#39;Jack&#39;</code></pre>
+&#39;Jack&#39;
+</code></pre>
 <p>选取a行、c行的第1列，第2列和第4列数据</p>
-<pre><code class="python">&gt;&gt;&gt; df.ix[[&#39;a&#39;,&#39;c&#39;], [0,1,3]]
+<pre><code class="lang-python">&gt;&gt;&gt; df.ix[[&#39;a&#39;,&#39;c&#39;], [0,1,3]]
 
    name   age isMarried
 
@@ -1064,16 +1102,19 @@ g  Wansi  41.0
 
 i  Jason  37.0
 
-j   Even  32.0</code></pre>
+j   Even  32.0
+</code></pre>
 <h3 id="单元格选取"><a href="#单元格选取" class="headerlink" title="单元格选取"></a><strong>单元格选取</strong></h3><p>单元格选取包括df.at[]和df.iat[]两种方法。df.at[]和df.iat[]使用时必须输入两个参数，即行索引和列索引，其中df.at[]只能使用标签索引，df.iat[]只能使用整数索引。df.at[]和df.iat[]选取的都是单个单元格（单行单列），所以返回值都为基本数据类型。</p>
 <p>1 df.at[]<br>选取b行的name列</p>
-<pre><code class="python">&gt;&gt;&gt; df.at[&#39;b&#39;,&#39;name&#39;]
+<pre><code class="lang-python">&gt;&gt;&gt; df.at[&#39;b&#39;,&#39;name&#39;]
 
-&#39;Mike&#39;</code></pre>
+&#39;Mike&#39;
+</code></pre>
 <p>2 df.iat[]<br>选取第2行第1列</p>
-<pre><code class="python">&gt;&gt;&gt; df.iat[1,0]
+<pre><code class="lang-python">&gt;&gt;&gt; df.iat[1,0]
 
-&#39;Mike&#39;</code></pre>
+&#39;Mike&#39;
+</code></pre>
 <h3 id="拓展与总结"><a href="#拓展与总结" class="headerlink" title="拓展与总结"></a><strong>拓展与总结</strong></h3><p>*　　1）选取某一整行（多个整行）或某一整列（多个整列）数据时，可以用df[]、df.loc[]、df.iloc[]，此时df[]的方法书写要简单一些。</p>
 <p>*　　2）进行区域选取时，如果只能用标签索引，则使用df.loc[]或df.ix[]，如果只能用整数索引，则用df.iloc[]或df.ix[]。不过我看到有资料说，不建议使用df.ix[],因为df.loc[]和df.iloc[]更精确（有吗？我没理解精确在哪，望告知）。</p>
 <p>*　　3）如果选取单元格，则df.at[]、df.iat[]、df.loc[]、df.iloc[]都可以，不过要注意参数。　　</p>
@@ -1081,11 +1122,10 @@ j   Even  32.0</code></pre>
 <ul>
 <li>如果返回值包括单行多列或多行单列时，返回值为Series对象；</li>
 <li>如果返回值包括多行多列时，返回值为DataFrame对象；</li>
-<li>如果返回值仅为一个单元格（单行单列）时，返回值为基本数据类型，例如str，int等。</li>
-<li>　　5）df[]的方式只能选取行和列数据，不能精确到单元格，所以df[]的返回值一定DataFrame或Series对象。</li>
+<li>如果返回值仅为一个单元格（单行单列）时，返回值为基本数据类型，例如str，int等。<br>*　　5）df[]的方式只能选取行和列数据，不能精确到单元格，所以df[]的返回值一定DataFrame或Series对象。</li>
 </ul>
 <p>*　　6）当使用DataFrame的默认索引（整数索引）时，整数索引即为标签索引。例如，使用上面的data实例化一个DataFrame对象：</p>
-<pre><code class="python">&gt;&gt;&gt; df2 = pd.DataFrame(data)
+<pre><code class="lang-python">&gt;&gt;&gt; df2 = pd.DataFrame(data)
 
 &gt;&gt;&gt; df2.loc[1,&#39;name&#39;]
 
@@ -1093,7 +1133,8 @@ j   Even  32.0</code></pre>
 
 &gt;&gt;&gt; df2.iloc[1,0]
 
-&#39;Mike&#39;</code></pre>
+&#39;Mike&#39;
+</code></pre>
 
         </div>
         <!-- .entry-content -->
@@ -1126,7 +1167,7 @@ j   Even  32.0</code></pre>
           
             <a href="/2020/03/20/双蛋问题/" rel="prev">
               <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.2/images/article/doubleeggs20200320.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.2/images/article/doubleeggs20200320.jpg">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/doubleeggs20200320.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/doubleeggs20200320.jpg">
               </div>
               <span class="label">
               Previous Post</span>
@@ -1144,7 +1185,7 @@ j   Even  32.0</code></pre>
           
             <a href="/2020/03/12/Git语句大全/" rel="next">
               <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.2/images/article/githz20200312.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.2/images/article/githz20200312.jpg">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/githz20200312.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/githz20200312.jpg">
               </div>
               <span class="label">
               Next Post</span>

@@ -435,7 +435,7 @@
 
   <div class="pattern-center single-center">
     <!-- 有配图默认渲染第一张 -->
-    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.5/images/article/mmm2020531.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.5/images/article/mmm2020531.jpg">
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/ccdn@master/images/article/mmm2020531.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/ccdn@master/images/article/mmm2020531.jpg">
     </div>
     <header class="pattern-header single-header">
       <h1 class="entry-title">
@@ -477,12 +477,13 @@
 <li>Marketing data（营销数据）</li>
 <li>Conversion data（转化数据如sales，profit，ROI）</li>
 </ul>
-<h2 id="营销组合模型实战"><a href="#营销组合模型实战" class="headerlink" title="营销组合模型实战"></a>营销组合模型实战</h2><h4 id="1-首先导入数据与所需要的库"><a href="#1-首先导入数据与所需要的库" class="headerlink" title="1.首先导入数据与所需要的库"></a>1.首先导入数据与所需要的库</h4><pre><code class="python">import pandas as pd
+<h2 id="营销组合模型实战"><a href="#营销组合模型实战" class="headerlink" title="营销组合模型实战"></a>营销组合模型实战</h2><h4 id="1-首先导入数据与所需要的库"><a href="#1-首先导入数据与所需要的库" class="headerlink" title="1.首先导入数据与所需要的库"></a>1.首先导入数据与所需要的库</h4><pre><code class="lang-python">import pandas as pd
 import numpy as np
 import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
 
-data = pd.read_excel(&#39;MMM.xlsx&#39;)</code></pre>
+data = pd.read_excel(&#39;MMM.xlsx&#39;)
+</code></pre>
 <h4 id="2-EDA-探索性数据分析"><a href="#2-EDA-探索性数据分析" class="headerlink" title="2.EDA(探索性数据分析)"></a>2.EDA(探索性数据分析)</h4><p>首先进行探索性数据分析，先大致的看一下各列数据</p>
 <pre><code>print (data.describe())
 
@@ -534,7 +535,8 @@ min        6.000000
 25%        6.000000  
 50%        6.000000  
 75%     9691.400000  
-max    70489.200000 </code></pre><p>可以看出数据总共有263行，同时查看有没有缺失数据的存在。</p>
+max    70489.200000
+</code></pre><p>可以看出数据总共有263行，同时查看有没有缺失数据的存在。</p>
 <pre><code>#查看是否有空值
 data.isnull().any()
                        ...  
@@ -547,7 +549,8 @@ LnPrice                False
 LnLPrice                True
 Mag                    False
 News                   False
-                       ...  </code></pre><p>查看列，数据的数据字典已经放在MMM数据文件中，可以对照着看一下各列的含义<br>注意：数据已经清洗过，所以缺失值较少，同时由于需要的字段中的数字数量级相差较大，所以对其进行取对数处理</p>
+                       ...
+</code></pre><p>查看列，数据的数据字典已经放在MMM数据文件中，可以对照着看一下各列的含义<br>注意：数据已经清洗过，所以缺失值较少，同时由于需要的字段中的数字数量级相差较大，所以对其进行取对数处理</p>
 <pre><code>print (data.columns)
 
 &gt;&gt;&gt;     [8 rows x 66 columns]
@@ -564,7 +567,8 @@ Index([&#39;BrandName&#39;, &#39;Brand ID&#39;, &#39;Year&#39;, &#39;Absolut&#39
        &#39;TotalMinusSales&#39;, &#39;LagTotalMinusSales&#39;, &#39;TierSales&#39;,
        &#39;OutsideTierSales&#39;, &#39;LagTierSales&#39;, &#39;LagOutsideTierSales&#39;, &#39;Firstintro&#39;,
        &#39;Marketshare&#39;, &#39;LagMktshare&#39;, &#39;YearID&#39;, &#39;total ad&#39;],
-      dtype=&#39;object&#39;)</code></pre><p>接下来再看数据中一共有多少个品牌：</p>
+      dtype=&#39;object&#39;)
+</code></pre><p>接下来再看数据中一共有多少个品牌：</p>
 <pre><code>print (data[&#39;BrandName&#39;].unique())
 print (&#39;\n&#39;)
 print (&#39;Total Number of brands&#39;,len(data[&#39;BrandName&#39;].unique()))
@@ -577,13 +581,16 @@ print (&#39;Total Number of brands&#39;,len(data[&#39;BrandName&#39;].unique()))
  &#39;Tanqueray&#39; &#39;Three Olives&#39;]
 
 
-Total Number of brands 27</code></pre><p>可以看到该数据集包括总共27个伏特加制造公司品牌。对于MMM，让我们选择一个品牌并分析价格对销售的影响。例如，让我们选择’Absolut’作为我们的分析品牌。</p>
+Total Number of brands 27
+</code></pre><p>可以看到该数据集包括总共27个伏特加制造公司品牌。对于MMM，让我们选择一个品牌并分析价格对销售的影响。例如，让我们选择’Absolut’作为我们的分析品牌。</p>
 <pre><code>Absolut = data[data[&#39;BrandName&#39;] == &#39;Absolut&#39;]]
-Pr_Absolut = Absolut[[&#39;LnSales&#39;,&#39;LnPrice&#39;]]</code></pre><p>之后画出Absolut的价格与销售之间的关系</p>
+Pr_Absolut = Absolut[[&#39;LnSales&#39;,&#39;LnPrice&#39;]]
+</code></pre><p>之后画出Absolut的价格与销售之间的关系</p>
 <pre><code>plt.scatter(Pr_Absolut[&#39;LnPrice&#39;],Pr_Absolut[&#39;LnSales&#39;])
 plt.xlabel(&#39;Log of Price&#39;)
 plt.ylabel(&#39;Log of Sales&#39;)
-plt.show()</code></pre><p>matplotlib.pyplot.scatte函数的语法为：</p>
+plt.show()
+</code></pre><p>matplotlib.pyplot.scatte函数的语法为：</p>
 <p>matplotlib.pyplot.scatter(x, y, s=None, c=None, marker=None, cmap=None, norm=None, vmin=None, vmax=None, alpha=None, linewidths=None, verts=None, edgecolors=None, <em>, data=None, *</em>kwargs)</p>
 <p>参数的解释：<br>x，y：表示的是大小为(n,)的数组，也就是我们即将绘制散点图的数据点</p>
 <p>s:是一个实数或者是一个数组大小为(n,)，这个是一个可选的参数。</p>
@@ -596,7 +603,8 @@ plt.show()</code></pre><p>matplotlib.pyplot.scatte函数的语法为：</p>
 <p>得到的散点图如下所示：<br><img src="https://img-blog.csdnimg.cn/20200525222345275.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>从生成的散点图中我们可以知道随着价格的增长销量增加。</p>
 <pre><code>import statsmodels.formula.api as sm
 result = sm.ols(formula = &#39;LnSales ~ LnPrice&#39;,data = Pr_Absolut).fit()
-result.summary()</code></pre><p>Statsmodels 是 Python 中一个强大的统计分析包，包含了回归分析、时间序列分析、假设检<br>验等等的功能,当我们需要使用回归时，只需要import statsmodels.formula.api as sm即可（也可以import statsmodels.api as sm，两者的用法会有一些差别，但是具有相同的功能）。</p>
+result.summary()
+</code></pre><p>Statsmodels 是 Python 中一个强大的统计分析包，包含了回归分析、时间序列分析、假设检<br>验等等的功能,当我们需要使用回归时，只需要import statsmodels.formula.api as sm即可（也可以import statsmodels.api as sm，两者的用法会有一些差别，但是具有相同的功能）。</p>
 <p>使用sm.ols(formula = ‘LnSales ~ LnPrice’,data = Pr_Absolut).fit()即可获取拟合结果</p>
 <pre><code>#获取计算出的回归系数
 print(result.params)
@@ -621,7 +629,8 @@ ax.legend(loc=&#39;best&#39;)
 <p>首先尝试使用广告和价格列</p>
 <pre><code>Ad_Absolut = Absolut[[&#39;LnSales&#39;,&#39;LnMag&#39;,&#39;LnNews&#39;,&#39;LnOut&#39;,&#39;LnBroad&#39;,&#39;LnPrint&#39;,&#39;LnPrice&#39;]]
 result_ad = sm.ols(&#39;LnSales ~ LnMag + LnNews + LnOut + LnBroad + LnPrint + LnPrice&#39;,data=Ad_Absolut).fit()
-result_ad.summary()</code></pre><p>得到如下结果<br><img src="https://img-blog.csdnimg.cn/20200526003136427.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+result_ad.summary()
+</code></pre><p>得到如下结果<br><img src="https://img-blog.csdnimg.cn/20200526003136427.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <p>调整R方值（Adj. R-squared）显示该模型能够解释87％的数据点。但是，此处某些变量的p值很高，这可能是由于相互作用效应和其他一些因素导致的。</p>
 <ul>
 <li><p>注:多元回归实际应用中，判定系数R平方有个最大的问题：增加自变量的个数时，判定系数就会增加，即随着自变量的增多，R平方会越来越大，会显得回归模型精度很高，有较好的拟合效果。而实际上可能并非如此，有些自变量与因变量（即预测）完全不相关，增加这些自变量，并不会提升拟合水平和预测精度。调整R方同时考虑了样本量（n）和回归中自变量的个数（k）的影响，这使得调整R方永远小于R方，而且调整R方的值不会由于回归中自变量个数的增加而越来越接近1。因此，在多元回归分析中，通常用调整的多重判定系数来评价拟合效果</p>
@@ -630,7 +639,8 @@ result_ad.summary()</code></pre><p>得到如下结果<br><img src="https://img-b
 </ul>
 <p>通过回归系数，我们知道某一个自变量对自变量的影响的程度有多大</p>
 <p>同时，我们还可以看一下各个因素与销售量之间相关性</p>
-<pre><code>print(Ad_Absolut.corr())</code></pre><p>得到相关系数如图：<br><img src="https://img-blog.csdnimg.cn/20200527230111656.png" alt="在这里插入图片描述"><br>源码和实验数据文件地址：<a href="https://github.com/smilecoc/Data_analysis/tree/master/MMM" target="_blank" rel="noopener">https://github.com/smilecoc/Data_analysis/tree/master/MMM</a></p>
+<pre><code>print(Ad_Absolut.corr())
+</code></pre><p>得到相关系数如图：<br><img src="https://img-blog.csdnimg.cn/20200527230111656.png" alt="在这里插入图片描述"><br>源码和实验数据文件地址：<a href="https://github.com/smilecoc/Data_analysis/tree/master/MMM" target="_blank" rel="noopener">https://github.com/smilecoc/Data_analysis/tree/master/MMM</a></p>
 
         </div>
         <!-- .entry-content -->

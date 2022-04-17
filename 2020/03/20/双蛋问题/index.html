@@ -435,7 +435,7 @@
 
   <div class="pattern-center single-center">
     <!-- 有配图默认渲染第一张 -->
-    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.2/images/article/doubleeggs20200320.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.2/images/article/doubleeggs20200320.jpg">
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/doubleeggs20200320.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/doubleeggs20200320.jpg">
     </div>
     <header class="pattern-header single-header">
       <h1 class="entry-title">
@@ -477,7 +477,7 @@
 <p>鸡蛋在 K 层碎掉了，也就说明临界楼层在 K 层以下。但是此时，我们只剩下 1 个鸡蛋，最坏的情况下还要检测 K−1 次才能找到临界楼层<br>鸡蛋在 K 层没有碎，临界楼层在 K 层以上。此时我们还是有 2 个鸡蛋，还剩下 N−K 层楼需要检测，那么最坏的情况下，还需要检测 TN−K 次。很显然 N−K 要比 N 少，我们顺利实现对问题的简化。<br>最坏的情况显然是 K−1 和 TN−K 两个数的最大的那一个再加上 1，因为我们先试了一次。这个最大的数，就是 TN。</p>
 <p>不过这里面有一个 K 是不能确定的。为了找到合适的 K，我们需要把 K 从 1 到 N 的情况全部计算出来，找到使得 TN 最小的情况即可。</p>
 <p>用代码来解决这个问题就是：</p>
-<pre><code class="python">def two_egg(n: int) -&gt; int:
+<pre><code class="lang-python">def two_egg(n: int) -&gt; int:
     &quot;&quot;&quot;
     双蛋问题的递归求解
     :param n: 楼层数
@@ -495,7 +495,8 @@
 
 # 用 1 到 11 的数字测试，不用 100 是因为电脑性能不够，测到 11 是因为 10 和 11 的结果不同
 for f in range(1, 12):
-    print(f&#39;{f} -------&gt; {two_egg(f)}&#39;)</code></pre>
+    print(f&#39;{f} -------&gt; {two_egg(f)}&#39;)
+</code></pre>
 <p>递归法解决普遍双蛋问题<br>用二分查找，可以解决鸡蛋数目不限的情况，递归查找可以解决只有 2 个鸡蛋的情况。现在，我们把问题进一步扩展：如果我们有 M 个鸡蛋，N 层楼，在最坏的情况下，至少需要测试多少次能够找到临界楼层？</p>
 <p>基线条件根上面的差不多一样：</p>
 <p>不管有多少个鸡蛋，如果只有一层楼，只需要试一次；如果没有楼，那就干脆不用试了。<br>如果只有 1 个鸡蛋，只能老老实实从下往上尝试，也就是在最坏的情况下，有几层楼就要试几次。<br>递归条件其实也很类似，只是因为鸡蛋数目的引入，会稍微复杂一丁丁点点。</p>
@@ -504,7 +505,7 @@ for f in range(1, 12):
 <p>鸡蛋在 K 层碎掉了，也就说明临界楼层在 K 层以下。但是此时，我们只剩下 M−1 个鸡蛋，最坏的情况下还要检测 TM−1, K−1 次才能找到临界楼层<br>鸡蛋在 K 层没有碎，临界楼层在 K 层以上。此时我们还是有 M 个鸡蛋，还剩下 N−K 层楼需要检测，那么最坏的情况下，还需要检测 TM, N−K 次<br>上面的两种情况，要么简化了鸡蛋数量，要么简化了楼层数量，最终都可以通过递归来找到答案。最终的结果需要是 TM−1, N 和 TM, N−K 这两个数中最大的那一个加上 1，因为我们最开始的时候在 K 层测试了一下。</p>
 <p>同样地，我们需要遍历测试当 K 为 1 到 N 时的各种情况，取其中所需步骤最少的，就是我们要的结果。</p>
 <p>用代码表示就是：</p>
-<pre><code class="python">def two_egg_general(m: int, n: int) -&gt; int:
+<pre><code class="lang-python">def two_egg_general(m: int, n: int) -&gt; int:
     &quot;&quot;&quot;
     普遍双蛋问题的解决
     :param m: 鸡蛋数量
@@ -526,7 +527,8 @@ for f in range(1, 12):
 for i in range(1, 12):
     for j in range(1, 12):
         print(f&#39;({i}, {j}) --&gt; {two_egg_general(i, j)}&#39;, end=&#39; | &#39;)
-    print()</code></pre>
+    print()
+</code></pre>
 
         </div>
         <!-- .entry-content -->
@@ -559,7 +561,7 @@ for i in range(1, 12):
           
             <a href="/2020/03/21/海盗分金问题/" rel="prev">
               <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.2/images/article/hdfj20200321.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.2/images/article/hdfj20200321.jpg">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/hdfj20200321.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/hdfj20200321.jpg">
               </div>
               <span class="label">
               Previous Post</span>
@@ -577,7 +579,7 @@ for i in range(1, 12):
           
             <a href="/2020/03/15/pandas笔记/" rel="next">
               <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.2/images/article/pandasnotes20200315.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.5.2/images/article/pandasnotes20200315.jpg">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/pandasnotes20200315.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/pandasnotes20200315.jpg">
               </div>
               <span class="label">
               Next Post</span>
