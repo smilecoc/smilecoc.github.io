@@ -673,7 +673,7 @@ SELECT A.姓名,性别,部门 FROM [Sheet2$]A Left JOIN [Sheet1$]B ON A.姓名=B
           
             <div class="post-nepre half next">
           
-            <a href="/2020/03/02/京东商品评论爬虫/" rel="next">
+            <a href="/2020/03/02/jd_comments_spider/" rel="next">
               <div class="background">
                 <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/jdcommentspider20200302.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/jdcommentspider20200302.jpg">
               </div>
@@ -1119,5 +1119,20 @@ $(document).ready(function() {
     })
   });
 </script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 </html>

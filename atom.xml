@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://smilecoc.vip/"/>
-  <updated>2022-04-17T08:23:39.739Z</updated>
+  <updated>2022-05-04T15:25:41.349Z</updated>
   <id>http://smilecoc.vip/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Excel中两表数据核对方法</title>
+    <link href="http://smilecoc.vip/2022/05/04/compare_dataset_in_excel/"/>
+    <id>http://smilecoc.vip/2022/05/04/compare_dataset_in_excel/</id>
+    <published>2022-05-04T12:20:11.000Z</published>
+    <updated>2022-05-04T15:25:41.349Z</updated>
+    
+    <summary type="html">
+    
+      整理汇总各种Excel数据对比方法，让大家能在不同情况下都能快速完成数据的对比。
+    
+    </summary>
+    
+    
+      <category term="技术" scheme="http://smilecoc.vip/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="Excel &amp; VBA" scheme="http://smilecoc.vip/tags/Excel-VBA/"/>
+    
+  </entry>
   
   <entry>
     <title>Virtual Xposed 教程——不Root即可使用的Xposed框架</title>
@@ -412,27 +433,6 @@
     
     
       <category term="Git" scheme="http://smilecoc.vip/tags/Git/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>SQL面试题整理汇总-进阶篇</title>
-    <link href="http://smilecoc.vip/2020/11/15/SQL%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86%E6%B1%87%E6%80%BB/"/>
-    <id>http://smilecoc.vip/2020/11/15/SQL%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86%E6%B1%87%E6%80%BB/</id>
-    <published>2020-11-15T02:24:33.000Z</published>
-    <updated>2021-01-16T12:16:06.547Z</updated>
-    
-    <summary type="html">
-    
-      整理了一下自己遇到的以及网上找到的一些SQL面试题
-    
-    </summary>
-    
-    
-      <category term="笔记" scheme="http://smilecoc.vip/categories/%E7%AC%94%E8%AE%B0/"/>
-    
-    
-      <category term="SQL&amp;数据库" scheme="http://smilecoc.vip/tags/SQL-%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
     
   </entry>
   

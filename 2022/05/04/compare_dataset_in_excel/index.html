@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">数据库设计范式 | Smilecoc&#39;s Blog</title>
+  <title itemprop="name">Excel中两表数据核对方法 | Smilecoc&#39;s Blog</title>
   
     <link rel="shortcut icon" href="/images/favicon.ico">
   
@@ -435,11 +435,11 @@
 
   <div class="pattern-center single-center">
     <!-- 有配图默认渲染第一张 -->
-    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/databasefs20200307.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/databasefs20200307.jpg">
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/compare_dataset_in_excel_20220504.png);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/compare_dataset_in_excel_20220504.png">
     </div>
     <header class="pattern-header single-header">
       <h1 class="entry-title">
-      数据库设计范式</h1>
+      Excel中两表数据核对方法</h1>
       <p class="entry-census">
         <span>
           <a href="http://smilecoc.vip/">
@@ -451,7 +451,7 @@
         </span>
         <span class="bull">
         ·</span>
-        2020-3-7<span class="bull">
+        2022-5-4<span class="bull">
         ·</span>
       <span id="busuanzi_value_page_pv"></span>次阅读</p>
     </header>
@@ -465,33 +465,17 @@
         <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
         
         <div class="entry-content">
-          <p>范式：英文名称是 Normal Form，它是英国人 E.F.Codd（关系数据库的老祖宗）在上个世纪70年代提出关系数据库模型后总结出来的，范式是关系数据库理论的基础，也是我们在设计数据库结构过程中所要遵循的规则和指导方法。目前有迹可寻的共有8种范式，依次是：1NF，2NF，3NF，BCNF，4NF，5NF，DKNF，6NF。通常所用到的只是前三个范式，即：第一范式（1NF），第二范式（2NF），第三范式（3NF）。</p>
-<p>设计关系数据库时，遵从不同的规范要求，设计出合理的关系型数据库，这些不同的规范要求被称为不同的范式，各种范式呈递次规范，<strong>越高的范式数据库冗余越小。</strong><br>目前关系数据库有六种范式：第一范式（1NF）、第二范式（2NF）、第三范式（3NF）、巴斯-科德范式（BCNF）、第四范式(4NF）和第五范式（5NF，又称完美范式）。满足最低要求的范式是第一范式（1NF）。在第一范式的基础上进一步满足更多规范要求的称为第二范式（2NF），其余范式以次类推。一般说来，数据库只需满足第三范式(3NF）就行了。<br>首先简单介绍下前三个范式，这也是目前设计数据库时的范式要求：</p>
-<h3 id="第一范式（1NF）"><a href="#第一范式（1NF）" class="headerlink" title="第一范式（1NF）"></a>第一范式（1NF）</h3><p>强调的是列的原子性，即列不能够再分成其他几列。<br>考虑这样一个表：【联系人】（姓名，性别，电话）<br>如果在实际场景中，一个联系人有家庭电话和公司电话，那么这种表结构设计就没有达到 1NF。要符合 1NF 我们只需把列（电话）拆分，即：【联系人】（姓名，性别，家庭电话，公司电话）。1NF 很好辨别，但是 2NF 和 3NF 就容易搞混淆。</p>
-<p>说明：在任何一个关系数据库中，第一范式（1NF）是对关系模式的设计基本要求，一般设计中都必须满足第一范式（1NF）。不过有些关系模型中突破了1NF的限制，这种称为非1NF的关系模型。换句话说，是否必须满足1NF的最低要求，主要依赖于所使用的关系模型。</p>
-<h3 id="第二范式（2NF）"><a href="#第二范式（2NF）" class="headerlink" title="第二范式（2NF）"></a>第二范式（2NF）</h3><p>首先是 1NF，另外包含两部分内容，一是表必须有一个主键；二是没有包含在主键中的列必须完全依赖于主键，而不能只依赖于主键的一部分。</p>
-<p>考虑一个订单明细表：【OrderDetail】（OrderID，ProductID，UnitPrice，Discount，Quantity，ProductName）。<br>因为我们知道在一个订单中可以订购多种产品，所以单单一个 OrderID 是不足以成为主键的，主键应该是（OrderID，ProductID）。显而易见 Discount（折扣），Quantity（数量）完全依赖（取决）于主键（OderID，ProductID），而 UnitPrice，ProductName 只依赖于 ProductID。所以 OrderDetail 表不符合 2NF。不符合 2NF 的设计容易产生冗余数据。<br>可以把【OrderDetail】表拆分为【OrderDetail】（OrderID，ProductID，Discount，Quantity）和【Product】（ProductID，UnitPrice，ProductName）来消除原订单表中UnitPrice，ProductName多次重复的情况。</p>
-<p>第二范式（2NF）要求实体的属性完全依赖于主关键字。所谓完全依赖是指不能存在仅依赖主关键字一部分的属性，如果存在，那么这个属性和主关键字的这一部分应该分离出来形成一个新的实体，新实体与原实体之间是一对多的关系。为实现区分通常需要为表加上一个列，以存储各个实例的唯一标识。简而言之，第二范式就是在第一范式的基础上属性完全依赖于主键。</p>
-<h3 id="第三范式（3NF）"><a href="#第三范式（3NF）" class="headerlink" title="第三范式（3NF）"></a>第三范式（3NF）</h3><p>在1NF基础上，任何非主属性不依赖于其它非主属性[在2NF基础上消除传递依赖]。</p>
-<p>第三范式（3NF）是第二范式（2NF）的一个子集，即满足第三范式（3NF）必须满足第二范式（2NF）。</p>
-<p>首先是 2NF，另外非主键列必须直接依赖于主键，不能存在传递依赖。即不能存在：非主键列 A 依赖于非主键列 B，非主键列 B 依赖于主键的情况。考虑一个订单表【Order】（OrderID，OrderDate，CustomerID，CustomerName，CustomerAddr，CustomerCity）主键是（OrderID）。</p>
-<p>其中 OrderDate，CustomerID，CustomerName，CustomerAddr，CustomerCity 等非主键列都完全依赖于主键（OrderID），所以符合 2NF。不过问题是 CustomerName，CustomerAddr，CustomerCity 直接依赖的是 CustomerID（非主键列），而不是直接依赖于主键，它是通过传递才依赖于主键，所以不符合 3NF。<br>通过拆分【Order】为【Order】（OrderID，OrderDate，CustomerID）和【Customer】（CustomerID，CustomerName，CustomerAddr，CustomerCity）从而达到 3NF。</p>
-<p>第二范式（2NF）和第三范式（3NF）的概念很容易混淆，区分它们的关键点在于，2NF：非主键列是否完全依赖于主键，还是依赖于主键的一部分；3NF：非主键列是直接依赖于主键，还是直接依赖于非主键列。</p>
-<ul>
-<li><strong>但是需要注意的是，在实际的业务过程中，其实很多时候是不会严格按照范式来设计数据库。在实际的业务中数据库的性能是最重要的，所以有的时候不符合数据库的设计范式，产生冗余的数据，但是可以提高数据库的查询性能。举个例子来说：如果数据库中有活动名称这一个字段，是由年份，月份，活动名称以及地点组合而成的，<br>按照第一范式的要求需要拆分成四列。但是如果实际需求中如果确定活动名称所包含的四列拆开都没有任何的业务需求，那么我们其实就可以直接保持活动名称这一列，这样在每次需要查询活动名称这一个字段时不需要先拼接再查询。同理，如果要符合2NF和3NF，设计的两表或者多表查询时必然会涉及连接语句，而连接操作会消耗大量资源与性能，所以有的时候直接将数据放在一张大表中以提高查询性能。<br>所以实际设计时一定要结合实际，灵活处理</strong></li>
-</ul>
-<p>另外一些更高要求的范式：</p>
-<h3 id="BC范式-BCNF"><a href="#BC范式-BCNF" class="headerlink" title="BC范式(BCNF)"></a>BC范式(BCNF)</h3><p>它构建在第三范式的基础上，如果关系模型R是第一范式，且每个属性都不传递依赖于R的候选键，那么称R为BCNF的模式。<br>假设仓库管理关系表(仓库号，存储物品号，管理员号，数量)，满足一个管理员只在一个仓库工作；一个仓库可以存储多种物品，则存在如下关系：</p>
-<p>(仓库号，存储物品号)——&gt;(管理员号，数量)</p>
-<p>(管理员号，存储物品号)——&gt;(仓库号，数量)</p>
-<p>所以，(仓库号，存储物品号)和(管理员号，存储物品号)都是仓库管理关系表的候选码，表中唯一非关键字段为数量，它是符合第三范式的。但是，由于存在如下决定关系：</p>
-<p>(仓库号)——&gt;(管理员号)</p>
-<p>(管理员号)——&gt;(仓库号)</p>
-<p>即存在关键字段决定关键字段的情况，因此其不符合BCNF。把仓库管理关系表分解为两个关系表仓库管理表(仓库号，管理员号)和仓库表(仓库号，存储物品号，数量)，这样这个数据库表是符合BCNF的，并消除了删除异常、插入异常和更新异常。</p>
-<h3 id="第四范式-4NF"><a href="#第四范式-4NF" class="headerlink" title="第四范式(4NF)"></a>第四范式(4NF)</h3><p>设R是一个关系模型，D是R上的多值依赖集合。如果D中存在多值依赖X-&gt;Y时，X必是R的超键，那么称R是第四范式的模式。</p>
-<p>例如，职工表(职工编号，职工孩子姓名，职工选修课程)，在这个表中，同一个职工可能会有多个职工孩子姓名，同样，同一个职工也可能会有多个职工选修课程，即这里存在着多值事实，不符合第四范式。如果要符合第四范式，只需要将上表分为两个表，使它们只有一个多值事实，例如职工表一(职工编号，职工孩子姓名)，职工表二(职工编号，职工选修课程)，两个表都只有一个多值事实，所以符合第四范式。</p>
-<p>目前各范式的关系图如下所示：</p>
-<p><img src="/upload_image/blog 2003/1.webp" alt></p>
+          <p>日常工作中经常会需要对比数据，查找差异、重复值等。本篇整理汇总各种Excel数据对比方法，让大家能在不同情况下都能快速完成数据的对比。</p>
+<h1 id="单列-多列、按位置对应比较数据"><a href="#单列-多列、按位置对应比较数据" class="headerlink" title="单列/多列、按位置对应比较数据"></a>单列/多列、按位置对应比较数据</h1><h4 id="快捷键对比Ctrl"><a href="#快捷键对比Ctrl" class="headerlink" title="快捷键对比Ctrl+/"></a>快捷键对比Ctrl+/</h4><p>如下图所示，选中需要对比的两列数据A列和B列，然后按下快捷键Ctrl+/，不同的数据则会处于选中状态。之后可以直接标记颜色或改变格式从而标记不一样的数据<br>这一种方法只适用于同一个表里单列按位置比较<br><img src="https://img-blog.csdnimg.cn/8d4a839f26434a5db5dd000993ae84d9.png" alt="在这里插入图片描述"></p>
+<p>简单来说，Ctrl+\按钮是：定位（快捷键F5或者Ctrl+G） -&gt; 定位条件 -&gt; 行内容差异的单元格这一套操作的快件按钮。这个快捷键可以让你快捷的选中和第一列中不同的那些数据（同一行之间的比较不同），不会区分字母大小写。</p>
+<h4 id="IF函数对比"><a href="#IF函数对比" class="headerlink" title="IF函数对比"></a>IF函数对比</h4><p>单元格输入公式<code>=IF(A2=B2,&quot;相同&quot;,&quot;不相同&quot;)</code>，输入好之后填充公式即可。如果对比数据含字母，并且需要区分大小写，可将公式更改为<code>=IF(EXACT(A2,B2)=TRUE,&quot;相同&quot;,&quot;不相同&quot;)</code>，然后填充公式即可<br>函数 EXACT 用于区分大小写，但忽略格式上的差异。<br><img src="https://img-blog.csdnimg.cn/8f1a8fae9a5944c1b6b77238072a54b2.png" alt="在这里插入图片描述"><br>同理，多列数据对比时多写几个IF公式即可，单表、多表均可使用</p>
+<h1 id="单列-多列、按唯一列对应比较数据"><a href="#单列-多列、按唯一列对应比较数据" class="headerlink" title="单列/多列、按唯一列对应比较数据"></a>单列/多列、按唯一列对应比较数据</h1><p>当需要按照唯一列（或ID列），而对应的顺序不一致时去对比哪些数据不一致时需要先匹配再进行比较<br>例如我们有如下的数据，原始数据在A到D列，对比数据在L到O列，需要匹配每一个产品的对应单价，库存数量和销售数量是否一致<br><img src="https://img-blog.csdnimg.cn/97888e25c2b14dc1819e4bda6362b221.png" alt="在这里插入图片描述"></p>
+<h3 id="高级筛选"><a href="#高级筛选" class="headerlink" title="高级筛选"></a>高级筛选</h3><p>选中原始数据，选中“数据”菜单→“排序和筛选”工具组的“高级”，“列表区域”就是已经选中的原始数据区域，“条件区域”就是我们要对比的区域，点确定后会自动筛选并显示出<strong>两表相同的数据</strong>，给它们填充上颜色，取消筛选后即可，没有填充颜色的都为存在不相同的数据。<br><img src="https://img-blog.csdnimg.cn/af35902b8ba34259b5a5fc529eeceb5d.gif" alt="请添加图片描述"><br>这种方法的优点在于只要对比的列两表表头相同即可，无论位置是否一致都可以直接使用。缺点在于他只能找出所有存在不一致数据的行，但是具体是哪一个数据不一致还是需要再次检查</p>
+<h3 id="公式法"><a href="#公式法" class="headerlink" title="公式法"></a>公式法</h3><p>可以首先使用vlookup公式匹配数据：<code>=VLOOKUP(A2,L:O,2,0)</code><br>然后再嵌套IF判断是否一致即可<code>=IF(VLOOKUP($A2,$L:$O,COLUMN(B1),0)=B2,&quot;相同&quot;,&quot;不相同&quot;)</code><br>同时为了更好的看出不同，也可以通过条件格式将结果为不相同的设置为高亮。<br><img src="https://img-blog.csdnimg.cn/ea671891b3014a55a6dd1786b9f155fb.png" alt="在这里插入图片描述"><br>需要注意的是使用此种方法需要保证匹配数据正确，如果是多列同时位置不一致的情况下可能需要写多个公式，比较麻烦。</p>
+<h3 id="条件格式中使用公式"><a href="#条件格式中使用公式" class="headerlink" title="条件格式中使用公式"></a>条件格式中使用公式</h3><p>在公式法中我们先用vlookup公式进行匹配后，再对不一致的单元格标记颜色。这一种方法就是对公式法的步骤进行升级，直接在条件格式中自定义创建规则。<br>选中需要对比的区域，点“开始”菜单→点击“条件格式”→“新建规则”，输入公式<code>=VLOOKUP($A2,$H$1:$K$11,COLUMN(B2),0)&lt;&gt;B2</code>（注意列的绝对引用和相对引用），在点下面的“格式”，选择填充红色，全部确定。<br><img src="https://img-blog.csdnimg.cn/b901fb232c7643e2b4c4373deec57df5.png" alt="在这里插入图片描述"></p>
+<p>结果为红色的就是不相同的数据<br><img src="https://img-blog.csdnimg.cn/9d14d31f30514a82a5996125005fc84a.png" alt="在这里插入图片描述"></p>
+<p>在使用此方法时很有可能出错，要特别注意以下几点：<br>1.注意起始位置。例如选取的对比区域是从第二行开始的，那么所有的公式都基于第二行，如果选取区域改为第一行开始，那么公式要基于第一行<br>2.注意公式中的相对引用和绝对引用。<br>3.已设置条件格式的区域，如果改动内容或者值导致不一致会自动更新公式，但是如果新添加数据，则不能直接复制格式，需要重新选取、</p>
+<p>测试数据下载：<a href="https://download.csdn.net/download/qq_42692386/85287090" target="_blank" rel="noopener">https://download.csdn.net/download/qq_42692386/85287090</a></p>
 
         </div>
         <!-- .entry-content -->
@@ -519,36 +503,19 @@
       <div class="toc" style="background: none;"></div>
       <section class="post-squares nextprev">
         
-          
-            <div class="post-nepre half previous">
-          
-            <a href="/2020/03/12/Git语句大全/" rel="prev">
-              <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/githz20200312.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/githz20200312.jpg">
-              </div>
-              <span class="label">
-              Previous Post</span>
-              <div class="info">
-                <h3>
-                Git语句大全</h3>
-                <hr>
-              </div>
-            </a>
-          </div>
-        
         
           
-            <div class="post-nepre half next">
+            <div class="post-nepre full next">
           
-            <a href="/2020/03/07/微博批量自动取关/" rel="next">
+            <a href="/2022/04/12/Virtual_Xposed_start/" rel="next">
               <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/weibo_selenium20200120.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/weibo_selenium20200120.jpg">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/Virtual_Xposed_start_20220413.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/Virtual_Xposed_start_20220413.jpg">
               </div>
               <span class="label">
               Next Post</span>
               <div class="info">
                 <h3>
-                微博批量自动取关</h3>
+                Virtual Xposed 教程——不Root即可使用的Xposed框架</h3>
                 <hr>
               </div>
             </a>
@@ -986,5 +953,20 @@ $(document).ready(function() {
     })
   });
 </script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 </html>

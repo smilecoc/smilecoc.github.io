@@ -679,7 +679,7 @@
     <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
   <div class="post-entry">
     <div class="feature">
-      <a href="/2020/03/07/数据库设计范式/">
+      <a href="/2020/03/07/Normal_Form_In_database_design/">
         <div class="overlay">
           <i class="iconfont icon-text">
           </i>
@@ -688,7 +688,7 @@
       </a>
     </div>
     <h1 class="entry-title">
-    <a href="/2020/03/07/数据库设计范式/">
+    <a href="/2020/03/07/Normal_Form_In_database_design/">
     数据库设计范式</a>
     </h1>
     <div class="p-time">
@@ -699,7 +699,7 @@
     数据库设计范式，如何从0开始建立一个数据库</p>
     <footer class="entry-footer">
       <div class="post-more">
-        <a href="/2020/03/07/数据库设计范式/">
+        <a href="/2020/03/07/Normal_Form_In_database_design/">
           <i class="iconfont icon-caidan">
           </i>
         </a>
@@ -1188,5 +1188,20 @@ $(document).ready(function() {
     })
   });
 </script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 </html>
