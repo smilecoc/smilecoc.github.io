@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">方差、标准差和均方根误差的区别总结 | Smilecoc&#39;s Blog</title>
+  <title itemprop="name">Tag: Media&amp;Marketing | Smilecoc&#39;s Blog</title>
   
     <link rel="shortcut icon" href="/images/favicon.ico">
   
@@ -429,157 +429,64 @@
   </div>
 </header>
 
-      <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+      
 <div class="pattern-center-blank"></div>
-
-  <div class="pattern-center single-center">
-    <!-- 有配图默认渲染第一张 -->
-    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.3/images/article/variance_RMSE20200927.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.3/images/article/variance_RMSE20200927.jpg">
-    </div>
-    <header class="pattern-header single-header">
-      <h1 class="entry-title">
-      方差、标准差和均方根误差的区别总结</h1>
-      <p class="entry-census">
-        <span>
-          <a href="http://smilecoc.vip/">
-            <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico">
-          </a>
-        </span>
-        <span>
-          <a href="http://smilecoc.vip/">smilecoc</a>
-        </span>
-        <span class="bull">
-        ·</span>
-        2020-5-31<span class="bull">
-        ·</span>
-      <span id="busuanzi_value_page_pv"></span>次阅读</p>
-    </header>
+<div class="pattern-center ">
+  <div class="pattern-attachment-img">
+    <img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="Media&amp;Marketing.img" class="lazyload" onerror="imgError(this,3)" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
   </div>
-
+  <header class="pattern-header ">
+    <h1 class="cat-title">Media&amp;Marketing</h1>
+  </header>
+</div>
 <div id="content" class="site-content">
   <div id="primary" class="content-area">
     <main id="main" class="site-main" role="main">
-      <article id="post-1" class="post-1 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
-        <div class="toc"></div>
-        <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
-        
-        <div class="entry-content">
-          <h1 id="一、方差"><a href="#一、方差" class="headerlink" title="一、方差"></a>一、方差</h1><p> <strong>方差(variance)：</strong>是在概率论和统计方差衡量随机变量或一组数据时离散程度的度量。概率论中方差用来度量随机变量和其数学期望（即均值）之间的偏离程度。统计中的方差（样本方差）是各个数据分别与其平均数之差的平方的和的平均数。在许多实际问题中，研究方差即偏离程度有着重要意义。</p>
-<p><strong>公式表示：</strong>对于一组随机变量或者统计数据，其期望值我们由E(X)表示，即随机变量或统计数据的均值，然后对各个数据与均值的差的平方求和：<img src="https://img-blog.csdnimg.cn/2020091412233515.png#pic_center" alt="在这里插入图片描述"><br>，最后对它们再求期望值就得到了方差公式。</p>
-<p><img src="https://img-blog.csdnimg.cn/20200914122345667.png#pic_center" alt="在这里插入图片描述"></p>
-<p>这个公式描述了随机变量或统计数据与均值的偏离程度。</p>
-<h1 id="二、方差与标准差"><a href="#二、方差与标准差" class="headerlink" title="二、方差与标准差"></a>二、方差与标准差</h1><p><img src="https://img-blog.csdnimg.cn/20200914122406433.png#pic_center" alt="在这里插入图片描述"><br>根号里的内容就是我们刚提到的方差：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200914122422132.png#pic_center" alt="在这里插入图片描述"></p>
-<p>那么问题来了，既然有了方差来描述变量与均值的偏离程度，那又搞出来个标准差干什么呢？ 原因是：<strong>方差与我们要处理的数据的量纲是不一致的，虽然能很好的描述数据与均值的偏离程度，但是处理结果是不符合我们的直观思维的。</strong></p>
-<p>举个例子：一个班级里有60个学生，平均成绩是70分，标准差是9，方差是81，成绩服从正态分布，那么我们通过方差不能直观的确定班级学生与均值到底偏离了多少分，通过标准差我们就很直观的得到学生成绩分布在[61,79]范围的概率为0.6826，即约等于下图中的34.2%*2 </p>
-<p><img src="https://img-blog.csdnimg.cn/20200914122448876.png#pic_center" alt="在这里插入图片描述"></p>
-<h1 id="三、均方差、均方根误差"><a href="#三、均方差、均方根误差" class="headerlink" title="三、均方差、均方根误差"></a>三、均方差、均方根误差</h1><p>标准差（Standard Deviation），中文环境中又常称均方差，但不同于均方根误差（meansquared error，均方根误差是各数据偏离真实值的距离平方和的平均数开方，也即误差平方和的平均数开方，计算公式形式上接近标准差，它不开方叫均方误差，均方误差和方差形式上接近），标准差是数据偏离均值的平方和平均后的方根，用σ表示，标准差是方差的算术平方根。 </p>
-<p>从上面定义我们可以得到以下几点：<br>1、均方差就是标准差，标准差就是均方差；</p>
-<p>2、均方根误差不同于均方差；</p>
-<p>3、均方根误差是各数据偏离真实值的距离平方和的平均数的开方；</p>
-<p>举个例子：我们要测量房间里的温度，很遗憾我们的温度计精度不高，所以就需要测量5次，得到一组数据[x1,x2,x3,x4,x5],假设温度的真实值是x，数据与真实值的误差e=x-xi 。</p>
-<p>那么均方误差<br><img src="https://img-blog.csdnimg.cn/20200914122544877.png#pic_center" alt="在这里插入图片描述"></p>
-<p>均方根误差的公式一般为：<br><img src="https://img-blog.csdnimg.cn/20200914122554270.png#pic_center" alt="在这里插入图片描述"></p>
-<p><strong>总的来说，均方差（标准差）是数据序列与均值的关系，而均方根误差是数据序列与真实值之间的关系。因此，标准差是用来衡量一组数自身的离散程度，而均方根误差是用来衡量观测值同真值之间的偏差，它们的研究对象和研究目的不同，但是计算过程类似</strong>。</p>
-<h1 id="四、均方根值"><a href="#四、均方根值" class="headerlink" title="四、均方根值"></a>四、均方根值</h1><p>均方根值（RMS）也称作为效值，它的计算方法是先平方、再平均、然后开方。<br><img src="https://img-blog.csdnimg.cn/20200914122605901.png#pic_center" alt="在这里插入图片描述"></p>
-
-        </div>
-        <!-- .entry-content -->
-        <div class="single-reward">
-          <div class="reward-open">赏<div class="reward-main">
-              <ul class="reward-row">
-                <li class="alipay-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/donate/21AlipayQR.jpg"></li>
-                <li class="wechat-code"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/donate/wechatpayQR.jpg"></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
-        <footer class="post-footer">
-          <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
-          <div class="post-tags">
-          </div>
-          <div class="post-share">
-            <div class="social-share sharehidden share-component"></div>
-            <i class="iconfont show-share icon-forward"></i>
-          </div>
-        </footer><!-- .entry-footer -->
-      </article>
-      <!-- #post-## -->
-      <div class="toc" style="background: none;"></div>
-      <section class="post-squares nextprev">
-        
-          
-            <div class="post-nepre half previous">
-          
-            <a href="/2020/05/31/MMM/" rel="prev">
-              <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/mmm2020531.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/mmm2020531.jpg">
-              </div>
-              <span class="label">
-              Previous Post</span>
-              <div class="info">
-                <h3>
-                Python数据分析实战之营销组合模型</h3>
-                <hr>
-              </div>
-            </a>
-          </div>
-        
-        
-          
-            <div class="post-nepre half next">
-          
-            <a href="/2020/05/20/python_codevideo/" rel="next">
-              <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/python_codevideo2020520.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/python_codevideo2020520.jpg">
-              </div>
-              <span class="label">
-              Next Post</span>
-              <div class="info">
-                <h3>
-                Python骚操作之使用python做个视频</h3>
-                <hr>
-              </div>
-            </a>
-          </div>
-        
-      </section>
       
-<div id="vcomments"></div>
-<script>
-  window.onload = function(){
-      var valine = new Valine();
-      valine.init({
-        el: '#vcomments',
-        appId: "Hm83GoGeDX3sGPDh3Q50lSMz-gzGzoHsz",
-        appKey: "mXIVaYaFj1DNyH6yBicfUS0w",
-        path: window.location.pathname,
-        placeholder: "你是我一生只会遇见一次的惊喜 ..."
-      })
-  }
-</script>
-
-      <section class="author-profile">
-        <div class="info" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-          <a href="http://smilecoc.vip/" class="profile gravatar"><img src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/favicon.ico" itemprop="image" alt="smilecoc" height="70" width="70"></a>
-          <div class="meta">
-            <span class="title">Author</span>
-            <h3 itemprop="name">
-            <a href="http://smilecoc.vip/" itemprop="url" rel="author">smilecoc</a>
-            </h3>
-          </div>
+  <!-- 首页默认取最最新文章集 -->
+  
+    <article class="post post-list" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <div class="post-entry">
+    <div class="feature">
+      <a href="/2022/05/09/online_ads_part1_introduction/">
+        <div class="overlay">
+          <i class="iconfont icon-text">
+          </i>
         </div>
-        <hr>
-        <p><i class="iconfont icon-write"></i></p>
-      </section>
-    </main><!-- #main -->
-  </div><!-- #primary -->
+        <img width="150" height="150" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/online_ads_part1_20220509.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" >
+      </a>
+    </div>
+    <h1 class="entry-title">
+    <a href="/2022/05/09/online_ads_part1_introduction/">
+    线上广告（一）：线上广告基础</a>
+    </h1>
+    <div class="p-time">
+      <i class="iconfont icon-time">
+      </i>
+    2022-5-9</div>
+    <p>
+    对于互联网广告/线上广告的相关角色、分类和计价方式做一个简单介绍，适合市场营销/媒介采买/广告分析的入门知识</p>
+    <footer class="entry-footer">
+      <div class="post-more">
+        <a href="/2022/05/09/online_ads_part1_introduction/">
+          <i class="iconfont icon-caidan">
+          </i>
+        </a>
+      </div>
+    </footer>
+  </div>
+  <hr>
+</article>
+  
+
+
+      <div class="clearer">
+      </div>
+    </main>
+    <!--  -->
+    
+  </div>
 </div>
-
-
-
     </div>    
     <div class="ins-search">
     <div class="ins-search-mask"></div>
