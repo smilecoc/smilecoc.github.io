@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">方差、标准差和均方根误差的区别总结 | Smilecoc&#39;s Blog</title>
+  <title itemprop="name">海盗分金问题问题 | Smilecoc&#39;s Blog</title>
   
     <link rel="shortcut icon" href="/images/favicon.ico">
   
@@ -435,11 +435,11 @@
 
   <div class="pattern-center single-center">
     <!-- 有配图默认渲染第一张 -->
-    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.3/images/article/variance_RMSE20200927.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.6.3/images/article/variance_RMSE20200927.jpg">
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/hdfj20200321.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/hdfj20200321.jpg">
     </div>
     <header class="pattern-header single-header">
       <h1 class="entry-title">
-      方差、标准差和均方根误差的区别总结</h1>
+      海盗分金问题问题</h1>
       <p class="entry-census">
         <span>
           <a href="http://smilecoc.vip/">
@@ -451,7 +451,7 @@
         </span>
         <span class="bull">
         ·</span>
-        2020-5-31<span class="bull">
+        2020-3-21<span class="bull">
         ·</span>
       <span id="busuanzi_value_page_pv"></span>次阅读</p>
     </header>
@@ -465,24 +465,11 @@
         <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
         
         <div class="entry-content">
-          <h1 id="一、方差"><a href="#一、方差" class="headerlink" title="一、方差"></a>一、方差</h1><p> <strong>方差(variance)：</strong>是在概率论和统计方差衡量随机变量或一组数据时离散程度的度量。概率论中方差用来度量随机变量和其数学期望（即均值）之间的偏离程度。统计中的方差（样本方差）是各个数据分别与其平均数之差的平方的和的平均数。在许多实际问题中，研究方差即偏离程度有着重要意义。</p>
-<p><strong>公式表示：</strong>对于一组随机变量或者统计数据，其期望值我们由E(X)表示，即随机变量或统计数据的均值，然后对各个数据与均值的差的平方求和：<img src="https://img-blog.csdnimg.cn/2020091412233515.png#pic_center" alt="在这里插入图片描述"><br>，最后对它们再求期望值就得到了方差公式。</p>
-<p><img src="https://img-blog.csdnimg.cn/20200914122345667.png#pic_center" alt="在这里插入图片描述"></p>
-<p>这个公式描述了随机变量或统计数据与均值的偏离程度。</p>
-<h1 id="二、方差与标准差"><a href="#二、方差与标准差" class="headerlink" title="二、方差与标准差"></a>二、方差与标准差</h1><p><img src="https://img-blog.csdnimg.cn/20200914122406433.png#pic_center" alt="在这里插入图片描述"><br>根号里的内容就是我们刚提到的方差：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200914122422132.png#pic_center" alt="在这里插入图片描述"></p>
-<p>那么问题来了，既然有了方差来描述变量与均值的偏离程度，那又搞出来个标准差干什么呢？ 原因是：<strong>方差与我们要处理的数据的量纲是不一致的，虽然能很好的描述数据与均值的偏离程度，但是处理结果是不符合我们的直观思维的。</strong></p>
-<p>举个例子：一个班级里有60个学生，平均成绩是70分，标准差是9，方差是81，成绩服从正态分布，那么我们通过方差不能直观的确定班级学生与均值到底偏离了多少分，通过标准差我们就很直观的得到学生成绩分布在[61,79]范围的概率为0.6826，即约等于下图中的34.2%*2 </p>
-<p><img src="https://img-blog.csdnimg.cn/20200914122448876.png#pic_center" alt="在这里插入图片描述"></p>
-<h1 id="三、均方差、均方根误差"><a href="#三、均方差、均方根误差" class="headerlink" title="三、均方差、均方根误差"></a>三、均方差、均方根误差</h1><p>标准差（Standard Deviation），中文环境中又常称均方差，但不同于均方根误差（meansquared error，均方根误差是各数据偏离真实值的距离平方和的平均数开方，也即误差平方和的平均数开方，计算公式形式上接近标准差，它不开方叫均方误差，均方误差和方差形式上接近），标准差是数据偏离均值的平方和平均后的方根，用σ表示，标准差是方差的算术平方根。 </p>
-<p>从上面定义我们可以得到以下几点：<br>1、均方差就是标准差，标准差就是均方差；</p>
-<p>2、均方根误差不同于均方差；</p>
-<p>3、均方根误差是各数据偏离真实值的距离平方和的平均数的开方；</p>
-<p>举个例子：我们要测量房间里的温度，很遗憾我们的温度计精度不高，所以就需要测量5次，得到一组数据[x1,x2,x3,x4,x5],假设温度的真实值是x，数据与真实值的误差e=x-xi 。</p>
-<p>那么均方误差<br><img src="https://img-blog.csdnimg.cn/20200914122544877.png#pic_center" alt="在这里插入图片描述"></p>
-<p>均方根误差的公式一般为：<br><img src="https://img-blog.csdnimg.cn/20200914122554270.png#pic_center" alt="在这里插入图片描述"></p>
-<p><strong>总的来说，均方差（标准差）是数据序列与均值的关系，而均方根误差是数据序列与真实值之间的关系。因此，标准差是用来衡量一组数自身的离散程度，而均方根误差是用来衡量观测值同真值之间的偏差，它们的研究对象和研究目的不同，但是计算过程类似</strong>。</p>
-<h1 id="四、均方根值"><a href="#四、均方根值" class="headerlink" title="四、均方根值"></a>四、均方根值</h1><p>均方根值（RMS）也称作为效值，它的计算方法是先平方、再平均、然后开方。<br><img src="https://img-blog.csdnimg.cn/20200914122605901.png#pic_center" alt="在这里插入图片描述"></p>
+          <p>有5个海盗有100枚金币，但这5个人没有老大，不知道怎么分这100枚金币。不过5个人都绝顶聪明，他们决定：<br>1.抽签，决定12345五个号码，<br>2.由1号提分配方案，大家一起举手表决，超过半数同意则通过；否则被扔进大海里喂鲨鱼；<br>3.1号死了由2号提分配方案，四个人表决有超过半数人同意，则通过，否则仍旧被扔进大海里喂鲨鱼；<br>4.以此类推——-</p>
+<p>假定：<br>每个海盗都是一样的聪明，都可以做出最理性的决策，那么最终这五个海盗分得的金币的</p>
+<p>答案分析： 1号海盗分给3号1枚金币，4号或5号2枚金币，自己则独得97枚金币，即分配方案为（97，0，1，2，0）或（97，0，1，0，2）。</p>
+<p>现来看如下各人的理性分析：</p>
+<p>5号海盗：因为他是最安全的，没有被扔下大海的风险，因此他的策略也最为简单，即最好前面的人全都死光光，那么他就可以独得这100枚金币了。<br>4号海盗：他的生存机会完全取决于前面还有人存活着，因为如果1号到3号的海盗全都喂了鲨鱼，那么在只剩4号与5号的情况下，不管4号提出怎样的分配方案，5号一定都会投反对票来让4号去喂鲨鱼，以独吞全部的金币。哪怕4号为了保命而讨好5号，提出（0，100）这样的方案让5号独占金币，但是5号还有可能觉得留着4号有危险，而投票反对以让其喂鲨鱼。因此理性的4号是不应该冒这样的风险，把存活的希望寄托在5号的随机选择上的，他惟有支持3号才能绝对保证自身的性命。<br>3号海盗：他经过上述的逻辑推理之后，就会提出（100，0，0）这样的分配方案，因为他知道4号哪怕一无所获，也还是会无条件的支持他而投赞成票的，那么再加上自己的1票就可以使他稳获这100金币了。<br>2号海盗：也经过推理得知了3号的分配方案，那么他就会提出（98，0，1，1）的方案。因为这个方案相对于3号的分配方案，4号和5号至少可以获得1枚金币，理性的4号和5号自然会觉得此方案对他们来说更有利而支持2号，不希望2号出局而由3号来进行分配。这样，2号就可以屁颠屁颠的拿走98枚金币了。<br>1号海盗：经过一番推理之后也洞悉了2号的分配方案。他将采取的策略是放弃2号，而给3号1枚金币，同时给4号或5号2枚金币，即提出（97，0，1，2，0）或（97，0，1，0，2）的分配方案。由于1号的分配方案对于3号与4号或5号来说，相比2号的方案可以获得更多的利益，那么他们将会投票支持1号，再加上1号自身的1票，97枚金币就可轻松落入1号的腰包了。</p>
 
         </div>
         <!-- .entry-content -->
@@ -513,15 +500,15 @@
           
             <div class="post-nepre half previous">
           
-            <a href="/2020/05/31/MMM/" rel="prev">
+            <a href="/2020/03/21/海盗分金问题/" rel="prev">
               <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/mmm2020531.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/mmm2020531.jpg">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/hdfj20200321.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/hdfj20200321.jpg">
               </div>
               <span class="label">
               Previous Post</span>
               <div class="info">
                 <h3>
-                Python数据分析实战之营销组合模型</h3>
+                海盗分金问题问题</h3>
                 <hr>
               </div>
             </a>
@@ -531,15 +518,15 @@
           
             <div class="post-nepre half next">
           
-            <a href="/2020/05/20/python_codevideo/" rel="next">
+            <a href="/2020/03/20/双蛋问题/" rel="next">
               <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/python_codevideo2020520.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/python_codevideo2020520.jpg">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/doubleeggs20200320.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/doubleeggs20200320.jpg">
               </div>
               <span class="label">
               Next Post</span>
               <div class="info">
                 <h3>
-                Python骚操作之使用python做个视频</h3>
+                双蛋问题</h3>
                 <hr>
               </div>
             </a>

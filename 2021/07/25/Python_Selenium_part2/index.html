@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">Python库积累之Selenium（二）-Seleniun中的一些问题与解决方法 | Smilecoc&#39;s Blog</title>
+  <title itemprop="name">Python库积累之Selenium（二）-Selenium中的一些问题与解决方法 | Smilecoc&#39;s Blog</title>
   
     <link rel="shortcut icon" href="/images/favicon.ico">
   
@@ -439,7 +439,7 @@
     </div>
     <header class="pattern-header single-header">
       <h1 class="entry-title">
-      Python库积累之Selenium（二）-Seleniun中的一些问题与解决方法</h1>
+      Python库积累之Selenium（二）-Selenium中的一些问题与解决方法</h1>
       <p class="entry-census">
         <span>
           <a href="http://smilecoc.vip/">
@@ -465,7 +465,8 @@
         <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
         
         <div class="entry-content">
-          <h2 id="1-selenium中出现提示’Your-connection-is-not-private’（你的连接不是私密连接）"><a href="#1-selenium中出现提示’Your-connection-is-not-private’（你的连接不是私密连接）" class="headerlink" title="1.selenium中出现提示’Your connection is not private’（你的连接不是私密连接）"></a>1.selenium中出现提示’Your connection is not private’（你的连接不是私密连接）</h2><p>在Chrome中需要添加忽略认证错误：</p>
+          <p>本文为使用selenium中遇到的一些问题与解决方法，基础部分请查看这篇文章：<a href="http://smilecoc.vip/2021/07/25/Python_Selenium_part1/">http://smilecoc.vip/2021/07/25/Python_Selenium_part1/</a></p>
+<h2 id="1-selenium中出现提示’Your-connection-is-not-private’（你的连接不是私密连接）"><a href="#1-selenium中出现提示’Your-connection-is-not-private’（你的连接不是私密连接）" class="headerlink" title="1.selenium中出现提示’Your connection is not private’（你的连接不是私密连接）"></a>1.selenium中出现提示’Your connection is not private’（你的连接不是私密连接）</h2><p>在Chrome中需要添加忽略认证错误：</p>
 <pre><code class="lang-py">from selenium import webdriver
 
 options = webdriver.ChromeOptions()
@@ -1044,5 +1045,20 @@ $(document).ready(function() {
     })
   });
 </script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 </html>
