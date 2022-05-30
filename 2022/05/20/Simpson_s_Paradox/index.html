@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">海盗分金问题问题 | Smilecoc&#39;s Blog</title>
+  <title itemprop="name">数据分析中的辛普森悖论：数据会说谎 | Smilecoc&#39;s Blog</title>
   
     <link rel="shortcut icon" href="/images/favicon.ico">
   
@@ -435,11 +435,11 @@
 
   <div class="pattern-center single-center">
     <!-- 有配图默认渲染第一张 -->
-    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/hdfj20200321.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/hdfj20200321.jpg">
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/Simpson_s_Paradox_20220520.jpg);" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/Simpson_s_Paradox_20220520.jpg">
     </div>
     <header class="pattern-header single-header">
       <h1 class="entry-title">
-      海盗分金问题问题</h1>
+      数据分析中的辛普森悖论：数据会说谎</h1>
       <p class="entry-census">
         <span>
           <a href="http://smilecoc.vip/">
@@ -451,7 +451,7 @@
         </span>
         <span class="bull">
         ·</span>
-        2020-3-21<span class="bull">
+        2022-5-20<span class="bull">
         ·</span>
       <span id="busuanzi_value_page_pv"></span>次阅读</p>
     </header>
@@ -465,11 +465,24 @@
         <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
         
         <div class="entry-content">
-          <p>有5个海盗有100枚金币，但这5个人没有老大，不知道怎么分这100枚金币。不过5个人都绝顶聪明，他们决定：<br>1.抽签，决定12345五个号码，<br>2.由1号提分配方案，大家一起举手表决，超过半数同意则通过；否则被扔进大海里喂鲨鱼；<br>3.1号死了由2号提分配方案，四个人表决有超过半数人同意，则通过，否则仍旧被扔进大海里喂鲨鱼；<br>4.以此类推——-</p>
-<p>假定：<br>每个海盗都是一样的聪明，都可以做出最理性的决策，那么最终这五个海盗分得的金币的</p>
-<p>答案分析： 1号海盗分给3号1枚金币，4号或5号2枚金币，自己则独得97枚金币，即分配方案为（97，0，1，2，0）或（97，0，1，0，2）。</p>
-<p>现来看如下各人的理性分析：</p>
-<p>5号海盗：因为他是最安全的，没有被扔下大海的风险，因此他的策略也最为简单，即最好前面的人全都死光光，那么他就可以独得这100枚金币了。<br>4号海盗：他的生存机会完全取决于前面还有人存活着，因为如果1号到3号的海盗全都喂了鲨鱼，那么在只剩4号与5号的情况下，不管4号提出怎样的分配方案，5号一定都会投反对票来让4号去喂鲨鱼，以独吞全部的金币。哪怕4号为了保命而讨好5号，提出（0，100）这样的方案让5号独占金币，但是5号还有可能觉得留着4号有危险，而投票反对以让其喂鲨鱼。因此理性的4号是不应该冒这样的风险，把存活的希望寄托在5号的随机选择上的，他惟有支持3号才能绝对保证自身的性命。<br>3号海盗：他经过上述的逻辑推理之后，就会提出（100，0，0）这样的分配方案，因为他知道4号哪怕一无所获，也还是会无条件的支持他而投赞成票的，那么再加上自己的1票就可以使他稳获这100金币了。<br>2号海盗：也经过推理得知了3号的分配方案，那么他就会提出（98，0，1，1）的方案。因为这个方案相对于3号的分配方案，4号和5号至少可以获得1枚金币，理性的4号和5号自然会觉得此方案对他们来说更有利而支持2号，不希望2号出局而由3号来进行分配。这样，2号就可以屁颠屁颠的拿走98枚金币了。<br>1号海盗：经过一番推理之后也洞悉了2号的分配方案。他将采取的策略是放弃2号，而给3号1枚金币，同时给4号或5号2枚金币，即提出（97，0，1，2，0）或（97，0，1，0，2）的分配方案。由于1号的分配方案对于3号与4号或5号来说，相比2号的方案可以获得更多的利益，那么他们将会投票支持1号，再加上1号自身的1票，97枚金币就可轻松落入1号的腰包了。</p>
+          <p>辛普森悖论是数据分析中的一个比较有意思、但经常忽略的数学现象，看一看这回数据到底是怎么说谎的。</p>
+<h1 id="到底哪个结论是对的"><a href="#到底哪个结论是对的" class="headerlink" title="到底哪个结论是对的"></a>到底哪个结论是对的</h1><p>首先来看一个案例。</p>
+<p>我们想判断医院A和医院B哪家医院的死亡率更低，希望通过死亡率判断医院的诊治水平。</p>
+<p>统计A和B的总体死亡率，我们发现A的死亡率是36%（假设总病人100，死亡36人），B的死亡率是40%（假设总病人100，死亡40人）。</p>
+<p>假设我们上述的数据统计口径都是完全一致的，没有口径上的差异，那是不是可以得出结论：B医院的诊治死亡率更高？再延伸一下，那是不是代表B医院的治疗水平差，毕竟死亡率高嘛！</p>
+<p>如果是这样的推理逻辑，其实存在了巨大的漏洞。我们将A和B医院的病人按照危重程度进行二分类，分为危重病人和轻症病人，再来看一看数据情况，如下图<br><img src="https://img-blog.csdnimg.cn/23318cd55d0e407c9a1aa9de5263a32b.png" alt="在这里插入图片描述"><br>通过上图我们发现，A医院的危重病人比重较低，100个人中只有20个，剩下的80个病人都是轻症病人；而B医院的情况恰恰相反，80个危重病人，20个轻症病人。无论是A医院还是B医院，重症病人的死亡率都很高，A医院甚至达到了100%；而轻症病人的死亡率相对较低，B医院0死亡。</p>
+<p>纵向对比发现，无论是重症病人、还是轻症病人，B医院的死亡率都是要低于A医院的。但是由于B医院的重症病人比重远大于A医院，导致了总体的死亡率高。</p>
+<p>因此，我们到底要说B医院的诊治死亡率是高呢，还是低呢？</p>
+<p>如果单纯从总体数据上得出结论：B医院的总体死亡率更高，这个从统计上没问题，但是并不代表B医院的治疗水平差，因为从细分结构上看，B医院的水平都更高。</p>
+<p>这就是典型的辛普森悖论：即总体得出的结论和拆分后分项得出的结论，完全相反。</p>
+<h1 id="为啥会出现这种现象"><a href="#为啥会出现这种现象" class="headerlink" title="为啥会出现这种现象"></a>为啥会出现这种现象</h1><p>有没有觉得很神奇。那为啥会出现这种现象呢？我们从数学和通俗两个角度分别看一下。</p>
+<h2 id="（1）数据角度"><a href="#（1）数据角度" class="headerlink" title="（1）数据角度"></a>（1）数据角度</h2><p>我们先从数学的角度来看一看。其实可以用下面的图形化来表示：<br><img src="https://img-blog.csdnimg.cn/75a2757cf83d495faec9145940d08632.png" alt="在这里插入图片描述"><br>上图中的3个黑点代表了A医院，3个白点代表了B医院。右上侧的黑点和白点代表了A医院和B医院的总体，适应于向量的加法，是由两个子向量（即重症和轻症）相加得到。x轴是患病人数，y轴是死亡人数。因此，每个向量的斜率代表了死亡比率。</p>
+<p>通过上图，我们可以发现：<br><img src="https://img-blog.csdnimg.cn/922eb05bacda400ca639bd8a44f02c14.png" alt="在这里插入图片描述"><br>子部分的比例大小，汇总后的整体大小关系并无绝对性。<br><img src="https://img-blog.csdnimg.cn/0d71c708e11e4b66a8fb06fc0506febd.png" alt="在这里插入图片描述"><br>再看一个散点图，也是很直观地说明了这一点：<br><img src="https://img-blog.csdnimg.cn/b8fe6db0daa0486b890e9ad0dddc818e.png" alt="在这里插入图片描述"><br>上面的散点图，如果不拆分到子部分，单纯看x和y，明显是负相关。但如果通过颜色第三个维度进行区分，明显发现x和y是正相关的。</p>
+<p>（2）通俗实践角度<br>我们从通俗实践的角度，看看为啥会出现辛普森悖论。</p>
+<p>简而言之：当我们对总体进行了第三个维度的拆分后（也就是我们常说的下钻），由于不同分析对象在第三维度的比例结构有差别，最终导致了悖论现象的发生。</p>
+<p>换句话说，如果两个分析对象，在所有的维度拆分上的比例结构都一致，那么也就不会出现辛普森悖论。</p>
+<p>但通常来讲，实践中总会有差别的结构维度，因此出现该悖论也是概率不低的。往往没发现结构性差异，是因为关键的拆解维度没有被找到，而不是不存在。比如下面这个航空公司准点率的例子：<br><img src="https://img-blog.csdnimg.cn/1c13c97ebae94d5ea9f15873ef7c448c.png" alt="在这里插入图片描述"><br>总体延误率明显是西部航空更低，但是拆分到起飞机场维度，发现每个机场的阿拉斯加航空的延误率都低于西部航空。主要的干扰数据就是凤凰城机场，西部航空的航班异常多，拉低了整体的延误率。</p>
+<p>但是拆分机场这种关键维度，有时候是不是也不太能想到。只有对业务充分了解、对数据足够敏感，才能发现这其中的问题吧</p>
 
         </div>
         <!-- .entry-content -->
@@ -497,36 +510,19 @@
       <div class="toc" style="background: none;"></div>
       <section class="post-squares nextprev">
         
-          
-            <div class="post-nepre half previous">
-          
-            <a href="/2020/03/21/海盗分金问题/" rel="prev">
-              <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/hdfj20200321.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/hdfj20200321.jpg">
-              </div>
-              <span class="label">
-              Previous Post</span>
-              <div class="info">
-                <h3>
-                海盗分金问题问题</h3>
-                <hr>
-              </div>
-            </a>
-          </div>
-        
         
           
-            <div class="post-nepre half next">
+            <div class="post-nepre full next">
           
-            <a href="/2020/03/20/双蛋问题/" rel="next">
+            <a href="/2022/05/09/online_ads_part1_introduction/" rel="next">
               <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/doubleeggs20200320.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/doubleeggs20200320.jpg">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/online_ads_part1_20220509.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/online_ads_part1_20220509.jpg">
               </div>
               <span class="label">
               Next Post</span>
               <div class="info">
                 <h3>
-                双蛋问题</h3>
+                线上广告（一）：线上广告基础</h3>
                 <hr>
               </div>
             </a>
