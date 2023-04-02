@@ -470,7 +470,7 @@
 <p>确定URL后我们右键查看网页源代码，发现源代码中已包含所有我们需要的数据，基本可以确定这是一个静态网页，因此只需要请求网页内容并解析即可。</p>
 <p><img src="https://img-blog.csdnimg.cn/20201017171742362.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
 <h1 id="爬取代码"><a href="#爬取代码" class="headerlink" title="爬取代码"></a>爬取代码</h1><h2 id="请求网址"><a href="#请求网址" class="headerlink" title="请求网址"></a>请求网址</h2><p>利用request获取html信息，并进行异常处理.</p>
-<pre><code class="py">def get_html_text(url, header):
+<pre><code class="lang-py">def get_html_text(url, header):
     try:
         response = requests.get(url, headers=header, timeout=30)
         response.encoding = &#39;utf-8&#39;
@@ -478,9 +478,10 @@
             print(&quot;请求成功&quot;)
             return response.text
     except requests.exceptions.RequestException:
-        print(&quot;请求失败，请检查网络条件或重新运行&quot;)</code></pre>
+        print(&quot;请求失败，请检查网络条件或重新运行&quot;)
+</code></pre>
 <h2 id="解析HTML"><a href="#解析HTML" class="headerlink" title="解析HTML"></a>解析HTML</h2><p>之后使用正则将上一步返回的html文本进行解析并返回提取的结果</p>
-<pre><code class="py">def get_info_from_htmltext(html):
+<pre><code class="lang-py">def get_info_from_htmltext(html):
 #使用正则提取数据
     pattern = re.compile(&#39;.*?board-index.*?&gt;(\d+)&lt;/i&gt;&#39;
                          + &#39;.*?&lt;p class=&quot;name&quot;&gt;&lt;.*?&gt;(.*?)&lt;/a&gt;&lt;/p&gt;&#39;
@@ -496,15 +497,17 @@
             &#39;主演&#39;: info[2].strip()[3:],#去除空格与换行符
             &#39;上映时间&#39;: info[3].strip()[5:],
             &#39;评分&#39;: info[4] + info[5]
-        }</code></pre>
+        }
+</code></pre>
 <p>这一段中我们使用 strip() 方法用于移除字符串头尾指定的字符（默认为空格或换行符）或字符序列，同时使用yield函数创建一个可迭代的字典对象。<br>关于yield函数的使用可以查看这一篇文章：<a href="http://smilecoc.vip/2020/10/10/python%E4%B8%ADyield%E7%9A%84%E7%94%A8%E6%B3%95%E8%AF%A6%E8%A7%A3/">http://smilecoc.vip/2020/10/10/python%E4%B8%ADyield%E7%9A%84%E7%94%A8%E6%B3%95%E8%AF%A6%E8%A7%A3/</a></p>
 <h2 id="数据保存"><a href="#数据保存" class="headerlink" title="数据保存"></a>数据保存</h2><p>这一步骤中将上一步骤中的返回的数据保存到csv中</p>
-<pre><code class="py">def save_data(data):
+<pre><code class="lang-py">def save_data(data):
     with open(&#39;miaoyan_top_100_film.csv&#39;, &#39;a&#39;, newline=&#39;&#39;, encoding=&#39;utf-8-sig&#39;, errors=&#39;ignore&#39;) as f:
         csv_file = csv.writer(f)
-        csv_file.writerow([data[&#39;排名&#39;], data[&#39;电影名称&#39;], data[&#39;主演&#39;], data[&#39;上映时间&#39;], data[&#39;评分&#39;]])</code></pre>
+        csv_file.writerow([data[&#39;排名&#39;], data[&#39;电影名称&#39;], data[&#39;主演&#39;], data[&#39;上映时间&#39;], data[&#39;评分&#39;]])
+</code></pre>
 <h2 id="主程序"><a href="#主程序" class="headerlink" title="主程序"></a>主程序</h2><p>最后完成主程序：</p>
-<pre><code class="py"> def main(page):
+<pre><code class="lang-py"> def main(page):
     url=&quot;https://maoyan.com/board/4?offset=&quot; + str(page * 10)
     header = {
         &quot;User-Agent&quot;: &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36&quot;,
@@ -529,25 +532,27 @@ if __name__ == &#39;__main__&#39;:
 <li><strong>pool = Pool(n)：</strong> 建立进程池，n就是代表了建立几个进程，这个n的设定一般与cpu的核数一样</li>
 <li><strong>pool.map(def,list)：</strong>把列表list里面的每一项映射到你所定义的def函数内，有点通过这句话做list各项循环的意味</li>
 <li><strong>pool.close()：</strong>关闭进程池，不再接受新的进程</li>
-<li><strong>pool.join()：</strong>主进程阻塞等待子进程安全退出，父子进程同步<br>多进程爬取代码如下：<pre><code class="py">if __name__ == &#39;__main__&#39;:
+<li><strong>pool.join()：</strong>主进程阻塞等待子进程安全退出，父子进程同步<br>多进程爬取代码如下：<pre><code class="lang-py">if __name__ == &#39;__main__&#39;:
   pool=Pool(4)#根据电脑情况设置
-  pool.map(main,(i for i in range(10)))</code></pre>
+  pool.map(main,(i for i in range(10)))
+</code></pre>
 </li>
 </ul>
 <h2 id="多线程爬取"><a href="#多线程爬取" class="headerlink" title="多线程爬取"></a>多线程爬取</h2><p>同样多进程爬取需要用到threading模块。启动一个线程就是把一个函数传入并创建Thread实例，然后调用start()开始执行，基本语法为：</p>
 <ul>
-<li>*<em>threading.Thread(target=程序名,args=(传入参数)):  *</em>创建线程</li>
-<li>*<em>Thread.run(): *</em> 用以表示线程活动的方法。</li>
-<li>*<em>Thread.start(): *</em>启动线程活动。</li>
-<li>*<em>Thread.join([time]): *</em> 等待至线程中止。这阻塞调用线程直至线程的join() 方法被调用中止-正常退出或者抛出未处理的异常-或者是可选的超时发生。</li>
+<li><strong>threading.Thread(target=程序名,args=(传入参数)):  </strong>创建线程</li>
+<li><strong>Thread.run(): </strong> 用以表示线程活动的方法。</li>
+<li><strong>Thread.start(): </strong>启动线程活动。</li>
+<li><strong>Thread.join([time]): </strong> 等待至线程中止。这阻塞调用线程直至线程的join() 方法被调用中止-正常退出或者抛出未处理的异常-或者是可选的超时发生。</li>
 </ul>
 <p>本例中实现多线程需要对主函数进行修改，主要代码为：</p>
-<pre><code class="py">#多线程    
+<pre><code class="lang-py">#多线程    
 if __name__ == &#39;__main__&#39;:
     t1 = Thread(target=main, args=(0, 5))
     t2 = Thread(target=main, args=(5, 10))
     t1.start()
-    t2.start()</code></pre>
+    t2.start()
+</code></pre>
 <p>多线程和多进程编程，模型复杂，容易发生冲突。例如在本例中使用多线程，多进程写入数据的话会造成一些不可预知的错误，所以必须用锁加以隔离，同时，又要小心死锁的发生，或者需要将各个线程/进程的数据保存在内存中再写入才可以避免错误。</p>
 
         </div>
@@ -678,7 +683,7 @@ if __name__ == &#39;__main__&#39;:
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2022 Smilecoc<br>
+      &copy; 2023 Smilecoc<br>
       powered_by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

@@ -487,9 +487,10 @@
 <h3 id="2-增广函数依赖-augmented-functional-dependency"><a href="#2-增广函数依赖-augmented-functional-dependency" class="headerlink" title="2. 增广函数依赖(augmented functional dependency)"></a>2. 增广函数依赖(augmented functional dependency)</h3><p>是指某个依赖式为真，则依赖式左侧，或者两侧同时增加某语句形成的一种依赖关系。如本文样例数据集中</p>
 <p>TravelCampaignID,ModleID -&gt; TravelCampaignName。因为只需要TravelCampaignID就能够确定TravelCampaignName了。</p>
 <p>注：这种依赖在规范化中不会被用到。</p>
-<h3 id="3-等价函数依赖-equivalent-functional-dependency"><a href="#3-等价函数依赖-equivalent-functional-dependency" class="headerlink" title="3. 等价函数依赖(equivalent functional dependency)"></a>3. 等价函数依赖(equivalent functional dependency)</h3><pre><code>    这种依赖关系是一对对的。比如若A-&gt;B和B-&gt;A都为真，那么A能推出来的，B同样也能推出来，因此A-&gt;B和B-&gt;A就被称作等价函数依赖。如本文样例数据集中</code></pre><p>TravelCampaignID-&gt; TravelCampaignName和TravelCampaignName-&gt; TravelCampaignID。</p>
+<h3 id="3-等价函数依赖-equivalent-functional-dependency"><a href="#3-等价函数依赖-equivalent-functional-dependency" class="headerlink" title="3. 等价函数依赖(equivalent functional dependency)"></a>3. 等价函数依赖(equivalent functional dependency)</h3><pre><code>    这种依赖关系是一对对的。比如若A-&gt;B和B-&gt;A都为真，那么A能推出来的，B同样也能推出来，因此A-&gt;B和B-&gt;A就被称作等价函数依赖。如本文样例数据集中
+</code></pre><p>TravelCampaignID-&gt; TravelCampaignName和TravelCampaignName-&gt; TravelCampaignID。</p>
 <p>注：这种依赖只需保留一组依赖关系即可，但它不属于规范化的范畴。</p>
-<ol start="4">
+<ol>
 <li>部分函数依赖(partial functional dependency)</li>
 </ol>
 <p>是指关系的一列函数依赖于组合主码的一部分。显然这种依赖只有组合主码才存在。如本文样例数据中ModelID-&gt;ModelName，因为记录的复合主码(TravelCampaignID, ModelID)能确定记录的任何一列，ModelID只是该复合主码的一部分。</p>
@@ -645,7 +646,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2022 Smilecoc<br>
+      &copy; 2023 Smilecoc<br>
       powered_by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

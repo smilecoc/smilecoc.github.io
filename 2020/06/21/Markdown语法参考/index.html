@@ -477,7 +477,7 @@
 <h2 id="Markdown-语法"><a href="#Markdown-语法" class="headerlink" title="Markdown 语法"></a>Markdown 语法</h2><h3 id="段落与换行"><a href="#段落与换行" class="headerlink" title="段落与换行"></a>段落与换行</h3><ol>
 <li><p>段落的前后必须是空行：空行指的是行内什么都没有，或者只有空白符（空格或制表符).<strong>相邻两行文本，如果中间没有空行 会显示在一行中（换行符被转换为空格）</strong></p>
 </li>
-<li><p>如果需要在段落内加入换行（&lt;br&gt;）：可以在前一行的末尾加入至少两个空格,然后换行写其它的文字</p>
+<li><p>如果需要在段落内加入换行（\<br>）：可以在前一行的末尾加入至少两个空格,然后换行写其它的文字</p>
 </li>
 <li><p>Markdown 中的多数区块都需要在两个空行之间。</p>
 </li>
@@ -485,18 +485,22 @@
 <h3 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h3><p>一般用对称的 # 包括文本，或者只在左边使用 #。例如下面的语句：</p>
 <pre><code>#### 标题4 ####
 
-#####  标题5</code></pre><h4 id="标题4"><a href="#标题4" class="headerlink" title="标题4"></a>标题4</h4><h5 id="标题5"><a href="#标题5" class="headerlink" title="标题5"></a>标题5</h5><p>其中加几个#表示几级标题，在#符号内侧一般会加上空格</p>
+#####  标题5
+</code></pre><h4 id="标题4"><a href="#标题4" class="headerlink" title="标题4"></a>标题4</h4><h5 id="标题5"><a href="#标题5" class="headerlink" title="标题5"></a>标题5</h5><p>其中加几个#表示几级标题，在#符号内侧一般会加上空格</p>
 <h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><h4 id="1-引用内容"><a href="#1-引用内容" class="headerlink" title="1. 引用内容"></a>1. 引用内容</h4><p>在段落或其他内容前使用 &gt; 符号，就可以将这段内容标记为 ‘引用’ 的内容：</p>
-<pre><code>&gt;引用内容</code></pre><blockquote>
+<pre><code>&gt;引用内容
+</code></pre><blockquote>
 <p>引用内容</p>
 </blockquote>
 <h5 id="2-多行引用"><a href="#2-多行引用" class="headerlink" title="2. 多行引用"></a>2. 多行引用</h5><p>多行引用可以在每行前加 <code>&gt;</code>,也可以仅在第一行使用 <code>&gt;</code>，后面相邻的行即使省略 <code>&gt;</code>，也会变成引用内容。<br>如果引用内容需要换行，  可以在行尾添加两个空格，或者在引用内容中加一个空行，如下所示：</p>
 <pre><code>&gt;如果引用内容需要换行，  
 &gt;可以在行尾添加两个空格
 &gt;
-&gt;或者在引用内容中加一个空行</code></pre><h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><h4 id="无序列表"><a href="#无序列表" class="headerlink" title="无序列表"></a>无序列表</h4><pre><code>* 可以使用 `*` 作为标记
+&gt;或者在引用内容中加一个空行
+</code></pre><h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><h4 id="无序列表"><a href="#无序列表" class="headerlink" title="无序列表"></a>无序列表</h4><pre><code>* 可以使用 `*` 作为标记
 + 也可以使用 `+`
-- 或者 `-`</code></pre><p>上述语句的渲染结果为：</p>
+- 或者 `-`
+</code></pre><p>上述语句的渲染结果为：</p>
 <ul>
 <li>可以使用 <code>*</code> 作为标记</li>
 </ul>
@@ -508,7 +512,8 @@
 </ul>
 <h4 id="有序列表"><a href="#有序列表" class="headerlink" title="有序列表"></a>有序列表</h4><pre><code>1. 有序列表以数字和 `.` 开始；
 3. 数字的序列并不会影响生成的列表序列；
-4. 但仍然推荐按照自然顺序（1.2.3...）编写。</code></pre><p>上述语句的渲染结果为：</p>
+4. 但仍然推荐按照自然顺序（1.2.3...）编写。
+</code></pre><p>上述语句的渲染结果为：</p>
 <ol>
 <li>有序列表以数字和 <code>.</code> 开始；</li>
 <li>数字的序列并不会影响生成的列表序列；</li>
@@ -520,7 +525,8 @@
   + 1-2
 2. 无序列表和有序列表可以随意相互嵌套
   1. 2-1
-  2. 2-2</code></pre><ol>
+  2. 2-2
+</code></pre><ol>
 <li>第一层<ul>
 <li>1-1</li>
 <li>1-2</li>
@@ -532,12 +538,16 @@
 </ol>
 </li>
 </ol>
-<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><h4 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h4><p>可以使用缩进来插入代码块，但是一般我们使用 ``````来包含多行代码<br>```<br>   &lt;p&gt;code here&lt;/p&gt;<br>```<br>上述语句的渲染结果为：</p>
-<pre><code>&lt;p&gt;code here&lt;/p&gt;</code></pre><h4 id="代码高亮"><a href="#代码高亮" class="headerlink" title="代码高亮"></a>代码高亮</h4><p>在上面的代码块语法基础上，在第一组 ```之后添加代码的语言，如 ‘javascript’ 或 ‘js’，即可将代码标记为 JavaScript,同时可以将对应代码高亮<br>：<br>```js<br>window.addEventListener(‘load’, function() {<br>  console.log(‘window loaded’);<br>});<br>```</p>
-<pre><code class="js">window.addEventListener(&#39;load&#39;, function() {
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><h4 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h4><p>可以使用缩进来插入代码块，但是一般我们使用 <code>```来包含多行代码
+\</code><br>   \</p><p>code here\</p><br>```<br>上述语句的渲染结果为：<p></p>
+<pre><code>&lt;p&gt;code here&lt;/p&gt;
+</code></pre><h4 id="代码高亮"><a href="#代码高亮" class="headerlink" title="代码高亮"></a>代码高亮</h4><p>在上面的代码块语法基础上，在第一组 ```之后添加代码的语言，如 ‘javascript’ 或 ‘js’，即可将代码标记为 JavaScript,同时可以将对应代码高亮<br>：<br>```js<br>window.addEventListener(‘load’, function() {<br>  console.log(‘window loaded’);<br>});<br>```</p>
+<pre><code class="lang-js">window.addEventListener(&#39;load&#39;, function() {
   console.log(&#39;window loaded&#39;);
-});</code></pre>
+});
+</code></pre>
 <p> Markdown支持的语言与相应关键字有：</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -547,7 +557,8 @@
 <th>说明</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>AppleScript</td>
 <td>applescript</td>
 <td>shBrushAppleScript.js</td>
@@ -727,29 +738,39 @@
 <td>shBrushGo.js</td>
 <td></td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <p>上述表格应该包括所有的常使用的代码语言，但肯定不包括所有的语言，如有缺失欢迎指出</p>
 <h3 id="分隔线"><a href="#分隔线" class="headerlink" title="分隔线"></a>分隔线</h3><p>可以在一行中使用三个或更多的 *、- 或 _ 来添加分隔线：</p>
 <pre><code>***
 ------
-___</code></pre><hr>
+___
+</code></pre><hr>
 <h3 id="超链接"><a href="#超链接" class="headerlink" title="超链接"></a>超链接</h3><p>格式为[link text](URL ‘title text’)</p>
-<pre><code>[Google](http://www.google.com/)</code></pre><p>上述语句的渲染结果为：<br><a href="http://www.google.com/" target="_blank" rel="noopener">Google</a></p>
+<pre><code>[Google](http://www.google.com/)
+</code></pre><p>上述语句的渲染结果为：<br><a href="http://www.google.com/" target="_blank" rel="noopener">Google</a></p>
 <p>同时也可以创建指向本地文件的链接：</p>
-<pre><code>[icon.png](./images/icon.png)</code></pre><h3 id="图像"><a href="#图像" class="headerlink" title="图像"></a>图像</h3><p>插入图片的语法和插入超链接的语法基本一致，只是在最前面多一个 !.</p>
-<pre><code>![GitHub](https://avatars2.githubusercontent.com/u/3265208?v=3&amp;s=100 &quot;GitHub,Social Coding&quot;)</code></pre><p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9hdmF0YXJzMi5naXRodWJ1c2VyY29udGVudC5jb20vdS8zMjY1MjA4?x-oss-process=image/format,png" alt="GitHub"></p>
+<pre><code>[icon.png](./images/icon.png)
+</code></pre><h3 id="图像"><a href="#图像" class="headerlink" title="图像"></a>图像</h3><p>插入图片的语法和插入超链接的语法基本一致，只是在最前面多一个 !.</p>
+<pre><code>![GitHub](https://avatars2.githubusercontent.com/u/3265208?v=3&amp;s=100 &quot;GitHub,Social Coding&quot;)
+</code></pre><p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9hdmF0YXJzMi5naXRodWJ1c2VyY29udGVudC5jb20vdS8zMjY1MjA4?x-oss-process=image/format,png" alt="GitHub"></p>
 <h3 id="强调"><a href="#强调" class="headerlink" title="强调"></a>强调</h3><ol>
-<li><p>使用 * * 或 _ _ 包括的文本会被转换为 &lt;em&gt;&lt;/em&gt; ，通常表现为斜体：</p>
-<pre><code>这是用来 *演示* 的 _文本_</code></pre><p>这是用来 <em>演示</em> 的 <em>文本</em></p>
+<li><p>使用 <em> </em> 或 _ _ 包括的文本会被转换为 \<em>\</em> ，通常表现为斜体：</p>
+<pre><code>这是用来 *演示* 的 _文本_
+</code></pre><p>这是用来 <em>演示</em> 的 _文本_</p>
 </li>
-<li><p>使用 ** ** 或 __ __ 包括的文本会被转换为 &lt;strong&gt;&lt;/strong&gt;，通常表现为加粗：</p>
-<pre><code>这是用来 **演示** 的 __文本__</code></pre><p>这是用来 <strong>演示</strong> 的 <strong>文本</strong></p>
+<li><p>使用 <strong> </strong> 或 <strong> </strong> 包括的文本会被转换为 \<strong>\</strong>，通常表现为加粗：</p>
+<pre><code>这是用来 **演示** 的 __文本__
+</code></pre><p>这是用来 <strong>演示</strong> 的 <strong>文本</strong></p>
 </li>
-<li><p>用来包括文本的 * 或 _ 内侧不能有空白，否则 * 和 _ 将不会被转换（不同的实现会有不同的表现）：</p>
-<pre><code>这是用来 * 演示* 的 _文本 _</code></pre><p>这是用来 * 演示* 的 _文本 _</p>
+<li><p>用来包括文本的 <em> 或 _ 内侧不能有空白，否则 </em> 和 _ 将不会被转换（不同的实现会有不同的表现）：</p>
+<pre><code>这是用来 * 演示* 的 _文本 _
+</code></pre><p>这是用来 <em> 演示</em> 的 _文本 _</p>
 </li>
 <li><p>如果需要在文本中显示成对的 * 或 _，可以在符号前加入 (转义字符) 即可：</p>
-<pre><code>这是用来 \*演示\* 的 \_文本\_</code></pre><p>这是用来 *演示* 的 _文本_</p>
+<pre><code>这是用来 \*演示\* 的 \_文本\_
+</code></pre><p>这是用来 *演示* 的 _文本_</p>
 </li>
 <li><p><em>、*</em>、_ 和 __ 都必须 成对使用 。</p>
 </li>
@@ -757,7 +778,8 @@ ___</code></pre><hr>
 <h3 id="Markdown字符转义"><a href="#Markdown字符转义" class="headerlink" title="Markdown字符转义"></a>Markdown字符转义</h3><p>反斜线（\）用于插入在 Markdown 语法中有特殊作用的字符。</p>
 <pre><code>这是用来 *演示* 的 _文本_
 
-这是用来 \*演示\* 的 \_文本\_</code></pre><p>第一句结果出来的结果为：<br>这是用来 <em>演示</em> 的 <em>文本</em><br>而第二句的结果为:<br>这是用来 *演示* 的 _文本_</p>
+这是用来 \*演示\* 的 \_文本\_
+</code></pre><p>第一句结果出来的结果为：<br>这是用来 <em>演示</em> 的 _文本_<br>而第二句的结果为:<br>这是用来 *演示* 的 _文本_</p>
 <p>这些需要转义的字符包括：</p>
 <pre><code>\
 `
@@ -770,19 +792,24 @@ _
 +
 -
 .
-!</code></pre><h3 id="删除线"><a href="#删除线" class="headerlink" title="删除线"></a>删除线</h3><pre><code>这就是 ~~删除线~~</code></pre><p>这就是 <del>删除线</del></p>
+!
+</code></pre><h3 id="删除线"><a href="#删除线" class="headerlink" title="删除线"></a>删除线</h3><pre><code>这就是 ~~删除线~~
+</code></pre><p>这就是 <del>删除线</del></p>
 <h3 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h3><h4 id="单元格和表头"><a href="#单元格和表头" class="headerlink" title="单元格和表头"></a>单元格和表头</h4><p>使用 | 来分隔不同的单元格，使用 - 来分隔表头和其他行：</p>
 <pre><code>name | age
 ---- | ---
 LearnShare | 12
-Mike |  32</code></pre><table>
+Mike |  32
+</code></pre><div class="table-container">
+<table>
 <thead>
 <tr>
 <th>name</th>
 <th>age</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>LearnShare</td>
 <td>12</td>
 </tr>
@@ -790,19 +817,24 @@ Mike |  32</code></pre><table>
 <td>Mike</td>
 <td>32</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <p>为了美观，可以使用空格对齐不同行的单元格，并在左右两侧都使用 | 来标记单元格边界：</p>
 <pre><code>|    name    | age |
 | ---------- | --- |
 | LearnShare |  12 |
-| Mike       |  32 |</code></pre><table>
+| Mike       |  32 |
+</code></pre><div class="table-container">
+<table>
 <thead>
 <tr>
 <th>name</th>
 <th>age</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>LearnShare</td>
 <td>12</td>
 </tr>
@@ -810,42 +842,28 @@ Mike |  32</code></pre><table>
 <td>Mike</td>
 <td>32</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <p>为了使 Markdown 更清晰，| 和 - 两侧需要至少有一个空格（最左侧和最右侧的 | 外就不需要了）。</p>
 <h4 id="对齐"><a href="#对齐" class="headerlink" title="对齐"></a>对齐</h4><p>在表头下方的分隔线标记中加入 :，即可标记下方单元格内容的对齐方式：</p>
 <ul>
-<li>:— 代表左对齐</li>
-<li>:–: 代表居中对齐</li>
-<li>—: 代表右对齐<pre><code>| left | center | right |
+<li>:—- 代表左对齐</li>
+<li>:—: 代表居中对齐</li>
+<li>—-: 代表右对齐<pre><code>| left | center | right |
 | :--- | :----: | ----: |
 | aaaa | bbbbbb | ccccc |
-| a    | b      | c     |</code></pre><table>
-<thead>
-<tr>
-<th align="left">left</th>
-<th align="center">center</th>
-<th align="right">right</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">aaaa</td>
-<td align="center">bbbbbb</td>
-<td align="right">ccccc</td>
-</tr>
-<tr>
-<td align="left">a</td>
-<td align="center">b</td>
-<td align="right">c</td>
-</tr>
-</tbody></table>
-</li>
+| a    | b      | c     |
+</code></pre>| left | center | right |<br>| :—- | :——: | ——: |<br>| aaaa | bbbbbb | ccccc |<br>| a    | b      | c     |</li>
 </ul>
 <p>如果不使用对齐标记，单元格中的内容默认左对齐；表头单元格中的内容会一直居中对齐（不同的实现可能会有不同表现）。</p>
 <h4 id="在表格单元格里换行"><a href="#在表格单元格里换行" class="headerlink" title="在表格单元格里换行"></a>在表格单元格里换行</h4><p>借助于 HTML 里的 <br> 实现。</p>
 <p>示例代码：</p>
 <pre><code>| Header1 | Header2                          |
 |---------|----------------------------------|
-| item 1  | 1. one&lt;br /&gt;2. two&lt;br /&gt;3. three |</code></pre><p>示例效果：</p>
+| item 1  | 1. one&lt;br /&gt;2. two&lt;br /&gt;3. three |
+</code></pre><p>示例效果：</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -853,47 +871,54 @@ Mike |  32</code></pre><table>
 <th>Header2</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>item 1</td>
 <td>1. one<br>2. two<br>3. three</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <h4 id="在表格单元格里加入空格"><a href="#在表格单元格里加入空格" class="headerlink" title="在表格单元格里加入空格"></a>在表格单元格里加入空格</h4><p>直接在 Markdown 里用空格和 Tab 键缩进在渲染后会被忽略掉，需要借助 HTML 转义字符在行首添加空格来实现，&ensp; 代表半角空格，&emsp; 代表全角空格</p>
 <pre><code>| Header1 | Header2                          |
 |---------|----------------------------------|
-| &amp;ensp;   | one</code></pre><table>
+| &amp;ensp;   | one
+</code></pre><div class="table-container">
+<table>
 <thead>
 <tr>
 <th>Header1</th>
 <th>Header2</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>&ensp;</td>
 <td>one</td>
 </tr>
-<tr>
-<td>同理，这个方法可以在任何需要添加空格和缩进的地方使用</td>
-<td></td>
-</tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
+<p>同理，这个方法可以在任何需要添加空格和缩进的地方使用</p>
 <h3 id="任务清单"><a href="#任务清单" class="headerlink" title="任务清单"></a>任务清单</h3><pre><code>- [ ] Eat
 - [x] Code
   - [x] HTML
   - [x] CSS
   - [x] JavaScript
-- [ ] Sleep</code></pre><ul>
-<li><input disabled type="checkbox"> Eat</li>
-<li><input checked disabled type="checkbox"> Code<ul>
-<li><input checked disabled type="checkbox"> HTML</li>
-<li><input checked disabled type="checkbox"> CSS</li>
-<li><input checked disabled type="checkbox"> JavaScript</li>
+- [ ] Sleep
+</code></pre><ul>
+<li>[ ] Eat</li>
+<li>[x] Code<ul>
+<li>[x] HTML</li>
+<li>[x] CSS</li>
+<li>[x] JavaScript</li>
 </ul>
 </li>
-<li><input disabled type="checkbox"> Sleep</li>
+<li>[ ] Sleep</li>
 </ul>
 <h3 id="添加emoji"><a href="#添加emoji" class="headerlink" title="添加emoji"></a>添加emoji</h3><p>更多可用 Emoji 代码参见 <a href="[https://www.webpagefx.com/tools/emoji-cheat-sheet/">https://www.webpagefx.com/tools/emoji-cheat-sheet/</a></p>
-<pre><code>我和我的小伙伴们都笑了。:smile:</code></pre><p>我和我的小伙伴们都笑了。:smile:</p>
+<pre><code>我和我的小伙伴们都笑了。:smile:
+</code></pre><p>我和我的小伙伴们都笑了。:smile:</p>
 <h3 id="图文混排"><a href="#图文混排" class="headerlink" title="图文混排"></a>图文混排</h3><p>使用 <img> 标签来贴图，然后指定 align 属性。</p>
 <p>示例代码：</p>
 <pre><code>&lt;img align=&quot;right&quot; src=&quot;https://avatars2.githubusercontent.com/u/3265208?v=3&amp;s=100 &quot;/&gt;
@@ -908,8 +933,8 @@ N 与图片高度有关。
 
 刷屏行。
 
-到这里应该不会受影响了，本行应该延伸到了图片的正下方，所以我要足够长才能确保不同的屏幕下都看到效果。</code></pre><img align="right" src="https://avatars2.githubusercontent.com/u/3265208?v=3&s=100 ">
-
+到这里应该不会受影响了，本行应该延伸到了图片的正下方，所以我要足够长才能确保不同的屏幕下都看到效果。
+</code></pre><p><img align="right" src="https://avatars2.githubusercontent.com/u/3265208?v=3&s=100 "></p>
 <p>这是一个示例图片。</p>
 <p>图片显示在 N 段文字的右边。</p>
 <p>N 与图片高度有关。</p>
@@ -925,7 +950,8 @@ N 与图片高度有关。
 
 **加以控制后的效果：**
 
-&lt;div align=&quot;center&quot;&gt;&lt;img width=&quot;65&quot; height=&quot;75&quot; src=&quot;https://imgconvert.csdnimg.cn/aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL216bG9naW4vbXpsb2dpbi5naXRodWIuaW8vbWFzdGVyL2ltYWdlcy9wb3N0cy9tYXJrZG93bi9kZW1vLnBuZw?x-oss-process=image/format,png&quot;/&gt;&lt;/div&gt;</code></pre><p><strong>图片默认显示效果：</strong></p>
+&lt;div align=&quot;center&quot;&gt;&lt;img width=&quot;65&quot; height=&quot;75&quot; src=&quot;https://imgconvert.csdnimg.cn/aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL216bG9naW4vbXpsb2dpbi5naXRodWIuaW8vbWFzdGVyL2ltYWdlcy9wb3N0cy9tYXJrZG93bi9kZW1vLnBuZw?x-oss-process=image/format,png&quot;/&gt;&lt;/div&gt;
+</code></pre><p><strong>图片默认显示效果：</strong></p>
 <p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL216bG9naW4vbXpsb2dpbi5naXRodWIuaW8vbWFzdGVyL2ltYWdlcy9wb3N0cy9tYXJrZG93bi9kZW1vLnBuZw?x-oss-process=image/format,png" alt></p>
 <p><strong>加以控制后的效果：</strong></p>
 <div align="center"><img width="65" height="75" src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL216bG9naW4vbXpsb2dpbi5naXRodWIuaW8vbWFzdGVyL2ltYWdlcy9wb3N0cy9tYXJrZG93bi9kZW1vLnBuZw?x-oss-process=image/format,png"></div>
@@ -942,25 +968,34 @@ N 与图片高度有关。
 浅青色文字：&lt;font color=&quot;#00dddd&quot;&gt;浅青色文字&lt;/font&gt;&lt;br /&gt; 
 深青色文字：&lt;font color=&quot;#006666&quot;&gt;深青色文字&lt;/font&gt;&lt;br /&gt; 
 浅紫色文字：&lt;font color=&quot;#dd00dd&quot;&gt;浅紫色文字&lt;/font&gt;&lt;br /&gt; 
-深紫色文字：&lt;font color=&quot;#660066&quot;&gt;深紫色文字&lt;/font&gt;&lt;br /&gt; </code></pre><p>浅红色文字：<font color="#dd0000">浅红色文字：</font><br><br>深红色文字：<font color="#660000">深红色文字</font><br><br>浅绿色文字：<font color="#00dd00">浅绿色文字</font><br><br>深绿色文字：<font color="#006600">深绿色文字</font><br><br>浅蓝色文字：<font color="#0000dd">浅蓝色文字</font><br><br>深蓝色文字：<font color="#000066">深蓝色文字</font><br><br>浅黄色文字：<font color="#dddd00">浅黄色文字</font><br><br>深黄色文字：<font color="#666600">深黄色文字</font><br><br>浅青色文字：<font color="#00dddd">浅青色文字</font><br><br>深青色文字：<font color="#006666">深青色文字</font><br><br>浅紫色文字：<font color="#dd00dd">浅紫色文字</font><br><br>深紫色文字：<font color="#660066">深紫色文字</font><br> </p>
+深紫色文字：&lt;font color=&quot;#660066&quot;&gt;深紫色文字&lt;/font&gt;&lt;br /&gt;
+</code></pre><p>浅红色文字：<font color="#dd0000">浅红色文字：</font><br><br>深红色文字：<font color="#660000">深红色文字</font><br><br>浅绿色文字：<font color="#00dd00">浅绿色文字</font><br><br>深绿色文字：<font color="#006600">深绿色文字</font><br><br>浅蓝色文字：<font color="#0000dd">浅蓝色文字</font><br><br>深蓝色文字：<font color="#000066">深蓝色文字</font><br><br>浅黄色文字：<font color="#dddd00">浅黄色文字</font><br><br>深黄色文字：<font color="#666600">深黄色文字</font><br><br>浅青色文字：<font color="#00dddd">浅青色文字</font><br><br>深青色文字：<font color="#006666">深青色文字</font><br><br>浅紫色文字：<font color="#dd00dd">浅紫色文字</font><br><br>深紫色文字：<font color="#660066">深紫色文字</font><br> </p>
 <p>采用的是RGB颜色<br>这里有个对照：<br><a href="http://www.114la.com/other/rgb.htm" target="_blank" rel="noopener">http://www.114la.com/other/rgb.htm</a><br>可以选择你想要的颜色对应的RGB值。</p>
 <h4 id="大小"><a href="#大小" class="headerlink" title="大小"></a>大小</h4><pre><code>size为1：&lt;font size=&quot;1&quot;&gt;size为1&lt;/font&gt;&lt;br /&gt; 
 size为2：&lt;font size=&quot;2&quot;&gt;size为2&lt;/font&gt;&lt;br /&gt; 
 size为3：&lt;font size=&quot;3&quot;&gt;size为3&lt;/font&gt;&lt;br /&gt; 
 size为4：&lt;font size=&quot;4&quot;&gt;size为4&lt;/font&gt;&lt;br /&gt; 
-size为10：&lt;font size=&quot;10&quot;&gt;size为10&lt;/font&gt;&lt;br /&gt; </code></pre><p>效果如下：</p>
+size为10：&lt;font size=&quot;10&quot;&gt;size为10&lt;/font&gt;&lt;br /&gt;
+</code></pre><p>效果如下：</p>
 <p>size为1：<font size="1">size为1</font><br><br>size为2：<font size="2">size为2</font><br><br>size为3：<font size="3">size为3</font><br><br>size为4：<font size="4">size为4</font><br><br>size为10：<font size="10">size为10</font><br> </p>
 <h4 id="字体"><a href="#字体" class="headerlink" title="字体"></a>字体</h4><pre><code>&lt;font face=&quot;黑体&quot;&gt;我是黑体字&lt;/font&gt;
 &lt;font face=&quot;宋体&quot;&gt;我是宋体字&lt;/font&gt;
 &lt;font face=&quot;微软雅黑&quot;&gt;我是微软雅黑字&lt;/font&gt;
 &lt;font face=&quot;fantasy&quot;&gt;我是fantasy字&lt;/font&gt;
-&lt;font face=&quot;Helvetica&quot;&gt;我是Helvetica字&lt;/font&gt;</code></pre><p>效果如下：</p>
-<p><font face="黑体">我是黑体字</font><br><font face="宋体">我是宋体字</font><br><font face="微软雅黑">我是微软雅黑字</font><br><font face="fantasy">我是fantasy字</font><br><font face="Helvetica">我是Helvetica字</font></p>
+&lt;font face=&quot;Helvetica&quot;&gt;我是Helvetica字&lt;/font&gt;
+</code></pre><p>效果如下：</p>
+<font face="黑体">我是黑体字</font>
+<font face="宋体">我是宋体字</font>
+<font face="微软雅黑">我是微软雅黑字</font>
+<font face="fantasy">我是fantasy字</font>
+<font face="Helvetica">我是Helvetica字</font>
+
 <h4 id="背景色"><a href="#背景色" class="headerlink" title="背景色"></a>背景色</h4><pre><code>&lt;table&gt;&lt;tr&gt;&lt;td bgcolor=#FF00FF&gt;背景色的设置是按照十六进制颜色值：#7FFFD4&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;table&gt;&lt;tr&gt;&lt;td bgcolor=#FF83FA&gt;背景色的设置是按照十六进制颜色值：#FF83FA&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;table&gt;&lt;tr&gt;&lt;td bgcolor=#D1EEEE&gt;背景色的设置是按照十六进制颜色值：#D1EEEE&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;table&gt;&lt;tr&gt;&lt;td bgcolor=#C0FF3E&gt;背景色的设置是按照十六进制颜色值：#C0FF3E&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;table&gt;&lt;tr&gt;&lt;td bgcolor=#54FF9F&gt;背景色的设置是按照十六进制颜色值：#54FF9F&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</code></pre><table><tr><td bgcolor="#FF00FF">背景色的设置是按照十六进制颜色值：#7FFFD4</td></tr></table>
+&lt;table&gt;&lt;tr&gt;&lt;td bgcolor=#54FF9F&gt;背景色的设置是按照十六进制颜色值：#54FF9F&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+</code></pre><table><tr><td bgcolor="#FF00FF">背景色的设置是按照十六进制颜色值：#7FFFD4</td></tr></table>
 <table><tr><td bgcolor="#FF83FA">背景色的设置是按照十六进制颜色值：#FF83FA</td></tr></table>
 <table><tr><td bgcolor="#D1EEEE">背景色的设置是按照十六进制颜色值：#D1EEEE</td></tr></table>
 <table><tr><td bgcolor="#C0FF3E">背景色的设置是按照十六进制颜色值：#C0FF3E</td></tr></table>
@@ -971,12 +1006,14 @@ size为10：&lt;font size=&quot;10&quot;&gt;size为10&lt;/font&gt;&lt;br /&gt; <
 |---|---|
 |a|a|
 |ab|ab|
-|abc|abc|</code></pre><p>推荐一个在线表格转化工具<a href="https://tableconvert.com/" target="_blank" rel="noopener">https://tableconvert.com/</a>，它能帮我自动将表格格式化成这样：</p>
+|abc|abc|
+</code></pre><p>推荐一个在线表格转化工具<a href="https://tableconvert.com/" target="_blank" rel="noopener">https://tableconvert.com/</a>，它能帮我自动将表格格式化成这样：</p>
 <pre><code>| Header1 | Header2 |
 |---------|---------|
 | a       | a       |
 | ab      | ab      |
-| abc     | abc     |</code></pre><p>是不是看着舒服多了？</p>
+| abc     | abc     |
+</code></pre><p>是不是看着舒服多了？</p>
 <p>如果你不使用 Vim，也没有关系，比如 Atom 编辑器的 markdown-table-formatter 插件，Sublime Text 3 的 MarkdownTableFormatter 等等，都提供了类似的解决方案。</p>
 <h3 id="自动维护目录"><a href="#自动维护目录" class="headerlink" title="自动维护目录"></a>自动维护目录</h3><p>有时候维护一份比较长的文档，希望能够自动根据文档中的标题生成目录（Table of Contents），并且当标题有变化时自动更新目录，能减轻工作量，也不易出错。</p>
 <p>如果你使用 Vim 编辑器，那可以使用插件 vim-markdown-toc 来帮你完美地解决此事：</p>
@@ -1111,7 +1148,7 @@ size为10：&lt;font size=&quot;10&quot;&gt;size为10&lt;/font&gt;&lt;br /&gt; <
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2022 Smilecoc<br>
+      &copy; 2023 Smilecoc<br>
       powered_by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

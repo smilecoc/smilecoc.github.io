@@ -474,32 +474,39 @@
 |----|------|
 | 1  | 10   |
 | 2  | 20   |
-| 3  | 30   |</code></pre><p>表2 tab2：</p>
+| 3  | 30   |
+</code></pre><p>表2 tab2：</p>
 <pre><code>| size | name |
 |------|------|
 | 10   | AAA  |
 | 20   | BBB  |
-| 20   | CCC  |</code></pre><p>用如下两条SQL语句进行查询:</p>
-<pre><code class="sql">--1、left join on where
-select * from tab1 left join tab2 on (tab1.size = tab2.size) where tab2.name=’AAA’</code></pre>
-<pre><code class="sql">--2、left join on and
-select * from tab1 left join tab2 on (tab1.size = tab2.size and tab2.name=’AAA’)</code></pre>
+| 20   | CCC  |
+</code></pre><p>用如下两条SQL语句进行查询:</p>
+<pre><code class="lang-sql">--1、left join on where
+select * from tab1 left join tab2 on (tab1.size = tab2.size) where tab2.name=’AAA’
+</code></pre>
+<pre><code class="lang-sql">--2、left join on and
+select * from tab1 left join tab2 on (tab1.size = tab2.size and tab2.name=’AAA’)
+</code></pre>
 <p>第一条SQL语句left join on where的执行过程为：<br>1、left join on根据on条件: tab1.size = tab2.size得到临时表</p>
 <pre><code>|  tab1.id |  tab1.size |  tab2.size |  tab2.name |
 |----------|------------|------------|------------|
 | 1        | 10         | 10         | AAA        |
 | 2        | 20         | 20         | BBB        |
 | 2        | 20         | 20         | CCC        |
-| 3        | 30         | NULL       | NULL       |</code></pre><p>2、再通过where 条件：tab2.name=’AAA’对中间表过滤</p>
+| 3        | 30         | NULL       | NULL       |
+</code></pre><p>2、再通过where 条件：tab2.name=’AAA’对中间表过滤</p>
 <pre><code>|  tab1.id |  tab1.size |  tab2.size |  tab2.name |
 |----------|------------|------------|------------|
-| 1        | 10         | 10         | AAA        |</code></pre><p>第二条SQL语句left join on and的执行过程为：：</p>
+| 1        | 10         | 10         | AAA        |
+</code></pre><p>第二条SQL语句left join on and的执行过程为：：</p>
 <p>1、left join on根据on条件:tab1.size = tab2.size and tab2.name=’AAA’得到临时表</p>
 <pre><code>|  tab1.id |  tab1.size |  tab2.size |  tab2.name |
 |----------|------------|------------|------------|
 | 1        | 10         | 10         | AAA        |
 | 2        | 20         | NULL       | NULL       |
-| 3        | 30         | NULL       | NULL       |</code></pre><p>2.结果中返回上一步得到的临时表</p>
+| 3        | 30         | NULL       | NULL       |
+</code></pre><p>2.结果中返回上一步得到的临时表</p>
 <p>其实以上结果的关键原因就是left join,right join,full join的特殊性，不管on上的条件是否为真都会返回left或right表中的记录，full则具有left和right的特性的并集。而inner jion没这个特殊性，则条件放在on中和where中，返回的结果集是相同的。<br>所以实际的过程中一定要注意left join on and是无法获取只含有符合条件的结果集的。我们可以看下面这个例子：</p>
 <p>有如下两张表，执行语句：<code>select count(s_id) from students left join information on s_id=id and province in (&#39;山东&#39;,&#39;湖南&#39;)</code>的结果集的行数为？<br>students表：</p>
 <pre><code>|  s_id  |  name  |
@@ -513,7 +520,8 @@ select * from tab1 left join tab2 on (tab1.size = tab2.size and tab2.name=’AAA
 | 123591 | 王程杰 |
 | 123592 | 李成浩 |
 | 123593 | 李静   |
-| 123594 | 刘敏敏 |</code></pre><p>information表：</p>
+| 123594 | 刘敏敏 |
+</code></pre><p>information表：</p>
 <pre><code>| id     | name | 省份 | 年龄 | 性别 |
 |--------|------|----|----|----|
 | 123585 | 张小飞  | 湖南 | 22 | 男  |
@@ -527,7 +535,8 @@ select * from tab1 left join tab2 on (tab1.size = tab2.size and tab2.name=’AAA
 | 123595 | 王志峰  | 山东 | 21 | 男  |
 | 123596 | 赵罗生  | 江西 | 21 | 男  |
 | 123597 | 李静   | 山东 | 20 | 女  |
-| 123598 | 程丽   | 湖南 | 21 | 女  |</code></pre><p>根据上面的原理讲解， left join 后的表会和左表的个数一致，语句执行的结果为10.<br>如果执行：<code>select count(s_id) from students left join information on s_id=id where province in (&#39;山东&#39;,&#39;湖南&#39;)</code>,则语句执行的结果为3.</p>
+| 123598 | 程丽   | 湖南 | 21 | 女  |
+</code></pre><p>根据上面的原理讲解， left join 后的表会和左表的个数一致，语句执行的结果为10.<br>如果执行：<code>select count(s_id) from students left join information on s_id=id where province in (&#39;山东&#39;,&#39;湖南&#39;)</code>,则语句执行的结果为3.</p>
 
         </div>
         <!-- .entry-content -->
@@ -657,7 +666,7 @@ select * from tab1 left join tab2 on (tab1.size = tab2.size and tab2.name=’AAA
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2022 Smilecoc<br>
+      &copy; 2023 Smilecoc<br>
       powered_by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

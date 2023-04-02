@@ -472,7 +472,7 @@
 </ul>
 <h1 id="数据获取与探索性数据分析（EDA）"><a href="#数据获取与探索性数据分析（EDA）" class="headerlink" title="数据获取与探索性数据分析（EDA）"></a>数据获取与探索性数据分析（EDA）</h1><p>原始数据与源码可以微信后台回复<strong>英雄联盟胜利因素分析</strong>获取</p>
 <p>原始数据中给出了包括比赛ID，是否胜利，以相关资源的获取数量，包括塔，龙，水晶的等因素。首先的探索性数据分析部分我们依旧是先查看数据的数据类型,数据分布与是否存在缺失值</p>
-<pre><code class="py">match_df=pd.read_csv(r&quot;matches.csv&quot;)
+<pre><code class="lang-py">match_df=pd.read_csv(r&quot;matches.csv&quot;)
 match_df.describe()
 match_df.info()
 
@@ -481,18 +481,20 @@ match_df.info()
 sns.set_style(&#39;darkgrid&#39;) 
 plt.figure(figsize = (12,8)) 
 cmap = sns.diverging_palette(220, 20, l = 40, s = 99, sep = 20, center = &#39;light&#39;, as_cmap = True) 
-sns.heatmap(match_df.isna(), cmap = cmap, yticklabels = False)#利用df.isna()来获取是否存在nan并用热力图可视化</code></pre>
+sns.heatmap(match_df.isna(), cmap = cmap, yticklabels = False)#利用df.isna()来获取是否存在nan并用热力图可视化
+</code></pre>
 <p>在确认数据无缺失值后来看一下各个变量间的相关系数：</p>
-<pre><code class="py">#设定图像样式
+<pre><code class="lang-py">#设定图像样式
 plt.figure(figsize = (12,8))
 cmap = sns.diverging_palette(220, 20, l = 40, s = 99, sep = 20, center = &#39;light&#39;, as_cmap = True) 
 
 #drop函数默认删除行，列需要加axis = 1
 #查看各个变量之间的相关系数
-sns.heatmap(match_df.drop([&#39;region&#39;], axis = 1).corr(), vmin = 0, vmax = 1, annot = True, cmap = cmap, lw = .5, linecolor = &#39;white&#39;)</code></pre>
+sns.heatmap(match_df.drop([&#39;region&#39;], axis = 1).corr(), vmin = 0, vmax = 1, annot = True, cmap = cmap, lw = .5, linecolor = &#39;white&#39;)
+</code></pre>
 <p><img src="https://img-blog.csdnimg.cn/20200905185708802.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>可以看出拿到第一座水晶，推塔数量与摧毁水晶数量对于胜利的影响有较强的相关性</p>
 <h1 id="主成分分析部分（PCA）"><a href="#主成分分析部分（PCA）" class="headerlink" title="主成分分析部分（PCA）"></a>主成分分析部分（PCA）</h1><p>在这些原始数据提供的维度中，有哪些维度是比较重要的维度，可以让我们在较少的维度下去进行数据分析呢？针对这个问题，我们使用sklearn中的PCA模块对数据进行降维。</p>
-<pre><code class="py">#数据标准化 / 归一化
+<pre><code class="lang-py">#数据标准化 / 归一化
 scaler = StandardScaler()
 scaler.fit(match_df.drop([&#39;win&#39;, &#39;region&#39;], axis = 1))
 scaled_data = scaler.transform(match_df.drop([&#39;win&#39;, &#39;region&#39;], axis=1))
@@ -514,9 +516,10 @@ plt.plot(range(1,9), exp_var_ratio, marker = &#39;o&#39;, markerfacecolor = &#39
 for i,j in zip(range(1,9),exp_var_ratio):
     ax.annotate(&#39;{:.2f}&#39;.format(j),xy=(i-.2,j+.03))
 plt.xlabel(&#39;Number of Componenets&#39;, size = 15)
-plt.ylabel(&#39;Ratio of Variance Explained&#39;, size = 15)</code></pre>
+plt.ylabel(&#39;Ratio of Variance Explained&#39;, size = 15)
+</code></pre>
 <p>在使用PCA之前必须标准化数据的原因是PCA方法对初始变量的方差非常敏感。也就是说，如果初始变量的范围之间存在较大差异，那么范围较大的变量占的比重较大，和较小的变量相比（例如，范围介于0和100之间的变量较0到1之间的变量会占较大比重），这将导致主成分的偏差。通过将数据转换为同样的比例可以防止这个问题。<br>输出结果：<br><img src="https://img-blog.csdnimg.cn/20200905192455652.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>从输出结果来看，超过80%的方差可以用6个特征来解释。为了了解哪个维度更重要，我们对各成分的方差值与方差占比进行计算并使用热力图可视化</p>
-<pre><code class="py">#将PCA特征的个数选定在6个
+<pre><code class="lang-py">#将PCA特征的个数选定在6个
 pca = PCA(n_components = 6)
 pca.fit(scaled_data)
 data_pca = pca.transform(scaled_data)
@@ -527,7 +530,8 @@ plt.figure(figsize = (12,8))
 sns.heatmap(pca_corr, cmap = cmap, vmin = -1, vmax = 1, annot = True, lw = .5, linecolor = &#39;white&#39;)
 
 #查看各主成分的方差解释度占比
-pca.explained_variance_ratio_</code></pre>
+pca.explained_variance_ratio_
+</code></pre>
 <p><img src="https://img-blog.csdnimg.cn/20200906035022201.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>从热力图中可以看出，摧毁第一座水晶，推塔数和摧毁水晶数占据比赛胜利的重要因素，这也与我们的认知相符。</p>
 <h1 id="逻辑回归建模部分"><a href="#逻辑回归建模部分" class="headerlink" title="逻辑回归建模部分"></a>逻辑回归建模部分</h1><p>最后通过逻辑回归模型，我们可以看到不同的地区胜利与这些影响因素之间的关系<br><img src="https://img-blog.csdnimg.cn/20200906041438710.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
 <p>从这个模型中可以看出各个地区之间的游戏风格存在的差异，并可以去预测给定因素下是否会胜利</p>
@@ -661,7 +665,7 @@ pca.explained_variance_ratio_</code></pre>
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2022 Smilecoc<br>
+      &copy; 2023 Smilecoc<br>
       powered_by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

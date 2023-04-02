@@ -466,33 +466,38 @@
         
         <div class="entry-content">
           <p>在长期的编程实践中，我们必然已经有过使用下面这段代码的经验：</p>
-<pre><code class="py">with open(&quot;test.txt&quot;, &quot;r&quot;, encoding=&quot;utf-8&quot;) as f:
-    s = f.readlines()</code></pre>
+<pre><code class="lang-py">with open(&quot;test.txt&quot;, &quot;r&quot;, encoding=&quot;utf-8&quot;) as f:
+    s = f.readlines()
+</code></pre>
 <p>有的人知道这么写的原因；但也有很多人不知道，只是单纯地“别人都这么写，我也应该这么写”。</p>
 <p>同时，很多知道原因的人也只是知其然而不知其所以然：with语句可以替我们自动关闭打开的文件对象。但是这是通过什么机制办到的呢？</p>
 <h2 id="1-with和异常处理"><a href="#1-with和异常处理" class="headerlink" title="1. with和异常处理"></a>1. with和异常处理</h2><p>我们知道，如果不使用with语句的话，正常地读写一个文件应该经过这些过程：打开文件、操作文件、关闭文件。表达为Python代码如下：</p>
-<pre><code class="py">f = open(&quot;test.txt&quot;, &quot;r&quot;, encoding=&quot;utf-8&quot;)
+<pre><code class="lang-py">f = open(&quot;test.txt&quot;, &quot;r&quot;, encoding=&quot;utf-8&quot;)
 s = f.readlines()
-f.close()</code></pre>
+f.close()
+</code></pre>
 <p>在正常情况下，这样写看起来也没啥问题。<br>接下来我们就人为制造一点“意外”：把打开文件对象时指定的模式由“r”改为“w”。</p>
-<pre><code class="py">f = open(&quot;test.txt&quot;, &quot;w&quot;, encoding=&quot;utf-8&quot;)
+<pre><code class="lang-py">f = open(&quot;test.txt&quot;, &quot;w&quot;, encoding=&quot;utf-8&quot;)
 s = f.readlines()
-f.close()</code></pre>
+f.close()
+</code></pre>
 <p>此时，当程序执行到第2行读取文件内容时，就会抛出错误：</p>
 <pre><code>Traceback (most recent call last):
   File &quot;test_with.py&quot;, line 2, in &lt;module&gt;
     s = f.readlines()
-io.UnsupportedOperation: not readable</code></pre><p>然后……一个可怕的情况就发生了。<br>Python产生未处理的异常从而退出了，导致第2行之后的代码尚未执行，因此<strong>f.close()</strong>也就再也没有机会执行。一个孤魂野鬼般打开的文件对象就这样一个人漂泊在内存的汪洋大海中，没有人知道他是谁、他从哪儿来、他要去哪儿。</p>
+io.UnsupportedOperation: not readable
+</code></pre><p>然后……一个可怕的情况就发生了。<br>Python产生未处理的异常从而退出了，导致第2行之后的代码尚未执行，因此<strong>f.close()</strong>也就再也没有机会执行。一个孤魂野鬼般打开的文件对象就这样一个人漂泊在内存的汪洋大海中，没有人知道他是谁、他从哪儿来、他要去哪儿。</p>
 <p>就这样，每当抛出一次异常，就会产生这么一个流浪对象。久而久之，内存的汪洋大海也就顺理成章被改造成了流浪者的乐土，其他人想来压根儿没门儿。</p>
 <p>追根究底，我们发现导致这个问题的关键在于“打开-操作-关闭”文件这个流水操作中，存在抛出异常的可能。</p>
 <p>所以我们想到了使用Python为我们提供的大杀器，来对付这些异常：try-catch。<br>用异常处理改造一下前面的代码：</p>
-<pre><code class="py">try:
+<pre><code class="lang-py">try:
     f = open(&quot;test.txt&quot;, &quot;a&quot;, encoding=&quot;utf-8&quot;)
     s = f.readlines()
 except:
     print(&quot;出现异常&quot;)
 finally:
-    f.close()</code></pre>
+    f.close()
+</code></pre>
 <p>这样一来，通过附加的<strong>finally</strong>语句，无论文件操作是否抛出异常，都能够保证打开的文件被关闭。从而避免了不断占用资源导致资源泄露的问题。</p>
 <p>实际上，with语句正是为我们提供了一种<strong>try-catch-finally</strong>的封装。</p>
 <p>编程时，看似只是随随便便的一个with，其实已经暗地里确保了类似于上面代码的异常处理机制。</p>
@@ -507,7 +512,7 @@ finally:
 <p>紧跟着执行with语句块中的内容。</p>
 <p>最后调用<strong><strong>exit</strong></strong>，退出with语句块。</p>
 <p>根据上面的内容，我们也可以自行构造一个上下文管理器（注意，两个特征方法的参数要与协议一致）：</p>
-<pre><code class="py">class testContextManager:
+<pre><code class="lang-py">class testContextManager:
     def __enter__(self):
         print(&quot;进入运行时上下文，调用__enter__方法&quot;)
 
@@ -516,10 +521,12 @@ finally:
 
 
 with testContextManager() as o:
-    pass</code></pre>
+    pass
+</code></pre>
 <p>输出结果：</p>
 <pre><code>进入运行时上下文，调用__enter__方法
-退出运行时上下文，调用__exit__方法</code></pre><p>with语句之所以能够替代繁琐的异常处理语句，正是由于上下文管理器遵循协议实现了<strong>enter</strong>和<strong>exit</strong>方法，而with语句又确保了发生异常时能够执行完<strong>exit</strong>方法，再退出相关运行时上下文。</p>
+退出运行时上下文，调用__exit__方法
+</code></pre><p>with语句之所以能够替代繁琐的异常处理语句，正是由于上下文管理器遵循协议实现了<strong>enter</strong>和<strong>exit</strong>方法，而with语句又确保了发生异常时能够执行完<strong>exit</strong>方法，再退出相关运行时上下文。</p>
 <p>在这个方法中，我们就可以完成一些必要的清理工作</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文我们讲解了with语句的内部逻辑，尝试实现了一个自定义的上下文管理器。相信大家对于with的作用方式有了更深刻的领会。</p>
 <p>with语句不仅仅可以用于读写文件，还可以用于锁的自动获取和释放、全局状态的保存和恢复等。更多的实用方式留待大家探索。</p>
@@ -652,7 +659,7 @@ with testContextManager() as o:
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2022 Smilecoc<br>
+      &copy; 2023 Smilecoc<br>
       powered_by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

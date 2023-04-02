@@ -467,12 +467,15 @@
         <div class="entry-content">
           <p>编写SQL中经常可以遇到日期的格式化与日期相关函数，这篇文章中我们将整理一下相关函数并给出一些实例供参考</p>
 <h1 id="获取时间函数"><a href="#获取时间函数" class="headerlink" title="获取时间函数"></a>获取时间函数</h1><h2 id="getdate-函数"><a href="#getdate-函数" class="headerlink" title="getdate()函数"></a>getdate()函数</h2><p>getdate()函数获取当前的日期与时间。返回的为datetime类型</p>
-<pre><code class="sql">select GETDATE()</code></pre>
+<pre><code class="lang-sql">select GETDATE()
+</code></pre>
 <p>返回<code>2020-09-21 10:07:38.170</code></p>
 <h2 id="SYSDATETIME-函数"><a href="#SYSDATETIME-函数" class="headerlink" title="SYSDATETIME()函数"></a>SYSDATETIME()函数</h2><p>SYSDATETIME()函数获取当前的日期与时间，但是返回的数据类型是DATETIME2，会更加精准，使用频率较少</p>
-<pre><code class="sql">SELECT SYSDATETIME()</code></pre>
+<pre><code class="lang-sql">SELECT SYSDATETIME()
+</code></pre>
 <h1 id="格式化函数"><a href="#格式化函数" class="headerlink" title="格式化函数"></a>格式化函数</h1><h2 id="CONVERT-函数"><a href="#CONVERT-函数" class="headerlink" title="CONVERT()函数"></a>CONVERT()函数</h2><p>CONVERT() 函数是一个数据类型转化的通用函数，例如将数字类型转化为文本等。我们可以使用此函数把日期转换为新数据类型<br>语法为：</p>
-<pre><code class="sql">        CONVERT(data_type(length),expression,style)</code></pre>
+<pre><code class="lang-sql">        CONVERT(data_type(length),expression,style)
+</code></pre>
 <p>其中data_type(length) 规定目标数据类型（带有可选的长度）。expression指需要转换的值。style 规定日期/时间的输出格式。</p>
 <p>其中常用的style代码及显示格式如下：</p>
 <pre><code>        101： mm/dd/yyyy
@@ -480,84 +483,108 @@
         111： yyyy/mm/dd
         112： yyyymmdd
         120： yyyy-mm-dd hh:mm:ss
-        121： yyyy-mm-dd hh:mm:sssssss</code></pre><p>全部的style代码可以参考:<a href="https://www.cnblogs.com/rainman/p/6558261.html" target="_blank" rel="noopener">https://www.cnblogs.com/rainman/p/6558261.html</a></p>
+        121： yyyy-mm-dd hh:mm:sssssss
+</code></pre><p>全部的style代码可以参考:<a href="https://www.cnblogs.com/rainman/p/6558261.html" target="_blank" rel="noopener">https://www.cnblogs.com/rainman/p/6558261.html</a></p>
 <p>例如;</p>
-<pre><code class="sql">    SELECT CONVERT(varchar(100), GETDATE(), 111)</code></pre>
+<pre><code class="lang-sql">    SELECT CONVERT(varchar(100), GETDATE(), 111)
+</code></pre>
 <p>通过查看转化后的数据类型，可以看到新的数据类型已变成varchar(100)类型。</p>
-<pre><code class="sql">--查看数据类型
+<pre><code class="lang-sql">--查看数据类型
 DECLARE @query nvarchar(max) = &#39;SELECT CONVERT(varchar(100), GETDATE(), 111) AS [Column1]&#39;;
-EXEC sp_describe_first_result_set @query, null, 0;</code></pre>
+EXEC sp_describe_first_result_set @query, null, 0;
+</code></pre>
 <h2 id="FORMAT-函数"><a href="#FORMAT-函数" class="headerlink" title="FORMAT()函数"></a>FORMAT()函数</h2><p>Format函数用于指定显示的格式。<br>语法：</p>
-<pre><code>FORMAT(value,format[,culture])</code></pre><p>参数format用于指定显示的格式，给予用户对格式更自由地控制，culture参数是可选的，用于指定显示的语言，该函数返回值的数据类型是NVARCHAR，如果格式转换失败，该函数返回NULL</p>
+<pre><code>FORMAT(value,format[,culture])
+</code></pre><p>参数format用于指定显示的格式，给予用户对格式更自由地控制，culture参数是可选的，用于指定显示的语言，该函数返回值的数据类型是NVARCHAR，如果格式转换失败，该函数返回NULL</p>
 <p>参数format使用#表示一个数值，参数 format 使用以下占位符来表示日期/时间的格式：</p>
 <pre><code>1. yyyy、MM、dd：表示年、月、日
 2. hh:mm:ss fffffff：表示时、分、秒、毫秒
-3. 使用“/”，“-”等作为连接各个部分（part）的分割符号</code></pre><p>例如要将当前日期转化为20200921，则SQL语句为：</p>
-<pre><code class="sql">SELECT Format(GETDATE(), &#39;yyyyMMdd&#39;)</code></pre>
+3. 使用“/”，“-”等作为连接各个部分（part）的分割符号
+</code></pre><p>例如要将当前日期转化为20200921，则SQL语句为：</p>
+<pre><code class="lang-sql">SELECT Format(GETDATE(), &#39;yyyyMMdd&#39;)
+</code></pre>
 <p>同时format()函数还可以转变数值类型，使用特定的格式展示等</p>
-<pre><code class="sql">select FORMAT(123456789,&#39;###-##-####&#39;) AS &#39;Custom Number Result&#39;</code></pre>
+<pre><code class="lang-sql">select FORMAT(123456789,&#39;###-##-####&#39;) AS &#39;Custom Number Result&#39;
+</code></pre>
 <p>对应返回结果为123-45-6789</p>
 <h1 id="日期的拆分"><a href="#日期的拆分" class="headerlink" title="日期的拆分"></a>日期的拆分</h1><h2 id="YEAR-date-MONTH-date-DAY-date"><a href="#YEAR-date-MONTH-date-DAY-date" class="headerlink" title="YEAR(date),MONTH(date),DAY(date)"></a>YEAR(date),MONTH(date),DAY(date)</h2><p>YEAR(date),MONTH(date),DAY(date)等函数返回给定date的年，月，日<br>实例：</p>
-<pre><code class="sql">select year(&#39;2020-9-21&#39;),month(&#39;2020-9-21&#39;),day(&#39;2020-9-21&#39;)</code></pre>
+<pre><code class="lang-sql">select year(&#39;2020-9-21&#39;),month(&#39;2020-9-21&#39;),day(&#39;2020-9-21&#39;)
+</code></pre>
 <h2 id="DATEPART-函数"><a href="#DATEPART-函数" class="headerlink" title="DATEPART() 函数"></a>DATEPART() 函数</h2><p>DATEPART() 函数用于返回日期/时间的单独部分，比如年、月、日、小时、分钟等等</p>
 <p>语法：</p>
-<pre><code>DATEPART(datepart,date)</code></pre><p>其中date 参数是合法的日期表达式。datepart为需要取出的数据缩写代码。常用的datepart参数可以是下列的值：</p>
+<pre><code>DATEPART(datepart,date)
+</code></pre><p>其中date 参数是合法的日期表达式。datepart为需要取出的数据缩写代码。常用的datepart参数可以是下列的值：</p>
 <pre><code>    quarter：季度，取值范围是 1、2、3、4
     week：周在年中的序数，取值范围是 1 - 53
     dayofyear：天在年中的序数，取值范围是 1 - 366
-    weekday：天在一周中的序数，取值范围是 1 - 7</code></pre><p>全部参数可参阅：<a href="https://www.w3school.com.cn/sql/func_datepart.asp" target="_blank" rel="noopener">https://www.w3school.com.cn/sql/func_datepart.asp</a></p>
+    weekday：天在一周中的序数，取值范围是 1 - 7
+</code></pre><p>全部参数可参阅：<a href="https://www.w3school.com.cn/sql/func_datepart.asp" target="_blank" rel="noopener">https://www.w3school.com.cn/sql/func_datepart.asp</a></p>
 <p>具体实例代码：</p>
-<pre><code class="sql">--返回年，月份，季度，当前天数统计
+<pre><code class="lang-sql">--返回年，月份，季度，当前天数统计
 SELECT DATEPART(yyyy,GETDATE()) AS Year,
 DATEPART(m,GETDATE()) AS Month,
 DATEPART(quarter,GETDATE()) AS Quarter,
-DATEPART(dayofyear,GETDATE()) AS daynumber</code></pre>
+DATEPART(dayofyear,GETDATE()) AS daynumber
+</code></pre>
 <h2 id="DATENAME-函数，"><a href="#DATENAME-函数，" class="headerlink" title="DATENAME()函数，"></a>DATENAME()函数，</h2><p>与DATEPART不同的地方在于返回字符类型,比如Jan,一月等<br>语法：</p>
-<pre><code class="sql">DATENAME(datepart,date)</code></pre>
+<pre><code class="lang-sql">DATENAME(datepart,date)
+</code></pre>
 <p>实例：</p>
-<pre><code class="sql">SELECT DATENAME(month, getdate()) AS &#39;Month&#39;</code></pre>
+<pre><code class="lang-sql">SELECT DATENAME(month, getdate()) AS &#39;Month&#39;
+</code></pre>
 <p>对于中英文切换，使用如下语句：</p>
-<pre><code class="sql">set LANGUAGE &#39;Simplified Chinese&#39;
+<pre><code class="lang-sql">set LANGUAGE &#39;Simplified Chinese&#39;
 select  DATENAME(WEEKDAY,getutcdate())
 
 set LANGUAGE &#39;us_english&#39;
-select  DATENAME(WEEKDAY,getutcdate())</code></pre>
+select  DATENAME(WEEKDAY,getutcdate())
+</code></pre>
 <h1 id="日期计算函数"><a href="#日期计算函数" class="headerlink" title="日期计算函数"></a>日期计算函数</h1><h2 id="EOMonth-函数"><a href="#EOMonth-函数" class="headerlink" title="EOMonth()函数"></a>EOMonth()函数</h2><p>EOMonth()函数可以返回月份的最后一天。因此我们可以利用这个函数求某个月的最后一天与第一天。<br>语法：</p>
-<pre><code>EOMONTH(start_date [,month_to_add])</code></pre><p>其中start_date： 有两种输入方式，能够转换为Date的字符串类型 和 date 数据类型<br>    month_to_add： 是int 类型，能够为正整数，负整数和0，默认值是0，如果省略，那么使用默认值0,表示月份的偏移量。</p>
-<pre><code class="sql">--查看当前月的最后一天、下一个月的最后一天、上一个月的最后一天
+<pre><code>EOMONTH(start_date [,month_to_add])
+</code></pre><p>其中start_date： 有两种输入方式，能够转换为Date的字符串类型 和 date 数据类型<br>    month_to_add： 是int 类型，能够为正整数，负整数和0，默认值是0，如果省略，那么使用默认值0,表示月份的偏移量。</p>
+<pre><code class="lang-sql">--查看当前月的最后一天、下一个月的最后一天、上一个月的最后一天
 declare @date date
 set @date=getdate()
 
 select EOMONTH(@date) as CurrentMonth_EndDay,
     EOMONTH(@date,1) as NextMonth_EndDay,
-    EOMONTH(@date,-1) as LastMonth_EndDay</code></pre>
+    EOMONTH(@date,-1) as LastMonth_EndDay
+</code></pre>
 <h2 id="dateadd-函数"><a href="#dateadd-函数" class="headerlink" title="dateadd()函数"></a>dateadd()函数</h2><p>DATEADD() 函数在日期中添加或减去指定的时间间隔。<br>语法：</p>
-<pre><code>DATEADD(datepart,number,date)</code></pre><p>其中datepart是單位(年，月，天等)，number是指定的數值，date是原始日期<br>如下例的結果是当前时间的两个月后的日期，类型为datetime类型</p>
-<pre><code class="sql">    SELECT DATEADD(MONTH,2,getdate())</code></pre>
+<pre><code>DATEADD(datepart,number,date)
+</code></pre><p>其中datepart是單位(年，月，天等)，number是指定的數值，date是原始日期<br>如下例的結果是当前时间的两个月后的日期，类型为datetime类型</p>
+<pre><code class="lang-sql">    SELECT DATEADD(MONTH,2,getdate())
+</code></pre>
 <p>根据上述两个函数我们还可以通过上个月的最后一天+1来获取每个月第一天</p>
-<pre><code class="sql">select dateadd(day,1,EOMONTH(getdate(),-1)) as CurrentMonth_startDay</code></pre>
+<pre><code class="lang-sql">select dateadd(day,1,EOMONTH(getdate(),-1)) as CurrentMonth_startDay
+</code></pre>
 <p>同时也可以通过前面所说的日期拼接函数与format函数实现</p>
-<pre><code class="sql">declare @date date
+<pre><code class="lang-sql">declare @date date
 set @date=getdate()
 
 select DATEFROMPARTS(year(@date),month(@date),1) 
 
 --or
 
-select FORMAT(GETDATE(),&#39;yyyy-MM-01&#39;)</code></pre>
+select FORMAT(GETDATE(),&#39;yyyy-MM-01&#39;)
+</code></pre>
 <h2 id="DATEDIFF-函数"><a href="#DATEDIFF-函数" class="headerlink" title="DATEDIFF()函数"></a>DATEDIFF()函数</h2><p>DATEDIFF()函数计算两个日期之间的间隔，传回带正负符号的整数</p>
 <p>语法：</p>
-<pre><code>DATEDIFF(datepart,startdate,enddate)</code></pre><p>datepart为间隔的单位，可以选择天，周，月等。startdate跟enddate为起始时间</p>
+<pre><code>DATEDIFF(datepart,startdate,enddate)
+</code></pre><p>datepart为间隔的单位，可以选择天，周，月等。startdate跟enddate为起始时间</p>
 <p>实例：</p>
-<pre><code class="sql">SELECT DATEDIFF(DAY, &#39;2010-10-03&#39;,&#39;2010-10-04&#39;  )</code></pre>
+<pre><code class="lang-sql">SELECT DATEDIFF(DAY, &#39;2010-10-03&#39;,&#39;2010-10-04&#39;  )
+</code></pre>
 <p>结果返回1</p>
 <h1 id="构造日期的函数"><a href="#构造日期的函数" class="headerlink" title="构造日期的函数"></a>构造日期的函数</h1><p>构造日期的函数有以下几个：<br>语法：</p>
-<pre><code class="sql">    DATEFROMPARTS ( year, month, day )
+<pre><code class="lang-sql">    DATEFROMPARTS ( year, month, day )
     DATETIME2FROMPARTS ( year, month, day, hour, minute, seconds, fractions, precision ) 
     DATETIMEOFFSETFROMPARTS ( year, month, day, hour, minute, seconds, fractions, hour_offset, minute_offset, precision )
-    TIMEFROMPARTS ( hour, minute, seconds, fractions, precision ) </code></pre>
+    TIMEFROMPARTS ( hour, minute, seconds, fractions, precision )
+</code></pre>
 <p>传入对应参数后即可<br>其中参数precision 是指小数秒的精度，指的是DateTime2(n)、DateTimeOffset(n),Time(n)中的n值，表示以多少位小数表示1s，一般比较少使用</p>
-<pre><code class="sql">select DATEFROMPARTS ( 2020, 1, 2 )</code></pre>
+<pre><code class="lang-sql">select DATEFROMPARTS ( 2020, 1, 2 )
+</code></pre>
 <h1 id="练习实例"><a href="#练习实例" class="headerlink" title="练习实例"></a>练习实例</h1><p>现有一列日期，请根据日期输出对应的每周开始与每周结束日期并格式化。<br>例如原始数据time_test表：</p>
 <pre><code>| date      | 
 |-----------|
@@ -567,7 +594,8 @@ select FORMAT(GETDATE(),&#39;yyyy-MM-01&#39;)</code></pre>
 | 2020-8-12 | 
 | 2020-8-8  | 
 | 2020-8-12 | 
-| 2020-9-15 |</code></pre><p>期望的输出结果：</p>
+| 2020-9-15 |
+</code></pre><p>期望的输出结果：</p>
 <pre><code>| date      | period  |
 |-----------|---------|
 | 2020-8-4  |0803-0809|
@@ -576,11 +604,13 @@ select FORMAT(GETDATE(),&#39;yyyy-MM-01&#39;)</code></pre>
 | 2020-8-12 |0810-0816|
 | 2020-8-8  |0803-0809|
 | 2020-8-12 |0803-0809|
-| 2020-9-15 |0810-0816|</code></pre><p>其中period的开始为每周周一，结束日期为每周周日</p>
+| 2020-9-15 |0810-0816|
+</code></pre><p>其中period的开始为每周周一，结束日期为每周周日</p>
 <p>解答：<br>先给出代码</p>
-<pre><code class="sql">select [date],
+<pre><code class="lang-sql">select [date],
 format(DATEADD(wk, DATEDIFF(wk,0,DATEADD(dd,-1,[date])), 0),&#39;MMdd&#39;)+&#39;-&#39;+format(DATEADD(dd,-1,DATEADD(wk, DATEDIFF(wk,0,DATEADD(dd,6,[date])), 0)),&#39;MMdd&#39;) as period
-from time_test</code></pre>
+from time_test
+</code></pre>
 <p>从内到外解析这一段代码，我们首先利用datediif(wk,0,date)计算从1900-01-01 到指定日期的周数（0代表日期对应的数字形式，即1900-01-01）。之后利用DateAdd函数在1900-01-01 的基础上加上刚刚我们计算出的周数，从而得到每周的开始时间。最后通过forma函数对日期格式化即可得出结果。</p>
 <p>其中在最内层有一个DATEADD(dd,-1,[date])，这个是由于我使用的是英文版的SQL server,所以每周是周日开始与周六结束，如果使用中文版SQL server,应该就可以直接使[date]列</p>
 
@@ -712,7 +742,7 @@ from time_test</code></pre>
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2022 Smilecoc<br>
+      &copy; 2023 Smilecoc<br>
       powered_by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

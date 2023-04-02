@@ -482,7 +482,7 @@
 <p>总的来说，SQL语法可以划分为几大块：<br><img src="https://img-blog.csdnimg.cn/20200806185830931.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <ol>
 <li><p>数据定义语言DDL：用于具体实现关系，以及关系附带的一些结构，如索引等；</p>
-<ol start="2">
+<ol>
 <li>数据查询语言DML：用于操作数据库，包括增删改查；</li>
 <li>数据控制语言DCL：用来帮助实现数据库的存取控制；</li>
 <li>事务控制语言TCL：用于数据库中的事务管理；</li>
@@ -490,8 +490,9 @@
 <p>接下来本文将对几大类的SQL进行讲解，采用回顾总结型的讲解方式，不会涉及过多细节。</p>
 </li>
 </ol>
-<h2 id="DDL"><a href="#DDL" class="headerlink" title="DDL"></a>DDL</h2><pre><code>    数据定义语言DDL(Data Definition Language)的组成部分并不多，主要涉及到的关键字有：CREATE, ALTER, DROP这三个。</code></pre><ol>
-<li>CREATE:用于创建数据库，创建关系表，创建视图等。需要注意的是在建表的时候除了表本身，还要定义主外键约束，以及一些附带结构，如索引等。<ol start="2">
+<h2 id="DDL"><a href="#DDL" class="headerlink" title="DDL"></a>DDL</h2><pre><code>    数据定义语言DDL(Data Definition Language)的组成部分并不多，主要涉及到的关键字有：CREATE, ALTER, DROP这三个。
+</code></pre><ol>
+<li>CREATE:用于创建数据库，创建关系表，创建视图等。需要注意的是在建表的时候除了表本身，还要定义主外键约束，以及一些附带结构，如索引等。<ol>
 <li>ALTER:用于调整数据库/表/视图的结构信息。</li>
 </ol>
 </li>
@@ -500,8 +501,9 @@
 <h2 id="DML"><a href="#DML" class="headerlink" title="DML"></a>DML</h2><p>数据查询语言DML(Data Manipulation Language)是SQL的主体成分，SQL的编写工作绝大部分都是在这一块。该部分知识比较杂而多，故本文选择从整体角度，以经验总结的形式进行讲解，相关语法细节请读者查询有关函数手册。</p>
 <p>总的来说，DML有以下功能(底层项为功能所涉及关键字)：<br><img src="https://img-blog.csdnimg.cn/20200806185936224.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <h3 id="1-基本检索"><a href="#1-基本检索" class="headerlink" title="1. 基本检索"></a>1. 基本检索</h3><p>SELECT+WHERE+GROUP BY(聚集函数)+HAVING+ORDER BY是最常用的查询组合，要注意的是如果SELECT搭配了GROUP BY，那么GROUP BY后列也要是SELECT的一部分，这样查询结果才能清楚展示数据是按什么分组的。另一方面，如果使用了GROUP BY，那么出现在SELECT后不使用聚集函数的列必须也出现在GROUP BY里否则系统提示异常。新手常会犯这个错误，如以下代码：</p>
-<pre><code class="sql">SELECT id, name, count(*)
-GROUP BY id</code></pre>
+<pre><code class="lang-sql">SELECT id, name, count(*)
+GROUP BY id
+</code></pre>
 <p>name列没有使用聚集函数，且没有出现在GROUP BY后，因此系统必然提示出错。</p>
 <p> 因此请意识到GROUP BY后面跟了什么列，SELECT后面就单写什么列(不使用聚合函数)，出现的其他列则必须使用聚合函数。</p>
 <p>此外，HAVING后面跟着的约束对象必须是聚合函数列。虽然感觉是有点重复(聚合函数列写了两次)，而且WHERE子句和HAVING子句中都不允许使用列别名…但若不满足这些约束，查询结果会混乱。</p>
@@ -645,7 +647,7 @@ GROUP BY id</code></pre>
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2022 Smilecoc<br>
+      &copy; 2023 Smilecoc<br>
       powered_by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

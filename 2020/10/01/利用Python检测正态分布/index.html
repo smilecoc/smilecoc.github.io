@@ -474,7 +474,7 @@
 </ul>
 <p>这个统计检验的假设是样本来自于一个正态母体，因此，一方面，如果p值小于选择的显著度水平（通常0.05），那么在更大概率下我们应该拒绝零假设，数据的证据显示我们的样本不是来自一个正态分布母体。另一方面，如果p值比选择的显著度水平大，那么我们没有证据拒绝零假设，数据来自于一个正态分布。</p>
 <p>Python代码：</p>
-<pre><code class="py">import numpy as np
+<pre><code class="lang-py">import numpy as np
 from scipy import stats
 np.random.seed(0)
 x = np.random.randn(1, 1000)
@@ -482,14 +482,15 @@ print(stats.shapiro(x[0]))
 # (0.9985557794570923, 0.5914123058319092)
 # 输出（统计量W的值,P值）
 # W的值越接近1就越表明数据和正态分布拟合得越好，P值&gt;指定水平, 不拒绝原假设，可以认为样本数据服从正态分布
-# 不适合样本&gt;5000的情况</code></pre>
+# 不适合样本&gt;5000的情况
+</code></pre>
 <p>参考链接：<br><a href="https://en.wikipedia.org/wiki/Shapiro%E2%80%93Wilk_test" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Shapiro%E2%80%93Wilk_test</a><br><a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.shapiro.html" target="_blank" rel="noopener">https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.shapiro.html</a></p>
 <h1 id="Kolmogorov-Smirnov-test"><a href="#Kolmogorov-Smirnov-test" class="headerlink" title="Kolmogorov-Smirnov test"></a>Kolmogorov-Smirnov test</h1><p>Kolmogorov-Smirnov是比较一个频率分布f(x)与理论分布g(x)或者两个观测值分布的检验方法。其原假设H0:两个数据分布一致或者数据符合理论分布。D=max|f(x)- g(x)|，当实际观测值D&gt;D(n,α)则拒绝H0，否则接受H0假设。</p>
 <p>KS检验与t-检验之类的其他方法不同是KS检验不需要知道数据的分布情况，可以算是一种非参数检验方法。当然这样方便的代价就是当检验的数据分布符合特定的分布时，KS检验的灵敏度没有相应的检验来的高。在样本量比较小的时候，KS检验最为非参数检验在分析两组数据之间是否不同时相当常用。</p>
 <p>Kolmogorov检验找出在每一个数据点上经验累积概率与目标分布的累积概率之差的上界，列出公式是这样的：</p>
 <p>$D_n = \underset{x}{sup}|F_n(x)-F(x)|$</p>
 <p>其中sup函数表示一组距离中的上确界，这是个数学概念，表示在原假设$F_n(x)=F(x)$的条件下，$F_n(x)=F(x)$的绝对值的最小上界。$F_n(x),F(x)$分别代表经验的和理论的累积概率。其意图在于如果原假设成立，则$D_n$应该很小，如果很大，则原假设不成立。但是，这个上确界怎么求出来呢？请看下面的公式：</p>
-<p>$D_n = \underset{x}{sup}|F_n(x)-F(x)|=\underset{1\leq k\leq n}{max}{|F_n(x_k)-F_0(x_k)|,|F_0(x_{k+1}-F_n(x_k)|}$</p>
+<p>$D_n = \underset{x}{sup}|F_n(x)-F(x)|=\underset{1\leq k\leq n}{max}\{|F_n(x_k)-F_0(x_k)|,|F_0(x_{k+1}-F_n(x_k)|\}$</p>
 <p>其中k为样本从小到大排列后的序数。从公式中看出Dn是经验和目标累积概率之差和错一位后再求出的差中最大的一个。Kolmogorov还给出了这个距离的分布函数，并给出了判断的临界值。当然现在的统计软件都直接计算p值，很少有人查表了。</p>
 <p>Kolmogorov-Smirnov检验（K-S检验）基于累积分布函数，用以检验一个经验分布是否符合某种理论分布或比较两个经验分布是否有显著性差异。</p>
 <p>两样本K-S检验由于对两样本的经验分布函数的位置和形状参数的差异都敏感而成为比较两样本的最有用且常规的非参数方法之一。</p>
@@ -503,15 +504,17 @@ cdf：检验方法，这里我们设置为‘norm’，即正态性检验
 args：分布参数，可选
 N：样本数量
 alternative：默认为双尾检验，可以设置为‘less’或‘greater’作单尾检验
-mode：定义计算p-value的方式</code></pre>使用示例：</li>
+mode：定义计算p-value的方式
+</code></pre>使用示例：</li>
 </ul>
-<pre><code class="py">import numpy as np
+<pre><code class="lang-py">import numpy as np
 from scipy import stats
 
 np.random.seed(0)
 x = np.random.randn(1, 100)
 print(stats.kstest(x[0], &#39;norm&#39;))
-# KstestResult(statistic=0.0582486387238324, pvalue=0.8865884365301941)</code></pre>
+# KstestResult(statistic=0.0582486387238324, pvalue=0.8865884365301941)
+</code></pre>
 <p>输出结果中第一个为统计量，第二个为P值（注：统计量越接近0就越表明数据和标准正态分布拟合的越好，如果P值大于显著性水平，通常是0.05，接受原假设，则判断样本的总体服从正态分布）</p>
 <p>参考链接：</p>
 <p><a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.kstest.html" target="_blank" rel="noopener">https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.kstest.html</a><br><a href="https://qinqianshan.com/math/significance_test/kolmogorovsmirnov/" target="_blank" rel="noopener">https://qinqianshan.com/math/significance_test/kolmogorovsmirnov/</a><br><a href="https://blog.csdn.net/qq_41679006/article/details/80977113" target="_blank" rel="noopener">https://blog.csdn.net/qq_41679006/article/details/80977113</a></p>
@@ -524,14 +527,15 @@ print(stats.kstest(x[0], &#39;norm&#39;))
 <p>其中$Y_i=\frac{X_i-\hat{\mu}}{\hat{\sigma}}$<br>注意这个公式计算所采用的数据顺序是从小到大排列的，不是原来的数据排列顺序。</p>
 <p>scipy.stats.anderson是由 scipy.stats.kstest 改进而来的，可以做正态分布、指数分布、Logistic 分布、Gumbel 分布等多种分布检验。默认参数为 norm，即正态性检验。</p>
 <p>返回：statistic – 统计数；critical_values – 评判值；significance_level – 显著性水平</p>
-<pre><code class="py">import numpy as np
+<pre><code class="lang-py">import numpy as np
 from scipy import stats
 
 np.random.seed(0)
 x = np.random.randn(1, 100)
 print(stats.anderson(x[0], &#39;norm&#39;))
 # AndersonResult(statistic=0.18097695613924714, critical_values=array([0.555, 0.632, 0.759, 0.885, 1.053]), significance_level=array([15. , 10. ,  5. ,  2.5,  1. ]))
-# 如果输出的统计量值statistic &lt; critical_values，则表示在相应的significance_level下，接受原假设，认为样本数据来自给定的正态分布。</code></pre>
+# 如果输出的统计量值statistic &lt; critical_values，则表示在相应的significance_level下，接受原假设，认为样本数据来自给定的正态分布。
+</code></pre>
 <p>参考链接：</p>
 <p><a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.anderson.html" target="_blank" rel="noopener">https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.anderson.html</a><br><a href="https://zhuanlan.zhihu.com/p/26477641" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/26477641</a></p>
 <h1 id="scipy-stats-normaltest"><a href="#scipy-stats-normaltest" class="headerlink" title="scipy.stats.normaltest"></a>scipy.stats.normaltest</h1><p>scipy.stats.normaltest运用了D’Agostino–Pearson综合测试法，返回（得分值，p值），得分值=偏态平方+峰态平方</p>
@@ -540,26 +544,29 @@ print(stats.anderson(x[0], &#39;norm&#39;))
 
 a：待检验的数据
 axis：默认为0，表示在0轴上检验，即对数据的每一行做正态性检验，我们可以设置为axis=None来对整个数据做检验
-nan_policy：当输入的数据中有空值时的处理办法。默认为 propagate，返回空值；设置为raise时，抛出错误；设置为omit时，在计算中忽略空值。</code></pre><p>代码示例：</p>
-<pre><code class="py">import numpy as np
+nan_policy：当输入的数据中有空值时的处理办法。默认为 propagate，返回空值；设置为raise时，抛出错误；设置为omit时，在计算中忽略空值。
+</code></pre><p>代码示例：</p>
+<pre><code class="lang-py">import numpy as np
 from scipy import stats
 
 np.random.seed(0)
 x = np.random.randn(1, 100)
 print(stats.normaltest(x[0]))
-# NormaltestResult(statistic=0.45430460563864783, pvalue=0.7967994182504964)</code></pre>
+# NormaltestResult(statistic=0.45430460563864783, pvalue=0.7967994182504964)
+</code></pre>
 <p>如果pvalue是&gt;0.05，则代表是正态分布。</p>
 <p>参考链接：</p>
 <p><a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.normaltest.html" target="_blank" rel="noopener">https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.normaltest.html</a></p>
 <h1 id="Lilliefors-test"><a href="#Lilliefors-test" class="headerlink" title="Lilliefors-test"></a>Lilliefors-test</h1><p>检验样本数据是否来自正态总体。采用方法是：当总体均值和方差未知时，用样本的均值和方差代替后 再用K-S检验法。据说效果不如Anderson-Darling test。原假设 H0：样本服从正态分布； 备择假设 H1：样本不服从正态分布</p>
-<pre><code class="py">
+<pre><code class="lang-py">
 import numpy as np
 from statsmodels.stats.diagnostic import lilliefors
 
 np.random.seed(0)
 x = np.random.randn(1, 100)
 print(lilliefors(x[0]))
-# 输出(统计量的值,P值)=(0.06433451870420759, 0.40018452551214856)，P值&gt;指定水平0.05，接受原假设，可以认为样本数据服从正态分布</code></pre>
+# 输出(统计量的值,P值)=(0.06433451870420759, 0.40018452551214856)，P值&gt;指定水平0.05，接受原假设，可以认为样本数据服从正态分布
+</code></pre>
 <p>参考链接：</p>
 <p><a href="https://www.statsmodels.org/stable/generated/statsmodels.stats.diagnostic.lilliefors.html" target="_blank" rel="noopener">https://www.statsmodels.org/stable/generated/statsmodels.stats.diagnostic.lilliefors.html</a></p>
 
@@ -691,7 +698,7 @@ print(lilliefors(x[0]))
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2022 Smilecoc<br>
+      &copy; 2023 Smilecoc<br>
       powered_by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

@@ -465,7 +465,7 @@
         <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
         
         <div class="entry-content">
-          <p>在抓取动态页面的时候会出现一些特殊的情况导致获取json取得数据比较困难，这个时候只能使用其他的爬取自动化爬取方式，但是相对门槛比较高比较麻烦，所以对于一些特殊的情况可以采取一下半自动化的手段​–保存html后进行爬虫。</p>
+          <p>在抓取动态页面的时候会出现一些特殊的情况导致获取json取得数据比较困难，这个时候只能使用其他的爬取自动化爬取方式，但是相对门槛比较高比较麻烦，所以对于一些特殊的情况可以采取一下半自动化的手段​—保存html后进行爬虫。</p>
 <p>例如现在我想爬取一个饿了么的店铺里的商品信息和商品的价格</p>
 <p>1.首先登陆饿了么的网页端<a href="https://h5.ele.me/" target="_blank" rel="noopener">https://h5.ele.me/</a></p>
 <p>2.登陆之后我们可以很明显看到是手机端的页面，按F12进入开发者模式(使用的是Chrome浏览器)，点击下图红框部分可以切换网页和手机视图浏览<br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xNjYzNjI1Ni0xNzEyZjFjNTkwYzQ0OTI5LnBuZw?x-oss-process=image/format,png" alt="image.png"></p>
@@ -480,7 +480,7 @@
 <p>所以对于这样的网站无法一个一个请求URL获取数据，就可以先保存HTML文件到本地之后再解析<br>1.首先将网页下拉到最后，右键保存网页<br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xNjYzNjI1Ni1iMmZmY2ViZDViY2UwNDY3LnBuZw?x-oss-process=image/format,png" alt="image.png"></p>
 <p>2.打开下载的html文件，可以看到所有的数据已保留，这个时候就可以像普通的静态网页一样解析即可。唯一的区别就是不是再用request去请求网页解析，而是直接解析本地的html文件<br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xNjYzNjI1Ni02ZDM0ODE3MzY4ZGVhZmZjLnBuZw?x-oss-process=image/format,png" alt="image.png"></p>
 <p>这种方法算是无法爬取页面的一个解决办法，算是一个半自动化的方法。<br>之后我们就可以通过解析HTML的方法进行商品数据的抓取了。</p>
-<pre><code class="py">import re
+<pre><code class="lang-py">import re
 import pandas as pd
 
 #读取本地的html文件
@@ -502,7 +502,8 @@ result=pd.concat([goods,currentprice],axis=1)
 #更改dataframe列名称
 result.columns=[&#39;商品名&#39;,&#39;现价&#39;]
 #保存文件
-result.to_excel(r&quot;C:\Users\Desktop\result.xlsx&quot;,index=None)</code></pre>
+result.to_excel(r&quot;C:\Users\Desktop\result.xlsx&quot;,index=None)
+</code></pre>
 
         </div>
         <!-- .entry-content -->
@@ -632,7 +633,7 @@ result.to_excel(r&quot;C:\Users\Desktop\result.xlsx&quot;,index=None)</code></pr
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2022 Smilecoc<br>
+      &copy; 2023 Smilecoc<br>
       powered_by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

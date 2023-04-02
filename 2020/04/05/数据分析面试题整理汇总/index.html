@@ -474,16 +474,17 @@
 </li>
 </ol>
 <p>答案：<br>1.</p>
-<pre><code class="sql">select t2.act_id,sum(order_pay) as total_cost,count(order_time) as order_num
+<pre><code class="lang-sql">select t2.act_id,sum(order_pay) as total_cost,count(order_time) as order_num
 from 
 (select user_id，order_pay，order_time from orders) as t1
 inner join
 (select act_id,user_id,act_time) as t2
 on t1.user_id=t2.user_id
 where t1.order_time&gt;=t2.act_time
-group by t2.act_id</code></pre>
+group by t2.act_id
+</code></pre>
 <p>2.</p>
-<pre><code class="sql">select t1.act_id,count(order_time)/dateiff(now(),t1.begin_time) as avg_ordercount
+<pre><code class="lang-sql">select t1.act_id,count(order_time)/dateiff(now(),t1.begin_time) as avg_ordercount
 from
 (select act_id,user_id,act_time,min(act_time) over (partition by act_id) as begin_time from act_apply) as t1
 inner join
@@ -491,7 +492,8 @@ inner join
 on t1.user_id=t2.user_id
 where t1.act_time between t1.begin_time and now()
 and t2.order_time &gt;= t1.act_time
-group by t1.act_id</code></pre>
+group by t1.act_id
+</code></pre>
 <ul>
 <li>第二题涉及到over函数的使用</li>
 </ul>
@@ -500,16 +502,18 @@ group by t1.act_id</code></pre>
 <p>1、计算每天的访客数和他们的平均操作次数。</p>
 <p>2、统计每天符合以下条件的用户数：A操作之后是B操作，AB操作必须相邻。</p>
 <p>答案：<br>1.</p>
-<pre><code class="sql">select date(log_time),count(distinct user_id) as user_num,avg(num_ci) as avg_operqationcount
+<pre><code class="lang-sql">select date(log_time),count(distinct user_id) as user_num,avg(num_ci) as avg_operqationcount
 from
 (select date(log_time),user_id,count(opr_id) as num_ci from tracking_log group by date(log_time),user_id)
-group by date(log_time)</code></pre>
+group by date(log_time)
+</code></pre>
 <p>2.</p>
-<pre><code class="sql">select date(log_time),count(distinct user_id) as user_num
+<pre><code class="lang-sql">select date(log_time),count(distinct user_id) as user_num
 from
 (select user_id,date(log_time),opr_id,lead(opr_id,1) over(partition by user_id order by lod_time) as opr_id_2 from tracking_log)
 where opr_id=&#39;A&#39; and opr_id_2=&#39;B&#39;
-group by date(log_time)</code></pre>
+group by date(log_time)
+</code></pre>
 <ul>
 <li>使用lead()  over()实现</li>
 </ul>
@@ -517,9 +521,9 @@ group by date(log_time)</code></pre>
 <p>要求：</p>
 <p>每天新增用户数，以及他们第2天、30天的回访比例</p>
 <p>如何定义新增用户：用户登陆表中最早的登陆时间所在的用户数为当天新增用户数；</p>
-<p>第2天回访用户数：第一天登陆的用户中，第二天依旧登陆的用户；–次日留存率</p>
+<p>第2天回访用户数：第一天登陆的用户中，第二天依旧登陆的用户；—次日留存率</p>
 <p>第30天的回访用户数：第一天登陆用户中，第30天依旧登陆的用户；</p>
-<pre><code class="sql">select date(t1.user_begin),count(distinct t1.user_id) as new_user,count(distinct t2.user_id) as twodays_retained_users,count(distinct t3.user_id) as thrityday_retained_users
+<pre><code class="lang-sql">select date(t1.user_begin),count(distinct t1.user_id) as new_user,count(distinct t2.user_id) as twodays_retained_users,count(distinct t3.user_id) as thrityday_retained_users
 from
 (select user_id,min(log_time) as user_begin from user_log group by user_id) t1
 left join
@@ -530,7 +534,8 @@ left join
 (select user_id,log_time from user_log) t3
 on t1.user_id=t3.user_id
 and date(t3.log_time)=date(t1.user_begin)+29
-group by date(t1.user_begin)</code></pre>
+group by date(t1.user_begin)
+</code></pre>
 <h2 id="第四题：数学计算题"><a href="#第四题：数学计算题" class="headerlink" title="第四题：数学计算题"></a>第四题：数学计算题</h2><p>已知A,B厂生产的产品的次品率分别是1%和2%，现在由A,B产品分别占60%、40%的样品中随机抽一件，若取到的是次品，求此次品是B厂生产的概率。</p>
 <p>已知：P(A)=0.6,P(B)=0.4,P(次/A)=0.01,P(次/B)=0.02</p>
 <p>求：P(B/次)</p>
@@ -560,30 +565,35 @@ group by date(t1.user_begin)</code></pre>
 <pre><code>| ID | CustomerID |
 |----|------------|
 | 1  | 3          |
-| 2  | 1          |</code></pre><p>例如给定上述表格，你的查询应返回：</p>
+| 2  | 1          |
+</code></pre><p>例如给定上述表格，你的查询应返回：</p>
 <pre><code>|Customers|
 |---------|
 |  Henry  |
 |   Max   |
 </code></pre><p>解答：</p>
-<pre><code class="sql">select c.name 
+<pre><code class="lang-sql">select c.name 
 from customers c
 left join (select distinct customerid from orders) o 
 on c.id=o.customerid
-where o.customerid is null</code></pre>
+where o.customerid is null
+</code></pre>
 <h2 id="第七题：删除重复的电子邮箱（使用工具：MySQL）"><a href="#第七题：删除重复的电子邮箱（使用工具：MySQL）" class="headerlink" title="第七题：删除重复的电子邮箱（使用工具：MySQL）"></a>第七题：删除重复的电子邮箱（使用工具：MySQL）</h2><p>编写一个 SQL 查询，来删除 Person 表中所有重复的电子邮箱，重复的邮箱里只保留 Id 最小的那个。<br>注意：Person 表中数据量很大，ID为主键</p>
 <pre><code>| ID | Email             |
 |----|-------------------|
 | 1  | john@example\.com |
 | 2  | bob@example\.com  |
-| 3  | john@example\.com |</code></pre><p>例如，在运行你的查询语句之后，上面的 Person 表应返回以下几行:</p>
+| 3  | john@example\.com |
+</code></pre><p>例如，在运行你的查询语句之后，上面的 Person 表应返回以下几行:</p>
 <pre><code>| ID | Email             |
 |----|-------------------|
 | 1  | john@example\.com |
-| 2  | bob@example\.com  |</code></pre><pre><code>delete from email 
+| 2  | bob@example\.com  |
+</code></pre><pre><code>delete from email 
 where id not in(
 select a.id from (select min(id) id from email group by email) a
-)</code></pre>
+)
+</code></pre>
         </div>
         <!-- .entry-content -->
         <div class="single-reward">
@@ -712,7 +722,7 @@ select a.id from (select min(id) id from email group by email) a
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2022 Smilecoc<br>
+      &copy; 2023 Smilecoc<br>
       powered_by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

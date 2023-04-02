@@ -466,30 +466,23 @@
         
         <div class="entry-content">
           <h1 id="一、数据标准化-归一化的作用"><a href="#一、数据标准化-归一化的作用" class="headerlink" title="一、数据标准化 / 归一化的作用"></a>一、数据标准化 / 归一化的作用</h1><ul>
-<li><p>提升模型精度：标准化 / 归一化使不同维度的特征在数值上更具比较性，提高分类器的准确性。</p>
-</li>
+<li>提升模型精度：标准化 / 归一化使不同维度的特征在数值上更具比较性，提高分类器的准确性。</li>
 <li><p>提升收敛速度：对于线性模型，数据归一化使梯度下降过程更加平缓，更易正确的收敛到最优解。</p>
-<h1 id="二、标准差标准化-StandardScaler"><a href="#二、标准差标准化-StandardScaler" class="headerlink" title="二、标准差标准化 StandardScaler"></a>二、标准差标准化 StandardScaler</h1><pre><code class="py">from sklearn.preprocessing import StandardScaler</code></pre>
-</li>
-<li><p><em>使用均值与方差，对服从正态分布的数据处理，得到符合标准正态分布的数据*</em></p>
+<h1 id="二、标准差标准化-StandardScaler"><a href="#二、标准差标准化-StandardScaler" class="headerlink" title="二、标准差标准化 StandardScaler"></a>二、标准差标准化 StandardScaler</h1><pre><code class="lang-py">from sklearn.preprocessing import StandardScaler
+</code></pre>
+<p><strong>使用均值与方差，对服从正态分布的数据处理，得到符合标准正态分布的数据</strong></p>
 </li>
 <li><p>处理方法：标准化数据减去均值，然后除以标准差，经过处理后数据符合标准正态分布，即均值为0，标准差为1；</p>
 </li>
-<li><p>转化函数：x = (x-mean) / std,std表示标准差；</p>
-</li>
-<li><p>适用性：适用于本身服从正态分布的数据；</p>
-</li>
-<li><p>Outlier 的影响：基本可用于有outlier的情况，但在计算方差和均值时outliers仍然会影响计算。</p>
-</li>
-<li></li>
-<li><p><em>参数包括：with_mean, with_std, copy*</em></p>
+<li>转化函数：x = (x-mean) / std,std表示标准差；</li>
+<li>适用性：适用于本身服从正态分布的数据；</li>
+<li>Outlier 的影响：基本可用于有outlier的情况，但在计算方差和均值时outliers仍然会影响计算。</li>
+<li><p><strong>参数包括：with_mean, with_std, copy</strong></p>
 </li>
 <li><p>with_mean：布尔型，默认为 True，表示在缩放前将数据居中，当尝试在稀疏矩阵上时，这不起作用(并且会引发异常)，因为将它们居中需要构建一个密集矩阵，在常见的用例中，该矩阵可能太大而无法容纳在内存中；</p>
 </li>
-<li><p>with_std：布尔型，默认为True，表示将数据换算成单位方差(或等效的单位标准差)；</p>
-</li>
-<li><p>copy : 布尔值，默认为True，可选参数，表示拷贝一份数据以避免在原数据上进行操作，若设置为 False 执行插入行规范化并避免复制。</p>
-</li>
+<li>with_std：布尔型，默认为True，表示将数据换算成单位方差(或等效的单位标准差)；</li>
+<li>copy : 布尔值，默认为True，可选参数，表示拷贝一份数据以避免在原数据上进行操作，若设置为 False 执行插入行规范化并避免复制。</li>
 </ul>
 <p><strong>属性包括：mean_, scale_, var_, n_samples_seen_</strong></p>
 <ul>
@@ -498,7 +491,8 @@
 <li>var_：训练集中每个特征的方差，用于计算比例，当_ std =False时，为None；</li>
 <li>n_samples_seen_：每个特征处理的样本数。如没有丢失的样本，n_samples_seen_是一个整数，否则是一个数组，并将被重置或递增。</li>
 </ul>
-<h1 id="三、极差标准化-归一化-MinMaxScaler"><a href="#三、极差标准化-归一化-MinMaxScaler" class="headerlink" title="三、极差标准化 / 归一化 MinMaxScaler"></a>三、极差标准化 / 归一化 MinMaxScaler</h1><pre><code class="py">from sklearn.preprocessing import MinMaxScaler</code></pre>
+<h1 id="三、极差标准化-归一化-MinMaxScaler"><a href="#三、极差标准化-归一化-MinMaxScaler" class="headerlink" title="三、极差标准化 / 归一化 MinMaxScaler"></a>三、极差标准化 / 归一化 MinMaxScaler</h1><pre><code class="lang-py">from sklearn.preprocessing import MinMaxScaler
+</code></pre>
 <p><strong>区间缩放，基于最大最小值，将数据转换到0,1区间上的</strong></p>
 <ul>
 <li>处理方法：将特征缩放到给定的最小值和最大值之间，也可以将每个特征的最大绝对值转换至单位大小。这种方法是对原始数据的线性变换，将数据归一到[0,1]中间；</li>
@@ -519,7 +513,8 @@
 <li>data_min_：每个特征在数据中出现的最小值；</li>
 <li>data_max_：每个特征在数据中心出现的最大值。</li>
 </ul>
-<h1 id="四、稳健标准化-RobustScaler"><a href="#四、稳健标准化-RobustScaler" class="headerlink" title="四、稳健标准化 RobustScaler"></a>四、稳健标准化 RobustScaler</h1><pre><code class="py">from sklearn.preprocessing import RobustScaler</code></pre>
+<h1 id="四、稳健标准化-RobustScaler"><a href="#四、稳健标准化-RobustScaler" class="headerlink" title="四、稳健标准化 RobustScaler"></a>四、稳健标准化 RobustScaler</h1><pre><code class="lang-py">from sklearn.preprocessing import RobustScaler
+</code></pre>
 <p><strong>使用具有鲁棒性的统计量缩放带有异常值（离群值）的数据</strong></p>
 <ul>
 <li>处理方法：该缩放器删除中位数，并根据百分位数范围（默认值为IQR：四分位间距）缩放数据；</li>
@@ -673,7 +668,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2022 Smilecoc<br>
+      &copy; 2023 Smilecoc<br>
       powered_by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

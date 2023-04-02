@@ -477,21 +477,23 @@
 <h1 id="公用表表达式-CTE-的定义"><a href="#公用表表达式-CTE-的定义" class="headerlink" title="公用表表达式(CTE)的定义"></a>公用表表达式(CTE)的定义</h1><p>公用表达式的定义非常简单，只包含三部分：</p>
 <pre><code>WITH Expression_Name [ ( ColumnName [1,...n] ) ]
 AS
-( CTE query definition )</code></pre><p>Expression_Name为公用表表达式的名字（在WITH之后），ColumnName所涉及的列名（可选）CTE ，query definition 为SQL语句(紧跟AS之后)</p>
+( CTE query definition )
+</code></pre><p>Expression_Name为公用表表达式的名字（在WITH之后），ColumnName所涉及的列名（可选）CTE ，query definition 为SQL语句(紧跟AS之后)</p>
 <p>按照是否递归，可以将公用表（CTE）表达式分为递归公用表表达式和非递归公用表表达式.</p>
 <h1 id="非递归公用表表达式-CTE"><a href="#非递归公用表表达式-CTE" class="headerlink" title="非递归公用表表达式(CTE)"></a>非递归公用表表达式(CTE)</h1><p>非递归公用表表达式（CTE）是查询结果仅仅一次性返回一个结果集用于外部查询调用。并不在其定义的语句中调用其自身的CTE</p>
 <p>非递归公用表表达式（CTE）的使用方式和视图以及子查询一致</p>
 <p>比如一个简单的非递归公用表表达式:</p>
-<pre><code class="sql">WITH CTE_Test
+<pre><code class="lang-sql">WITH CTE_Test
 AS
 (
 SELECT *
 FROM Student
 )
 
-SELECT * FROM CTE_Test</code></pre>
+SELECT * FROM CTE_Test
+</code></pre>
 <p>当然，公用表表达式的好处之一是可以在接下来一条语句中多次引用:</p>
-<pre><code class="sql">WITH CTE_Test
+<pre><code class="lang-sql">WITH CTE_Test
 AS
 (
 SELECT *
@@ -500,9 +502,10 @@ FROM Student
 SELECT * FROM CTE_Test a
 inner join  CTE_Test b
 on a.ID=b.ID
-group by a.ID</code></pre>
+group by a.ID
+</code></pre>
 <p>前面一直强调“在接下来的一条语句中”，意味着只能接下来一条使用:</p>
-<pre><code class="sql">WITH CTE_Test
+<pre><code class="lang-sql">WITH CTE_Test
 AS
 (
 SELECT *
@@ -511,9 +514,10 @@ FROM Student
 --语句1，正常运行
 SELECT * FROM CTE_Test
 --语句2，运行报错CTE_Test无效
-SELECT * FROM CTE_Test</code></pre>
+SELECT * FROM CTE_Test
+</code></pre>
 <p>   由于CTE只能在接下来一条语句中使用，因此，当需要接下来的一条语句中引用多个CTE时，可以定义多个，中间用逗号分隔：</p>
-<pre><code class="sql">WITH CTE_Test
+<pre><code class="lang-sql">WITH CTE_Test
 AS
 (
 SELECT *
@@ -527,12 +531,13 @@ FROM School
 )
 
 SELECT * FROM CTE_Test
-SELECT * FROM CTE_Test2</code></pre>
+SELECT * FROM CTE_Test2
+</code></pre>
 <h1 id="递归公用表表达式-CTE"><a href="#递归公用表表达式-CTE" class="headerlink" title="递归公用表表达式(CTE)"></a>递归公用表表达式(CTE)</h1><p>递归是指一个函数或是过程直接或者间接的调用其自身.递归公用表表达式很像派生表（Derived Tables ），指的是在CTE内的语句中调用其自身的CTE.与派生表不同的是，CTE可以在一次定义多次进行派生递归.</p>
 <p>对于递归公用表达式来说，需要在语句中定义：基本语句，递归语句，以及递归终止条件。</p>
 <p>下面我们通过实例来说明递归CTE的使用</p>
 <h2 id="公司层次结构案例"><a href="#公司层次结构案例" class="headerlink" title="公司层次结构案例"></a>公司层次结构案例</h2><p>首先建立测试表</p>
-<pre><code class="sql">create table #dt_user
+<pre><code class="lang-sql">create table #dt_user
 (
     UserID int,
     ManagerID int,
@@ -552,7 +557,8 @@ select 111,11,N&#39;B1&#39;
 union all
 select 112,11,N&#39;B2&#39;
 union all
-select 121,12,N&#39;C1&#39;</code></pre>
+select 121,12,N&#39;C1&#39;
+</code></pre>
 <p>测试表数据：</p>
 <pre><code>+─────────+────────────+───────+
 | UserID  | ManagerID  | Name  |
@@ -564,8 +570,9 @@ select 121,12,N&#39;C1&#39;</code></pre>
 | 111     | 11         | B1    |
 | 112     | 11         | B2    |
 | 121     | 12         | C1    |
-+─────────+────────────+───────+</code></pre><p>现在我们通过CTE找出所有员工的上级姓名</p>
-<pre><code class="sql">with cte as
++─────────+────────────+───────+
+</code></pre><p>现在我们通过CTE找出所有员工的上级姓名</p>
+<pre><code class="lang-sql">with cte as
 (
 select UserID,ManagerID,name,name as ManagerName
 from #dt_user
@@ -580,7 +587,8 @@ inner join #dt_user c
 )
 select UserID,ManagerID,Name,ManagerName
 from cte
-order by UserID</code></pre>
+order by UserID
+</code></pre>
 <p>结果为：</p>
 <pre><code>+─────────+────────────+───────+──────────────+
 | UserID  | ManagerID  | Name  | ManagerName  |
@@ -596,7 +604,7 @@ order by UserID</code></pre>
 </code></pre><p>这样我们通过递归从最高级别开始，一步步找出下一级中ManageID等于UserID的信息并返回。<br>具体步骤：<br>step1：先查询ManagerID=-1，作为root node，这是递归查询的起始点。<br>step2：迭代公式是 union all 下面的查询语句。在查询语句中调用中cte，而查询语句就是cte的组成部分，即 “自己调用自己”，这就是递归的真谛所在。<br>所谓迭代，是指每一次递归都要调用上一次查询的结果集，Union ALL是指每次都把结果集并在一起。<br>step3-N：迭代公式利用上一次查询返回的结果集执行特定的查询，直到CTE返回null 或达到最大的迭代次数，默认值是32。最终的结果集是迭代公式返回的各个结果集的并集，求并集是由Union All 子句定义的，并且只能使用Union ALL。</p>
 <p>通过递归CTE使查询变得优雅和简洁.这也是CTE最强大的地方.</p>
 <h2 id="地理位置层次案例"><a href="#地理位置层次案例" class="headerlink" title="地理位置层次案例"></a>地理位置层次案例</h2><p>首先建立数据源表：</p>
-<pre><code class="sql">create table #hierarchy
+<pre><code class="lang-sql">create table #hierarchy
 (
 ID  int not null primary key,
 ParentID int not null,
@@ -610,7 +618,8 @@ values(1,0,N&#39;河南省&#39;)
               ,(10,2,N&#39;息县&#39;),(11,10,N&#39;关店乡&#39;)
 ,(5,1,N&#39;安阳市&#39;),(6,5,N&#39;滑县&#39;),(7,6,N&#39;老庙乡&#39;)
 ,(15,1,N&#39;南阳市&#39;),(16,15,N&#39;方城县&#39;)
-,(17,1,N&#39;驻马店市&#39;),(18,17,N&#39;正阳县&#39;)</code></pre>
+,(17,1,N&#39;驻马店市&#39;),(18,17,N&#39;正阳县&#39;)
+</code></pre>
 <p>表结构为：</p>
 <pre><code>| ID | ParentID | name |
 |----|----------|------|
@@ -637,7 +646,7 @@ values(1,0,N&#39;河南省&#39;)
 | 16 | 15       | 方城县  |
 | 18 | 17       | 正阳县  |
 </code></pre><p>下面我们通过CTE筛选出所有河南省下辖的所有行政区域。</p>
-<pre><code class="sql">select * 
+<pre><code class="lang-sql">select * 
 from #hierarchy
 order by ParentID
 
@@ -654,9 +663,10 @@ inner join cte c on h.ParentID=c.id
 )
 select *
 from cte
-order by ParentID</code></pre>
+order by ParentID
+</code></pre>
 <p>如果想知道具体的行政区划级别：</p>
-<pre><code class="sql">with cte(Id,ParentID,Name,Level) as
+<pre><code class="lang-sql">with cte(Id,ParentID,Name,Level) as
 (
 select ID,ParentID,Name,0 as Level
 from #hierarchy 
@@ -670,7 +680,8 @@ inner join cte c on h.ParentID=c.id
 )
 select *
 from cte
-order by ParentID</code></pre>
+order by ParentID
+</code></pre>
 <p>结果为：</p>
 <pre><code>| Id | ParentID | Name | Level |
 |----|----------|------|-------|
@@ -693,8 +704,9 @@ order by ParentID</code></pre>
 | 9  | 8        | 李店乡  | 3     |
 | 11 | 10       | 关店乡  | 3     |
 | 16 | 15       | 方城县  | 2     |
-| 18 | 17       | 正阳县  | 2     |</code></pre><p>如果想从下级往上级查找，例如：查找芦集乡所属省，市，县</p>
-<pre><code class="sql">with cte as
+| 18 | 17       | 正阳县  | 2     |
+</code></pre><p>如果想从下级往上级查找，例如：查找芦集乡所属省，市，县</p>
+<pre><code class="lang-sql">with cte as
 (
 select ID,ParentID,name
 from #hierarchy
@@ -707,16 +719,19 @@ inner join cte c on h.id=c.ParentID
 )
 select ID,ParentID,name
 from cte
-order by ParentID</code></pre>
+order by ParentID
+</code></pre>
 <p>结果：</p>
 <pre><code>| ID | ParentID | name |
 |----|----------|------|
 | 1  | 0        | 河南省  |
 | 2  | 1        | 信阳市  |
 | 3  | 2        | 淮滨县  |
-| 4  | 3        | 芦集乡  |</code></pre><h1 id="CTE的递归终止条件"><a href="#CTE的递归终止条件" class="headerlink" title="CTE的递归终止条件"></a>CTE的递归终止条件</h1><p>递归查询没有显式的递归终止条件，只有<strong>当递归子查询返回空结果集</strong>（没有数据行返回）或是<strong>超出了递归次数的最大限制</strong>时，才停止递归。</p>
+| 4  | 3        | 芦集乡  |
+</code></pre><h1 id="CTE的递归终止条件"><a href="#CTE的递归终止条件" class="headerlink" title="CTE的递归终止条件"></a>CTE的递归终止条件</h1><p>递归查询没有显式的递归终止条件，只有<strong>当递归子查询返回空结果集</strong>（没有数据行返回）或是<strong>超出了递归次数的最大限制</strong>时，才停止递归。</p>
 <p>默认的递归查询次数是100，可以使用查询提示option(MAXRECURSION）控制递归的最大次数：OPTION( MAXRECURSION 16)；<br>如果允许无限制的递归次数，使用查询提示：option(maxrecursion 0)；<br>当递归查询达到指定或默认的 MAXRECURSION 数量限制时，SQL Server将结束查询并返回错误，如下：</p>
-<pre><code>The statement terminated. The maximum recursion 10 has been exhausted before statement completion.</code></pre><p>事务执行失败，该事务包含的所有操作都被回滚。在产品环境中，慎用maxrecursion 查询提示，推荐通过 where 条件限制递归的次数。</p>
+<pre><code>The statement terminated. The maximum recursion 10 has been exhausted before statement completion.
+</code></pre><p>事务执行失败，该事务包含的所有操作都被回滚。在产品环境中，慎用maxrecursion 查询提示，推荐通过 where 条件限制递归的次数。</p>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>CTE是一种十分优雅的存在。CTE所带来最大的好处是代码可读性的提升,这是良好代码的必须品质之一。使用递归CTE可以更加轻松愉快的用优雅简洁的方式实现复杂的查询。</p>
 
         </div>
@@ -847,7 +862,7 @@ order by ParentID</code></pre>
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2022 Smilecoc<br>
+      &copy; 2023 Smilecoc<br>
       powered_by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

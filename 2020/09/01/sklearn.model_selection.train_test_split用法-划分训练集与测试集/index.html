@@ -476,7 +476,7 @@
 <li>shuffle和straify不常用。straify就是将数据分层。</li>
 </ul>
 <p>train_test_split 用法举例：</p>
-<pre><code class="py">&gt;&gt;&gt; import pandas as pd
+<pre><code class="lang-py">&gt;&gt;&gt; import pandas as pd
 &gt;&gt;&gt; from sklearn.model_selection import train_test_split
 &gt;&gt;&gt; 
 &gt;&gt;&gt; namelist = pd.DataFrame({
@@ -502,9 +502,10 @@
 8    33           0         IT   Hayashi
 9    39           1         HR      Sato
 10   49           1      Legal  Hirayama
-11   53           1      Legal   Shimada</code></pre>
+11   53           1      Legal   Shimada
+</code></pre>
 <p>将testing数据指定为0.3（test_size=0.3），从而将testing和training 集合分开。</p>
-<pre><code class="py">&gt;&gt;&gt; namelist_train, namelist_test = train_test_split(namelist, test_size=0.3)
+<pre><code class="lang-py">&gt;&gt;&gt; namelist_train, namelist_test = train_test_split(namelist, test_size=0.3)
 &gt;&gt;&gt; print(namelist_train)
 
     age  attendance department      name
@@ -523,9 +524,10 @@
 0    30           1         HR   Suzuki
 8    33           0         IT  Hayashi
 11   53           1      Legal  Shimada
-5    28           1         IT    Okada</code></pre>
+5    28           1         IT    Okada
+</code></pre>
 <p>接下来是将testing数据指定为具体数目。test_size=5。</p>
-<pre><code class="py">&gt;&gt;&gt; namelist_train, namelist_test = train_test_split(namelist, test_size=5)
+<pre><code class="lang-py">&gt;&gt;&gt; namelist_train, namelist_test = train_test_split(namelist, test_size=5)
 &gt;&gt;&gt; print(namelist_train)
 
    age  attendance department      name
@@ -544,9 +546,10 @@
 10   49           1      Legal  Hirayama
 5    28           1         IT     Okada
 11   53           1      Legal   Shimada
-0    30           1         HR    Suzuki</code></pre>
+0    30           1         HR    Suzuki
+</code></pre>
 <p>接下来将training data 指定为0.5（training_size=0.5）</p>
-<pre><code class="py">&gt;&gt;&gt; namelist_train, namelist_test = train_test_split(namelist, test_size=None, train_size=0.5)
+<pre><code class="lang-py">&gt;&gt;&gt; namelist_train, namelist_test = train_test_split(namelist, test_size=None, train_size=0.5)
 &gt;&gt;&gt; print(namelist_train)
 
     age  attendance department      name
@@ -565,9 +568,10 @@
 9    39           1         HR     Sato
 11   53           1      Legal  Shimada
 8    33           0         IT  Hayashi
-1    40           1      Legal   Tanaka</code></pre>
+1    40           1      Legal   Tanaka
+</code></pre>
 <p>接下来是是shuffle和straify功能。</p>
-<pre><code class="Python">&gt;&gt;&gt; namelist_train, namelist_test = train_test_split(namelist, shuffle=False)
+<pre><code class="lang-Python">&gt;&gt;&gt; namelist_train, namelist_test = train_test_split(namelist, shuffle=False)
 &gt;&gt;&gt; print(namelist_train)
 
    age  attendance department      name
@@ -586,7 +590,8 @@
     age  attendance department      name
 9    39           1         HR      Sato
 10   49           1      Legal  Hirayama
-11   53           1      Legal   Shimada</code></pre>
+11   53           1      Legal   Shimada
+</code></pre>
 <h1 id="summary"><a href="#summary" class="headerlink" title="summary"></a>summary</h1><ul>
 <li>train_test_split（arrays，options）  arrays确定需要分割的对象，数据集。</li>
 <li>train_test_split（arrays，options）  options确定需要分割的方法。例如比例，随机性，分层等。</li>
@@ -720,7 +725,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2022 Smilecoc<br>
+      &copy; 2023 Smilecoc<br>
       powered_by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

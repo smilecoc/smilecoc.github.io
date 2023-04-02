@@ -479,7 +479,7 @@
 <li>存储过程的性能调校与撰写，受限于各种数据库系统。</li>
 </ol>
 <h1 id="创建存储过程"><a href="#创建存储过程" class="headerlink" title="创建存储过程"></a>创建存储过程</h1><p>创建存储过程的语法为：</p>
-<pre><code class="sql">-- 适用于SQL Server 与 Azure SQL Database
+<pre><code class="lang-sql">-- 适用于SQL Server 与 Azure SQL Database
 
 CREATE [ OR ALTER ] { PROC | PROCEDURE }
     [schema_name.] procedure_name [ ; number ]
@@ -494,22 +494,26 @@ AS { [ BEGIN ] sql_statement [;] [ ...n ] [ END ] }
 &lt;procedure_option&gt; ::=
     [ ENCRYPTION ]
     [ RECOMPILE ]
-    [ EXECUTE AS Clause ]</code></pre>
+    [ EXECUTE AS Clause ]
+</code></pre>
 <p>注意不同的数据库的语法可能会有些许不同。</p>
 <p>看到这个语法是不是很复杂，但是不用担心，常用的参数其实很少。在这篇文章中我们不会介绍所有参数，所以想要了解所有参数可以查看官网文档：<a href="https://docs.microsoft.com/zh-cn/sql/t-sql/statements/create-procedure-transact-sql?view=sql-server-ver15" target="_blank" rel="noopener">https://docs.microsoft.com/zh-cn/sql/t-sql/statements/create-procedure-transact-sql?view=sql-server-ver15</a></p>
 <h2 id="创建不带参数的存储过程"><a href="#创建不带参数的存储过程" class="headerlink" title="创建不带参数的存储过程"></a>创建不带参数的存储过程</h2><p>语法为：</p>
-<pre><code class="sql">create proc | procedure pro_name
+<pre><code class="lang-sql">create proc | procedure pro_name
 as
-    SQL_statements</code></pre>
+    SQL_statements
+</code></pre>
 <p> 其中pro_name为自定义的存储过程名称，SQL_statements为SQL语句。proc和procedure选择其中一个均可使用（proc是procedure的缩写）</p>
 <p>例如创建一个存储过程，实现从student表中选取所有的数据</p>
-<pre><code class="sql">create proc proc_get_student
+<pre><code class="lang-sql">create proc proc_get_student
 as
-    select * from student; </code></pre>
+    select * from student;
+</code></pre>
 <p>之后使用exec+存储过程名即可调用存储过程</p>
-<pre><code class="sql">exec proc_get_student</code></pre>
+<pre><code class="lang-sql">exec proc_get_student
+</code></pre>
 <h2 id="创建带参数的存储过程"><a href="#创建带参数的存储过程" class="headerlink" title="创建带参数的存储过程"></a>创建带参数的存储过程</h2><p>创建带参数的存储过程首先要在存储过程中声明该参数，每个存储过程参数都必须用唯一的名称进行定义。与T-SQL变量相同，参数名必须以@为前缀，并且遵从标识符规则。当用户不提供该参数的值时可以使用一个默认值来代替。<br>创建带参数的存储过程的基本语句为：</p>
-<pre><code class="sql">create proc | procedure pro_name
+<pre><code class="lang-sql">create proc | procedure pro_name
     [{@参数数据类型} [=默认值] [output],
      {@参数数据类型} [=默认值] [output],
      ....
@@ -518,56 +522,66 @@ as
     SQL_statements
 </code></pre>
 <h3 id="1-不带默认值的参数"><a href="#1-不带默认值的参数" class="headerlink" title="1.不带默认值的参数"></a>1.不带默认值的参数</h3><p>创建一个参数不带默认值的存储过程，在调用该存储过程时，必须对存储过程中的所有参数进行赋值，如果有一个参数没有赋值，则无法调用该存储过程。例如：</p>
-<pre><code class="sql">use db_student
+<pre><code class="lang-sql">use db_student
 --创建存储过程
 create procedure proc_group
 @课程类别 varchar(20),  --定义参数
 @学分 int 
 as 
 select * from course
-where 课程类别=@课程类别 and 学分&gt;@学分</code></pre>
+where 课程类别=@课程类别 and 学分&gt;@学分
+</code></pre>
 <p>执行不带参数的存储过程就是：</p>
-<pre><code class="sql">use db_student
-exec proc_group &#39;歌曲&#39;,8</code></pre>
+<pre><code class="lang-sql">use db_student
+exec proc_group &#39;歌曲&#39;,8
+</code></pre>
 <p>如果不按顺序赋值可以写成：</p>
-<pre><code class="sql">use db_student
-exec proc_group @学分=8,@课程类别=‘篮球课’</code></pre>
+<pre><code class="lang-sql">use db_student
+exec proc_group @学分=8,@课程类别=‘篮球课’
+</code></pre>
 <h3 id="2-带默认值的参数"><a href="#2-带默认值的参数" class="headerlink" title="2.带默认值的参数"></a>2.带默认值的参数</h3><p>在SQL中我们可以对字段进行默认值的约束，在存储过程中也可以建立使用默认值的参数。只要在参数的定义之后加上等号，并在等号后面写出默认值即可。</p>
-<pre><code class="sql">--创建存储过程
+<pre><code class="lang-sql">--创建存储过程
 use db_student
 create procedure proc_group
 @课程类别 varchar(20)=&#39;体育课&#39;,
 @学分 int=6
 as 
-select * from course where 课程类别=@课程类别 and 学分&gt;@学分</code></pre>
+select * from course where 课程类别=@课程类别 and 学分&gt;@学分
+</code></pre>
 <p>执行参数带默认值的存储过程</p>
-<pre><code class="sql">use db_student
-exec proc_group @学分=8</code></pre>
+<pre><code class="lang-sql">use db_student
+exec proc_group @学分=8
+</code></pre>
 <h3 id="带返回参数的存储过程"><a href="#带返回参数的存储过程" class="headerlink" title="带返回参数的存储过程"></a>带返回参数的存储过程</h3><p>创建存储过程时，可以用output/out参数来创建一个带返回值的存储过程，例如：<code>@a int output</code><br>如果创建带返回参数的存储过程proc_group，那么SQL语句如下：</p>
-<pre><code class="sql">--创建带返回值的存储过程
+<pre><code class="lang-sql">--创建带返回值的存储过程
 create procedure proc_group
 @课程类别 varchar(20),
 @平均学分 int output         --设置带返回值的参数
 as 
-select @平均学分=avg(学分) from course where 课程类别=@课程类别</code></pre>
+select @平均学分=avg(学分) from course where 课程类别=@课程类别
+</code></pre>
 <p><strong>执行带返回值的存储过程与普通的执行过程会有区别：</strong></p>
-<pre><code class="sql">DECLARE @平均学分 int;
+<pre><code class="lang-sql">DECLARE @平均学分 int;
 exec proc_group &#39;D&#39;, @平均学分 output
-print (@平均学分)</code></pre>
+print (@平均学分)
+</code></pre>
 <h2 id="创建存储过程的优化"><a href="#创建存储过程的优化" class="headerlink" title="创建存储过程的优化"></a>创建存储过程的优化</h2><p>存储过程是不允许重名的，所以有时我们会在创建存储过程的语句中加一个判断，如果已存在同名的存储过程则删除</p>
-<pre><code class="sql">if (exists (select * from sys.objects where name = &#39;proc_get_student&#39;))
+<pre><code class="lang-sql">if (exists (select * from sys.objects where name = &#39;proc_get_student&#39;))
     drop proc proc_get_student
 go
 create proc proc_get_student
 as
-    select * from student;</code></pre>
+    select * from student;
+</code></pre>
 <h1 id="修改存储过程"><a href="#修改存储过程" class="headerlink" title="修改存储过程"></a>修改存储过程</h1><p>使用alter修改存储过程</p>
-<pre><code class="sql">alter proc proc_get_student
+<pre><code class="lang-sql">alter proc proc_get_student
 as
-select * from student;</code></pre>
-<h1 id="删除存储过程"><a href="#删除存储过程" class="headerlink" title="删除存储过程"></a>删除存储过程</h1><pre><code class="sql">drop proc proc_get_student</code></pre>
+select * from student;
+</code></pre>
+<h1 id="删除存储过程"><a href="#删除存储过程" class="headerlink" title="删除存储过程"></a>删除存储过程</h1><pre><code class="lang-sql">drop proc proc_get_student
+</code></pre>
 <h1 id="系统存储过程"><a href="#系统存储过程" class="headerlink" title="系统存储过程"></a>系统存储过程</h1><p>系统存储过程是系统创建的存储过程，目的在于能够方便的从系统表中查询信息或完成与更新数据库表相关的管理任务或其他的系统管理任务。系统存储过程主要存储在master数据库中，以“sp”下划线开头的存储过程。尽管这些系统存储过程在master数据库中，但我们在其他数据库还是可以调用系统存储过程。有一些系统存储过程会在创建新的数据库的时候被自动创建在当前数据库中</p>
-<pre><code class="sql">exec sp_databases; --查看数据库
+<pre><code class="lang-sql">exec sp_databases; --查看数据库
 exec sp_tables;        --查看表
 exec sp_columns student;--查看列
 exec sp_helpIndex student;--查看索引
@@ -577,7 +591,8 @@ exec sp_helptext &#39;sp_stored_procedures&#39;;--查看存储过程创建、定
 exec sp_rename student, stuInfo;--修改表、索引、列的名称
 exec sp_renamedb myTempDB, myDB;--更改数据库名称
 exec sp_defaultdb &#39;master&#39;, &#39;myDB&#39;;--更改登录名的默认数据库
-exec sp_helpdb;--数据库帮助，查询数据库信息</code></pre>
+exec sp_helpdb;--数据库帮助，查询数据库信息
+</code></pre>
 
         </div>
         <!-- .entry-content -->
@@ -707,7 +722,7 @@ exec sp_helpdb;--数据库帮助，查询数据库信息</code></pre>
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2022 Smilecoc<br>
+      &copy; 2023 Smilecoc<br>
       powered_by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

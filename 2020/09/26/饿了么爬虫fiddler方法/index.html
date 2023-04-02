@@ -487,17 +487,19 @@
             file.writeLine(&quot;\n&quot;);
             file.close();
 
-        }</code></pre><p>3）之后重新刷新页面并下拉，点击所有的商品项目分类，确保加载所有的json文件并被filddler抓包。</p>
+        }
+</code></pre><p>3）之后重新刷新页面并下拉，点击所有的商品项目分类，确保加载所有的json文件并被filddler抓包。</p>
 <p>4）之后就可以在我们之前fiddler脚本中设定的保存位置找到我们的所有数据信息了！</p>
 <h1 id="数据解析"><a href="#数据解析" class="headerlink" title="数据解析"></a>数据解析</h1><p>这一步我们对上一步获取的json数据进行解析。<br>首先查看文件编码：</p>
-<pre><code class="py">#查看文件编码
+<pre><code class="lang-py">#查看文件编码
 import chardet
 path = r&quot;C:\Users\Smile\Downloads\elm_Response.txt&quot;
 f = open(path,&#39;rb&#39;)
 data = f.read()
-print(chardet.detect(data))</code></pre>
+print(chardet.detect(data))
+</code></pre>
 <p>得到编码格式为UTF-16。之后通过python解析下载下来的文件。由于下载的文件格式中包含请求信息，所以需要在解析过程之中对文件进行清理。<br>具体代码为：</p>
-<pre><code class="py">for jsondata in jsonlines:
+<pre><code class="lang-py">for jsondata in jsonlines:
     if jsondata not in [&#39;\n&#39;,&#39;Response code: 200\n&#39;]:
         jsondata=jsondata.replace(&#39;Response body: &#39;,&#39;&#39;)
         data = json.loads(jsondata)
@@ -516,7 +518,8 @@ print(chardet.detect(data))</code></pre>
 total={}
 total[&#39;商品&#39;]=goods_name;total[&#39;现价&#39;]=goods_currentprice;total[&#39;原价&#39;]=goods_orginalprice;total[&#39;售卖单位&#39;]=goods_salesunit
 data_final=pd.DataFrame(total)
-print(data_final)</code></pre>
+print(data_final)
+</code></pre>
 <p>之后就可以看到我们所需要的信息了</p>
 <pre><code>                           商品    现价    原价 售卖单位
 0       维尔美纤纯.黄系列纸面巾110抽*12包/提  39.8          份
@@ -529,7 +532,8 @@ print(data_final)</code></pre>
 136   阿奇侬珍珠奶茶味雪糕 340克（85克*4）/盒    23    46    份
 137   迷你可爱多芒果酸奶混合口味冰淇淋200g10支装  15.9          份
 138           哈根达斯草莓冰淇淋  81克/杯  28.8    34    份
-139           哈根达斯香草冰淇淋 392克/杯    69  85.7   </code></pre><p>同理，如果你需要其他的商品信息，例如图片，编码等也可以通过解析Json文件得到。</p>
+139           哈根达斯香草冰淇淋 392克/杯    69  85.7
+</code></pre><p>同理，如果你需要其他的商品信息，例如图片，编码等也可以通过解析Json文件得到。</p>
 
         </div>
         <!-- .entry-content -->
@@ -659,7 +663,7 @@ print(data_final)</code></pre>
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2022 Smilecoc<br>
+      &copy; 2023 Smilecoc<br>
       powered_by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

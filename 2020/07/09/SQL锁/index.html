@@ -503,7 +503,7 @@
 <li>锁粒度小，发生锁冲突概率最低，并发性高</li>
 </ol>
 <h3 id="事务并发带来的问题"><a href="#事务并发带来的问题" class="headerlink" title="事务并发带来的问题"></a>事务并发带来的问题</h3><ol>
-<li>更新丢失<br>解决：让事务变成串行操作，而不是并发的操作，即对每个事务开始—对读取记录加排他锁</li>
+<li>更新丢失<br>解决：让事务变成串行操作，而不是并发的操作，即对每个事务开始—-对读取记录加排他锁</li>
 <li>脏读<br>解决：隔离级别为Read uncommitted</li>
 <li>不可重读<br>解决：使用Next-Key Lock算法来避免</li>
 <li>幻读<br>解决：间隙锁（Gap Lock）</li>
@@ -511,14 +511,18 @@
 <h2 id="2-3-页锁"><a href="#2-3-页锁" class="headerlink" title="2.3 页锁"></a>2.3 页锁</h2><p>开销、加锁时间和锁粒度介于表锁和行锁之间，会出现死锁，并发处理能力一般（此锁不做多介绍）</p>
 <h1 id="如何上锁？"><a href="#如何上锁？" class="headerlink" title="如何上锁？"></a>如何上锁？</h1><h2 id="3-1-表锁"><a href="#3-1-表锁" class="headerlink" title="3.1 表锁"></a>3.1 表锁</h2><h3 id="隐式上锁（默认，自动加锁自动释放）"><a href="#隐式上锁（默认，自动加锁自动释放）" class="headerlink" title="隐式上锁（默认，自动加锁自动释放）"></a>隐式上锁（默认，自动加锁自动释放）</h3><p>select //上读锁<br>insert、update、delete //上写锁</p>
 <h3 id="显式上锁（手动）"><a href="#显式上锁（手动）" class="headerlink" title="显式上锁（手动）"></a>显式上锁（手动）</h3><pre><code>lock table tableName read;//读锁
-lock table tableName write;//写锁</code></pre><h3 id="解锁（手动）"><a href="#解锁（手动）" class="headerlink" title="解锁（手动）"></a>解锁（手动）</h3><pre><code>unlock tables;//所有锁表</code></pre><table>
+lock table tableName write;//写锁
+</code></pre><h3 id="解锁（手动）"><a href="#解锁（手动）" class="headerlink" title="解锁（手动）"></a>解锁（手动）</h3><pre><code>unlock tables;//所有锁表
+</code></pre><div class="table-container">
+<table>
 <thead>
 <tr>
 <th>session01</th>
 <th>session02</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>lock table teacher read;//上读锁</td>
 <td></td>
 </tr>
@@ -535,10 +539,13 @@ lock table tableName write;//写锁</code></pre><h3 id="解锁（手动）"><a h
 <td></td>
 </tr>
 <tr>
-<td>-</td>
+<td> -</td>
 <td>update teacher set name = 3 where id =2;//更新操作成功</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -546,7 +553,8 @@ lock table tableName write;//写锁</code></pre><h3 id="解锁（手动）"><a h
 <th>session02</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>lock table teacher write;//上写锁</td>
 <td></td>
 </tr>
@@ -570,14 +578,18 @@ lock table tableName write;//写锁</code></pre><h3 id="解锁（手动）"><a h
 <td>&ensp;</td>
 <td>update teacher set name = 4 where id =2;//更新操作成功</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <h2 id="3-2-行锁"><a href="#3-2-行锁" class="headerlink" title="3.2 行锁"></a>3.2 行锁</h2><h3 id="隐式上锁（默认，自动加锁自动释放）-1"><a href="#隐式上锁（默认，自动加锁自动释放）-1" class="headerlink" title="隐式上锁（默认，自动加锁自动释放）"></a>隐式上锁（默认，自动加锁自动释放）</h3><p>select //不会上锁<br>insert、update、delete //上写锁</p>
 <h3 id="显式上锁（手动）-1"><a href="#显式上锁（手动）-1" class="headerlink" title="显式上锁（手动）"></a>显式上锁（手动）</h3><pre><code>select * from tableName lock in share mode;//读锁
-select * from tableName for update;//写锁</code></pre><h3 id="解锁（手动）-1"><a href="#解锁（手动）-1" class="headerlink" title="解锁（手动）"></a>解锁（手动）</h3><ol>
+select * from tableName for update;//写锁
+</code></pre><h3 id="解锁（手动）-1"><a href="#解锁（手动）-1" class="headerlink" title="解锁（手动）"></a>解锁（手动）</h3><ol>
 <li>提交事务（commit）</li>
 <li>回滚事务（rollback）</li>
 <li>kill 阻塞进程</li>
 </ol>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -585,7 +597,8 @@ select * from tableName for update;//写锁</code></pre><h3 id="解锁（手动�
 <th>session02</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>begin;</td>
 <td></td>
 </tr>
@@ -596,6 +609,7 @@ select * from tableName for update;//写锁</code></pre><h3 id="解锁（手动�
 <tr>
 <td>&ensp;</td>
 <td>select * from teacher where id = 2;//可以正常读取</td>
+<td></td>
 </tr>
 <tr>
 <td>update teacher set name = 3 where id =2;// 可以更新操作</td>
@@ -609,7 +623,10 @@ select * from tableName for update;//写锁</code></pre><h3 id="解锁（手动�
 <td>&ensp;</td>
 <td>update teacher set name = 5 where id =2;//更新操作成功</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -617,7 +634,8 @@ select * from tableName for update;//写锁</code></pre><h3 id="解锁（手动�
 <th>session02</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>begin;</td>
 <td></td>
 </tr>
@@ -641,7 +659,9 @@ select * from tableName for update;//写锁</code></pre><h3 id="解锁（手动�
 <td>&ensp;</td>
 <td>update teacher set name = 5 where id =2;//更新操作成功</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <ul>
 <li>为什么上了写锁，别的事务还可以读操作？因为InnoDB有MVCC机制（多版本并发控制），可以使用快照读，而不会被阻塞。</li>
 </ul>
@@ -655,13 +675,16 @@ select * from tableName for update;//写锁</code></pre><h3 id="解锁（手动�
 <li>即使是访问不同行的记录，如果使用的是相同的索引键，会发生锁冲突</li>
 <li>如果数据表建有多个索引时，可以通过不同的索引锁定不同的行</li>
 </ol>
-<h1 id="如何排查锁？"><a href="#如何排查锁？" class="headerlink" title="如何排查锁？"></a>如何排查锁？</h1><h2 id="5-1-表锁"><a href="#5-1-表锁" class="headerlink" title="5.1 表锁"></a>5.1 表锁</h2><h3 id="查看表锁情况"><a href="#查看表锁情况" class="headerlink" title="查看表锁情况"></a>查看表锁情况</h3><pre><code>show open tables;</code></pre><p><img src="https://img-blog.csdnimg.cn/20200708172144793.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="一张图彻底搞懂 MySQL 的锁机制"></p>
-<h3 id="表锁分析"><a href="#表锁分析" class="headerlink" title="表锁分析"></a>表锁分析</h3><pre><code>show status like &#39;table%&#39;;</code></pre><p><img src="https://img-blog.csdnimg.cn/20200708172234239.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h1 id="如何排查锁？"><a href="#如何排查锁？" class="headerlink" title="如何排查锁？"></a>如何排查锁？</h1><h2 id="5-1-表锁"><a href="#5-1-表锁" class="headerlink" title="5.1 表锁"></a>5.1 表锁</h2><h3 id="查看表锁情况"><a href="#查看表锁情况" class="headerlink" title="查看表锁情况"></a>查看表锁情况</h3><pre><code>show open tables;
+</code></pre><p><img src="https://img-blog.csdnimg.cn/20200708172144793.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="一张图彻底搞懂 MySQL 的锁机制"></p>
+<h3 id="表锁分析"><a href="#表锁分析" class="headerlink" title="表锁分析"></a>表锁分析</h3><pre><code>show status like &#39;table%&#39;;
+</code></pre><p><img src="https://img-blog.csdnimg.cn/20200708172234239.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <ol>
 <li>table_locks_waited<br>出现表级锁定争用而发生等待的次数（不能立即获取锁的次数，每等待一次值加1），此值高说明存在着较严重的表级锁争用情况</li>
 <li>table_locks_immediate<br>产生表级锁定次数，不是可以立即获取锁的查询次数，每立即获取锁加1</li>
 </ol>
-<h2 id="5-2-行锁"><a href="#5-2-行锁" class="headerlink" title="5.2 行锁"></a>5.2 行锁</h2><h3 id="行锁分析"><a href="#行锁分析" class="headerlink" title="行锁分析"></a>行锁分析</h3><pre><code>show status like &#39;innodb_row_lock%&#39;;</code></pre><p><img src="https://img-blog.csdnimg.cn/20200708172342577.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2 id="5-2-行锁"><a href="#5-2-行锁" class="headerlink" title="5.2 行锁"></a>5.2 行锁</h2><h3 id="行锁分析"><a href="#行锁分析" class="headerlink" title="行锁分析"></a>行锁分析</h3><pre><code>show status like &#39;innodb_row_lock%&#39;;
+</code></pre><p><img src="https://img-blog.csdnimg.cn/20200708172342577.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyNjkyMzg2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <ol>
 <li>innodb_row_lock_current_waits //当前正在等待锁定的数量</li>
 <li>innodb_row_lock_time //从系统启动到现在锁定总时间长度</li>
@@ -843,7 +866,7 @@ select * from tableName for update;//写锁</code></pre><h3 id="解锁（手动�
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2022 Smilecoc<br>
+      &copy; 2023 Smilecoc<br>
       powered_by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

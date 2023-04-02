@@ -466,7 +466,7 @@
         
         <div class="entry-content">
           <p>注意：本文均为SQL  Server代码，其他数据库可能需要根据对应语法进行修改</p>
-<h1 id="创建测试用表："><a href="#创建测试用表：" class="headerlink" title="创建测试用表："></a>创建测试用表：</h1><pre><code class="sql"># 创建学生成绩表：
+<h1 id="创建测试用表："><a href="#创建测试用表：" class="headerlink" title="创建测试用表："></a>创建测试用表：</h1><pre><code class="lang-sql"># 创建学生成绩表：
 create table #grade(
 id int,
 name varchar(10),
@@ -486,10 +486,11 @@ insert into #grade values
 (9,&#39;Cherry&#39;,92),
 (10,&#39;Ada&#39;,99),
 (11,&#39;Alice&#39;,83),
-(12,&#39;Amy&#39;,82);</code></pre>
+(12,&#39;Amy&#39;,82);
+</code></pre>
 <h1 id="查询一组数据的众数"><a href="#查询一组数据的众数" class="headerlink" title="查询一组数据的众数"></a>查询一组数据的众数</h1><p>方法1：<br>1）首先对数据按照值的不同进行分组，并对每组中的数据进行计数，再根据计数的大小进行降序排序；<br> 2）上述1）中结果集的第一行即要求取的众数所在的行。如果是多个众数则需要输出所有排名计数相等的列</p>
 <p>方法一的代码为：</p>
-<pre><code class="sql">select  top(1) WITH TIES
+<pre><code class="lang-sql">select  top(1) WITH TIES
 score,
 count(score) as sc_count 
 from #grade 
@@ -498,10 +499,11 @@ order by sc_count desc
 
 --只有一个众数也可以使用：
 select top(1) score,count(score) as sc_count from #grade 
-group byscore  order by sc_count desc</code></pre>
+group byscore  order by sc_count desc
+</code></pre>
 <p>top(1) WITH TIES会返回所有最高次数的记录。而top(1)只会返回一行记录，如果后续行数的数字有相同的数值也不会返回，故只适用于一个众数的情况。</p>
 <p>同时我们也可以使用窗口函数进行排序并筛选</p>
-<pre><code class="sql">select score
+<pre><code class="lang-sql">select score
 from (
 select score,
 dense_rank() over(order by number desc) as rnk
@@ -511,20 +513,23 @@ from #grade
 group by score
 ) x
 ) y
-where rnk = 1</code></pre>
+where rnk = 1
+</code></pre>
 <p>方法2：<br>1）首先对数据按照值的不同进行分组，并对每组中的数据进行计数；<br>2）使用max函数找出统计个数的最大值及其对应的被统计值，此被统计值就是要求的众数。</p>
 <p>具体代码为：</p>
-<pre><code class="sql">with pro_group as
+<pre><code class="lang-sql">with pro_group as
 (select score,count(score) as number from #grade group by score)
-select score,number from pro_group where number=(select max(number) from pro_group)</code></pre>
+select score,number from pro_group where number=(select max(number) from pro_group)
+</code></pre>
 <p>或者使用子查询的方法：</p>
-<pre><code class="sql">select score,number 
+<pre><code class="lang-sql">select score,number 
 from (select score,count(score) as number from #grade group by score)b
 where number=(select max(number) from 
 (select score,count(score) as number from #grade group by score)d
-)</code></pre>
+)
+</code></pre>
 <h1 id="查询一组数据的中位数"><a href="#查询一组数据的中位数" class="headerlink" title="查询一组数据的中位数"></a>查询一组数据的中位数</h1><p>方法一：<br>核心思想是对于一组要求其中位数的数据，无论数据的总行数是奇数还是偶数，都取这组数据排序后最中间的两个数的平均值作为中位数。当数据的总行数是奇数时，数据经排序后最中间的数取两次以计算平均值。</p>
-<pre><code class="sql">select avg(score)
+<pre><code class="lang-sql">select avg(score)
 from
 (
   select score,
@@ -534,10 +539,11 @@ from
 ) g
 where g.rn in (
 floor(cast((total+1) as decimal)/2),ceiling(cast((total+1) as decimal)/2)
-)</code></pre>
+)
+</code></pre>
 <p>这里使用到两个四舍五入的函数：<br>CEILING() - 返回最小的整数，使这个整数大于或等于指定数的数值运算。即向上取整<br>FLOOR() - 返回最大整数，使这个整数小于或等于指定数的数值运算。即向下取整</p>
 <p>方法二：<br>对奇数与偶数的个数分情况处理：</p>
-<pre><code class="sql">select avg(score)
+<pre><code class="lang-sql">select avg(score)
 from (
   select score,
   count(*) over() total,
@@ -547,7 +553,8 @@ from (
   from #grade
 ) x
 where ( total%2 = 0 and rn in ( mid, mid+1 ))
-      or ( total%2 = 1 and rn = next)</code></pre>
+      or ( total%2 = 1 and rn = next)
+</code></pre>
 <p>对于其他的数据库的写法，可以参考一下这个链接：<br><a href="https://geek-docs.com/sql/sql-examples/sql-to-calculate-the-median.html" target="_blank" rel="noopener">https://geek-docs.com/sql/sql-examples/sql-to-calculate-the-median.html</a></p>
 
         </div>
@@ -678,7 +685,7 @@ where ( total%2 = 0 and rn in ( mid, mid+1 ))
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2022 Smilecoc<br>
+      &copy; 2023 Smilecoc<br>
       powered_by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
