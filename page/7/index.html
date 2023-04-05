@@ -868,7 +868,7 @@
 <article  class="post post-list-thumb" itemscope="" itemtype="http://schema.org/BlogPosting">
 
   <div class="post-thumb">
-    <a href="/2020/02/02/Hexo Sakura主题遇到的问题汇总/">
+    <a href="/2020/02/02/Hexo Sakura problems list/">
       <img class="lazyload" onerror="imgError(this,3)" src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@1.3/images/loader/orange.progress-bar-stripe-loader.svg" data-src="https://cdn.jsdelivr.net/gh/smilecoc/cdn@master/images/article/blogquestions.png">
     </a>
   </div>
@@ -877,7 +877,7 @@
       <div class="post-date">
         <i class="iconfont icon-time">
         </i>2020-2-2 22:02</div>
-      <a href="/2020/02/02/Hexo Sakura主题遇到的问题汇总/" class="post-title">
+      <a href="/2020/02/02/Hexo Sakura problems list/" class="post-title">
         <h3>Hexo Sakura主题的问题汇总</h3>
       </a>
       <div class="post-meta">
@@ -896,7 +896,7 @@
       <div class="float-content">
         <p>Hexo Sakura主题配置中遇到的问题，部分适用于其他的主题</p>
         <div class="post-bottom">
-          <a href="/2020/02/02/Hexo Sakura主题遇到的问题汇总/" class="button-normal">
+          <a href="/2020/02/02/Hexo Sakura problems list/" class="button-normal">
             <i class="iconfont icon-caidan"></i>
           </a>
         </div>
@@ -1318,5 +1318,20 @@ $(document).ready(function() {
     })
   });
 </script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 </html>
